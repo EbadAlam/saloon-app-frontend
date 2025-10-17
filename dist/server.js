@@ -6,7 +6,7 @@ require("@babel/register")({
   ignore: [/node_modules/],
   presets: ["@babel/preset-env", "@babel/preset-react"]
 });
-require('dotenv').config();
+// require('dotenv').config();
 const express = require("express");
 const fs = require("fs");
 const path = require("path");

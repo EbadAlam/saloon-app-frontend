@@ -106,7 +106,7 @@ app.get(/^\/.*$/, (req, res) => {
   });
 });
 
-// app.listen(PORT, () => {
-//   console.log(`✅ SSR server running`);
-// });
-module.exports = app;
+app.listen(PORT, () => {
+  console.log(`✅ SSR server running`);
+});
+// module.exports = app;

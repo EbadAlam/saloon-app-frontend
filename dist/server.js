@@ -1,11 +1,11 @@
 "use strict";
 
 require("ignore-styles");
-require("@babel/register")({
-  extensions: [".js", ".jsx"],
-  ignore: [/node_modules/],
-  presets: ["@babel/preset-env", "@babel/preset-react"]
-});
+// require("@babel/register")({
+//   extensions: [".js", ".jsx"],
+//   ignore: [/node_modules/],
+//   presets: ["@babel/preset-env", "@babel/preset-react"]
+// });
 // require('dotenv').config();
 const express = require("express");
 const fs = require("fs");

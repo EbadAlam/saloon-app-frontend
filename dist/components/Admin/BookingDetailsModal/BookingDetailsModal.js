@@ -66,7 +66,7 @@ function BookingDetailsModal(_ref2) {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h6",
     fontWeight: "600"
-  }, "Booking Details ", ((_booking$worker = booking.worker) === null || _booking$worker === void 0 ? void 0 : _booking$worker.username) !== "-" ? "\u2014 ".concat((_booking$worker2 = booking.worker) === null || _booking$worker2 === void 0 ? void 0 : _booking$worker2.username) : ""), /*#__PURE__*/_react.default.createElement(_material.IconButton, {
+  }, "Booking Details ", (_booking$worker = booking.worker) !== null && _booking$worker !== void 0 && _booking$worker.username ? "\u2014 ".concat((_booking$worker2 = booking.worker) === null || _booking$worker2 === void 0 ? void 0 : _booking$worker2.username) : ""), /*#__PURE__*/_react.default.createElement(_material.IconButton, {
     onClick: onClose
   }, /*#__PURE__*/_react.default.createElement(_Close.default, null))), /*#__PURE__*/_react.default.createElement(_material.Divider, {
     sx: {

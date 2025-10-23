@@ -147,7 +147,7 @@ function Servicespage() {
     <AdminLayout>
       {loading && <Loader />}
       <div className="container-fluid dashboard-content">
-        <Stack className='btn_heads' direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+        <Stack className='btn_headss' direction="row" justifyContent="space-between" alignItems="center" mb={2}>
           <Typography variant="h4">Services</Typography>
             <Stack direction="row" gap={2}>
               <BackButton />

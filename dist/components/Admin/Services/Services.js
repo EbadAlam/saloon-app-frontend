@@ -148,7 +148,7 @@ function Servicespage() {
   return /*#__PURE__*/_react.default.createElement(_Layout.default, null, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement("div", {
     className: "container-fluid dashboard-content"
   }, /*#__PURE__*/_react.default.createElement(_material.Stack, {
-    className: "btn_heads",
+    className: "btn_headss",
     direction: "row",
     justifyContent: "space-between",
     alignItems: "center",

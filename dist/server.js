@@ -15,7 +15,7 @@ const ReactDOMServer = require("react-dom/server");
 const {
   StaticRouter
 } = require("react-router-dom");
-const App = require("./App").default;
+const App = require("../src/App").default;
 const axios = require("axios");
 const {
   HelmetProvider
@@ -24,7 +24,7 @@ const PORT = 3000;
 const app = express();
 const {
   SnackbarProvider
-} = require("./contexts/SnackBarContext");
+} = require("../src/contexts/SnackBarContext");
 app.use(express.static(path.resolve(__dirname, "../build"), {
   index: false
 }));
@@ -64,7 +64,7 @@ app.get("/sitemap.xml", async (req, res) => {
   try {
     const response = await axios.get("https://gardencitykhi.com/new-site/backend/public/api/getAllStoresSlug");
     const stores = response.data.stores || [];
-    const baseUrl = "https://saloon-app-frontend.vercel.app/";
+    const baseUrl = "https://saloon-app-frontend.vercel.app";
     const staticUrls = ["", "help-and-support", "blogs", "for-business", "pricing", "status"].map(path => "".concat(baseUrl, "/").concat(path));
     const dynamicUrls = stores.map(store => "".concat(baseUrl, "/stores/").concat(store.slug));
     const urls = [...staticUrls, ...dynamicUrls];

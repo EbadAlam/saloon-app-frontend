@@ -105,9 +105,9 @@ function ServiceCategoriesPage() {
   return (
     <AdminLayout>
       <div className="container-fluid dashboard-content">
-        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+        <Stack className='btn_heads' direction="row" justifyContent="space-between" alignItems="center" mb={2}>
           <Typography variant="h4">Service Categories</Typography>
-          <Stack direction="row" gap={2}>
+          <Stack direction="row" gap={2} justifyContent='center'>
             <BackButton />
             {serviceCategories && serviceCategories.length > 0 && (
               <Link
@@ -115,15 +115,14 @@ function ServiceCategoriesPage() {
                 state={{ servicesCategories: serviceCategories }}
                 rel="noopener noreferrer"
               >
-                <Button variant="contained">Add Services</Button>
+                <Button variant="contained" sx={{background:'#333333'}}>Add Services</Button>
               </Link>
             )}
           </Stack>
         </Stack>
 
-        <Stack direction="row" justifyContent="space-between" alignItems="start" mb={2}>
-          {/* Left table: Categories in store (with remove checkbox) */}
-          <TableContainer sx={{ maxWidth: 650, position: 'relative' }} component={Paper}>
+        <Stack direction="row" justifyContent="space-between" alignItems="start" mb={2} flexWrap='wrap' rowGap='10px'>
+          <TableContainer className='store_cat' sx={{ position: 'relative' }} component={Paper}>
             {loading && <Loader />}
             <Table aria-label="Services Categories Table">
               <TableHead>
@@ -159,8 +158,7 @@ function ServiceCategoriesPage() {
             </Table>
           </TableContainer>
 
-          {/* Right table: Categories not in store (with add checkbox) */}
-          <TableContainer sx={{ maxWidth: 650, position: 'relative' }} component={Paper}>
+          <TableContainer className='admin_cat' sx={{ position: 'relative' }} component={Paper}>
             {allCatLoading && <Loader />}
             <Table aria-label="All Categories Table">
               <TableHead>

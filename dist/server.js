@@ -4,7 +4,7 @@ require("ignore-styles");
 // require("@babel/register")({
 //   extensions: [".js", ".jsx"],
 //   ignore: [/node_modules/],
-//   presets: ["@babel/preset-env", "@babel/preset-react"]
+//   presets: ["@babel/preset-env", "@babel/preset-react"],
 // });
 // require('dotenv').config();
 const express = require("express");
@@ -15,7 +15,7 @@ const ReactDOMServer = require("react-dom/server");
 const {
   StaticRouter
 } = require("react-router-dom");
-const App = require("./App").default;
+const App = require("../src/App").default;
 const axios = require("axios");
 const {
   HelmetProvider
@@ -24,7 +24,7 @@ const PORT = 3000;
 const app = express();
 const {
   SnackbarProvider
-} = require("./contexts/SnackBarContext");
+} = require("../src/contexts/SnackBarContext");
 app.use(express.static(path.resolve(__dirname, "../build"), {
   index: false
 }));
@@ -62,21 +62,12 @@ app.get("/stores/:slug", async (req, res) => {
 });
 app.get("/sitemap.xml", async (req, res) => {
   try {
-    // Fetch your dynamic data
-    // const response = await axios.get("https://gardencitykhi.com/new-site/backend/public/api/getAllStores");
-    // const stores = response.data.stores.data || [];
-
-    const baseUrl = "http://localhost:3000";
-
-    // Build the list of URLs
+    const response = await axios.get("https://gardencitykhi.com/new-site/backend/public/api/getAllStoresSlug");
+    const stores = response.data.stores || [];
+    const baseUrl = "https://saloon-app-frontend.vercel.app/";
     const staticUrls = ["", "help-and-support", "blogs", "for-business", "pricing", "status"].map(path => "".concat(baseUrl, "/").concat(path));
-
-    // const dynamicUrls = stores.map(store => `${baseUrl}/stores/${store.slug}`);
-
-    // const urls = [...staticUrls, ...dynamicUrls];
-    const urls = staticUrls;
-
-    // Generate XML
+    const dynamicUrls = stores.map(store => "".concat(baseUrl, "/stores/").concat(store.slug));
+    const urls = [...staticUrls, ...dynamicUrls];
     const xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset \n  xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  ".concat(urls.map(url => "\n    <url>\n      <loc>".concat(url, "</loc>\n      <changefreq>weekly</changefreq>\n      <priority>").concat(url.includes("/stores/") ? "0.8" : "1.0", "</priority>\n    </url>")).join(""), "\n</urlset>");
     res.header("Content-Type", "application/xml");
     res.send(xml);
@@ -105,8 +96,7 @@ app.get(/^\/.*$/, (req, res) => {
     res.send(finalHtml);
   });
 });
-
 app.listen(PORT, () => {
-  console.log(`✅ SSR server running`);
+  console.log("\u2705 SSR server running");
 });
 // module.exports = app;

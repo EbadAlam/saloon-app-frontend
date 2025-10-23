@@ -89,6 +89,7 @@ function ServiceCategoriesPage() {
   return /*#__PURE__*/_react.default.createElement(_Layout.default, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "container-fluid dashboard-content"
   }, /*#__PURE__*/_react.default.createElement(_material.Stack, {
+    className: "btn_heads",
     direction: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -97,7 +98,8 @@ function ServiceCategoriesPage() {
     variant: "h4"
   }, "Service Categories"), /*#__PURE__*/_react.default.createElement(_material.Stack, {
     direction: "row",
-    gap: 2
+    gap: 2,
+    justifyContent: "center"
   }, /*#__PURE__*/_react.default.createElement(_BackButton.default, null), serviceCategories && serviceCategories.length > 0 && /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: _routes.ROUTES.getAdminAddServices(storeId),
     state: {
@@ -105,15 +107,20 @@ function ServiceCategoriesPage() {
     },
     rel: "noopener noreferrer"
   }, /*#__PURE__*/_react.default.createElement(_material.Button, {
-    variant: "contained"
+    variant: "contained",
+    sx: {
+      background: '#333333'
+    }
   }, "Add Services")))), /*#__PURE__*/_react.default.createElement(_material.Stack, {
     direction: "row",
     justifyContent: "space-between",
     alignItems: "start",
-    mb: 2
+    mb: 2,
+    flexWrap: "wrap",
+    rowGap: "10px"
   }, /*#__PURE__*/_react.default.createElement(_material.TableContainer, {
+    className: "store_cat",
     sx: {
-      maxWidth: 650,
       position: 'relative'
     },
     component: _material.Paper
@@ -140,8 +147,8 @@ function ServiceCategoriesPage() {
     colSpan: 3,
     align: "center"
   }, "No Categories"))))), /*#__PURE__*/_react.default.createElement(_material.TableContainer, {
+    className: "admin_cat",
     sx: {
-      maxWidth: 650,
       position: 'relative'
     },
     component: _material.Paper

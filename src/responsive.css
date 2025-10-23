@@ -322,8 +322,15 @@
         display: flex;
         flex-direction: row;
     }
-    .bookings_chart, .reviews_chart{
-        width:100%;
+    .bookings_chart, .reviews_chart,.admin_cat,.store_cat{
+        width:100% !important;
+    }
+    .btn_heads{
+        display: block !important;
+        text-align: center;
+    }
+    .btn_heads div{
+        justify-content: center;
     }
 }
 

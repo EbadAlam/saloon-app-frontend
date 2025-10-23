@@ -42,7 +42,7 @@ export default function BookingDetailsModal({
         {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
           <Typography variant="h6" fontWeight="600">
-            Booking Details {booking.worker?.username !== "-" ? `— ${booking.worker?.username}` : ""}
+            Booking Details {booking.worker?.username ? `— ${booking.worker?.username}` : ""}
           </Typography>
           <IconButton onClick={onClose}><CloseIcon /></IconButton>
         </Box>

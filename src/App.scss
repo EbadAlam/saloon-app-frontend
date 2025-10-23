@@ -1769,7 +1769,7 @@ input::-webkit-inner-spin-button {
       align-items: center;
       margin-top: 10px;
       &:hover {
-        background-color: #d3d3d357;
+        background-color: #d8a7b126;
       }
       p {
         margin:0px;
@@ -1784,7 +1784,7 @@ input::-webkit-inner-spin-button {
         text-transform: capitalize;
       }
       .date{
-        background-color: lightgray;
+        background-color: #d8a7b1;
         padding: 10px;
         text-align: center;
         border-radius: 5px;
@@ -1794,6 +1794,9 @@ input::-webkit-inner-spin-button {
         .date_time{
           font-size: 20px;
           font-weight: 600;
+        }
+        p{
+          color: white;
         }
       }
     }

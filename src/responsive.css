@@ -322,5 +322,8 @@
         display: flex;
         flex-direction: row;
     }
+    .bookings_chart, .reviews_chart{
+        width:100%;
+    }
 }
 

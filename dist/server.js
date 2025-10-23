@@ -15,7 +15,7 @@ const ReactDOMServer = require("react-dom/server");
 const {
   StaticRouter
 } = require("react-router-dom");
-const App = require("../src/App").default;
+const App = require("./App").default;
 const axios = require("axios");
 const {
   HelmetProvider
@@ -24,7 +24,7 @@ const PORT = 3000;
 const app = express();
 const {
   SnackbarProvider
-} = require("../src/contexts/SnackBarContext");
+} = require("./contexts/SnackBarContext");
 app.use(express.static(path.resolve(__dirname, "../build"), {
   index: false
 }));

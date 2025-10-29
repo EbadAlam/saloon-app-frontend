@@ -2,6 +2,12 @@
     .main_banner .heading h1,.download_heading h1,.for_business h1{
         font-size:50px;
     }
+    .main_banner .heading{
+        width: 100%;
+    }
+    .main_banner{
+        padding-block:50px !important;
+    }
     .booking_count h3{
         font-size:25px;
     }
@@ -282,6 +288,9 @@
     .blogs_main .blogs .blog{
         width: 100%;
     }
+    .blogs_main h1{
+        font-size: 40px;
+    }
     .fc-event-main div:not(.text-xs) {
         display: none;
     }
@@ -331,6 +340,25 @@
     }
     .btn_heads div{
         justify-content: center;
+    }
+    .help_center,.status_page .main_mess,.status_page .detail_mess{
+        max-width: 100%;
+    }
+    .status_page .detail_mess .single_detail_mess{
+        gap:10px;
+    }
+    .status_page .detail_mess .single_detail_mess .mess h2,.status_page .detail_mess .single_detail_mess .icon svg{
+        font-size: 20px;
+    }
+    .status_page .detail_mess .single_detail_mess .mess p{
+        font-size: 16px;
+    }
+    .status_page .detail_mess .single_detail_mess .issue p{
+        font-size: 14px;
+    }
+    .status_page .detail_mess .single_detail_mess .icon{
+        width: 25px;
+        height: 25px;
     }
 }
 

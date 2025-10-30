@@ -62,11 +62,8 @@ import Pricing from './screens/Pricing/Pricing';
 import HelpCenter from './screens/HelpCenter/HelpCenter';
 import MasterInqueriesPage from './components/Admin/MasterAdmin/Inqueries/Inqueries';
 import CategoryPage from './screens/CategoryPage/CategoryPage';
-import gsap from 'gsap/all';
-import { ScrollTrigger } from 'gsap/all';
 
 function App({initialData}) {
-  gsap.registerPlugin(ScrollTrigger);
   return (
     <AppWrapper>
       {/* <BrowserRouter basename="/new-site/frontend"> */}

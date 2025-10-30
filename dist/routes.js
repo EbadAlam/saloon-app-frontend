@@ -17,6 +17,8 @@ const ROUTES = exports.ROUTES = {
   blogs: '/blogs',
   blogPage: '/blogs/:slug',
   getBlogPage: slug => "/blogs/".concat(slug),
+  categoryPage: '/categories/:slug',
+  getCategoryPage: slug => "/categories/".concat(slug),
   adminDashboard: '/vendor/dashboard',
   adminStores: '/vendor/stores',
   adminSingleStore: '/vendor/stores/:storeId',

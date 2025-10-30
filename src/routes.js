@@ -11,7 +11,8 @@ export const ROUTES = {
     blogs: '/blogs',
     blogPage: '/blogs/:slug',
     getBlogPage: (slug) => `/blogs/${slug}`,
-
+    categoryPage:'/categories/:slug',
+    getCategoryPage: (slug) => `/categories/${slug}`,
 
     adminDashboard: '/vendor/dashboard',
     adminStores: '/vendor/stores',

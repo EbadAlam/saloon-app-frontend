@@ -12,11 +12,11 @@ function Header() {
   const location = useLocation();
   const isHomePage = location.pathname === ROUTES.home;
   return (
-    <header className='header' style={!isHomePage ? {background:'#FFF8F0'} : {}}>
+    <header className='header'>
         <div className="container">
             <div className="logo">
               <NavLink to={ROUTES.home}>
-                <img src={`${process.env.REACT_APP_BASE_URL}/logo.png`} alt="" style={isHomePage ? {filter:'brightness(0)'} : {}} />
+                <img src={`${process.env.REACT_APP_BASE_URL}/logo.png`} alt="" />
               </NavLink>
             </div>
             {!isHomePage && (

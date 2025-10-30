@@ -17,7 +17,7 @@ function Footer() {
                 <img src={`${process.env.REACT_APP_BASE_URL}/logo-big.png`} alt="Site Logo" style={{filter:'brightness(0)'}} />
               </Link>
           </Box>
-          <Box className="app_btn">
+          {/* <Box className="app_btn">
             <Link to={ROUTES.getTheApp}>
               <Button>
                 Get the app
@@ -34,7 +34,7 @@ function Footer() {
                 </Box>  
               </Button>
             </Link>
-          </Box>
+          </Box> */}
         </Box>
         <Box className="footer-inner-div">
           <Typography variant='h3'>About Beauty Trafic</Typography>

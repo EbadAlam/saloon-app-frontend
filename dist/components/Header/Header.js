@@ -22,10 +22,7 @@ function Header() {
   const location = (0, _reactRouterDom.useLocation)();
   const isHomePage = location.pathname === _routes.ROUTES.home;
   return /*#__PURE__*/_react.default.createElement("header", {
-    className: "header",
-    style: !isHomePage ? {
-      background: '#FFF8F0'
-    } : {}
+    className: "header"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "container"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -34,10 +31,7 @@ function Header() {
     to: _routes.ROUTES.home
   }, /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_BASE_URL, "/logo.png"),
-    alt: "",
-    style: isHomePage ? {
-      filter: 'brightness(0)'
-    } : {}
+    alt: ""
   }))), !isHomePage && /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "search_bar_header"
   }, /*#__PURE__*/_react.default.createElement(_SearchBar.default, null)), /*#__PURE__*/_react.default.createElement("div", {

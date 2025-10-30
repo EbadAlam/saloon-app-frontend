@@ -1,5 +1,5 @@
 import './App.scss';
-import './responsive.css';
+import './responsive.scss';
 import React from 'react';
 import {  Route, Routes } from 'react-router-dom';
 import Home from './screens/Home/Home';
@@ -61,8 +61,12 @@ import SingleStore from './components/Admin/Stores/SingleStore';
 import Pricing from './screens/Pricing/Pricing';
 import HelpCenter from './screens/HelpCenter/HelpCenter';
 import MasterInqueriesPage from './components/Admin/MasterAdmin/Inqueries/Inqueries';
+import CategoryPage from './screens/CategoryPage/CategoryPage';
+import gsap from 'gsap/all';
+import { ScrollTrigger } from 'gsap/all';
 
 function App({initialData}) {
+  gsap.registerPlugin(ScrollTrigger);
   return (
     <AppWrapper>
       {/* <BrowserRouter basename="/new-site/frontend"> */}
@@ -77,6 +81,7 @@ function App({initialData}) {
             <Route path={ROUTES.helpCenter} element={<HelpCenter />} />
             <Route path={ROUTES.blogs} element={<Blogs />} />
             <Route path={ROUTES.blogPage} element={<BlogDetails />} />
+            <Route path={ROUTES.categoryPage} element={<CategoryPage />} />
             <Route path={ROUTES.login} element={<Login />} />
             <Route path={ROUTES.signup} element={<Signup />} />
             <Route path="/verify-email/:id/:token" element={<VerifyEmail />} />

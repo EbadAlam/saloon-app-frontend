@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 require("./App.scss");
-require("./responsive.css");
+require("./responsive.scss");
 var _react = _interopRequireDefault(require("react"));
 var _reactRouterDom = require("react-router-dom");
 var _Home = _interopRequireDefault(require("./screens/Home/Home"));
@@ -67,11 +67,15 @@ var _SingleStore = _interopRequireDefault(require("./components/Admin/Stores/Sin
 var _Pricing = _interopRequireDefault(require("./screens/Pricing/Pricing"));
 var _HelpCenter = _interopRequireDefault(require("./screens/HelpCenter/HelpCenter"));
 var _Inqueries = _interopRequireDefault(require("./components/Admin/MasterAdmin/Inqueries/Inqueries"));
+var _CategoryPage = _interopRequireDefault(require("./screens/CategoryPage/CategoryPage"));
+var _all = _interopRequireWildcard(require("gsap/all"));
+function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function App(_ref) {
   let {
     initialData
   } = _ref;
+  _all.default.registerPlugin(_all.ScrollTrigger);
   return /*#__PURE__*/_react.default.createElement(_ServerCheck.default, null, /*#__PURE__*/_react.default.createElement(_ScrollToTop.default, null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Routes, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.setupStore,
     element: /*#__PURE__*/_react.default.createElement(_SetupStore.default, null)
@@ -98,6 +102,9 @@ function App(_ref) {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.blogPage,
     element: /*#__PURE__*/_react.default.createElement(_BlogDetails.default, null)
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: _routes.ROUTES.categoryPage,
+    element: /*#__PURE__*/_react.default.createElement(_CategoryPage.default, null)
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.login,
     element: /*#__PURE__*/_react.default.createElement(_Login.default, null)

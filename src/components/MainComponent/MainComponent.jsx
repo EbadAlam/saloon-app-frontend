@@ -6,11 +6,10 @@ import { ROUTES } from '../../routes';
 
 function MainLayout() {
   const location = useLocation();
-  const isHomePage = location.pathname === ROUTES.home;
   return (
     <>
       <Header />
-      <main style={!isHomePage ? {background:'#FFF8F0',minHeight:'50vh'} : {minHeight:'50vh'}}>
+      <main style={{background:'white',minHeight:'50vh'}}>
         <Outlet />
       </main>
       <Footer />

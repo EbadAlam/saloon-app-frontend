@@ -1,19 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Alert, Box, Button, IconButton, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import QrCodeIcon from "@mui/icons-material/QrCode";
 import { ROUTES } from "../../routes";
-import Carousel from "../../components/Carousel/Carousel";
 import axiosClient from "../../axios-client";
 import SkeletonHome from "../../components/Loader/SkeletonHome";
-import SearchBar from "../../components/SearchBar/SearchBar";
-import GoogleIcon from "@mui/icons-material/Google";
-import AppleIcon from "@mui/icons-material/Apple";
 import Slider from "react-slick";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import StarRating from "../../components/StarRating/StarRating";
-import DummyImage from "../../components/DummyImage/DummyImage";
 import { getRecentlyViewedStores } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
@@ -26,10 +20,10 @@ function Home() {
   );
   const [loading, setLoading] = useState(true);
   const [stores, setStores] = useState({});
+  const [categories, setCategories] = useState([]);
   const [bookingCount, setBookingCount] = useState(0);
   const [reviews, setReviews] = useState({});
   const [recentStores, setRecentStores] = useState([]);
-  const sectionRef = useRef(null);
   const { showSnackbar } = useSnackbar();
   useEffect(() => {
     if (!isBrowser) return;
@@ -49,6 +43,13 @@ function Home() {
       return () => clearTimeout(timer);
     }
   }, [successMessage]);
+  const calculateAverageRating = (reviews = []) => {
+    const total = reviews.reduce(
+      (sum, r) => sum + parseFloat(r.rating || 0),
+      0
+    );
+    return reviews.length > 0 ? (total / reviews.length).toFixed(1) : "N/A";
+  };
   useEffect(() => {
     if (typeof window === "undefined") return;
     const fetchStores = async () => {
@@ -58,6 +59,7 @@ function Home() {
         setStores(data.stores);
         setBookingCount(data.bookingCount);
         setReviews(data.reviews);
+        setCategories(data.categories);
       } catch (err) {
         console.error("error fetching stores ", err);
       } finally {
@@ -71,34 +73,19 @@ function Home() {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  };
+  const categoriesSliderSettings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
   };
   useEffect(() => {
     if (successMessage) {
@@ -112,6 +99,7 @@ function Home() {
     top: Math.random() * 100,
     size: 60 + Math.random() * 60,
   }));
+
   return (
     <>
       <Helmet>
@@ -130,11 +118,11 @@ function Home() {
               <Box className="overlay"></Box>
               <Box className="bg_img">
                 <img
-                  src={`${process.env.REACT_APP_BASE_URL}/new-banner-bg.jpg`}
+                  src={`${process.env.REACT_APP_BASE_URL}/new-banner-bg.webp`}
                   alt=""
                 />
               </Box>
-              <Box className="bubble_section" ref={sectionRef}>
+              <Box className="bubble_section">
                 {bubbles.map((b, i) => (
                   <img
                     key={i}
@@ -167,7 +155,7 @@ function Home() {
                       temporibus, eum voluptate totam, nisi repellendus? Quidem
                       distinctio vero non, illo magni amet!
                     </Typography>
-                    <Link style={{width:'fit-content'}}>
+                    <Link style={{ width: "fit-content" }}>
                       <Button variant="contained">Explore Now</Button>
                     </Link>
                   </Box>
@@ -176,134 +164,62 @@ function Home() {
             </Box>
             {/* <div className="background-gradient"></div> */}
           </Box>
-          <Box className="categories_section">
-            <Box className="container">
-              <Box className="categories">
-                <Box className="category">
-                  <Link>
-                    <Box className="cat_image">
-                      <img
-                        src="https://dt-embel.myshopify.com/cdn/shop/collections/c6.png"
-                        alt=""
-                      />
+          {categories && categories.length > 0 && (
+            <Box className="categories_section">
+              <Box className="container">
+                <Typography variant="h2">Search by category</Typography>
+                <Box className="categories">
+                  {categories.map((singleCategory) => (
+                    <Box className="category" key={singleCategory.id}>
+                      <Link to={ROUTES.getCategoryPage(singleCategory.slug)}>
+                        <Box className="cat_image">
+                          <img
+                            src={`${process.env.REACT_APP_IMG_URL}/${singleCategory.thumbnail}`}
+                            alt=""
+                          />
+                        </Box>
+                        <Box className="cat_name">
+                          <Typography variant="h3">
+                            {singleCategory.title}
+                          </Typography>
+                        </Box>
+                      </Link>
                     </Box>
-                    <Box className="cat_name">
-                      <Typography variant="h3">Category</Typography>
-                    </Box>
-                  </Link>
-                </Box>
-                <Box className="category">
-                  <Link>
-                    <Box className="cat_image">
-                      <img
-                        src="https://dt-embel.myshopify.com/cdn/shop/collections/c6.png"
-                        alt=""
-                      />
-                    </Box>
-                    <Box className="cat_name">
-                      <Typography variant="h3">Category</Typography>
-                    </Box>
-                  </Link>
-                </Box>
-                <Box className="category">
-                  <Link>
-                    <Box className="cat_image">
-                      <img
-                        src="https://dt-embel.myshopify.com/cdn/shop/collections/c6.png"
-                        alt=""
-                      />
-                    </Box>
-                    <Box className="cat_name">
-                      <Typography variant="h3">Category</Typography>
-                    </Box>
-                  </Link>
-                </Box>
-                <Box className="category">
-                  <Link>
-                    <Box className="cat_image">
-                      <img
-                        src="https://dt-embel.myshopify.com/cdn/shop/collections/c6.png"
-                        alt=""
-                      />
-                    </Box>
-                    <Box className="cat_name">
-                      <Typography variant="h3">Category</Typography>
-                    </Box>
-                  </Link>
-                </Box>
-                <Box className="category">
-                  <Link>
-                    <Box className="cat_image">
-                      <img
-                        src="https://dt-embel.myshopify.com/cdn/shop/collections/c6.png"
-                        alt=""
-                      />
-                    </Box>
-                    <Box className="cat_name">
-                      <Typography variant="h3">Category</Typography>
-                    </Box>
-                  </Link>
+                  ))}
                 </Box>
               </Box>
             </Box>
-          </Box>
-          <Box className="stores_section new_stores">
-            <Box className="container">
-              <Typography
-                  variant="h3"
-                  sx={{
-                    fontSize: "32px",
-                    fontFamily: "Barlow",
-                    fontWeight: "600",
-                    color: "#333333",
-                    textAlign:'center'
-                  }}
-                >
-                  New to Site
-                </Typography>
-                <hr />
-                <Box className="stores">
-                  <Link className="store">
-                      <Box className="store_image">
-                        <img src="http://127.0.0.1:8000/storage/thumbnails/3UpeT36WJGKaP8vpkbw93xXbWbkYUlzCmBLUJcUV.jpg" alt="" />
-                        <Box className="hover_content">
-                          <Link>
-                            <Button>Explore now</Button>
-                          </Link>
-                        </Box>
-                        <Box className="overlay"></Box>
+          )}
+          {categories && categories.length > 0 && (
+            <Box className="categories_section mobile">
+              <Box className="container">
+                <Typography variant="h2">Search by category</Typography>
+                <Box className="categories">
+                  <Slider {...categoriesSliderSettings}>
+                    {categories.map((singleCategory) => (
+                      <Box className="category" key={singleCategory.id}>
+                        <Link to={ROUTES.getCategoryPage(singleCategory.slug)}>
+                          <Box className="cat_image">
+                            <img
+                              src={`${process.env.REACT_APP_IMG_URL}/${singleCategory.thumbnail}`}
+                              alt=""
+                            />
+                          </Box>
+                          <Box className="cat_name">
+                            <Typography variant="h3">
+                              {singleCategory.title}
+                            </Typography>
+                          </Box>
+                        </Link>
                       </Box>
-                      <Box className="store_content">
-                        <Typography variant="h3">Store name</Typography>
-                        <StarRating rating={3} color="#ffc800" />
-                        <Typography variant="h4">Store type</Typography>
-                      </Box>
-                  </Link>
+                    ))}
+                  </Slider>
                 </Box>
+              </Box>
             </Box>
-          </Box>
-          <Box className="sliders">
-            <Box className="new_to_site" sx={{ background: "#E4F1F2", zIndex: "3" }}>
-              <div className="container" style={{ paddingBlock: "40px" }}>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    fontSize: "32px",
-                    fontFamily: "Barlow",
-                    fontWeight: "600",
-                    color: "#333333",
-                  }}
-                >
-                  New to BeautyTrafic
-                </Typography>
-                <Box className="slider">
-                  <Carousel stores={stores.new} />
-                </Box>
-              </div>
-            </Box>
-          </Box>
-          {/* {reviews && reviews.length > 0 && (
-            <Box className="reviews_slider">
+          )}
+          {stores?.new?.length > 0 && (
+            <Box className="stores_section new_stores">
               <Box className="container">
                 <Typography
                   variant="h3"
@@ -311,90 +227,250 @@ function Home() {
                     fontSize: "32px",
                     fontFamily: "Barlow",
                     fontWeight: "600",
+                    color: "#333333",
+                    textAlign: "center",
                   }}
                 >
-                  Reviews
+                  New to Site
                 </Typography>
-                <Slider {...reivewsSliderSettings} className="mt-5">
-                  {reviews.map((singleRev) => (
-                    <Box className="singleReview">
-                      <Box className="userInfo">
-                        <Box className="profileImg">
-                          {singleRev.reviewer.user_info.profile_image ? (
-                            singleRev.reviewer.user_info.signup_platform ==
-                            "manual" ? (
-                              <img
-                                src={`${process.env.REACT_APP_IMG_URL}/${singleRev.reviewer.user_info.profile_image}`}
-                                alt=""
-                              />
-                            ) : (
-                              <img
-                                src={singleRev.reviewer.user_info.profile_image}
-                                alt=""
-                              />
-                            )
+                <hr />
+                <Box className="stores">
+                  {stores.new.map((singleStore) => {
+                    const averageRating = calculateAverageRating(
+                      singleStore.reviews
+                    );
+                    return (
+                      <Link
+                        to={ROUTES.getStoreFrontPage(singleStore.slug)}
+                        className="store"
+                        key={singleStore.id}
+                      >
+                        <Box className="store_image">
+                          {singleStore.thumbnail ? (
+                            <img
+                              src={`${process.env.REACT_APP_IMG_URL}/${singleStore.thumbnail}`}
+                              alt=""
+                            />
                           ) : (
-                            <DummyImage
-                              username={singleRev.reviewer.username}
+                            <img
+                              src={`${process.env.REACT_APP_BASE_URL}/store-dummy-img.png`}
+                              alt=""
                             />
                           )}
+                          <Box className="hover_content">
+                            <Button>Explore now</Button>
+                          </Box>
+                          <Box className="overlay"></Box>
                         </Box>
-                        <Box className="username">
-                          <Typography
-                            variant="body1"
-                            sx={{
-                              fontSize: "16px",
-                              fontWeight: "600",
-                              fontFamily: "Barlow",
-                            }}
-                          >
-                            {singleRev.reviewer.username}
+                        <Box className="store_content">
+                          <Typography variant="h3">
+                            {singleStore.title}
                           </Typography>
-                          <Typography
-                            variant="body1"
-                            sx={{ fontSize: "14px", fontFamily: "Barlow" }}
-                          >
-                            {singleRev.reviewer.user_info.city}
+                          <StarRating rating={averageRating} color="#ffc800" />
+                          <Typography variant="h4">
+                            {singleStore.type}
                           </Typography>
                         </Box>
-                      </Box>
-                      <Box className="rating">
-                        <StarRating rating={singleRev.rating} color="#F4C430" />
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            fontSize: "16px",
-                            fontWeight: "600",
-                            fontFamily: "Barlow",
-                          }}
-                        >
-                          {singleRev.rating}
-                        </Typography>
-                      </Box>
-                      <Box className="review">
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            fontSize: "18px",
-                            fontWeight: "600",
-                            fontFamily: "Barlow",
-                          }}
-                        >
-                          {singleRev.title}
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          sx={{ fontSize: "14px", fontFamily: "Barlow" }}
-                        >
-                          {singleRev.review}
-                        </Typography>
-                      </Box>
+                      </Link>
+                    );
+                  })}
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+          <Box className="second_banner new_banner">
+            <Box className="content" sx={{ zIndex: "1", position: "relative" }}>
+              <Box className="overlay"></Box>
+              <Box className="bg_img">
+                <img
+                  src={`${process.env.REACT_APP_BASE_URL}/new-banner-2-bg.webp`}
+                  alt=""
+                />
+              </Box>
+              <Box className="container">
+                <Box className="banner_content">
+                  <Box className="text">
+                    <Typography variant="h4">discover local gems</Typography>
+                    <Typography variant="h2">
+                      relax & renew at
+                      <br /> top salons & spa's
+                    </Typography>
+                    <Typography variant="body1">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Saepe sequi minus iure, molestias eaque placeat enim in
+                      temporibus, eum voluptate totam, nisi repellendus? Quidem
+                      distinctio vero non, illo magni amet!
+                    </Typography>
+                    <Link style={{ width: "fit-content" }}>
+                      <Button variant="contained">Explore Now</Button>
+                    </Link>
+                  </Box>
+                  <Box className="image">
+                    {/* <img src={`${process.env.REACT_APP_BASE_URL}/bubble.png`} alt="" /> */}
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+            {/* <div className="background-gradient"></div> */}
+          </Box>
+          {/* {categories && categories.length > 6 && (
+            <Box className="categories_section">
+              <Typography variant="h2">our collections</Typography>
+              <Box className="container">
+                <Box className="categories">
+                  {categories.slice(6).map((singleCategory) => (
+                    <Box className="category">
+                      <Link>
+                        <Box className="cat_image">
+                          <img
+                            src={`${process.env.REACT_APP_IMG_URL}/${singleCategory.thumbnail}`}
+                            alt=""
+                          />
+                        </Box>
+                        <Box className="cat_name">
+                          <Typography variant="h3">
+                            {singleCategory.title}
+                          </Typography>
+                        </Box>
+                      </Link>
                     </Box>
                   ))}
-                </Slider>
+                </Box>
               </Box>
             </Box>
           )} */}
+          {/* <Box className="top_stores">
+            <Box className="container">
+              <Box className="stores">
+                <Box className="store">
+                  <img src="http://127.0.0.1:8000/storage/thumbnails/DxA6SIKtV5BMZQzMLEwxL3sZajybQdGyGwNJtiU9.jpg" alt="" />
+                  <Box className="overlay"></Box>
+                  <Box className="store_content">
+                    <Typography variant="h4">Store type</Typography>
+                    <Typography variant="h2">Store name</Typography>
+                    <Link>
+                      <Button variant="contained">Visit</Button>
+                    </Link>
+                  </Box>
+                </Box>
+                <Box className="store">
+                  <img src="http://127.0.0.1:8000/storage/thumbnails/DxA6SIKtV5BMZQzMLEwxL3sZajybQdGyGwNJtiU9.jpg" alt="" />
+                  <Box className="overlay"></Box>
+                  <Box className="store_content">
+                    <Typography variant="h4">Store type</Typography>
+                    <Typography variant="h2">Store name</Typography>
+                    <Link>
+                      <Button variant="contained">Visit</Button>
+                    </Link>
+                  </Box>
+                </Box>
+                <Box className="store">
+                  <img src="http://127.0.0.1:8000/storage/thumbnails/DxA6SIKtV5BMZQzMLEwxL3sZajybQdGyGwNJtiU9.jpg" alt="" />
+                  <Box className="overlay"></Box>
+                  <Box className="store_content">
+                    <Typography variant="h4">Store type</Typography>
+                    <Typography variant="h2">Store name</Typography>
+                    <Link>
+                      <Button variant="contained">Visit</Button>
+                    </Link>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box> */}
+          {stores?.trending?.length > 0 && (
+            <Box className="stores_section trending_stores">
+              <Box className="container">
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontSize: "32px",
+                    fontFamily: "Barlow",
+                    fontWeight: "600",
+                    color: "#333333",
+                    textAlign: "center",
+                  }}
+                >
+                  Treandy Saloons and Spa's
+                </Typography>
+                <hr />
+                <Box className="stores">
+                  {stores.trending.map((singleStore) => {
+                    const averageRating = calculateAverageRating(
+                      singleStore.reviews
+                    );
+                    return (
+                      <Link
+                        to={ROUTES.getStoreFrontPage(singleStore.slug)}
+                        className="store"
+                        key={singleStore.id}
+                      >
+                        <Box className="store_image">
+                          {singleStore.thumbnail ? (
+                            <img
+                              src={`${process.env.REACT_APP_IMG_URL}/${singleStore.thumbnail}`}
+                              alt=""
+                            />
+                          ) : (
+                            <img
+                              src={`${process.env.REACT_APP_BASE_URL}/store-dummy-img.png`}
+                              alt=""
+                            />
+                          )}
+                          <Box className="hover_content">
+                            <Button>Explore now</Button>
+                          </Box>
+                          <Box className="overlay"></Box>
+                        </Box>
+                        <Box className="store_content">
+                          <Typography variant="h3">
+                            {singleStore.title}
+                          </Typography>
+                          <StarRating rating={averageRating} color="#ffc800" />
+                          <Typography variant="h4">
+                            {singleStore.type}
+                          </Typography>
+                        </Box>
+                      </Link>
+                    );
+                  })}
+                </Box>
+              </Box>
+            </Box>
+          )}
+          {reviews?.length > 0 && (
+            <Box className="reviews_div">
+              <img
+                src={`${process.env.REACT_APP_BASE_URL}/reviews-bg-img.png`}
+                alt=""
+                className="bg_img"
+              />
+              <Box className="container">
+                <Typography variant="h3">happy customer thoughts</Typography>
+                <Box className="reviews">
+                  <Slider {...reivewsSliderSettings}>
+                    {reviews.map((singleReview) => (
+                      <Box className="review" key={singleReview.id}>
+                        <Typography variant="body1">
+                          {singleReview.review}
+                        </Typography>
+                        <Box className="rating">
+                          <StarRating
+                            rating={singleReview.rating}
+                            size="large"
+                          />
+                        </Box>
+                        <Typography variant="h2">
+                          ~{singleReview.reviewer.username}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Slider>
+                </Box>
+              </Box>
+            </Box>
+          )}
           <Box className="top_rated">
             <Typography variant="h2">
               The top-rated destination for beauty and wellness
@@ -474,14 +550,13 @@ const PrevArrow = ({ className, style, onClick }) => (
     className="arrow-prev-custom"
     onClick={onClick}
     sx={{
-      backgroundColor: "#F7CAC9",
       color: "black",
-      "&:hover": { color: "black" },
+      "&:hover": { color: "black", background: "transparent !important" },
+      svg: { fontSize: "50px" },
       position: "absolute",
-      left: "90%",
-      top: "-90px",
+      left: "-35%",
+      top: 0,
       zIndex: 1,
-      borderRadius: "20px 0px 0px 20px",
     }}
   >
     <ArrowBackIosIcon />
@@ -493,14 +568,13 @@ const NextArrow = ({ className, style, onClick }) => (
     onClick={onClick}
     className="arrow-next-custom"
     sx={{
-      backgroundColor: "#F7CAC9",
       color: "black",
-      "&:hover": { color: "black" },
+      "&:hover": { color: "black", background: "transparent !important" },
+      svg: { fontSize: "50px" },
       position: "absolute",
-      right: "4%",
-      top: "-90px",
+      right: "-35%",
+      top: 0,
       zIndex: 1,
-      borderRadius: "0px 20px 20px 0px",
     }}
   >
     <ArrowForwardIosIcon />

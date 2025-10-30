@@ -26,15 +26,16 @@ function MasterCategoriesPage() {
   const [loading, setLoading] = (0, _react.useState)(true);
   const [categories, setCategories] = (0, _react.useState)([]);
   const [showForm, setShowForm] = (0, _react.useState)(false);
-  const [title, setTitle] = (0, _react.useState)('');
-  const [categoryId, setCategoryId] = (0, _react.useState)('');
-  const [alertMessage, setAlertMessage] = (0, _react.useState)('');
-  const [alertMessageType, setAlertMessageType] = (0, _react.useState)('');
+  const [title, setTitle] = (0, _react.useState)("");
+  const [thumbnail, setThumbnail] = (0, _react.useState)();
+  const [categoryId, setCategoryId] = (0, _react.useState)("");
+  const [alertMessage, setAlertMessage] = (0, _react.useState)("");
+  const [alertMessageType, setAlertMessageType] = (0, _react.useState)("");
   const location = (0, _reactRouterDom.useLocation)();
-  const [highlightId, setHighlightId] = (0, _react.useState)((_location$state$highl = (_location$state = location.state) === null || _location$state === void 0 ? void 0 : _location$state.highlightId) !== null && _location$state$highl !== void 0 ? _location$state$highl : '');
+  const [highlightId, setHighlightId] = (0, _react.useState)((_location$state$highl = (_location$state = location.state) === null || _location$state === void 0 ? void 0 : _location$state.highlightId) !== null && _location$state$highl !== void 0 ? _location$state$highl : "");
   const highlightedRef = (0, _react.useRef)(null);
   const [selectAll, setSelectAll] = (0, _react.useState)(false);
-  const [selectedOption, setSelectedOption] = (0, _react.useState)('active');
+  const [selectedOption, setSelectedOption] = (0, _react.useState)("active");
   const [alertOpen, setAlertOpen] = (0, _react.useState)(false);
   const {
     showSnackbar
@@ -63,7 +64,7 @@ function MasterCategoriesPage() {
         total: data.categories.total
       });
     } catch (error) {
-      console.error('Failed to fetch categories:', error);
+      console.error("Failed to fetch categories:", error);
     } finally {
       setLoading(false);
     }
@@ -76,32 +77,39 @@ function MasterCategoriesPage() {
     });
   };
   const handleToggleForm = () => {
-    setTitle('');
-    setCategoryId('');
+    setTitle("");
+    setCategoryId("");
     setShowForm(prev => !prev);
   };
   const handleFormSubmit = async e => {
     e.preventDefault();
     setLoading(true);
     try {
-      const payload = {
-        id: categoryId,
-        title
-      };
+      const formData = new FormData();
+      if (categoryId) formData.append("id", categoryId);
+      formData.append("title", title);
+      if (thumbnail) formData.append("thumbnail", thumbnail);
       const {
         data
-      } = await _axiosClient.default.post("/addNewCategory", payload);
-      setAlertMessageType('success');
-      setAlertMessage(data.message || 'New category added');
+      } = await _axiosClient.default.post("/addNewCategory", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+      setAlertMessageType("success");
+      setAlertMessage(data.message || "New category added");
       fetchCategories();
       const timer = setTimeout(() => {
-        setAlertMessage('');
-        setAlertMessageType('');
+        setAlertMessage("");
+        setAlertMessageType("");
       }, 3000);
-      setTitle('');
+      setTitle("");
+      setThumbnail(null);
       return () => clearTimeout(timer);
     } catch (error) {
-      console.error('Failed to add/edit category:', error);
+      console.error("Failed to add/edit category:", error);
+      setAlertMessageType("error");
+      setAlertMessage("Failed to save category");
     } finally {
       setLoading(false);
       setShowForm(false);
@@ -111,16 +119,16 @@ function MasterCategoriesPage() {
     let fetch = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
     setAlertMessage(newStatus.message);
     if (newStatus.success) {
-      setAlertMessageType('success');
+      setAlertMessageType("success");
     } else {
-      setAlertMessageType('error');
+      setAlertMessageType("error");
     }
     if (fetch) {
       fetchCategories();
     }
     const timer = setTimeout(() => {
-      setAlertMessage('');
-      setAlertMessageType('');
+      setAlertMessage("");
+      setAlertMessageType("");
     }, 3000);
     return () => clearTimeout(timer);
   };
@@ -128,8 +136,8 @@ function MasterCategoriesPage() {
     setAlertMessage(message);
     setAlertMessageType(alertType);
     const timer = setTimeout(() => {
-      setAlertMessage('');
-      setAlertMessageType('');
+      setAlertMessage("");
+      setAlertMessageType("");
     }, 3000);
     return () => clearTimeout(timer);
   };
@@ -138,7 +146,7 @@ function MasterCategoriesPage() {
       highlightedRef.current.classList.add("blink-highlight");
       const timeout = setTimeout(() => {
         highlightedRef.current.classList.remove("blink-highlight");
-        setHighlightId('');
+        setHighlightId("");
       }, 2400);
       return () => clearTimeout(timeout);
     }
@@ -174,7 +182,7 @@ function MasterCategoriesPage() {
     setSelectedOption(event.target.value);
   };
   const handleApply = () => {
-    if (selectedOption === 'delete') {
+    if (selectedOption === "delete") {
       setAlertOpen(true);
     } else {
       bulkActionFunction();
@@ -183,22 +191,22 @@ function MasterCategoriesPage() {
   const bulkActionFunction = async () => {
     const selectedIds = categories.filter(category => category.isChecked).map(category => category.id);
     if (selectedIds.length === 0) {
-      showAlert('error', 'Select any category to update');
+      showAlert("error", "Select any category to update");
     } else {
       setLoading(true);
       try {
         const payload = {
-          model: 'ServicesCategory',
+          model: "ServicesCategory",
           selectedIds,
           action: selectedOption
         };
         const {
           data
-        } = await _axiosClient.default.post('/bulkOptionPerform', payload);
-        showAlert('success', data.message || 'Bulk action perform');
+        } = await _axiosClient.default.post("/bulkOptionPerform", payload);
+        showAlert("success", data.message || "Bulk action perform");
         fetchCategories();
       } catch (error) {
-        console.error('Error performing bulk options ', error);
+        console.error("Error performing bulk options ", error);
       } finally {
         setSelectAll(false);
         setCategories(categories.map(category => _objectSpread(_objectSpread({}, category), {}, {
@@ -238,7 +246,7 @@ function MasterCategoriesPage() {
   }, /*#__PURE__*/_react.default.createElement(_BackButton.default, null), /*#__PURE__*/_react.default.createElement(_material.Button, {
     variant: "contained",
     onClick: handleToggleForm
-  }, showForm ? 'Cancel' : 'Add Category'))), /*#__PURE__*/_react.default.createElement(_material.Stack, {
+  }, showForm ? "Cancel" : "Add Category"))), /*#__PURE__*/_react.default.createElement(_material.Stack, {
     direction: "row",
     justifyContent: "start",
     gap: "20px",
@@ -247,10 +255,10 @@ function MasterCategoriesPage() {
   }, /*#__PURE__*/_react.default.createElement(_material.Select, {
     defaultValue: selectedOption,
     sx: {
-      width: '15%'
+      width: "15%"
     },
     onChange: handleOptionChange
-  }, ['active', 'deactive', 'delete'].map(status => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
+  }, ["active", "deactive", "delete"].map(status => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
     key: status,
     value: status
   }, status.charAt(0).toUpperCase() + status.slice(1)))), /*#__PURE__*/_react.default.createElement(_material.Button, {
@@ -262,13 +270,13 @@ function MasterCategoriesPage() {
     sx: {
       mb: 3,
       p: 2,
-      border: '1px solid #ddd',
+      border: "1px solid #ddd",
       borderRadius: 2
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h6",
     mb: 2
-  }, categoryId ? 'Update' : 'Add new', " category"), /*#__PURE__*/_react.default.createElement(_material.TextField, {
+  }, categoryId ? "Update" : "Add new", " category"), /*#__PURE__*/_react.default.createElement(_material.TextField, {
     fullWidth: true,
     label: "Category name",
     name: "title",
@@ -277,13 +285,29 @@ function MasterCategoriesPage() {
     sx: {
       mb: 2
     }
-  }), /*#__PURE__*/_react.default.createElement(_material.Button, {
+  }), /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement(_material.Button, {
+    variant: "outlined",
+    component: "label",
+    sx: {
+      mb: 2
+    }
+  }, "Upload Thumbnail", /*#__PURE__*/_react.default.createElement("input", {
+    type: "file",
+    accept: "image/*",
+    hidden: true,
+    onChange: e => setThumbnail(e.target.files[0])
+  })), thumbnail && /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body2",
+    sx: {
+      mb: 2
+    }
+  }, "Selected: ", thumbnail.name)), /*#__PURE__*/_react.default.createElement(_material.Button, {
     type: "submit",
     variant: "contained",
     sx: {
       mt: 2
     }
-  }, categoryId ? 'Update Category' : 'Add category')), /*#__PURE__*/_react.default.createElement(_material.TableContainer, {
+  }, categoryId ? "Update Category" : "Add category")), /*#__PURE__*/_react.default.createElement(_material.TableContainer, {
     component: _material.Paper
   }, /*#__PURE__*/_react.default.createElement(_material.Table, {
     "aria-label": "Services Table"
@@ -320,9 +344,9 @@ function MasterCategoriesPage() {
       scope: "row"
     }, (_singleCat$services$l = (_singleCat$services = singleCat.services) === null || _singleCat$services === void 0 ? void 0 : _singleCat$services.length) !== null && _singleCat$services$l !== void 0 ? _singleCat$services$l : 0), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
       sx: {
-        color: singleCat.status === 'active' ? 'green' : 'red',
-        fontWeight: 'bold',
-        textTransform: 'capitalize'
+        color: singleCat.status === "active" ? "green" : "red",
+        fontWeight: "bold",
+        textTransform: "capitalize"
       }
     }, singleCat.status), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_ActiveDeactiveSwitch.default, {
       id: singleCat.id,
@@ -341,7 +365,7 @@ function MasterCategoriesPage() {
     align: "center"
   }, "No Categories")))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
-      marginTop: '10px'
+      marginTop: "10px"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Pagination, {
     count: pagination.last_page,

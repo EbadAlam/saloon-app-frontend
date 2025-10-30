@@ -17,6 +17,7 @@ var _StarRating = _interopRequireDefault(require("../../components/StarRating/St
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
+var _StoreCard = _interopRequireDefault(require("../../components/StoreCard/StoreCard"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 const isBrowser = typeof window !== "undefined";
@@ -50,11 +51,6 @@ function Home() {
       return () => clearTimeout(timer);
     }
   }, [successMessage]);
-  const calculateAverageRating = function () {
-    let reviews = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    const total = reviews.reduce((sum, r) => sum + parseFloat(r.rating || 0), 0);
-    return reviews.length > 0 ? (total / reviews.length).toFixed(1) : "N/A";
-  };
   (0, _react.useEffect)(() => {
     if (typeof window === "undefined") return;
     const fetchStores = async () => {
@@ -216,35 +212,9 @@ function Home() {
     }
   }, "New to Site"), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "stores"
-  }, stores.new.map(singleStore => {
-    const averageRating = calculateAverageRating(singleStore.reviews);
-    return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-      to: _routes.ROUTES.getStoreFrontPage(singleStore.slug),
-      className: "store",
-      key: singleStore.id
-    }, /*#__PURE__*/_react.default.createElement(_material.Box, {
-      className: "store_image"
-    }, singleStore.thumbnail ? /*#__PURE__*/_react.default.createElement("img", {
-      src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleStore.thumbnail),
-      alt: ""
-    }) : /*#__PURE__*/_react.default.createElement("img", {
-      src: "".concat(process.env.REACT_APP_BASE_URL, "/store-dummy-img.png"),
-      alt: ""
-    }), /*#__PURE__*/_react.default.createElement(_material.Box, {
-      className: "hover_content"
-    }, /*#__PURE__*/_react.default.createElement(_material.Button, null, "Explore now")), /*#__PURE__*/_react.default.createElement(_material.Box, {
-      className: "overlay"
-    })), /*#__PURE__*/_react.default.createElement(_material.Box, {
-      className: "store_content"
-    }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-      variant: "h3"
-    }, singleStore.title), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
-      rating: averageRating,
-      color: "#ffc800"
-    }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-      variant: "h4"
-    }, singleStore.type)));
-  })))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, stores.new.map(singleStore => /*#__PURE__*/_react.default.createElement(_StoreCard.default, {
+    storeDetails: singleStore
+  }))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "second_banner new_banner"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "content",
@@ -260,6 +230,13 @@ function Home() {
     src: "".concat(process.env.REACT_APP_BASE_URL, "/new-banner-2-bg.webp"),
     alt: ""
   })), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "bubble_section"
+  }, Array.from({
+    length: 10
+  }).map((_, i) => /*#__PURE__*/_react.default.createElement("div", {
+    key: i,
+    className: "bubble"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "container"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "banner_content"
@@ -294,35 +271,9 @@ function Home() {
     }
   }, "Treandy Saloons and Spa's"), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "stores"
-  }, stores.trending.map(singleStore => {
-    const averageRating = calculateAverageRating(singleStore.reviews);
-    return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-      to: _routes.ROUTES.getStoreFrontPage(singleStore.slug),
-      className: "store",
-      key: singleStore.id
-    }, /*#__PURE__*/_react.default.createElement(_material.Box, {
-      className: "store_image"
-    }, singleStore.thumbnail ? /*#__PURE__*/_react.default.createElement("img", {
-      src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleStore.thumbnail),
-      alt: ""
-    }) : /*#__PURE__*/_react.default.createElement("img", {
-      src: "".concat(process.env.REACT_APP_BASE_URL, "/store-dummy-img.png"),
-      alt: ""
-    }), /*#__PURE__*/_react.default.createElement(_material.Box, {
-      className: "hover_content"
-    }, /*#__PURE__*/_react.default.createElement(_material.Button, null, "Explore now")), /*#__PURE__*/_react.default.createElement(_material.Box, {
-      className: "overlay"
-    })), /*#__PURE__*/_react.default.createElement(_material.Box, {
-      className: "store_content"
-    }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-      variant: "h3"
-    }, singleStore.title), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
-      rating: averageRating,
-      color: "#ffc800"
-    }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-      variant: "h4"
-    }, singleStore.type)));
-  })))), (reviews === null || reviews === void 0 ? void 0 : reviews.length) > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, stores.trending.map(singleStore => /*#__PURE__*/_react.default.createElement(_StoreCard.default, {
+    storeDetails: singleStore
+  }))))), (reviews === null || reviews === void 0 ? void 0 : reviews.length) > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "reviews_div"
   }, /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_BASE_URL, "/reviews-bg-img.png"),

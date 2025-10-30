@@ -2316,7 +2316,7 @@ input::-webkit-inner-spin-button {
         align-items: center;
 
         img {
-          width: 100%;
+          height: 100%;
         }
 
         border-radius: 50%;
@@ -2352,6 +2352,7 @@ input::-webkit-inner-spin-button {
           position: relative;
           width: fit-content;
           margin: 0 auto;
+          text-transform: capitalize;
 
           &::before {
             content: '';
@@ -2475,7 +2476,7 @@ input::-webkit-inner-spin-button {
       }
 
       .store_content {
-        padding: 20px 10px;
+        padding: 20px 10px 10px 10px;
 
         h3 {
           font-size: 20px;
@@ -2492,6 +2493,9 @@ input::-webkit-inner-spin-button {
           background-color: $newBgColor;
           margin-top: 5px;
           border-radius: 0px;
+        }
+        p,svg {
+          color:black;
         }
       }
     }
@@ -2587,5 +2591,46 @@ input::-webkit-inner-spin-button {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+.second_banner {
+  .bubble_section{
+    z-index: 5;
+    position: relative;
+    .bubble {
+      // width: 100px;
+      // height: 100px;
+      position: absolute;
+      border-radius: 50%;
+      backdrop-filter: blur(2px) brightness(1.1);
+      transform: scale(1.1);
+      transition: transform 0.3s;
+      pointer-events: none;
+      animation: float 10s infinite ease-in-out;
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+          $size: random(100) + 10px;
+          left: random(100) * 1%;
+          width: $size;
+          height: $size;
+          animation-delay: random(5) * 1s;
+          animation-duration: random(15) + 5s;
+        }
+      }
+    }
+  }
+}
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(100px, -400px) scale(1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50px, -800px) scale(1);
+    opacity: 0;
   }
 }

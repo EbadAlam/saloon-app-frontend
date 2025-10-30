@@ -11,6 +11,7 @@ import StarRating from "../../components/StarRating/StarRating";
 import { getRecentlyViewedStores } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
+import StoreCard from "../../components/StoreCard/StoreCard";
 
 const isBrowser = typeof window !== "undefined";
 function Home() {
@@ -43,13 +44,6 @@ function Home() {
       return () => clearTimeout(timer);
     }
   }, [successMessage]);
-  const calculateAverageRating = (reviews = []) => {
-    const total = reviews.reduce(
-      (sum, r) => sum + parseFloat(r.rating || 0),
-      0
-    );
-    return reviews.length > 0 ? (total / reviews.length).toFixed(1) : "N/A";
-  };
   useEffect(() => {
     if (typeof window === "undefined") return;
     const fetchStores = async () => {
@@ -141,7 +135,7 @@ function Home() {
               <Box className="container">
                 <Box className="banner_content">
                   <Box className="image">
-                    {/* <img src={`${process.env.REACT_APP_BASE_URL}/bubble.png`} alt="" /> */}
+                    {/* <img src={`${process.env.REACT_APP_BASE_URL}/test.png`} alt="" /> */}
                   </Box>
                   <Box className="text">
                     <Typography variant="h4">discover local gems</Typography>
@@ -235,51 +229,16 @@ function Home() {
                 </Typography>
                 <hr />
                 <Box className="stores">
-                  {stores.new.map((singleStore) => {
-                    const averageRating = calculateAverageRating(
-                      singleStore.reviews
-                    );
-                    return (
-                      <Link
-                        to={ROUTES.getStoreFrontPage(singleStore.slug)}
-                        className="store"
-                        key={singleStore.id}
-                      >
-                        <Box className="store_image">
-                          {singleStore.thumbnail ? (
-                            <img
-                              src={`${process.env.REACT_APP_IMG_URL}/${singleStore.thumbnail}`}
-                              alt=""
-                            />
-                          ) : (
-                            <img
-                              src={`${process.env.REACT_APP_BASE_URL}/store-dummy-img.png`}
-                              alt=""
-                            />
-                          )}
-                          <Box className="hover_content">
-                            <Button>Explore now</Button>
-                          </Box>
-                          <Box className="overlay"></Box>
-                        </Box>
-                        <Box className="store_content">
-                          <Typography variant="h3">
-                            {singleStore.title}
-                          </Typography>
-                          <StarRating rating={averageRating} color="#ffc800" />
-                          <Typography variant="h4">
-                            {singleStore.type}
-                          </Typography>
-                        </Box>
-                      </Link>
-                    );
-                  })}
+                  {stores.new.map((singleStore) => (
+                    <StoreCard storeDetails={singleStore} />
+                  ))}
                 </Box>
               </Box>
             </Box>
           )}
 
           <Box className="second_banner new_banner">
+            
             <Box className="content" sx={{ zIndex: "1", position: "relative" }}>
               <Box className="overlay"></Box>
               <Box className="bg_img">
@@ -287,6 +246,11 @@ function Home() {
                   src={`${process.env.REACT_APP_BASE_URL}/new-banner-2-bg.webp`}
                   alt=""
                 />
+              </Box>
+              <Box className="bubble_section">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <div key={i} className="bubble" />
+                  ))}
               </Box>
               <Box className="container">
                 <Box className="banner_content">
@@ -396,45 +360,9 @@ function Home() {
                 </Typography>
                 <hr />
                 <Box className="stores">
-                  {stores.trending.map((singleStore) => {
-                    const averageRating = calculateAverageRating(
-                      singleStore.reviews
-                    );
-                    return (
-                      <Link
-                        to={ROUTES.getStoreFrontPage(singleStore.slug)}
-                        className="store"
-                        key={singleStore.id}
-                      >
-                        <Box className="store_image">
-                          {singleStore.thumbnail ? (
-                            <img
-                              src={`${process.env.REACT_APP_IMG_URL}/${singleStore.thumbnail}`}
-                              alt=""
-                            />
-                          ) : (
-                            <img
-                              src={`${process.env.REACT_APP_BASE_URL}/store-dummy-img.png`}
-                              alt=""
-                            />
-                          )}
-                          <Box className="hover_content">
-                            <Button>Explore now</Button>
-                          </Box>
-                          <Box className="overlay"></Box>
-                        </Box>
-                        <Box className="store_content">
-                          <Typography variant="h3">
-                            {singleStore.title}
-                          </Typography>
-                          <StarRating rating={averageRating} color="#ffc800" />
-                          <Typography variant="h4">
-                            {singleStore.type}
-                          </Typography>
-                        </Box>
-                      </Link>
-                    );
-                  })}
+                  {stores.trending.map((singleStore) => (
+                    <StoreCard storeDetails={singleStore} />
+                  ))}
                 </Box>
               </Box>
             </Box>

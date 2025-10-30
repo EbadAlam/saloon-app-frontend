@@ -227,7 +227,11 @@ function StorePage(_ref) {
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactHelmetAsync.Helmet, null, /*#__PURE__*/_react.default.createElement("title", null, storeDetails ? "".concat(storeDetails.title, " - BeautyTrafic") : "BeautyTrafic"), /*#__PURE__*/_react.default.createElement("meta", {
     name: "description",
     content: storeDetails ? storeDetails.about : "Discover top salons on BeautyTrafic"
-  })), loading || !storeDetails ? /*#__PURE__*/_react.default.createElement("div", {
+  })), loading || !storeDetails ? /*#__PURE__*/_react.default.createElement(_material.Box, {
+    sx: {
+      background: '#fff8f0'
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "container",
     style: {
       background: "#FFF8F0",
@@ -275,12 +279,16 @@ function StorePage(_ref) {
     style: {
       margin: "10px 0"
     }
-  })))) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, isMobile && /*#__PURE__*/_react.default.createElement("div", {
+  }))))) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, isMobile && /*#__PURE__*/_react.default.createElement("div", {
     className: "gallery-mobile"
   }, /*#__PURE__*/_react.default.createElement(_CustomGallery.default, {
     images: storeDetails.gallery,
     thumbnail: storeDetails.thumbnail
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    sx: {
+      background: '#fff8f0'
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "container",
     style: {
       background: "#FFF8F0",
@@ -529,6 +537,6 @@ function StorePage(_ref) {
     className: "mt-2"
   }, /*#__PURE__*/_react.default.createElement(_RoomOutlined.default, null)), /*#__PURE__*/_react.default.createElement(_Address.default, {
     details: storeDetails
-  }))))))));
+  })))))))));
 }
 var _default = exports.default = StorePage;

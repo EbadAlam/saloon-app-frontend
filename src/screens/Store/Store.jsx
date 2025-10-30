@@ -15,6 +15,7 @@ import Address from "../../components/Address/Address";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import {
+  Box,
   CircularProgress,
   Skeleton,
   Tooltip,
@@ -237,6 +238,7 @@ function StorePage({ initialData }) {
         />
       </Helmet>
       {loading || !storeDetails ? (
+        <Box sx={{background:'#fff8f0'}}>
         <div
           className="container"
           style={{ background: "#FFF8F0", paddingBlock: "20px" }}
@@ -267,6 +269,7 @@ function StorePage({ initialData }) {
             ))}
           </div>
         </div>
+        </Box>
       ) : (
         <>
           {isMobile && (
@@ -277,400 +280,402 @@ function StorePage({ initialData }) {
               />
             </div>
           )}
-          <div
-            className="container"
-            style={{ background: "#FFF8F0", paddingBlock: "20px" }}
-          >
-            <div className="store_title">
-              <Typography
-                variant="h2"
-                sx={{
-                  color: "#333333",
-                  fontSize: "32px",
-                  fontFamily: "Barlow",
-                  fontWeight: "600",
-                }}
-              >
-                {storeDetails.title}
-              </Typography>
-            </div>
-            <div className="info_save_div">
-              <div className="store_info">
-                <div className="rating">
-                  <p>
-                    <b>{averageRatingStore}</b>
-                  </p>
-                  <StarRating rating={averageRatingStore} />
-                </div>
-                <Seperator />
-                <div className="timing">
-                  <p>{getTodayTiming(storeDetails.working_hours)}</p>
-                </div>
-                <Seperator />
-                <div className="address">
-                  <p>{storeDetails.address}</p>
-                </div>
-                <Seperator />
-                <div className="get-dir-btn">
-                  <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${storeDetails.lat},${storeDetails.lng}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <b>Get Directions</b>
-                  </a>
-                </div>
+        <Box sx={{background:'#fff8f0'}}>
+            <div
+              className="container"
+              style={{ background: "#FFF8F0", paddingBlock: "20px" }}
+            >
+              <div className="store_title">
+                <Typography
+                  variant="h2"
+                  sx={{
+                    color: "#333333",
+                    fontSize: "32px",
+                    fontFamily: "Barlow",
+                    fontWeight: "600",
+                  }}
+                >
+                  {storeDetails.title}
+                </Typography>
               </div>
-              <div className="save_share">
-                {user && token && (
-                  <>
-                    {loadingFav && <CircularProgress size="20px" />}
-
-                    <div className="save" onClick={handleAddToFav}>
-                      {isFav ? (
-                        <Tooltip title="Remove from favourites">
-                          <FavoriteOutlinedIcon />
-                        </Tooltip>
-                      ) : (
-                        <Tooltip title="Add to favourites">
-                          <FavoriteBorderOutlinedIcon />
-                        </Tooltip>
-                      )}
-                    </div>
-                  </>
-                )}
-
-                <div className="share" onClick={handleCopy}>
-                  <Tooltip title="Copy Link">
-                    <ReplyAllOutlinedIcon />
-                  </Tooltip>
-                </div>
-              </div>
-            </div>
-            {!isMobile && (
-              <div className="gallery">
-                <CustomGallery
-                  images={storeDetails.gallery}
-                  thumbnail={storeDetails.thumbnail}
-                  slug={storeDetails.slug}
-                />
-              </div>
-            )}
-            <div className="two_sections">
-              <div className="left_side">
-                <div className="services_categories">
-                  <div
-                    className={`category ${
-                      selectedCategory === null ? "active" : ""
-                    }`}
-                    onClick={() => setSelectedCategory(null)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    All
-                  </div>
-                  {storeDetails?.services_categories?.length > 0 &&
-                    storeDetails.services_categories
-                      ?.filter((singleCat) => singleCat.status === "active")
-                      .map((singleCat, index) => (
-                        <div
-                          key={index}
-                          className={`category ${
-                            selectedCategory === singleCat?.id ? "active" : ""
-                          }`}
-                          onClick={() => setSelectedCategory(singleCat?.id)}
-                          style={{ cursor: "pointer" }}
-                        >
-                          {singleCat.title}
-                        </div>
-                      ))}
-                </div>
-
-                <div className="services">
-                  {storeDetails?.services?.length > 0 && (
-                    <>
-                      {storeDetails.services
-                        .filter((service) =>
-                          selectedCategory
-                            ? service.service_category_id === selectedCategory
-                            : true && service.category?.status === "active"
-                        )
-                        .slice(0, 4)
-                        .filter(
-                          (service) =>
-                            service.status === "active" &&
-                            service.is_active_by_admin == 1
-                        )
-                        .map((singleSer) => (
-                          <div className="service" key={singleSer.id}>
-                            <div className="info">
-                              <h4 className="title">{singleSer.title}</h4>
-                              <p className="eta">{singleSer.eta}</p>
-                              <p className="price">
-                                <b>
-                                  {singleSer.currency} {singleSer.price}
-                                </b>
-                              </p>
-                              <p className="gender">
-                                {singleSer.gender &&
-                                  `Only for ${singleSer.gender}`}
-                              </p>
-                            </div>
-                            <div className="book_btn">
-                              <Link
-                                to={ROUTES.getBookingPage(storeDetails.slug)}
-                                state={{
-                                  storeDetails: storeDetails,
-                                  service: singleSer,
-                                }}
-                              >
-                                <button>Book</button>
-                              </Link>
-                            </div>
-                          </div>
-                        ))}
-
-                      {storeDetails.services.filter((service) =>
-                        selectedCategory
-                          ? service.category_id === selectedCategory
-                          : true
-                      ).length > 4 && (
-                        <div className="see-all-btn">
-                          <Link
-                            to={ROUTES.getBookingPage(storeDetails.slug)}
-                            state={{ storeDetails: storeDetails }}
-                          >
-                            <button>See All</button>
-                          </Link>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-                {storeDetails.workers &&
-                  storeDetails.workers &&
-                  storeDetails.workers?.length > 0 && (
-                    <div className="teams_div">
-                      <h2>Team</h2>
-                      <div className="team_members">
-                        {storeDetails.workers
-                          .filter(
-                            (worker) => worker.user?.account_status === "active"
-                          )
-                          .map((worker) => {
-                            const reviews =
-                              worker?.user?.reviews_received || [];
-                            const total = reviews.reduce(
-                              (sum, r) => sum + parseFloat(r.rating || 0),
-                              0
-                            );
-                            const averageRating =
-                              reviews.length > 0
-                                ? (total / reviews.length).toFixed(1)
-                                : "";
-
-                            return (
-                              <div
-                                className="single_member"
-                                key={worker.user?.id}
-                              >
-                                <div
-                                  className={`profile_img ${
-                                    worker.user.user_info.profile_image
-                                      ? ""
-                                      : "no-img"
-                                  }`}
-                                >
-                                  {worker.user.user_info.profile_image ? (
-                                    <img
-                                      src={`${process.env.REACT_APP_IMG_URL}${worker.user.user_info.profile_image}`}
-                                      alt=""
-                                    />
-                                  ) : (
-                                    <div className="dummy_img">
-                                      {worker.user.username?.charAt(0) || "?"}
-                                    </div>
-                                  )}
-                                  <div className="name_des">
-                                    <h3 className="username">
-                                      {worker.user.username}
-                                    </h3>
-                                    <p className="designation">
-                                      {worker.user.user_info.designation}
-                                    </p>
-                                  </div>
-                                  {averageRating && (
-                                    <div className="user_rating">
-                                      {averageRating} <StarOutlinedIcon />
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          })}
-                      </div>
-                    </div>
-                  )}
-                {storeDetails?.reviews && storeDetails?.reviews?.length > 0 && (
-                  <div className="reviews-div mt-5">
-                    <h2>Reviews</h2>
-                    <div className="reviews">
-                      {storeDetails.reviews
-                        ?.slice(0, 9)
-                        .filter((review) => review.status === "active")
-                        .map((singleReview) => (
-                          <div className="review" key={singleReview?.id}>
-                            <div className="user_info">
-                              <div className="user_img">
-                                {singleReview.reviewer.user_info &&
-                                singleReview.reviewer.user_info
-                                  .profile_image ? (
-                                  <img
-                                    src={`${process.env.REACT_APP_IMG_URL}${singleReview.reviewer.user_info.profile_image}`}
-                                    alt=""
-                                  />
-                                ) : (
-                                  <DummyImage
-                                    username={singleReview.reviewer.username}
-                                  />
-                                )}
-                              </div>
-                              <div className="user-name-time">
-                                <p className="username">
-                                  <b>{singleReview.reviewer.username}</b>
-                                </p>
-                                <p className="time">
-                                  {formatDate(singleReview.reviewed_at)}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="rating">
-                              <StarRating rating={singleReview.rating} />
-                            </div>
-                            <div className="review-text">
-                              <p>{singleReview.review}</p>
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-
-                    {storeDetails.reviews?.length > 9 && (
-                      <div className="see_all_reviews_btn_div mt-3">
-                        <Link
-                          to={ROUTES.getAllReviewPage(storeDetails.slug)}
-                          state={{ storeDetails: storeDetails }}
-                        >
-                          See more...
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {user &&
-                  token &&
-                  user?.id != storeDetails.user_id &&
-                  !storeDetails.workers?.some(
-                    (worker) => worker.user?.id == user?.id
-                  ) && (
-                    <div className="add_review">
-                      <AddReviewForm
-                        storeId={storeDetails?.id}
-                        userId={user?.id}
-                        onSubmit={handleAddReview}
-                        storeUsers={storeDetails.workers}
-                      />
-                    </div>
-                  )}
-
-                <div className="about mt-5">
-                  <h2>About</h2>
-                  <p>{storeDetails.about}</p>
-                  <div className="map">
-                    {storeDetails.lat && storeDetails.lng && typeof window !== "undefined" && (
-                      <MapContainer
-                        center={[storeDetails.lat, storeDetails.lng]}
-                        zoom={15}
-                        style={{ height: 500, width: "100%" }}
-                      >
-                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        <Marker
-                          position={[storeDetails.lat, storeDetails.lng]}
-                        />
-                      </MapContainer>
-                    )}
-                    <Address details={storeDetails} />
-                  </div>
-                </div>
-                <div className="opening-hours mt-5">
-                  <h2>Opening Hours</h2>
-                  <ul>
-                    {storeDetails?.working_hours &&
-                      storeDetails?.working_hours?.length > 0 &&
-                      storeDetails.working_hours.map((singleHour) => (
-                        <li key={singleHour.id}>
-                          <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="15"
-                              height="16"
-                              viewBox="0 0 15 16"
-                              fill="none"
-                            >
-                              <circle cx="7.5" cy="8" r="7.5" fill="#D8A7B1" />
-                            </svg>
-                            <p>{singleHour.day}</p>
-                          </div>
-                          <div>
-                            <p>
-                              {singleHour.start_time_formatted} -{" "}
-                              {singleHour.end_time_formatted}{" "}
-                              {singleHour.is_closed !== "active" ? (
-                                <strong style={{ color: "red" }}>Closed</strong>
-                              ) : (
-                                ""
-                              )}
-                            </p>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              </div>
-              <div className="right_side">
-                <div className="padding">
-                  <h2>{storeDetails.title}</h2>
+              <div className="info_save_div">
+                <div className="store_info">
                   <div className="rating">
                     <p>
                       <b>{averageRatingStore}</b>
                     </p>
                     <StarRating rating={averageRatingStore} />
-                    <span>({storeDetails?.reviews?.length})</span>
                   </div>
-                  <div className="book_now_btn">
-                    <Link
-                      to={ROUTES.getBookingPage(storeDetails.slug)}
-                      state={{ storeDetails: storeDetails }}
+                  <Seperator />
+                  <div className="timing">
+                    <p>{getTodayTiming(storeDetails.working_hours)}</p>
+                  </div>
+                  <Seperator />
+                  <div className="address">
+                    <p>{storeDetails.address}</p>
+                  </div>
+                  <Seperator />
+                  <div className="get-dir-btn">
+                    <a
+                      href={`https://www.google.com/maps/dir/?api=1&destination=${storeDetails.lat},${storeDetails.lng}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      <button className="book_now">Book Now</button>
-                    </Link>
+                      <b>Get Directions</b>
+                    </a>
                   </div>
                 </div>
-                <hr className="seperator" />
-                <div className="padding">
-                  <div className="time">
-                    <AccessTimeOutlinedIcon />
-                    <b>{getTodayTiming(storeDetails.working_hours)}</b>
+                <div className="save_share">
+                  {user && token && (
+                    <>
+                      {loadingFav && <CircularProgress size="20px" />}
+
+                      <div className="save" onClick={handleAddToFav}>
+                        {isFav ? (
+                          <Tooltip title="Remove from favourites">
+                            <FavoriteOutlinedIcon />
+                          </Tooltip>
+                        ) : (
+                          <Tooltip title="Add to favourites">
+                            <FavoriteBorderOutlinedIcon />
+                          </Tooltip>
+                        )}
+                      </div>
+                    </>
+                  )}
+
+                  <div className="share" onClick={handleCopy}>
+                    <Tooltip title="Copy Link">
+                      <ReplyAllOutlinedIcon />
+                    </Tooltip>
                   </div>
-                  <div className="location mt-3">
-                    <div className="mt-2">
-                      <RoomOutlinedIcon />
+                </div>
+              </div>
+              {!isMobile && (
+                <div className="gallery">
+                  <CustomGallery
+                    images={storeDetails.gallery}
+                    thumbnail={storeDetails.thumbnail}
+                    slug={storeDetails.slug}
+                  />
+                </div>
+              )}
+              <div className="two_sections">
+                <div className="left_side">
+                  <div className="services_categories">
+                    <div
+                      className={`category ${
+                        selectedCategory === null ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedCategory(null)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      All
                     </div>
-                    <Address details={storeDetails} />
+                    {storeDetails?.services_categories?.length > 0 &&
+                      storeDetails.services_categories
+                        ?.filter((singleCat) => singleCat.status === "active")
+                        .map((singleCat, index) => (
+                          <div
+                            key={index}
+                            className={`category ${
+                              selectedCategory === singleCat?.id ? "active" : ""
+                            }`}
+                            onClick={() => setSelectedCategory(singleCat?.id)}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {singleCat.title}
+                          </div>
+                        ))}
+                  </div>
+
+                  <div className="services">
+                    {storeDetails?.services?.length > 0 && (
+                      <>
+                        {storeDetails.services
+                          .filter((service) =>
+                            selectedCategory
+                              ? service.service_category_id === selectedCategory
+                              : true && service.category?.status === "active"
+                          )
+                          .slice(0, 4)
+                          .filter(
+                            (service) =>
+                              service.status === "active" &&
+                              service.is_active_by_admin == 1
+                          )
+                          .map((singleSer) => (
+                            <div className="service" key={singleSer.id}>
+                              <div className="info">
+                                <h4 className="title">{singleSer.title}</h4>
+                                <p className="eta">{singleSer.eta}</p>
+                                <p className="price">
+                                  <b>
+                                    {singleSer.currency} {singleSer.price}
+                                  </b>
+                                </p>
+                                <p className="gender">
+                                  {singleSer.gender &&
+                                    `Only for ${singleSer.gender}`}
+                                </p>
+                              </div>
+                              <div className="book_btn">
+                                <Link
+                                  to={ROUTES.getBookingPage(storeDetails.slug)}
+                                  state={{
+                                    storeDetails: storeDetails,
+                                    service: singleSer,
+                                  }}
+                                >
+                                  <button>Book</button>
+                                </Link>
+                              </div>
+                            </div>
+                          ))}
+
+                        {storeDetails.services.filter((service) =>
+                          selectedCategory
+                            ? service.category_id === selectedCategory
+                            : true
+                        ).length > 4 && (
+                          <div className="see-all-btn">
+                            <Link
+                              to={ROUTES.getBookingPage(storeDetails.slug)}
+                              state={{ storeDetails: storeDetails }}
+                            >
+                              <button>See All</button>
+                            </Link>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                  {storeDetails.workers &&
+                    storeDetails.workers &&
+                    storeDetails.workers?.length > 0 && (
+                      <div className="teams_div">
+                        <h2>Team</h2>
+                        <div className="team_members">
+                          {storeDetails.workers
+                            .filter(
+                              (worker) => worker.user?.account_status === "active"
+                            )
+                            .map((worker) => {
+                              const reviews =
+                                worker?.user?.reviews_received || [];
+                              const total = reviews.reduce(
+                                (sum, r) => sum + parseFloat(r.rating || 0),
+                                0
+                              );
+                              const averageRating =
+                                reviews.length > 0
+                                  ? (total / reviews.length).toFixed(1)
+                                  : "";
+
+                              return (
+                                <div
+                                  className="single_member"
+                                  key={worker.user?.id}
+                                >
+                                  <div
+                                    className={`profile_img ${
+                                      worker.user.user_info.profile_image
+                                        ? ""
+                                        : "no-img"
+                                    }`}
+                                  >
+                                    {worker.user.user_info.profile_image ? (
+                                      <img
+                                        src={`${process.env.REACT_APP_IMG_URL}${worker.user.user_info.profile_image}`}
+                                        alt=""
+                                      />
+                                    ) : (
+                                      <div className="dummy_img">
+                                        {worker.user.username?.charAt(0) || "?"}
+                                      </div>
+                                    )}
+                                    <div className="name_des">
+                                      <h3 className="username">
+                                        {worker.user.username}
+                                      </h3>
+                                      <p className="designation">
+                                        {worker.user.user_info.designation}
+                                      </p>
+                                    </div>
+                                    {averageRating && (
+                                      <div className="user_rating">
+                                        {averageRating} <StarOutlinedIcon />
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </div>
+                    )}
+                  {storeDetails?.reviews && storeDetails?.reviews?.length > 0 && (
+                    <div className="reviews-div mt-5">
+                      <h2>Reviews</h2>
+                      <div className="reviews">
+                        {storeDetails.reviews
+                          ?.slice(0, 9)
+                          .filter((review) => review.status === "active")
+                          .map((singleReview) => (
+                            <div className="review" key={singleReview?.id}>
+                              <div className="user_info">
+                                <div className="user_img">
+                                  {singleReview.reviewer.user_info &&
+                                  singleReview.reviewer.user_info
+                                    .profile_image ? (
+                                    <img
+                                      src={`${process.env.REACT_APP_IMG_URL}${singleReview.reviewer.user_info.profile_image}`}
+                                      alt=""
+                                    />
+                                  ) : (
+                                    <DummyImage
+                                      username={singleReview.reviewer.username}
+                                    />
+                                  )}
+                                </div>
+                                <div className="user-name-time">
+                                  <p className="username">
+                                    <b>{singleReview.reviewer.username}</b>
+                                  </p>
+                                  <p className="time">
+                                    {formatDate(singleReview.reviewed_at)}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="rating">
+                                <StarRating rating={singleReview.rating} />
+                              </div>
+                              <div className="review-text">
+                                <p>{singleReview.review}</p>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+
+                      {storeDetails.reviews?.length > 9 && (
+                        <div className="see_all_reviews_btn_div mt-3">
+                          <Link
+                            to={ROUTES.getAllReviewPage(storeDetails.slug)}
+                            state={{ storeDetails: storeDetails }}
+                          >
+                            See more...
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {user &&
+                    token &&
+                    user?.id != storeDetails.user_id &&
+                    !storeDetails.workers?.some(
+                      (worker) => worker.user?.id == user?.id
+                    ) && (
+                      <div className="add_review">
+                        <AddReviewForm
+                          storeId={storeDetails?.id}
+                          userId={user?.id}
+                          onSubmit={handleAddReview}
+                          storeUsers={storeDetails.workers}
+                        />
+                      </div>
+                    )}
+
+                  <div className="about mt-5">
+                    <h2>About</h2>
+                    <p>{storeDetails.about}</p>
+                    <div className="map">
+                      {storeDetails.lat && storeDetails.lng && typeof window !== "undefined" && (
+                        <MapContainer
+                          center={[storeDetails.lat, storeDetails.lng]}
+                          zoom={15}
+                          style={{ height: 500, width: "100%" }}
+                        >
+                          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                          <Marker
+                            position={[storeDetails.lat, storeDetails.lng]}
+                          />
+                        </MapContainer>
+                      )}
+                      <Address details={storeDetails} />
+                    </div>
+                  </div>
+                  <div className="opening-hours mt-5">
+                    <h2>Opening Hours</h2>
+                    <ul>
+                      {storeDetails?.working_hours &&
+                        storeDetails?.working_hours?.length > 0 &&
+                        storeDetails.working_hours.map((singleHour) => (
+                          <li key={singleHour.id}>
+                            <div>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="15"
+                                height="16"
+                                viewBox="0 0 15 16"
+                                fill="none"
+                              >
+                                <circle cx="7.5" cy="8" r="7.5" fill="#D8A7B1" />
+                              </svg>
+                              <p>{singleHour.day}</p>
+                            </div>
+                            <div>
+                              <p>
+                                {singleHour.start_time_formatted} -{" "}
+                                {singleHour.end_time_formatted}{" "}
+                                {singleHour.is_closed !== "active" ? (
+                                  <strong style={{ color: "red" }}>Closed</strong>
+                                ) : (
+                                  ""
+                                )}
+                              </p>
+                            </div>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+                <div className="right_side">
+                  <div className="padding">
+                    <h2>{storeDetails.title}</h2>
+                    <div className="rating">
+                      <p>
+                        <b>{averageRatingStore}</b>
+                      </p>
+                      <StarRating rating={averageRatingStore} />
+                      <span>({storeDetails?.reviews?.length})</span>
+                    </div>
+                    <div className="book_now_btn">
+                      <Link
+                        to={ROUTES.getBookingPage(storeDetails.slug)}
+                        state={{ storeDetails: storeDetails }}
+                      >
+                        <button className="book_now">Book Now</button>
+                      </Link>
+                    </div>
+                  </div>
+                  <hr className="seperator" />
+                  <div className="padding">
+                    <div className="time">
+                      <AccessTimeOutlinedIcon />
+                      <b>{getTodayTiming(storeDetails.working_hours)}</b>
+                    </div>
+                    <div className="location mt-3">
+                      <div className="mt-2">
+                        <RoomOutlinedIcon />
+                      </div>
+                      <Address details={storeDetails} />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Box>
         </>
       )}
     </>

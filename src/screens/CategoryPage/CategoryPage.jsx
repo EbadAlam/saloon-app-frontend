@@ -5,6 +5,7 @@ import axiosClient from "../../axios-client";
 import { ROUTES } from "../../routes";
 import StarRating from "../../components/StarRating/StarRating";
 import Loader from "../../components/Loader/Loader";
+import StoreCard from "../../components/StoreCard/StoreCard";
 
 function CategoryPage() {
   const { slug } = useParams();
@@ -70,42 +71,9 @@ function CategoryPage() {
               </Typography>
               <hr />
               <Box className="stores">
-                {stores.map((singleStore) => {
-                  const averageRating = calculateAverageRating(
-                    singleStore.reviews
-                  );
-                  return (
-                    <Link
-                      to={ROUTES.getStoreFrontPage(singleStore.slug)}
-                      className="store"
-                    >
-                      <Box className="store_image">
-                        {singleStore.thumbnail ? (
-                          <img
-                            src={`${process.env.REACT_APP_IMG_URL}/${singleStore.thumbnail}`}
-                            alt=""
-                          />
-                        ) : (
-                          <img
-                            src={`${process.env.REACT_APP_BASE_URL}/store-dummy-img.png`}
-                            alt=""
-                          />
-                        )}
-                        <Box className="hover_content">
-                          <Button>Explore now</Button>
-                        </Box>
-                        <Box className="overlay"></Box>
-                      </Box>
-                      <Box className="store_content">
-                        <Typography variant="h3">
-                          {singleStore.title}
-                        </Typography>
-                        <StarRating rating={averageRating} color="#ffc800" />
-                        <Typography variant="h4">{singleStore.type}</Typography>
-                      </Box>
-                    </Link>
-                  );
-                })}
+                {stores.map((singleStore) => (
+                    <StoreCard storeDetails={singleStore} />
+                ))}
               </Box>
             </Box>
           </Box>

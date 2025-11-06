@@ -143,9 +143,9 @@
         width: 100%;
         .profile_img  {
             .name_des{
-                bottom: 40%;
-                left: 50%;
-                transform: translate(-50%, 50%);
+                bottom: 40% !important;
+                left: 50% !important;
+                transform: translate(-50%, 50%) !important;
             }
         }
     }

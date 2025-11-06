@@ -54,7 +54,7 @@ app.get("/stores/:slug", async (req, res) => {
       console.error("Failed to read index.html:", err);
       return res.status(500).send("An error occurred");
     }
-    const finalHtml = htmlData.replace('<div id="root"></div>', "<div id=\"root\">".concat(appHtml, "</div>")).replace("</head>", "".concat(helmet.title.toString()).concat(helmet.meta.toString(), "</head>")).replace("</body>", "<script>window.__INITIAL_DATA__=".concat(JSON.stringify({
+    const finalHtml = htmlData.replace('<div id="root"></div>', "<div id=\"root\">".concat(appHtml, "</div>")).replace("</head>", "<title>".concat(storeDetails.title, "</title><meta name=\"description\" content=\"").concat(storeDetails.about, "\" /></head>")).replace("</body>", "<script>window.__INITIAL_DATA__=".concat(JSON.stringify({
       storeDetails
     }).replace(/</g, "\\u003c"), "</script></body>"));
     res.send(finalHtml);

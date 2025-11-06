@@ -3,16 +3,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../routes";
 import StarRating from "../StarRating/StarRating";
-import LocationPinIcon from '@mui/icons-material/LocationPin';
+import LocationPinIcon from "@mui/icons-material/LocationPin";
 
-function StoreCard({storeDetails}) {
-    const calculateAverageRating = (reviews = []) => {
-        const total = reviews.reduce(
-            (sum, r) => sum + parseFloat(r.rating || 0),
-            0
-        );
-        return reviews.length > 0 ? (total / reviews.length).toFixed(1) : "N/A";
-    };
+function StoreCard({ storeDetails }) {
+  const calculateAverageRating = (reviews = []) => {
+    const total = reviews.reduce(
+      (sum, r) => sum + parseFloat(r.rating || 0),
+      0
+    );
+    return reviews.length > 0 ? (total / reviews.length).toFixed(1) : "N/A";
+  };
   return (
     <Link
       to={ROUTES.getStoreFrontPage(storeDetails.slug)}
@@ -38,12 +38,27 @@ function StoreCard({storeDetails}) {
       </Box>
       <Box className="store_content">
         <Typography variant="h3">{storeDetails.title}</Typography>
-        <StarRating rating={calculateAverageRating(storeDetails.reviews)} color="#ffc800" />
+        <StarRating
+          rating={calculateAverageRating(storeDetails.reviews)}
+          color="#ffc800"
+        />
         <Typography variant="h4">{storeDetails.type}</Typography>
         {/* <Typography variant="body1" sx={{ display: '-webkit-box', WebkitLineClamp: 1,WebkitBoxOrient: 'vertical', overflow: 'hidden', textOverflow: 'ellipsis', }}>{storeDetails.about}</Typography> */}
-        <Box display='flex' sx={{marginTop:'5px'}}>
-            <LocationPinIcon />
-        <Typography variant="body1" sx={{ display: '-webkit-box', WebkitLineClamp: 1,WebkitBoxOrient: 'vertical', overflow: 'hidden', textOverflow: 'ellipsis',marginTop:'2px !important' }}>{storeDetails.address}</Typography>
+        <Box display="flex" sx={{ marginTop: "5px" }}>
+          <LocationPinIcon />
+          <Typography
+            variant="body1"
+            sx={{
+              display: "-webkit-box",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              marginTop: "2px !important",
+            }}
+          >
+            {storeDetails.address}
+          </Typography>
         </Box>
       </Box>
     </Link>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -27,6 +27,9 @@ import { ROUTES } from "../../routes";
 import { saveRecentlyViewedStore } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
+import Slider from "react-slick";
+import ReviewsSlider from "../../components/ReviewsSlider/ReviewsSlider";
+import L from "leaflet";
 
 function StorePage({ initialData }) {
   const { formatDate, user, token, updateFavorites } = useAuth();
@@ -44,7 +47,6 @@ function StorePage({ initialData }) {
   });
   const [loading, setLoading] = useState(!storeDetails);
   const [alertMessage, setAlertMessage] = useState("");
-  const hasUsedInitialData = useRef(false);
   const [isFav, setIsFav] = useState(false);
   const theme = useTheme();
   const { showSnackbar } = useSnackbar();
@@ -54,6 +56,14 @@ function StorePage({ initialData }) {
     if (typeof window !== "undefined") {
       Promise.all([import("react-leaflet")]).then(([ReactLeaflet]) => {
         setMapComponents(ReactLeaflet);
+      });
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        iconUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        shadowUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
       });
     }
   }, []);
@@ -238,10 +248,10 @@ function StorePage({ initialData }) {
         />
       </Helmet>
       {loading || !storeDetails ? (
-        <Box sx={{background:'#fff8f0'}}>
+        <Box>
         <div
           className="container"
-          style={{ background: "#FFF8F0", paddingBlock: "20px" }}
+          style={{ background: "transparent", paddingBlock: "20px" }}
         >
           <div className="skeleton-title">
             <Skeleton variant="text" width={300} height={40} />
@@ -280,10 +290,10 @@ function StorePage({ initialData }) {
               />
             </div>
           )}
-        <Box sx={{background:'#fff8f0'}}>
+        <Box>
             <div
               className="container"
-              style={{ background: "#FFF8F0", paddingBlock: "20px" }}
+              style={{ background: "transparent", paddingBlock: "20px" }}
             >
               <div className="store_title">
                 <Typography
@@ -351,6 +361,7 @@ function StorePage({ initialData }) {
                   </div>
                 </div>
               </div>
+              </div>
               {!isMobile && (
                 <div className="gallery">
                   <CustomGallery
@@ -360,6 +371,8 @@ function StorePage({ initialData }) {
                   />
                 </div>
               )}
+              <div
+              className="container">
               <div className="two_sections">
                 <div className="left_side">
                   <div className="services_categories">
@@ -450,8 +463,7 @@ function StorePage({ initialData }) {
                       </>
                     )}
                   </div>
-                  {storeDetails.workers &&
-                    storeDetails.workers &&
+                  {/* {storeDetails.workers &&
                     storeDetails.workers?.length > 0 && (
                       <div className="teams_div">
                         <h2>Team</h2>
@@ -513,8 +525,72 @@ function StorePage({ initialData }) {
                             })}
                         </div>
                       </div>
+                    )} */}
+                    {storeDetails.workers &&
+                    storeDetails.workers?.length > 0 && (
+                      <div className="teams_div_new">
+                        <h2>Team</h2>
+                        <div className="team_members">
+                          {storeDetails.workers
+                            .filter(
+                              (worker) => worker.user?.account_status === "active"
+                            )
+                            .map((worker) => {
+                              const reviews =
+                                worker?.user?.reviews_received || [];
+                              const total = reviews.reduce(
+                                (sum, r) => sum + parseFloat(r.rating || 0),
+                                0
+                              );
+                              const averageRating =
+                                reviews.length > 0
+                                  ? (total / reviews.length).toFixed(1)
+                                  : "";
+
+                              return (
+                                <div
+                                  className="single_member"
+                                  key={worker.user?.id}
+                                >
+                                  <div
+                                    className={`profile_img ${
+                                      worker.user.user_info.profile_image
+                                        ? ""
+                                        : "no-img"
+                                    }`}
+                                  >
+                                    {worker.user.user_info.profile_image ? (
+                                      <img
+                                        src={`${process.env.REACT_APP_IMG_URL}${worker.user.user_info.profile_image}`}
+                                        alt=""
+                                      />
+                                    ) : (
+                                      <div className="dummy_img">
+                                        {worker.user.username?.charAt(0) || "?"}
+                                      </div>
+                                    )}
+                                    <dov className="overlay"></dov>
+                                    <div className="name_des">
+                                      <h3 className="username">
+                                        {worker.user.username}
+                                      </h3>
+                                      <p className="designation">
+                                        {worker.user.user_info.designation}
+                                      </p>
+                                      {averageRating && (
+                                        <div className="user_rating">
+                                          {averageRating} <StarOutlinedIcon />
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </div>
                     )}
-                  {storeDetails?.reviews && storeDetails?.reviews?.length > 0 && (
+                  {/* {storeDetails?.reviews && storeDetails?.reviews?.length > 0 && (
                     <div className="reviews-div mt-5">
                       <h2>Reviews</h2>
                       <div className="reviews">
@@ -568,8 +644,48 @@ function StorePage({ initialData }) {
                         </div>
                       )}
                     </div>
-                  )}
-
+                  )} */}
+                  
+                </div>
+                <div className="right_side">
+                  <div className="padding">
+                    <h2>{storeDetails.title}</h2>
+                    <div className="rating">
+                      <p>
+                        <b>{averageRatingStore}</b>
+                      </p>
+                      <StarRating rating={averageRatingStore} />
+                      <span>({storeDetails?.reviews?.length})</span>
+                    </div>
+                    <div className="book_now_btn">
+                      <Link
+                        to={ROUTES.getBookingPage(storeDetails.slug)}
+                        state={{ storeDetails: storeDetails }}
+                      >
+                        <button className="book_now">Book Now</button>
+                      </Link>
+                    </div>
+                  </div>
+                  <hr className="seperator" />
+                  <div className="padding">
+                    <div className="time">
+                      <AccessTimeOutlinedIcon />
+                      <b>{getTodayTiming(storeDetails.working_hours)}</b>
+                    </div>
+                    <div className="location mt-3">
+                      <div className="mt-2">
+                        <RoomOutlinedIcon />
+                      </div>
+                      <Address details={storeDetails} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+                <div className="bottom_side">
+                  <ReviewsSlider reviews={storeDetails.reviews} />
+                  <div className="container">
                   {user &&
                     token &&
                     user?.id != storeDetails.user_id &&
@@ -639,42 +755,8 @@ function StorePage({ initialData }) {
                         ))}
                     </ul>
                   </div>
-                </div>
-                <div className="right_side">
-                  <div className="padding">
-                    <h2>{storeDetails.title}</h2>
-                    <div className="rating">
-                      <p>
-                        <b>{averageRatingStore}</b>
-                      </p>
-                      <StarRating rating={averageRatingStore} />
-                      <span>({storeDetails?.reviews?.length})</span>
-                    </div>
-                    <div className="book_now_btn">
-                      <Link
-                        to={ROUTES.getBookingPage(storeDetails.slug)}
-                        state={{ storeDetails: storeDetails }}
-                      >
-                        <button className="book_now">Book Now</button>
-                      </Link>
-                    </div>
-                  </div>
-                  <hr className="seperator" />
-                  <div className="padding">
-                    <div className="time">
-                      <AccessTimeOutlinedIcon />
-                      <b>{getTodayTiming(storeDetails.working_hours)}</b>
-                    </div>
-                    <div className="location mt-3">
-                      <div className="mt-2">
-                        <RoomOutlinedIcon />
-                      </div>
-                      <Address details={storeDetails} />
-                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
           </Box>
         </>
       )}

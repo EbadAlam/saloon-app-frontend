@@ -25,10 +25,13 @@ var _routes = require("../../routes");
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
+var _reactSlick = _interopRequireDefault(require("react-slick"));
+var _ReviewsSlider = _interopRequireDefault(require("../../components/ReviewsSlider/ReviewsSlider"));
+var _leaflet = _interopRequireDefault(require("leaflet"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function StorePage(_ref) {
-  var _storeDetails$reviews, _storeDetails$service, _storeDetails$service2, _storeDetails$service3, _storeDetails$workers, _storeDetails$reviews2, _storeDetails$reviews3, _storeDetails$reviews4, _storeDetails$workers2, _storeDetails$working, _storeDetails$reviews5;
+  var _storeDetails$reviews, _storeDetails$service, _storeDetails$service2, _storeDetails$service3, _storeDetails$workers, _storeDetails$reviews2, _storeDetails$workers2, _storeDetails$working;
   let {
     initialData
   } = _ref;
@@ -54,7 +57,6 @@ function StorePage(_ref) {
   });
   const [loading, setLoading] = (0, _react.useState)(!storeDetails);
   const [alertMessage, setAlertMessage] = (0, _react.useState)("");
-  const hasUsedInitialData = (0, _react.useRef)(false);
   const [isFav, setIsFav] = (0, _react.useState)(false);
   const theme = (0, _material.useTheme)();
   const {
@@ -67,6 +69,11 @@ function StorePage(_ref) {
       Promise.all([Promise.resolve().then(() => _interopRequireWildcard(require("react-leaflet")))]).then(_ref2 => {
         let [ReactLeaflet] = _ref2;
         setMapComponents(ReactLeaflet);
+      });
+      _leaflet.default.Icon.Default.mergeOptions({
+        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png"
       });
     }
   }, []);
@@ -227,14 +234,10 @@ function StorePage(_ref) {
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactHelmetAsync.Helmet, null, /*#__PURE__*/_react.default.createElement("title", null, storeDetails ? "".concat(storeDetails.title, " - BeautyTrafic") : "BeautyTrafic"), /*#__PURE__*/_react.default.createElement("meta", {
     name: "description",
     content: storeDetails ? storeDetails.about : "Discover top salons on BeautyTrafic"
-  })), loading || !storeDetails ? /*#__PURE__*/_react.default.createElement(_material.Box, {
-    sx: {
-      background: '#fff8f0'
-    }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  })), loading || !storeDetails ? /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "container",
     style: {
-      background: "#FFF8F0",
+      background: "transparent",
       paddingBlock: "20px"
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -284,14 +287,10 @@ function StorePage(_ref) {
   }, /*#__PURE__*/_react.default.createElement(_CustomGallery.default, {
     images: storeDetails.gallery,
     thumbnail: storeDetails.thumbnail
-  })), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    sx: {
-      background: '#fff8f0'
-    }
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "container",
     style: {
-      background: "#FFF8F0",
+      background: "transparent",
       paddingBlock: "20px"
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -338,13 +337,15 @@ function StorePage(_ref) {
     onClick: handleCopy
   }, /*#__PURE__*/_react.default.createElement(_material.Tooltip, {
     title: "Copy Link"
-  }, /*#__PURE__*/_react.default.createElement(_ReplyAllOutlined.default, null))))), !isMobile && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_ReplyAllOutlined.default, null)))))), !isMobile && /*#__PURE__*/_react.default.createElement("div", {
     className: "gallery"
   }, /*#__PURE__*/_react.default.createElement(_CustomGallery.default, {
     images: storeDetails.gallery,
     thumbnail: storeDetails.thumbnail,
     slug: storeDetails.slug
   })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "two_sections"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "left_side"
@@ -396,8 +397,8 @@ function StorePage(_ref) {
     state: {
       storeDetails: storeDetails
     }
-  }, /*#__PURE__*/_react.default.createElement("button", null, "See All"))))), storeDetails.workers && storeDetails.workers && ((_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
-    className: "teams_div"
+  }, /*#__PURE__*/_react.default.createElement("button", null, "See All"))))), storeDetails.workers && ((_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
+    className: "teams_div_new"
   }, /*#__PURE__*/_react.default.createElement("h2", null, "Team"), /*#__PURE__*/_react.default.createElement("div", {
     className: "team_members"
   }, storeDetails.workers.filter(worker => {
@@ -418,51 +419,53 @@ function StorePage(_ref) {
       alt: ""
     }) : /*#__PURE__*/_react.default.createElement("div", {
       className: "dummy_img"
-    }, ((_worker$user$username = worker.user.username) === null || _worker$user$username === void 0 ? void 0 : _worker$user$username.charAt(0)) || "?"), /*#__PURE__*/_react.default.createElement("div", {
+    }, ((_worker$user$username = worker.user.username) === null || _worker$user$username === void 0 ? void 0 : _worker$user$username.charAt(0)) || "?"), /*#__PURE__*/_react.default.createElement("dov", {
+      className: "overlay"
+    }), /*#__PURE__*/_react.default.createElement("div", {
       className: "name_des"
     }, /*#__PURE__*/_react.default.createElement("h3", {
       className: "username"
     }, worker.user.username), /*#__PURE__*/_react.default.createElement("p", {
       className: "designation"
-    }, worker.user.user_info.designation)), averageRating && /*#__PURE__*/_react.default.createElement("div", {
+    }, worker.user.user_info.designation), averageRating && /*#__PURE__*/_react.default.createElement("div", {
       className: "user_rating"
-    }, averageRating, " ", /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null))));
-  }))), (storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.reviews) && (storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews2 = storeDetails.reviews) === null || _storeDetails$reviews2 === void 0 ? void 0 : _storeDetails$reviews2.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
-    className: "reviews-div mt-5"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "Reviews"), /*#__PURE__*/_react.default.createElement("div", {
-    className: "reviews"
-  }, (_storeDetails$reviews3 = storeDetails.reviews) === null || _storeDetails$reviews3 === void 0 ? void 0 : _storeDetails$reviews3.slice(0, 9).filter(review => review.status === "active").map(singleReview => /*#__PURE__*/_react.default.createElement("div", {
-    className: "review",
-    key: singleReview === null || singleReview === void 0 ? void 0 : singleReview.id
+    }, averageRating, " ", /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null)))));
+  })))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "right_side"
   }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "user_info"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "user_img"
-  }, singleReview.reviewer.user_info && singleReview.reviewer.user_info.profile_image ? /*#__PURE__*/_react.default.createElement("img", {
-    src: "".concat(process.env.REACT_APP_IMG_URL).concat(singleReview.reviewer.user_info.profile_image),
-    alt: ""
-  }) : /*#__PURE__*/_react.default.createElement(_DummyImage.default, {
-    username: singleReview.reviewer.username
-  })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "user-name-time"
-  }, /*#__PURE__*/_react.default.createElement("p", {
-    className: "username"
-  }, /*#__PURE__*/_react.default.createElement("b", null, singleReview.reviewer.username)), /*#__PURE__*/_react.default.createElement("p", {
-    className: "time"
-  }, formatDate(singleReview.reviewed_at)))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "padding"
+  }, /*#__PURE__*/_react.default.createElement("h2", null, storeDetails.title), /*#__PURE__*/_react.default.createElement("div", {
     className: "rating"
-  }, /*#__PURE__*/_react.default.createElement(_StarRating.default, {
-    rating: singleReview.rating
-  })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "review-text"
-  }, /*#__PURE__*/_react.default.createElement("p", null, singleReview.review))))), ((_storeDetails$reviews4 = storeDetails.reviews) === null || _storeDetails$reviews4 === void 0 ? void 0 : _storeDetails$reviews4.length) > 9 && /*#__PURE__*/_react.default.createElement("div", {
-    className: "see_all_reviews_btn_div mt-3"
+  }, /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("b", null, averageRatingStore)), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
+    rating: averageRatingStore
+  }), /*#__PURE__*/_react.default.createElement("span", null, "(", storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews2 = storeDetails.reviews) === null || _storeDetails$reviews2 === void 0 ? void 0 : _storeDetails$reviews2.length, ")")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "book_now_btn"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: _routes.ROUTES.getAllReviewPage(storeDetails.slug),
+    to: _routes.ROUTES.getBookingPage(storeDetails.slug),
     state: {
       storeDetails: storeDetails
     }
-  }, "See more..."))), user && token && (user === null || user === void 0 ? void 0 : user.id) != storeDetails.user_id && !((_storeDetails$workers2 = storeDetails.workers) !== null && _storeDetails$workers2 !== void 0 && _storeDetails$workers2.some(worker => {
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    className: "book_now"
+  }, "Book Now")))), /*#__PURE__*/_react.default.createElement("hr", {
+    className: "seperator"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "padding"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "time"
+  }, /*#__PURE__*/_react.default.createElement(_AccessTimeOutlined.default, null), /*#__PURE__*/_react.default.createElement("b", null, getTodayTiming(storeDetails.working_hours))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "location mt-3"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "mt-2"
+  }, /*#__PURE__*/_react.default.createElement(_RoomOutlined.default, null)), /*#__PURE__*/_react.default.createElement(_Address.default, {
+    details: storeDetails
+  })))))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "bottom_side"
+  }, /*#__PURE__*/_react.default.createElement(_ReviewsSlider.default, {
+    reviews: storeDetails.reviews
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, user && token && (user === null || user === void 0 ? void 0 : user.id) != storeDetails.user_id && !((_storeDetails$workers2 = storeDetails.workers) !== null && _storeDetails$workers2 !== void 0 && _storeDetails$workers2.some(worker => {
     var _worker$user4;
     return ((_worker$user4 = worker.user) === null || _worker$user4 === void 0 ? void 0 : _worker$user4.id) == (user === null || user === void 0 ? void 0 : user.id);
   })) && /*#__PURE__*/_react.default.createElement("div", {
@@ -508,35 +511,6 @@ function StorePage(_ref) {
     style: {
       color: "red"
     }
-  }, "Closed") : ""))))))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "right_side"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "padding"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, storeDetails.title), /*#__PURE__*/_react.default.createElement("div", {
-    className: "rating"
-  }, /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("b", null, averageRatingStore)), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
-    rating: averageRatingStore
-  }), /*#__PURE__*/_react.default.createElement("span", null, "(", storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews5 = storeDetails.reviews) === null || _storeDetails$reviews5 === void 0 ? void 0 : _storeDetails$reviews5.length, ")")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "book_now_btn"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: _routes.ROUTES.getBookingPage(storeDetails.slug),
-    state: {
-      storeDetails: storeDetails
-    }
-  }, /*#__PURE__*/_react.default.createElement("button", {
-    className: "book_now"
-  }, "Book Now")))), /*#__PURE__*/_react.default.createElement("hr", {
-    className: "seperator"
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "padding"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "time"
-  }, /*#__PURE__*/_react.default.createElement(_AccessTimeOutlined.default, null), /*#__PURE__*/_react.default.createElement("b", null, getTodayTiming(storeDetails.working_hours))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "location mt-3"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "mt-2"
-  }, /*#__PURE__*/_react.default.createElement(_RoomOutlined.default, null)), /*#__PURE__*/_react.default.createElement(_Address.default, {
-    details: storeDetails
-  })))))))));
+  }, "Closed") : "")))))))))));
 }
 var _default = exports.default = StorePage;

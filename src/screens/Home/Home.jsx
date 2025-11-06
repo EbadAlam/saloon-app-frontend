@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { ROUTES } from "../../routes";
 import axiosClient from "../../axios-client";
 import SkeletonHome from "../../components/Loader/SkeletonHome";
 import Slider from "react-slick";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import StarRating from "../../components/StarRating/StarRating";
 import { getRecentlyViewedStores } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
 import StoreCard from "../../components/StoreCard/StoreCard";
+import ReviewsSlider from "../../components/ReviewsSlider/ReviewsSlider";
 
 const isBrowser = typeof window !== "undefined";
 function Home() {
@@ -63,16 +62,7 @@ function Home() {
     fetchStores();
   }, []);
 
-  const reivewsSliderSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-  };
+  
   const categoriesSliderSettings = {
     dots: false,
     infinite: false,
@@ -93,7 +83,13 @@ function Home() {
     top: Math.random() * 100,
     size: 60 + Math.random() * 60,
   }));
+  const [visibleCount, setVisibleCount] = useState(6);
 
+  const handleShowMore = () => {
+    setVisibleCount((prev) => prev + 12);
+  };
+
+  const visibleCategories = categories.slice(0, visibleCount);
   return (
     <>
       <Helmet>
@@ -135,7 +131,7 @@ function Home() {
               <Box className="container">
                 <Box className="banner_content">
                   <Box className="image">
-                    {/* <img src={`${process.env.REACT_APP_BASE_URL}/test.png`} alt="" /> */}
+                    <img src={`${process.env.REACT_APP_BASE_URL}/banner-1-fg-img.png`} alt="" />
                   </Box>
                   <Box className="text">
                     <Typography variant="h4">discover local gems</Typography>
@@ -158,12 +154,12 @@ function Home() {
             </Box>
             {/* <div className="background-gradient"></div> */}
           </Box>
-          {categories && categories.length > 0 && (
+          {visibleCategories && visibleCategories.length > 0 && (
             <Box className="categories_section">
               <Box className="container">
                 <Typography variant="h2">Search by category</Typography>
                 <Box className="categories">
-                  {categories.map((singleCategory) => (
+                  {visibleCategories.map((singleCategory) => (
                     <Box className="category" key={singleCategory.id}>
                       <Link to={ROUTES.getCategoryPage(singleCategory.slug)}>
                         <Box className="cat_image">
@@ -180,6 +176,18 @@ function Home() {
                       </Link>
                     </Box>
                   ))}
+                  {visibleCount < categories.length && (
+                    <Box textAlign="center" className="show_more_div">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleShowMore}
+                        sx={{ px: 3 }}
+                      >
+                        Show More
+                      </Button>
+                    </Box>
+                  )}
                 </Box>
               </Box>
             </Box>
@@ -367,38 +375,7 @@ function Home() {
               </Box>
             </Box>
           )}
-          {reviews?.length > 0 && (
-            <Box className="reviews_div">
-              <img
-                src={`${process.env.REACT_APP_BASE_URL}/reviews-bg-img.png`}
-                alt=""
-                className="bg_img"
-              />
-              <Box className="container">
-                <Typography variant="h3">happy customer thoughts</Typography>
-                <Box className="reviews">
-                  <Slider {...reivewsSliderSettings}>
-                    {reviews.map((singleReview) => (
-                      <Box className="review" key={singleReview.id}>
-                        <Typography variant="body1">
-                          {singleReview.review}
-                        </Typography>
-                        <Box className="rating">
-                          <StarRating
-                            rating={singleReview.rating}
-                            size="large"
-                          />
-                        </Box>
-                        <Typography variant="h2">
-                          ~{singleReview.reviewer.username}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </Slider>
-                </Box>
-              </Box>
-            </Box>
-          )}
+          <ReviewsSlider reviews={reviews} />
           <Box className="top_rated">
             <Typography variant="h2">
               The top-rated destination for beauty and wellness
@@ -472,39 +449,3 @@ function Home() {
 }
 
 export default Home;
-
-const PrevArrow = ({ className, style, onClick }) => (
-  <IconButton
-    className="arrow-prev-custom"
-    onClick={onClick}
-    sx={{
-      color: "black",
-      "&:hover": { color: "black", background: "transparent !important" },
-      svg: { fontSize: "50px" },
-      position: "absolute",
-      left: "-35%",
-      top: 0,
-      zIndex: 1,
-    }}
-  >
-    <ArrowBackIosIcon />
-  </IconButton>
-);
-
-const NextArrow = ({ className, style, onClick }) => (
-  <IconButton
-    onClick={onClick}
-    className="arrow-next-custom"
-    sx={{
-      color: "black",
-      "&:hover": { color: "black", background: "transparent !important" },
-      svg: { fontSize: "50px" },
-      position: "absolute",
-      right: "-35%",
-      top: 0,
-      zIndex: 1,
-    }}
-  >
-    <ArrowForwardIosIcon />
-  </IconButton>
-);

@@ -48,17 +48,17 @@ function StoreCard(_ref) {
   }, storeDetails.type), /*#__PURE__*/_react.default.createElement(_material.Box, {
     display: "flex",
     sx: {
-      marginTop: '5px'
+      marginTop: "5px"
     }
   }, /*#__PURE__*/_react.default.createElement(_LocationPin.default, null), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
-      display: '-webkit-box',
+      display: "-webkit-box",
       WebkitLineClamp: 1,
-      WebkitBoxOrient: 'vertical',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      marginTop: '2px !important'
+      WebkitBoxOrient: "vertical",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      marginTop: "2px !important"
     }
   }, storeDetails.address))));
 }

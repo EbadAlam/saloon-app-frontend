@@ -565,4 +565,9 @@
             max-width: 100%;
         }
     }
+    .gallerySlider {
+        .slick-track {
+            gap: 0px;
+        }
+    }
 }

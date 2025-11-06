@@ -11,13 +11,12 @@ var _routes = require("../../routes");
 var _axiosClient = _interopRequireDefault(require("../../axios-client"));
 var _SkeletonHome = _interopRequireDefault(require("../../components/Loader/SkeletonHome"));
 var _reactSlick = _interopRequireDefault(require("react-slick"));
-var _ArrowForwardIos = _interopRequireDefault(require("@mui/icons-material/ArrowForwardIos"));
-var _ArrowBackIos = _interopRequireDefault(require("@mui/icons-material/ArrowBackIos"));
 var _StarRating = _interopRequireDefault(require("../../components/StarRating/StarRating"));
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
 var _StoreCard = _interopRequireDefault(require("../../components/StoreCard/StoreCard"));
+var _ReviewsSlider = _interopRequireDefault(require("../../components/ReviewsSlider/ReviewsSlider"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 const isBrowser = typeof window !== "undefined";
@@ -71,16 +70,6 @@ function Home() {
     };
     fetchStores();
   }, []);
-  const reivewsSliderSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    nextArrow: /*#__PURE__*/_react.default.createElement(NextArrow, null),
-    prevArrow: /*#__PURE__*/_react.default.createElement(PrevArrow, null)
-  };
   const categoriesSliderSettings = {
     dots: false,
     infinite: false,
@@ -102,6 +91,11 @@ function Home() {
     top: Math.random() * 100,
     size: 60 + Math.random() * 60
   }));
+  const [visibleCount, setVisibleCount] = (0, _react.useState)(6);
+  const handleShowMore = () => {
+    setVisibleCount(prev => prev + 12);
+  };
+  const visibleCategories = categories.slice(0, visibleCount);
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactHelmetAsync.Helmet, null, /*#__PURE__*/_react.default.createElement("title", null, "Beauty Traffic"), /*#__PURE__*/_react.default.createElement("meta", {
     name: "description",
     content: "A place where you can find al nearby saloons and book an appointment just by sitting at home"
@@ -139,7 +133,10 @@ function Home() {
     className: "banner_content"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "image"
-  }), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: "".concat(process.env.REACT_APP_BASE_URL, "/banner-1-fg-img.png"),
+    alt: ""
+  })), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "text"
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h4"
@@ -153,7 +150,7 @@ function Home() {
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Button, {
     variant: "contained"
-  }, "Explore Now"))))))), categories && categories.length > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, "Explore Now"))))))), visibleCategories && visibleCategories.length > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "categories_section"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "container"
@@ -161,7 +158,7 @@ function Home() {
     variant: "h2"
   }, "Search by category"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "categories"
-  }, categories.map(singleCategory => /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, visibleCategories.map(singleCategory => /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "category",
     key: singleCategory.id
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
@@ -175,7 +172,17 @@ function Home() {
     className: "cat_name"
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h3"
-  }, singleCategory.title)))))))), categories && categories.length > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, singleCategory.title))))), visibleCount < categories.length && /*#__PURE__*/_react.default.createElement(_material.Box, {
+    textAlign: "center",
+    className: "show_more_div"
+  }, /*#__PURE__*/_react.default.createElement(_material.Button, {
+    variant: "contained",
+    color: "primary",
+    onClick: handleShowMore,
+    sx: {
+      px: 3
+    }
+  }, "Show More"))))), categories && categories.length > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "categories_section mobile"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "container"
@@ -273,31 +280,9 @@ function Home() {
     className: "stores"
   }, stores.trending.map(singleStore => /*#__PURE__*/_react.default.createElement(_StoreCard.default, {
     storeDetails: singleStore
-  }))))), (reviews === null || reviews === void 0 ? void 0 : reviews.length) > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "reviews_div"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    src: "".concat(process.env.REACT_APP_BASE_URL, "/reviews-bg-img.png"),
-    alt: "",
-    className: "bg_img"
+  }))))), /*#__PURE__*/_react.default.createElement(_ReviewsSlider.default, {
+    reviews: reviews
   }), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "container"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h3"
-  }, "happy customer thoughts"), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "reviews"
-  }, /*#__PURE__*/_react.default.createElement(_reactSlick.default, reivewsSliderSettings, reviews.map(singleReview => /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "review",
-    key: singleReview.id
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "body1"
-  }, singleReview.review), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "rating"
-  }, /*#__PURE__*/_react.default.createElement(_StarRating.default, {
-    rating: singleReview.rating,
-    size: "large"
-  })), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h2"
-  }, "~", singleReview.reviewer.username))))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "top_rated"
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h2"
@@ -365,53 +350,3 @@ function Home() {
   }))))));
 }
 var _default = exports.default = Home;
-const PrevArrow = _ref => {
-  let {
-    className,
-    style,
-    onClick
-  } = _ref;
-  return /*#__PURE__*/_react.default.createElement(_material.IconButton, {
-    className: "arrow-prev-custom",
-    onClick: onClick,
-    sx: {
-      color: "black",
-      "&:hover": {
-        color: "black",
-        background: "transparent !important"
-      },
-      svg: {
-        fontSize: "50px"
-      },
-      position: "absolute",
-      left: "-35%",
-      top: 0,
-      zIndex: 1
-    }
-  }, /*#__PURE__*/_react.default.createElement(_ArrowBackIos.default, null));
-};
-const NextArrow = _ref2 => {
-  let {
-    className,
-    style,
-    onClick
-  } = _ref2;
-  return /*#__PURE__*/_react.default.createElement(_material.IconButton, {
-    onClick: onClick,
-    className: "arrow-next-custom",
-    sx: {
-      color: "black",
-      "&:hover": {
-        color: "black",
-        background: "transparent !important"
-      },
-      svg: {
-        fontSize: "50px"
-      },
-      position: "absolute",
-      right: "-35%",
-      top: 0,
-      zIndex: 1
-    }
-  }, /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, null));
-};

@@ -27,7 +27,6 @@ var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
 var _reactSlick = _interopRequireDefault(require("react-slick"));
 var _ReviewsSlider = _interopRequireDefault(require("../../components/ReviewsSlider/ReviewsSlider"));
-var _leaflet = _interopRequireDefault(require("leaflet"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function StorePage(_ref) {
@@ -66,14 +65,14 @@ function StorePage(_ref) {
   const isMobile = (0, _material.useMediaQuery)(theme.breakpoints.down("sm"));
   (0, _react.useEffect)(() => {
     if (typeof window !== "undefined") {
-      Promise.all([Promise.resolve().then(() => _interopRequireWildcard(require("react-leaflet")))]).then(_ref2 => {
-        let [ReactLeaflet] = _ref2;
+      Promise.all([Promise.resolve().then(() => _interopRequireWildcard(require("leaflet"))), Promise.resolve().then(() => _interopRequireWildcard(require("react-leaflet"))), Promise.resolve().then(() => _interopRequireWildcard(require("leaflet/dist/leaflet.css")))]).then(_ref2 => {
+        let [L, ReactLeaflet] = _ref2;
+        L.Icon.Default.mergeOptions({
+          iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+          iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+          shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png"
+        });
         setMapComponents(ReactLeaflet);
-      });
-      _leaflet.default.Icon.Default.mergeOptions({
-        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png"
       });
     }
   }, []);

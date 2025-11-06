@@ -29,7 +29,6 @@ import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
 import Slider from "react-slick";
 import ReviewsSlider from "../../components/ReviewsSlider/ReviewsSlider";
-import L from "leaflet";
 
 function StorePage({ initialData }) {
   const { formatDate, user, token, updateFavorites } = useAuth();
@@ -54,16 +53,21 @@ function StorePage({ initialData }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   useEffect(() => {
     if (typeof window !== "undefined") {
-      Promise.all([import("react-leaflet")]).then(([ReactLeaflet]) => {
+      Promise.all([
+        import("leaflet"),
+        import("react-leaflet"),
+        import("leaflet/dist/leaflet.css"),
+      ]).then(([L, ReactLeaflet]) => {
+        L.Icon.Default.mergeOptions({
+          iconRetinaUrl:
+            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+          iconUrl:
+            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+          shadowUrl:
+            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        });
+
         setMapComponents(ReactLeaflet);
-      });
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl:
-          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-        iconUrl:
-          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-        shadowUrl:
-          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
       });
     }
   }, []);

@@ -238,7 +238,7 @@ function Home() {
                 <hr />
                 <Box className="stores">
                   {stores.new.map((singleStore) => (
-                    <StoreCard storeDetails={singleStore} />
+                    <StoreCard key={singleStore.id} storeDetails={singleStore} />
                   ))}
                 </Box>
               </Box>

@@ -1,7 +1,9 @@
 $newBgColor: #5d6de7;
+
 #root {
   background-color: white;
 }
+
 .container {
   max-width: 1700px !important;
   padding-inline: 20px;
@@ -70,15 +72,91 @@ h6 {
   font-family: 'Barlow' !important;
   color: #333333;
 }
-
+@keyframes hairMove {
+      0% {
+        transform: rotate(0deg) translateY(0);
+      }
+      50% {
+        transform: rotate(1.5deg) translateY(-1px);
+      }
+      100% {
+        transform: rotate(0deg) translateY(0);
+      }
+    }
 .header {
   background-color: white;
-  padding-block: 30px;
+  padding-block: 10px;
   border-bottom: 1px solid #DADADA;
-
-  .menu-btn.desktop,
   .logo {
-    width: 25%;
+    svg {
+      width:130px;
+      height: auto;
+      .hair {
+        fill:#fcc7d3;
+        transform-origin: center top;
+        animation: hairMove 2s ease-in-out infinite alternate;
+      }
+    }
+    svg .hair:nth-child(1) { animation-delay: 0s; }
+    svg .hair:nth-child(2) { animation-delay: 0.2s; }
+    svg .hair:nth-child(3) { animation-delay: 0.4s; }
+    svg .hair:nth-child(4) { animation-delay: 0.6s; }
+    svg .hair:nth-child(5) { animation-delay: 0.8s; }
+    svg .hair:nth-child(6) { animation-delay: 1s; }
+    svg .hair:nth-child(7) { animation-delay: 1.2s; }
+    svg .hair:nth-child(8) { animation-delay: 1.4s; }
+    svg .hair:nth-child(9) { animation-delay: 1.6s; }
+    svg .hair:nth-child(10) { animation-delay: 1.8s; }
+  }
+  .menu-btn.desktop,
+  .menu {
+    width: 35%;
+  }
+  .menu{
+    ul{
+      display:flex;
+      justify-content: start;
+      align-items: center;
+      width: 100%;
+      margin: 0;
+      list-style: none;
+      font-size: 20px;
+      gap:25px;
+      padding:0px;
+      li {
+        a{
+          text-decoration: none;
+          position: relative;
+          transition: all .3s ease;
+          color:black;
+          &:after{
+            content:"";
+            position: absolute;
+            right: 0;
+            left:0;
+            bottom:-5px;
+            width: 0;
+            background-color: #cdb4fd;
+            height: 2px;
+            transition: all .3s ease;
+          }
+          &.active{
+            color:#cdb4fd;
+            &:after{
+              width: 100%;
+            }
+          }
+        }
+        &:hover {
+          a {
+            color:#cdb4fd;
+            &:after{
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -157,7 +235,7 @@ h6 {
 }
 
 .gallery {
-  margin-top: 25px;
+  // margin-top: 25px;
   position: relative;
 }
 
@@ -337,14 +415,14 @@ h6 {
 .single_member .user_rating {
   position: absolute;
   right: 15px;
-  background: #FFF8F0;
+  background: #ebe0ff;
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2px 5px;
   bottom: -10px;
-  border: 1px solid #DADADA;
+  border: 1px solid #ebe0ff;
 }
 
 .about p {
@@ -361,24 +439,30 @@ h6 {
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
+  p {
+    margin: 0px;
+  }
+  a {
+    color: #ccb2fd;
+    font-size: 18px;
+  }
 }
 
-.get-dir-btn p {
-  margin: 0px;
-}
 
-.get-dir-btn a {
-  color: #D8A7B1;
-  font-size: 18px;
-}
-
-.opening-hours ul {
-  list-style: none;
-  padding-left: 0px;
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.opening-hours {
+  svg {
+    circle {
+      fill: #ccb2fd;
+    }
+  }
+  ul {
+    list-style: none;
+    padding-left: 0px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 .opening-hours li,
@@ -515,6 +599,7 @@ h6 {
   border: 1px solid #e5dfd8;
   border-radius: 10px;
   padding: 20px;
+  box-shadow: 1px 1px 15px #00000026;
 }
 
 .loginSignupButton {
@@ -767,6 +852,10 @@ h6 {
 }
 
 .singleSlide {
+  .slideInfo {
+    box-shadow: 1px 1px 10px #00000030;
+  }
+
   .lsideImg img {
     transition: all .3s ease;
 
@@ -2452,8 +2541,11 @@ input::-webkit-inner-spin-button {
       border-radius: 3px;
       overflow: hidden;
       background: white;
+      transition: all .3s ease;
 
       &:hover {
+        scale: 1.05;
+
         .hover_content {
           bottom: 20px !important;
         }
@@ -2464,7 +2556,7 @@ input::-webkit-inner-spin-button {
 
         .store_image {
           img {
-            scale: 1.1;
+            scale: 1;
           }
         }
       }
@@ -2479,6 +2571,7 @@ input::-webkit-inner-spin-button {
 
         img {
           transition: all .3s ease;
+          scale: 1.05;
         }
 
         .hover_content {
@@ -2682,6 +2775,10 @@ input::-webkit-inner-spin-button {
     // gap: 25px;
   }
 
+  .slick-active.slick-current {
+    border-right: 3px solid white;
+  }
+
   .gallerySlide {
     width: 49%;
     height: 500px;
@@ -2694,49 +2791,58 @@ input::-webkit-inner-spin-button {
     }
   }
 }
-.teams_div_new{
+
+.teams_div_new {
   margin-top: 50px;
-  .team_members{
+
+  .team_members {
     .single_member {
       position: relative;
+
       &:hover {
         .profile_img {
-          .name_des{
+          .name_des {
             bottom: 40%;
             left: 50%;
             transform: translate(-50%, 50%);
           }
-        .overlay {
-          background-color: #00000038;
-        }
+
+          .overlay {
+            background-color: #00000038;
+          }
         }
       }
+
       .profile_img {
         border-radius: 0px;
-        width:200px;
+        width: 200px;
         height: 200px;
         border-radius: 100px;
         overflow: hidden;
-        display:flex;
+        display: flex;
         justify-content: space-between;
         align-items: center;
         position: relative;
+
         .overlay {
           position: absolute;
           inset: 0;
           background-color: transparent;
           transition: all .5s ease;
         }
-        img{
+
+        img {
           border-radius: 0px;
         }
-        .name_des{
+
+        .name_des {
           position: absolute;
-          bottom:-100px;
+          bottom: -100px;
           transition: all .5s ease;
         }
       }
-      .user_rating{
+
+      .user_rating {
         position: initial;
       }
     }

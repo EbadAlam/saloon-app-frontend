@@ -1,49 +1,140 @@
 // src/components/Layout/Header.jsx
-import React from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import MenuButton from '../Menu/Menu';
-import { ROUTES } from '../../routes';
-import { Box, Button } from '@mui/material';
-import { useAuth } from '../../contexts/AuthContext';
-import SearchBar from '../SearchBar/SearchBar';
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import MenuButton from "../Menu/Menu";
+import { ROUTES } from "../../routes";
+import { Box, Button } from "@mui/material";
+import { useAuth } from "../../contexts/AuthContext";
+import SearchBar from "../SearchBar/SearchBar";
 
 function Header() {
   const { user, token } = useAuth();
   const location = useLocation();
   const isHomePage = location.pathname === ROUTES.home;
   return (
-    <header className='header'>
-        <div className="container">
-            <div className="logo">
-              <NavLink to={ROUTES.home}>
-                <img src={`${process.env.REACT_APP_BASE_URL}/logo.png`} alt="" />
+    <header className="header">
+      <div className="container">
+        <div className="menu">
+          <ul>
+            <li>
+              <NavLink
+                className={({ isActive }) => (isActive ? "active" : "")}
+                to={ROUTES.home}
+              >
+                Home
               </NavLink>
-            </div>
-            {!isHomePage && (
-              <Box className="search_bar_header">
-                <SearchBar />
-              </Box>
-            )}
-            <div className="menu-btn desktop">
-              <Box className="nav" display='flex' alignItems='center' justifyContent='end' gap="25px">
-                {!user && !token && (
-                  <>
-                    <Box className="login_btn">
-                      <Link to={`${ROUTES.loginSignup}?redirectTo=${encodeURIComponent(location.pathname)}`}>
-                        <Button sx={{color:'black', fontWeight:'600', textTransform:'capitalize', fontSize:'16px'}}>Login</Button>
-                      </Link>
-                    </Box>
-                    <Box className="list_business_btn">
-                      <Link to={ROUTES.forBusiness}>
-                        <Button sx={{color:'black', fontWeight:'600', textTransform:'capitalize', fontSize:'16px',border:'1px solid #333333', borderRadius:'25px', padding:'5px 15px'}}>List Your Business</Button>
-                      </Link>
-                    </Box>
-                  </>
-                )}
-                <MenuButton />
-               </Box>
-            </div>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  location.pathname.startsWith("/stores/") ? "active" : ""
+                }
+                to={ROUTES.getCategoryPage("all")}
+              >
+                Stores
+              </NavLink>
+            </li>
+            {/* <li><NavLink className={({ isActive }) => (isActive ? 'active' : '')} to={ROUTES.home}>About</NavLink></li> */}
+            <li>
+              <NavLink
+                className={({ isActive }) => (isActive ? "active" : "")}
+                to={ROUTES.contact}
+              >
+                Contact
+              </NavLink>
+            </li>
+          </ul>
         </div>
+        <div className="logo">
+          <NavLink to={ROUTES.home}>
+            {/* <img src={`${process.env.REACT_APP_BASE_URL}/logo-big.png`} alt="" /> */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.0"
+              width="116.000000pt"
+              height="97.000000pt"
+              viewBox="0 0 116.000000 97.000000"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <g
+                transform="translate(0.000000,97.000000) scale(0.100000,-0.100000)"
+                fill="#000000"
+                stroke="none"
+              >
+                <path className='hair' d="M500 943 c14 -3 29 -9 34 -13 13 -13 -44 -63 -122 -105 -126 -69 -192 -144 -192 -218 0 -39 64 -157 84 -157 4 0 2 10 -5 21 -6 12 -9 44 -7 71 8 81 57 137 221 253 64 45 82 73 73 109 -8 33 -25 34 -18 1 6 -34 -7 -47 -123 -125 -142 -96 -179 -134 -195 -203 -8 -31 -8 -31 -9 11 -2 88 35 131 190 222 103 60 134 92 118 121 -7 13 -20 19 -42 18 -27 -2 -28 -2 -7 -6z m-226 -387 c-3 -15 -8 -25 -11 -23 -2 3 -1 17 3 31 3 15 8 25 11 23 2 -3 1 -17 -3 -31z" />
+                <path className='hair' d="M393 905 c-57 -29 -133 -105 -133 -132 0 -13 5 -11 19 10 24 37 79 82 144 118 64 35 40 38 -30 4z" />
+                <path d="M550 800 c0 -5 3 -10 8 -10 4 0 14 -13 23 -29 l17 -29 -43 -11 c-40 -10 -82 -38 -72 -48 3 -2 20 5 38 16 56 32 79 35 79 13 0 -14 -13 -23 -52 -35 -32 -10 -40 -15 -20 -12 17 2 32 0 32 -5 0 -6 -15 -10 -34 -10 -19 0 -38 -4 -41 -10 -4 -6 13 -10 44 -10 28 0 51 5 51 10 0 6 6 10 14 10 11 0 11 -10 4 -50 -13 -72 -41 -132 -83 -179 -41 -45 -41 -55 -1 -18 38 35 93 131 107 187 7 28 19 51 28 53 13 4 13 5 -1 6 -28 2 -21 19 13 36 17 9 29 19 26 22 -3 2 -17 -3 -31 -12 -26 -17 -26 -17 -26 8 0 19 6 27 23 30 20 4 19 4 -4 6 -19 1 -29 8 -33 25 -3 14 -13 32 -22 40 -17 18 -44 21 -44 6z m55 -140 c-3 -5 -13 -10 -21 -10 -8 0 -12 5 -9 10 3 6 13 10 21 10 8 0 12 -4 9 -10z" />
+                <path className='hair' d="M474 735 c-55 -27 -118 -84 -140 -127 -25 -47 -20 -154 10 -229 15 -35 37 -77 51 -94 l25 -30 -25 57 c-54 119 -54 232 -1 323 30 50 48 66 110 99 62 33 36 34 -30 1z" />
+                <path d="M433 623 c0 -23 5 -39 9 -37 11 7 10 46 -2 64 -6 10 -9 3 -7 -27z" />
+                <path d="M576 586 c-9 -38 -83 -125 -112 -132 -21 -5 -33 1 -66 32 -22 22 -36 30 -30 19 12 -24 51 -60 73 -68 25 -8 73 26 107 76 28 40 51 97 39 97 -3 0 -8 -11 -11 -24z" />
+                <path className='hair' d="M645 588 c-2 -7 -9 -31 -15 -53 -18 -60 -69 -130 -117 -161 -48 -30 -52 -44 -6 -20 62 32 134 133 148 209 7 34 -1 53 -10 25z" />
+                <path d="M443 563 c9 -2 23 -2 30 0 6 3 -1 5 -18 5 -16 0 -22 -2 -12 -5z" />
+                <path d="M410 521 c0 -5 20 -9 45 -9 25 1 45 5 45 10 0 4 -20 8 -45 8 -25 0 -45 -4 -45 -9z" />
+                <path d="M438 493 c6 -2 18 -2 25 0 6 3 1 5 -13 5 -14 0 -19 -2 -12 -5z" />
+                <path d="M29 328 c0 -2 -2 -49 -3 -105 -2 -100 -1 -103 20 -103 21 0 74 51 74 71 0 5 -9 18 -20 29 -12 12 -15 22 -9 26 17 10 27 48 17 67 -6 11 -21 17 -43 17 -19 0 -35 -1 -36 -2z m68 -24 c6 -16 -24 -65 -45 -72 -8 -2 -12 11 -12 42 0 43 2 46 25 46 14 0 28 -7 32 -16z m0 -100 c7 -20 -5 -42 -35 -62 -22 -14 -22 -14 -22 32 0 43 2 46 25 46 15 0 28 -7 32 -16z" />
+                <path d="M148 238 c3 -80 6 -96 24 -111 18 -15 24 -16 42 -4 18 13 22 27 26 111 3 53 2 96 -2 96 -5 0 -8 -37 -8 -83 0 -95 -15 -130 -47 -111 -15 9 -19 27 -21 103 -1 50 -6 91 -10 91 -4 0 -6 -42 -4 -92z" />
+                <path d="M1088 315 c-2 -3 -151 -5 -331 -6 -313 -1 -327 -2 -327 -20 0 -14 7 -19 25 -19 24 0 25 -2 25 -75 0 -73 1 -75 25 -75 24 0 25 2 25 75 0 73 1 75 25 75 14 0 25 5 25 11 0 8 18 10 58 6 31 -4 99 -6 150 -7 72 0 92 -3 92 -14 0 -8 -6 -17 -12 -20 -10 -5 -10 -7 -1 -12 9 -4 11 -21 7 -60 -6 -50 -5 -54 15 -54 19 0 21 5 21 55 0 48 2 55 20 55 11 0 20 5 20 10 0 6 -9 10 -20 10 -11 0 -20 5 -20 10 0 6 45 10 115 10 106 0 115 1 115 19 0 22 -37 41 -52 26z" />
+                <path d="M600 195 c0 -73 1 -75 25 -75 23 0 25 3 25 50 0 43 3 50 20 50 15 0 20 7 20 25 0 25 -14 33 -25 15 -3 -5 -11 -10 -16 -10 -6 0 -7 5 -4 10 4 6 -5 10 -19 10 -26 0 -26 -1 -26 -75z" />
+                <path d="M743 253 c-13 -2 -23 -11 -23 -18 0 -10 7 -12 29 -5 30 8 57 -1 47 -18 -3 -5 -22 -13 -41 -16 -75 -14 -63 -84 13 -77 20 2 13 21 -8 21 -31 0 -24 27 11 39 l31 11 -4 -35 c-3 -28 0 -35 13 -35 12 0 18 13 23 57 4 31 3 60 -2 65 -10 10 -62 17 -89 11z" />
+                <path d="M279 233 c-4 -39 4 -99 13 -110 10 -12 38 -7 38 8 0 4 -6 6 -14 3 -10 -4 -15 5 -18 30 -3 30 -1 36 14 36 10 0 18 5 18 10 0 6 -7 10 -15 10 -8 0 -15 7 -15 15 0 21 -20 19 -21 -2z" />
+                <path d="M961 185 c-2 -60 0 -65 18 -65 19 0 21 6 21 65 0 56 -2 65 -18 65 -16 0 -19 -9 -21 -65z" />
+                <path d="M1046 234 c-19 -18 -21 -85 -4 -102 18 -18 85 -15 92 3 4 12 0 14 -18 9 -24 -6 -56 17 -56 40 0 27 27 49 53 44 19 -4 27 -1 27 8 0 20 -74 18 -94 -2z" />
+                <path d="M345 203 c21 -50 28 -104 16 -129 -9 -20 -9 -25 1 -22 9 3 53 130 58 166 0 1 -4 2 -9 2 -4 0 -13 -19 -18 -42 l-9 -43 -13 43 c-6 23 -17 42 -22 42 -7 0 -8 -7 -4 -17z" />
+              </g>
+            </svg>
+          </NavLink>
+        </div>
+        <div className="menu-btn desktop">
+          <Box
+            className="nav"
+            display="flex"
+            alignItems="center"
+            justifyContent="end"
+            gap="25px"
+          >
+            {!user && !token && (
+              <>
+                <Box className="login_btn">
+                  <NavLink
+                    to={`${ROUTES.loginSignup}?redirectTo=${encodeURIComponent(
+                      location.pathname
+                    )}`}
+                  >
+                    <Button
+                      sx={{
+                        color: "black",
+                        fontWeight: "600",
+                        textTransform: "capitalize",
+                        fontSize: "16px",
+                      }}
+                    >
+                      Login
+                    </Button>
+                  </NavLink>
+                </Box>
+                <Box className="list_business_btn">
+                  <NavLink to={ROUTES.forBusiness}>
+                    <Button
+                      sx={{
+                        color: "black",
+                        fontWeight: "600",
+                        textTransform: "capitalize",
+                        fontSize: "16px",
+                        border: "1px solid #333333",
+                        borderRadius: "25px",
+                        padding: "5px 15px",
+                      }}
+                    >
+                      List Your Business
+                    </Button>
+                  </NavLink>
+                </Box>
+              </>
+            )}
+            <MenuButton />
+          </Box>
+        </div>
+      </div>
     </header>
   );
 }

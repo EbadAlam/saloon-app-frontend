@@ -383,7 +383,6 @@ function BookingPage() {
   }
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
-      background: "#FFF8F0",
       paddingBlock: "20px",
       minHeight: '100vh'
     }

@@ -76,6 +76,7 @@ function App({initialData}) {
             <Route path={ROUTES.getTheApp} element={<GetTheApp />} />
             <Route path={ROUTES.pricing} element={<Pricing />} />
             <Route path={ROUTES.helpCenter} element={<HelpCenter />} />
+            <Route path={ROUTES.contact} element={<HelpCenter />} />
             <Route path={ROUTES.blogs} element={<Blogs />} />
             <Route path={ROUTES.blogPage} element={<BlogDetails />} />
             <Route path={ROUTES.categoryPage} element={<CategoryPage />} />

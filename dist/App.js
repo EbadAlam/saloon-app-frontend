@@ -94,6 +94,9 @@ function App(_ref) {
     path: _routes.ROUTES.helpCenter,
     element: /*#__PURE__*/_react.default.createElement(_HelpCenter.default, null)
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: _routes.ROUTES.contact,
+    element: /*#__PURE__*/_react.default.createElement(_HelpCenter.default, null)
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.blogs,
     element: /*#__PURE__*/_react.default.createElement(_Blogs.default, null)
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {

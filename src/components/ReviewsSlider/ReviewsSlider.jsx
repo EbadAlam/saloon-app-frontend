@@ -39,6 +39,7 @@ function ReviewsSlider({reviews}) {
                         <Box className="rating">
                             <StarRating
                             rating={singleReview.rating}
+                            color="#ebe0ff"
                             size="large"
                             />
                         </Box>

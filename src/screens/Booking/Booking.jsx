@@ -403,7 +403,7 @@ const handleLoginSubmit = async (e) => {
   }
   return (
     <>
-      <Box sx={{ background: "#FFF8F0", paddingBlock: "20px",minHeight:'100vh' }}>
+      <Box sx={{ paddingBlock: "20px",minHeight:'100vh' }}>
         <Box sx={{ maxWidth: "1300px", margin: "0 auto" }}>
           <Box>
               <LoginModal 

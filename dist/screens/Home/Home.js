@@ -220,6 +220,7 @@ function Home() {
   }, "New to Site"), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "stores"
   }, stores.new.map(singleStore => /*#__PURE__*/_react.default.createElement(_StoreCard.default, {
+    key: singleStore.id,
     storeDetails: singleStore
   }))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "second_banner new_banner"

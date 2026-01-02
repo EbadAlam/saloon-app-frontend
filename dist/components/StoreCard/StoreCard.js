@@ -32,10 +32,6 @@ function StoreCard(_ref) {
   }) : /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_BASE_URL, "/store-dummy-img.png"),
     alt: ""
-  }), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "hover_content"
-  }, /*#__PURE__*/_react.default.createElement(_material.Button, null, "Explore now")), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "overlay"
   })), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "store_content"
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {

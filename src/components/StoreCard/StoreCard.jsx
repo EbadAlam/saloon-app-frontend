@@ -31,10 +31,10 @@ function StoreCard({ storeDetails }) {
             alt=""
           />
         )}
-        <Box className="hover_content">
+        {/* <Box className="hover_content">
           <Button>Explore now</Button>
         </Box>
-        <Box className="overlay"></Box>
+        <Box className="overlay"></Box> */}
       </Box>
       <Box className="store_content">
         <Typography variant="h3">{storeDetails.title}</Typography>

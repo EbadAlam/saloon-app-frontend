@@ -2544,7 +2544,7 @@ input::-webkit-inner-spin-button {
       transition: all .3s ease;
 
       &:hover {
-        scale: 1.05;
+        // scale: 1.05;
 
         .hover_content {
           bottom: 20px !important;
@@ -2556,7 +2556,7 @@ input::-webkit-inner-spin-button {
 
         .store_image {
           img {
-            scale: 1;
+            scale: 1.1;
           }
         }
       }
@@ -2566,12 +2566,13 @@ input::-webkit-inner-spin-button {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 450px;
+        height: 200px;
         position: relative;
 
         img {
           transition: all .3s ease;
-          scale: 1.05;
+          // scale: 1.05;
+          width:100%;
         }
 
         .hover_content {

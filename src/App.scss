@@ -2515,7 +2515,7 @@ input::-webkit-inner-spin-button {
   position: relative;
 
   &.new_stores {
-    background: linear-gradient(90deg, #ffc0cb47, #ebe0ff);
+    // background: linear-gradient(90deg, #ffc0cb47, #ebe0ff);
 
     &::after {
       content: "";
@@ -2533,15 +2533,16 @@ input::-webkit-inner-spin-button {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 44px;
+    gap: 25px;
 
     .store {
       width: 23%;
-      box-shadow: 1px 1px 10px #00000066;
+      // box-shadow: 1px 1px 10px #00000066;
       border-radius: 3px;
       overflow: hidden;
-      background: white;
+      // background: white;
       transition: all .3s ease;
+      // border-radius: 15px 15px 0px 0px;
 
       &:hover {
         // scale: 1.05;
@@ -2568,7 +2569,7 @@ input::-webkit-inner-spin-button {
         align-items: center;
         height: 200px;
         position: relative;
-
+        border-radius: 15px;
         img {
           transition: all .3s ease;
           // scale: 1.05;
@@ -2598,12 +2599,12 @@ input::-webkit-inner-spin-button {
       }
 
       .store_content {
-        padding: 20px 10px 10px 10px;
+        padding: 20px 0px 10px 0px;
 
         h3 {
           font-size: 20px;
           text-transform: uppercase;
-          letter-spacing: 6px;
+          letter-spacing: 2px;
         }
 
         h4 {
@@ -2702,7 +2703,7 @@ input::-webkit-inner-spin-button {
 
 .category_page {
   background: linear-gradient(90deg, #ffc0cb47, #ebe0ff);
-
+  position: relative;
   .pagination_box {
     padding-block: 30px;
 

@@ -2387,7 +2387,7 @@ input::-webkit-inner-spin-button {
 }
 
 .categories_section {
-  padding-block: 80px;
+  // padding-block: 80px;
 
   &.mobile {
     display: none;
@@ -2849,4 +2849,41 @@ input::-webkit-inner-spin-button {
       }
     }
   }
+}
+
+
+
+
+
+
+
+
+
+.main_banner {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 🔥 Grid container */
+.animated-bg-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  grid-auto-rows: 60px;
+  z-index: 0;
+}
+
+/* Single box */
+.bg-box {
+  background: transparent;
+  transition: background 0.6s ease, opacity 0.6s ease;
+  // opacity: 0;
+  border: 1px solid rgba(224, 223, 223, 0.363);
+}
+
+/* Active animation */
+.bg-box.active {
+  background: rgba(245, 177, 189, 0.253); /* pink tone */
+  opacity: 1;
 }

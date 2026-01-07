@@ -11,6 +11,8 @@ import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
 import StoreCard from "../../components/StoreCard/StoreCard";
 import ReviewsSlider from "../../components/ReviewsSlider/ReviewsSlider";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import AnimatedBgGrid from "../../components/AnimatedBgGrid/AnimatedBgGrid";
 
 const isBrowser = typeof window !== "undefined";
 function Home() {
@@ -62,7 +64,6 @@ function Home() {
     fetchStores();
   }, []);
 
-  
   const categoriesSliderSettings = {
     dots: false,
     infinite: false,
@@ -103,7 +104,73 @@ function Home() {
         <SkeletonHome />
       ) : (
         <>
-          <Box className="main_banner new_banner">
+          <Box className="main_banner">
+              {/* 🔥 Animated Background */}
+              <AnimatedBgGrid />
+
+              {/* Existing Gradient */}
+              <div className="background-gradient"></div>
+
+              {/* Content */}
+              <Box className="content" sx={{ zIndex: 2, position: "relative" }}>
+                ...
+              </Box>
+            <Box className="content" sx={{ zIndex: "1", position: "relative" }}>
+              <Box className="heading">
+                <Typography
+                  variant="h1"
+                  sx={{
+                    color: "#333333",
+                    fontSize: "100px",
+                    fontWeight: "500",
+                    fontFamily: "Bebas Neue",
+                  }}
+                >
+                  Book Local Beauty & Wellness Service...
+                </Typography>
+              </Box>
+              <Box className="search_bar">
+                <SearchBar />
+              </Box>
+              <Box className="booking_count">
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: "#333333",
+                    fontSize: "32px",
+                    fontWeight: "500",
+                    fontFamily: "Barlow",
+                    textAlign: "center",
+                  }}
+                >
+                  {bookingCount} appointments are booked today.
+                </Typography>
+              </Box>
+              <Box
+                className="get_app_btn mt-5"
+                display="flex"
+                justifyContent="center"
+              >
+                <Link to={ROUTES.getTheApp}>
+                  <Button
+                    sx={{
+                      background: "#FFF8F0",
+                      color: "#333333",
+                      borderRadius: "40px",
+                      padding: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                  >
+                    {/* Get the app <QrCodeIcon /> */}
+                  </Button>
+                </Link>
+              </Box>
+            </Box>
+            <div className="background-gradient"></div>
+          </Box>
+          {/* <Box className="main_banner new_banner">
             <Box className="content" sx={{ zIndex: "1", position: "relative" }}>
               <Box className="overlay"></Box>
               <Box className="bg_img">
@@ -152,8 +219,7 @@ function Home() {
                 </Box>
               </Box>
             </Box>
-            {/* <div className="background-gradient"></div> */}
-          </Box>
+          </Box> */}
           {visibleCategories && visibleCategories.length > 0 && (
             <Box className="categories_section">
               <Box className="container">
@@ -238,7 +304,10 @@ function Home() {
                 <hr />
                 <Box className="stores">
                   {stores.new.map((singleStore) => (
-                    <StoreCard key={singleStore.id} storeDetails={singleStore} />
+                    <StoreCard
+                      key={singleStore.id}
+                      storeDetails={singleStore}
+                    />
                   ))}
                 </Box>
               </Box>
@@ -246,7 +315,6 @@ function Home() {
           )}
 
           <Box className="second_banner new_banner">
-            
             <Box className="content" sx={{ zIndex: "1", position: "relative" }}>
               <Box className="overlay"></Box>
               <Box className="bg_img">
@@ -256,9 +324,9 @@ function Home() {
                 />
               </Box>
               <Box className="bubble_section">
-                  {Array.from({ length: 10 }).map((_, i) => (
-                    <div key={i} className="bubble" />
-                  ))}
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <div key={i} className="bubble" />
+                ))}
               </Box>
               <Box className="container">
                 <Box className="banner_content">

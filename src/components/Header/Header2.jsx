@@ -1,6 +1,6 @@
 // src/components/Layout/Header.jsx
 import React from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import MenuButton from "../Menu/Menu";
 import { ROUTES } from "../../routes";
 import { Box, Button } from "@mui/material";
@@ -14,8 +14,40 @@ function Header() {
   return (
     <header className="header">
       <div className="container">
+        <div className="menu">
+          <ul>
+            <li>
+              <NavLink
+                className={({ isActive }) => (isActive ? "active" : "")}
+                to={ROUTES.home}
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  location.pathname.startsWith("/stores/") ? "active" : ""
+                }
+                to={ROUTES.getCategoryPage("all")}
+              >
+                Stores
+              </NavLink>
+            </li>
+            {/* <li><NavLink className={({ isActive }) => (isActive ? 'active' : '')} to={ROUTES.home}>About</NavLink></li> */}
+            <li>
+              <NavLink
+                className={({ isActive }) => (isActive ? "active" : "")}
+                to={ROUTES.contact}
+              >
+                Contact
+              </NavLink>
+            </li>
+          </ul>
+        </div>
         <div className="logo">
           <NavLink to={ROUTES.home}>
+            {/* <img src={`${process.env.REACT_APP_BASE_URL}/logo-big.png`} alt="" /> */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               version="1.0"
@@ -29,25 +61,13 @@ function Header() {
                 fill="#000000"
                 stroke="none"
               >
-                <path
-                  className="hair"
-                  d="M500 943 c14 -3 29 -9 34 -13 13 -13 -44 -63 -122 -105 -126 -69 -192 -144 -192 -218 0 -39 64 -157 84 -157 4 0 2 10 -5 21 -6 12 -9 44 -7 71 8 81 57 137 221 253 64 45 82 73 73 109 -8 33 -25 34 -18 1 6 -34 -7 -47 -123 -125 -142 -96 -179 -134 -195 -203 -8 -31 -8 -31 -9 11 -2 88 35 131 190 222 103 60 134 92 118 121 -7 13 -20 19 -42 18 -27 -2 -28 -2 -7 -6z m-226 -387 c-3 -15 -8 -25 -11 -23 -2 3 -1 17 3 31 3 15 8 25 11 23 2 -3 1 -17 -3 -31z"
-                />
-                <path
-                  className="hair"
-                  d="M393 905 c-57 -29 -133 -105 -133 -132 0 -13 5 -11 19 10 24 37 79 82 144 118 64 35 40 38 -30 4z"
-                />
+                <path className='hair' d="M500 943 c14 -3 29 -9 34 -13 13 -13 -44 -63 -122 -105 -126 -69 -192 -144 -192 -218 0 -39 64 -157 84 -157 4 0 2 10 -5 21 -6 12 -9 44 -7 71 8 81 57 137 221 253 64 45 82 73 73 109 -8 33 -25 34 -18 1 6 -34 -7 -47 -123 -125 -142 -96 -179 -134 -195 -203 -8 -31 -8 -31 -9 11 -2 88 35 131 190 222 103 60 134 92 118 121 -7 13 -20 19 -42 18 -27 -2 -28 -2 -7 -6z m-226 -387 c-3 -15 -8 -25 -11 -23 -2 3 -1 17 3 31 3 15 8 25 11 23 2 -3 1 -17 -3 -31z" />
+                <path className='hair' d="M393 905 c-57 -29 -133 -105 -133 -132 0 -13 5 -11 19 10 24 37 79 82 144 118 64 35 40 38 -30 4z" />
                 <path d="M550 800 c0 -5 3 -10 8 -10 4 0 14 -13 23 -29 l17 -29 -43 -11 c-40 -10 -82 -38 -72 -48 3 -2 20 5 38 16 56 32 79 35 79 13 0 -14 -13 -23 -52 -35 -32 -10 -40 -15 -20 -12 17 2 32 0 32 -5 0 -6 -15 -10 -34 -10 -19 0 -38 -4 -41 -10 -4 -6 13 -10 44 -10 28 0 51 5 51 10 0 6 6 10 14 10 11 0 11 -10 4 -50 -13 -72 -41 -132 -83 -179 -41 -45 -41 -55 -1 -18 38 35 93 131 107 187 7 28 19 51 28 53 13 4 13 5 -1 6 -28 2 -21 19 13 36 17 9 29 19 26 22 -3 2 -17 -3 -31 -12 -26 -17 -26 -17 -26 8 0 19 6 27 23 30 20 4 19 4 -4 6 -19 1 -29 8 -33 25 -3 14 -13 32 -22 40 -17 18 -44 21 -44 6z m55 -140 c-3 -5 -13 -10 -21 -10 -8 0 -12 5 -9 10 3 6 13 10 21 10 8 0 12 -4 9 -10z" />
-                <path
-                  className="hair"
-                  d="M474 735 c-55 -27 -118 -84 -140 -127 -25 -47 -20 -154 10 -229 15 -35 37 -77 51 -94 l25 -30 -25 57 c-54 119 -54 232 -1 323 30 50 48 66 110 99 62 33 36 34 -30 1z"
-                />
+                <path className='hair' d="M474 735 c-55 -27 -118 -84 -140 -127 -25 -47 -20 -154 10 -229 15 -35 37 -77 51 -94 l25 -30 -25 57 c-54 119 -54 232 -1 323 30 50 48 66 110 99 62 33 36 34 -30 1z" />
                 <path d="M433 623 c0 -23 5 -39 9 -37 11 7 10 46 -2 64 -6 10 -9 3 -7 -27z" />
                 <path d="M576 586 c-9 -38 -83 -125 -112 -132 -21 -5 -33 1 -66 32 -22 22 -36 30 -30 19 12 -24 51 -60 73 -68 25 -8 73 26 107 76 28 40 51 97 39 97 -3 0 -8 -11 -11 -24z" />
-                <path
-                  className="hair"
-                  d="M645 588 c-2 -7 -9 -31 -15 -53 -18 -60 -69 -130 -117 -161 -48 -30 -52 -44 -6 -20 62 32 134 133 148 209 7 34 -1 53 -10 25z"
-                />
+                <path className='hair' d="M645 588 c-2 -7 -9 -31 -15 -53 -18 -60 -69 -130 -117 -161 -48 -30 -52 -44 -6 -20 62 32 134 133 148 209 7 34 -1 53 -10 25z" />
                 <path d="M443 563 c9 -2 23 -2 30 0 6 3 -1 5 -18 5 -16 0 -22 -2 -12 -5z" />
                 <path d="M410 521 c0 -5 20 -9 45 -9 25 1 45 5 45 10 0 4 -20 8 -45 8 -25 0 -45 -4 -45 -9z" />
                 <path d="M438 493 c6 -2 18 -2 25 0 6 3 1 5 -13 5 -14 0 -19 -2 -12 -5z" />
@@ -69,36 +89,31 @@ function Header() {
             className="nav"
             display="flex"
             alignItems="center"
-            justifyContent="start"
+            justifyContent="end"
             gap="25px"
           >
-            <Box className="menu_btn">
-              <NavLink to={ROUTES.getCategoryPage('all')} className={({ isActive }) => (isActive ? "active" : "")}>
-                Stores
-              </NavLink>
-            </Box>
-            <Box className="menu_btn">
-              <NavLink to={ROUTES.blogs} className={({ isActive }) => (isActive ? "active" : "")}>
-                Blogs
-              </NavLink>
-            </Box>
-            <Box className="menu_btn">
-              <NavLink to={ROUTES.contact} className={({ isActive }) => (isActive ? "active" : "")}>
-                Contact us
-              </NavLink>
-            </Box>
             {!user && !token && (
               <>
-                <Box className="menu_btn login_btn">
+                <Box className="login_btn">
                   <NavLink
-                    to={`${ROUTES.loginSignup}?redirectTo=${encodeURIComponent(location.pathname)}`}
-                    className={({ isActive }) => (isActive ? "active" : "")}
+                    to={`${ROUTES.loginSignup}?redirectTo=${encodeURIComponent(
+                      location.pathname
+                    )}`}
                   >
-                    Login
+                    <Button
+                      sx={{
+                        color: "black",
+                        fontWeight: "600",
+                        textTransform: "capitalize",
+                        fontSize: "16px",
+                      }}
+                    >
+                      Login
+                    </Button>
                   </NavLink>
                 </Box>
                 <Box className="list_business_btn">
-                  <Link to={ROUTES.forBusiness}>
+                  <NavLink to={ROUTES.forBusiness}>
                     <Button
                       sx={{
                         color: "black",
@@ -112,12 +127,12 @@ function Header() {
                     >
                       List Your Business
                     </Button>
-                  </Link>
+                  </NavLink>
                 </Box>
               </>
             )}
+            <MenuButton />
           </Box>
-          {user && token && <MenuButton />}
         </div>
       </div>
     </header>

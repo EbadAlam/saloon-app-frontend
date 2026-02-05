@@ -157,7 +157,7 @@ const CustomPopper = (props) => (
   />
 );
   return (
-    <Box className="searchBarDiv gradient-border" display="flex" justifyContent="start">
+    <Box className="searchBarDiv gradient-border" display="flex" justifyContent="end" flexWrap='wrap'>
       <Box className="movingBorder" 
           sx={{
             position: 'absolute',
@@ -170,7 +170,7 @@ const CustomPopper = (props) => (
             bottom: '-5px',
 
             '&::before': {
-              // content: '""',
+              content: '""',
               position: 'absolute',
               top: '0px',
               left: '0px',
@@ -193,14 +193,16 @@ const CustomPopper = (props) => (
       <Box
         className="inputDivMain"
         display="flex"
-        justifyContent="space-between"
+        justifyContent="space-around"
         alignItems="center"
-        sx={{ width: '100%' }}
+        flexWrap='wrap'
+        gap="15px"
+        sx={{ width: '85%' }}
       >
         
         
         <Box className="input_services inputDiv" display="flex" alignItems="center">
-          <Box className="icon" display="flex">
+          <Box className="icon">
             <SearchIcon />
           </Box>
           <Box className="input">
@@ -287,7 +289,7 @@ const CustomPopper = (props) => (
                 top: '60px',
                 left: 0,
                 mt: 1,
-                background: 'white',
+                background: '#fff8f0',
                 boxShadow: 3,
                 borderRadius: 1,
                 zIndex: 10,

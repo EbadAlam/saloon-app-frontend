@@ -159,7 +159,8 @@ function SearchBar() {
   return /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "searchBarDiv gradient-border",
     display: "flex",
-    justifyContent: "start"
+    justifyContent: "end",
+    flexWrap: "wrap"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "movingBorder",
     sx: {
@@ -172,7 +173,7 @@ function SearchBar() {
       right: '-5px',
       bottom: '-5px',
       '&::before': {
-        // content: '""',
+        content: '""',
         position: 'absolute',
         top: '0px',
         left: '0px',
@@ -198,18 +199,19 @@ function SearchBar() {
   }), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "inputDivMain",
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
+    flexWrap: "wrap",
+    gap: "15px",
     sx: {
-      width: '100%'
+      width: '85%'
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "input_services inputDiv",
     display: "flex",
     alignItems: "center"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "icon",
-    display: "flex"
+    className: "icon"
   }, /*#__PURE__*/_react.default.createElement(_Search.default, null)), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "input"
   }, /*#__PURE__*/_react.default.createElement(_material.Autocomplete, {
@@ -286,7 +288,7 @@ function SearchBar() {
       top: '60px',
       left: 0,
       mt: 1,
-      background: 'white',
+      background: '#fff8f0',
       boxShadow: 3,
       borderRadius: 1,
       zIndex: 10,

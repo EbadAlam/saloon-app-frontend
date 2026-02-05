@@ -44,13 +44,7 @@ function MenuButton() {
     id: "basic-button",
     onClick: handleToggle,
     endIcon: user && token ? /*#__PURE__*/_react.default.createElement(_KeyboardArrowDown.default, null) : /*#__PURE__*/_react.default.createElement(_Menu.default, null)
-  }, user && token ?
-  // user?.user_info?.profile_image ? (
-  //   <img className='user_profile_img' src={`${process.env.REACT_APP_IMG_URL}/${user.user_info.profile_image}`} alt=""/>
-  // ) : (
-  //   <DummyImage username={user.username} />
-  // )
-  user !== null && user !== void 0 && (_user$user_info = user.user_info) !== null && _user$user_info !== void 0 && _user$user_info.profile_image ? (user === null || user === void 0 || (_user$user_info2 = user.user_info) === null || _user$user_info2 === void 0 ? void 0 : _user$user_info2.signup_platform) == "manual" ? /*#__PURE__*/_react.default.createElement("img", {
+  }, user && token ? user !== null && user !== void 0 && (_user$user_info = user.user_info) !== null && _user$user_info !== void 0 && _user$user_info.profile_image ? (user === null || user === void 0 || (_user$user_info2 = user.user_info) === null || _user$user_info2 === void 0 ? void 0 : _user$user_info2.signup_platform) == "manual" ? /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(user === null || user === void 0 ? void 0 : user.user_info.profile_image),
     alt: "Profile",
     className: "user_profile_img"

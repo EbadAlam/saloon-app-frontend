@@ -1,4 +1,5 @@
 $newBgColor: #5d6de7;
+$buttonBg: #7b7bfa;
 
 #root {
   background-color: white;
@@ -72,85 +73,180 @@ h6 {
   font-family: 'Barlow' !important;
   color: #333333;
 }
+
 @keyframes hairMove {
-      0% {
-        transform: rotate(0deg) translateY(0);
-      }
-      50% {
-        transform: rotate(1.5deg) translateY(-1px);
-      }
-      100% {
-        transform: rotate(0deg) translateY(0);
-      }
-    }
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(1.5deg) translateY(-1px);
+  }
+
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
 .header {
-  background-color: white;
+  background-color: transparent;
   padding-block: 10px;
-  border-bottom: 1px solid #DADADA;
+  // border-bottom: 1px solid #DADADA;
+      position: relative !important;
+    z-index: 2;
+  .container {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap:30px;
+  }
   .logo {
     svg {
-      width:130px;
+      width: 100px;
       height: auto;
+
       .hair {
-        fill:#fcc7d3;
+        fill: #fcc7d3;
         transform-origin: center top;
         animation: hairMove 2s ease-in-out infinite alternate;
       }
     }
-    svg .hair:nth-child(1) { animation-delay: 0s; }
-    svg .hair:nth-child(2) { animation-delay: 0.2s; }
-    svg .hair:nth-child(3) { animation-delay: 0.4s; }
-    svg .hair:nth-child(4) { animation-delay: 0.6s; }
-    svg .hair:nth-child(5) { animation-delay: 0.8s; }
-    svg .hair:nth-child(6) { animation-delay: 1s; }
-    svg .hair:nth-child(7) { animation-delay: 1.2s; }
-    svg .hair:nth-child(8) { animation-delay: 1.4s; }
-    svg .hair:nth-child(9) { animation-delay: 1.6s; }
-    svg .hair:nth-child(10) { animation-delay: 1.8s; }
+
+    svg .hair:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    svg .hair:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    svg .hair:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    svg .hair:nth-child(4) {
+      animation-delay: 0.6s;
+    }
+
+    svg .hair:nth-child(5) {
+      animation-delay: 0.8s;
+    }
+
+    svg .hair:nth-child(6) {
+      animation-delay: 1s;
+    }
+
+    svg .hair:nth-child(7) {
+      animation-delay: 1.2s;
+    }
+
+    svg .hair:nth-child(8) {
+      animation-delay: 1.4s;
+    }
+
+    svg .hair:nth-child(9) {
+      animation-delay: 1.6s;
+    }
+
+    svg .hair:nth-child(10) {
+      animation-delay: 1.8s;
+    }
   }
+
   .menu-btn.desktop,
   .menu {
-    width: 35%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
-  .menu{
-    ul{
-      display:flex;
-      justify-content: start;
-      align-items: center;
-      width: 100%;
-      margin: 0;
-      list-style: none;
-      font-size: 20px;
-      gap:25px;
-      padding:0px;
-      li {
-        a{
+
+  // .menu {
+  //   ul {
+  //     display: flex;
+  //     justify-content: start;
+  //     align-items: center;
+  //     width: 100%;
+  //     margin: 0;
+  //     list-style: none;
+  //     font-size: 20px;
+  //     gap: 25px;
+  //     padding: 0px;
+
+  //     li {
+  //       a {
+  //         text-decoration: none;
+  //         position: relative;
+  //         transition: all .3s ease;
+  //         color: black;
+
+  //         &:after {
+  //           content: "";
+  //           position: absolute;
+  //           right: 0;
+  //           left: 0;
+  //           bottom: -5px;
+  //           width: 0;
+  //           background-color: #cdb4fd;
+  //           height: 2px;
+  //           transition: all .3s ease;
+  //         }
+
+  //         &.active {
+  //           color: #cdb4fd;
+
+  //           &:after {
+  //             width: 100%;
+  //           }
+  //         }
+  //       }
+
+  //       &:hover {
+  //         a {
+  //           color: #cdb4fd;
+
+  //           &:after {
+  //             width: 100%;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+  .menu-btn {
+    .nav {
+      .menu_btn {
+        a {
           text-decoration: none;
           position: relative;
           transition: all .3s ease;
-          color:black;
-          &:after{
-            content:"";
+          color: black;
+          font-size: 18px;
+          &:after {
+            content: "";
             position: absolute;
             right: 0;
-            left:0;
-            bottom:-5px;
+            left: 0;
+            bottom: -5px;
             width: 0;
             background-color: #cdb4fd;
             height: 2px;
             transition: all .3s ease;
           }
-          &.active{
-            color:#cdb4fd;
-            &:after{
+
+          &.active {
+            color: #cdb4fd;
+
+            &:after {
               width: 100%;
             }
           }
         }
+
         &:hover {
           a {
-            color:#cdb4fd;
-            &:after{
+            color: #cdb4fd;
+
+            &:after {
               width: 100%;
             }
           }
@@ -158,13 +254,6 @@ h6 {
       }
     }
   }
-}
-
-.header .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
 }
 
 .main_banner {
@@ -207,7 +296,7 @@ h6 {
 }
 
 .seperator {
-  height: 25px;
+  height: 35px;
 
   div {
     height: 100%;
@@ -439,9 +528,11 @@ h6 {
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
+
   p {
     margin: 0px;
   }
+
   a {
     color: #ccb2fd;
     font-size: 18px;
@@ -455,6 +546,7 @@ h6 {
       fill: #ccb2fd;
     }
   }
+
   ul {
     list-style: none;
     padding-left: 0px;
@@ -729,13 +821,20 @@ h6 {
 }
 
 .inputDiv {
-  width: 25%;
+  width: 30%;
   gap: 10px;
+  height:100%;
 }
 
 .inputDiv .input,
 .inputDiv .input input {
   width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  .MuiAutocomplete-root{
+    width:100%;
+  }
 }
 
 .inputDiv .input input {
@@ -749,10 +848,11 @@ h6 {
 .searchBarDiv {
   width: 70%;
   margin: 0 auto;
-  border-radius: 9999px;
+  border-radius: 10px;
   z-index: 1;
   position: relative;
   background: white;
+  padding-left:10px;
 }
 
 .white-bg {
@@ -763,7 +863,8 @@ h6 {
   top: 0;
   bottom: 0;
   z-index: -1;
-  border-radius: 9999px;
+  border-radius: 10px;
+  display:none;
 }
 
 .search_bar {
@@ -772,14 +873,14 @@ h6 {
 
 .search_btn {
   display: flex;
-  padding: 10px;
+  // padding: 10px;
 }
 
 .search_btn .search {
   background-color: #333333;
-  border-radius: 9999px;
+  border-radius:0px 10px 10px 0px;
   color: white;
-  padding: 10px 20px;
+  padding: 15px 20px;
   font-weight: 600;
   text-transform: capitalize;
   font-family: 'Barlow';
@@ -2570,10 +2671,11 @@ input::-webkit-inner-spin-button {
         height: 200px;
         position: relative;
         border-radius: 15px;
+
         img {
           transition: all .3s ease;
           // scale: 1.05;
-          width:100%;
+          width: 100%;
         }
 
         .hover_content {
@@ -2704,6 +2806,7 @@ input::-webkit-inner-spin-button {
 .category_page {
   background: linear-gradient(90deg, #ffc0cb47, #ebe0ff);
   position: relative;
+
   .pagination_box {
     padding-block: 30px;
 
@@ -2846,6 +2949,212 @@ input::-webkit-inner-spin-button {
 
       .user_rating {
         position: initial;
+      }
+    }
+  }
+}
+
+
+.home_new {
+  margin-top: -110px;
+  .divider {
+    margin: 0px;
+  }
+
+  .home_banner {
+    background: url('../public/home_new_banner.jpg');
+    background-position: center;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-size: cover;
+    position: relative;
+    .overlay{
+      display: none;
+      position: absolute;
+      inset: 0;
+      background-color: #0000006e;
+      z-index: 1;
+    }
+    .banner_content {
+      margin: 0 auto;
+      width: 60%;
+      position: relative;
+      .searchBarDiv {
+        width: 100%;
+      }
+    }
+  }
+
+  .categories_slider {
+    padding-block: 20px;
+
+    .slider {
+      display: flex;
+      gap: 13px;
+
+      .category {
+        background-color: #f1eeee73;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        width: 90%;
+        border-radius: 10px;
+        color: black;
+        text-transform: capitalize;
+
+        p {
+          font-size: 20px;
+        }
+
+        &.active {
+          background-color: #8888ff33;
+        }
+      }
+    }
+  }
+
+  .stores {
+    .heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
+      h2 {
+        font-size: 36px;
+        text-transform: capitalize;
+      }
+
+      .view_all {
+        color: #546eff;
+        font-size: 18px;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .stores_cards {
+    display: flex;
+    justify-content: space-between;
+
+    .store_card {
+      width: 19%;
+      box-shadow: 1px 1px 10px #00000029;
+      border-radius: 10px;
+      overflow: hidden;
+
+      &:hover {
+        .image {
+          img {
+            scale: 1.3;
+          }
+        }
+      }
+
+      .image {
+        overflow: hidden;
+
+        img {
+          transition: all .4s ease;
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+        }
+      }
+
+      .store_content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        h3 {
+          font-size: 28px;
+        }
+
+        .address {
+          p {
+            width: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+        }
+
+        .booking {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          p {
+            font-size: 18px;
+            font-weight: 600;
+
+            span {
+              font-size: 15px;
+              font-weight: 400;
+            }
+          }
+
+          button {
+            background: $buttonBg;
+            color: white;
+            text-transform: capitalize;
+          }
+        }
+      }
+    }
+  }
+}
+
+.store_detail_new {
+  .store_banner {
+    background-size: cover;
+    background-position: center;
+    height: 55vh;
+    background-attachment: fixed;
+    position: relative;
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background-color: #0000006e;
+      z-index: 1;
+    }
+
+    .banner_content {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      justify-content: end;
+      padding-bottom: 6%;
+      color: white !important;
+      position: relative;
+      z-index: 2;
+      gap: 10px;
+
+      .store_name {
+        h2 {
+          color: white !important;
+          font-size: 50px;
+        }
+      }
+
+      .rating {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .bookNow_btn {
+        button {
+          background-color: $buttonBg;
+          width: 10%;
+          padding: 10px;
+          color: white;
+        }
       }
     }
   }

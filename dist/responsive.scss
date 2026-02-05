@@ -141,8 +141,9 @@
         display: flex;
         justify-content: center;
         width: 100%;
-        .profile_img  {
-            .name_des{
+
+        .profile_img {
+            .name_des {
                 bottom: 40% !important;
                 left: 50% !important;
                 transform: translate(-50%, 50%) !important;
@@ -538,45 +539,86 @@
     .categories_section {
         padding-block: 40px;
         display: none;
-        &.mobile{
+
+        &.mobile {
             display: block;
         }
+
         h2 {
             font-size: $headingFontSize;
         }
+
         .categories {
-            gap:10px;
-            .category{
+            gap: 10px;
+
+            .category {
                 width: 47%;
+
                 .cat_image {
                     height: 300px;
                 }
+
                 .cat_name {
-                    h3{
+                    h3 {
                         font-size: 18px;
                     }
                 }
             }
         }
     }
+
     .stores_section {
-       .stores {
-         .store {
-            width: 100%;
-         }
-       }
+        .stores {
+            .store {
+                width: 100%;
+            }
+        }
     }
+
     .reviews_div {
         h3 {
             font-size: $headingFontSize;
         }
-        .reviews{
+
+        .reviews {
             max-width: 100%;
         }
     }
+
     .gallerySlider {
         .slick-track {
             gap: 0px;
+        }
+    }
+
+    .home_new {
+        margin-top:0px;
+        .home_banner {
+            height:40vh;
+            background-position: 85%;
+            .overlay{
+                display: block;
+            }
+            .banner_content {
+                width: 80%;
+                h1{
+                    font-size: 40px;
+                    color:black !important;
+                    br{
+                        display: none;
+                    }
+                }
+                .search{
+                    display:none;
+                }
+            }
+        }
+        .stores_cards{
+            flex-direction: column;
+            gap:20px;
+            .store_card{
+                width: 100%;
+            }
         }
     }
 }

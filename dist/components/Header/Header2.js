@@ -26,6 +26,32 @@ function Header() {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "container"
   }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "menu"
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
+    className: _ref => {
+      let {
+        isActive
+      } = _ref;
+      return isActive ? "active" : "";
+    },
+    to: _routes.ROUTES.home
+  }, "Home")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
+    className: _ref2 => {
+      let {
+        isActive
+      } = _ref2;
+      return location.pathname.startsWith("/stores/") ? "active" : "";
+    },
+    to: _routes.ROUTES.getCategoryPage("all")
+  }, "Stores")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
+    className: _ref3 => {
+      let {
+        isActive
+      } = _ref3;
+      return isActive ? "active" : "";
+    },
+    to: _routes.ROUTES.contact
+  }, "Contact")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "logo"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     to: _routes.ROUTES.home
@@ -88,51 +114,22 @@ function Header() {
     className: "nav",
     display: "flex",
     alignItems: "center",
-    justifyContent: "start",
+    justifyContent: "end",
     gap: "25px"
-  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "menu_btn"
+  }, !user && !token && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "login_btn"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
-    to: _routes.ROUTES.getCategoryPage('all'),
-    className: _ref => {
-      let {
-        isActive
-      } = _ref;
-      return isActive ? "active" : "";
+    to: "".concat(_routes.ROUTES.loginSignup, "?redirectTo=").concat(encodeURIComponent(location.pathname))
+  }, /*#__PURE__*/_react.default.createElement(_material.Button, {
+    sx: {
+      color: "black",
+      fontWeight: "600",
+      textTransform: "capitalize",
+      fontSize: "16px"
     }
-  }, "Stores")), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "menu_btn"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
-    to: _routes.ROUTES.blogs,
-    className: _ref2 => {
-      let {
-        isActive
-      } = _ref2;
-      return isActive ? "active" : "";
-    }
-  }, "Blogs")), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "menu_btn"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
-    to: _routes.ROUTES.contact,
-    className: _ref3 => {
-      let {
-        isActive
-      } = _ref3;
-      return isActive ? "active" : "";
-    }
-  }, "Contact us")), !user && !token && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "menu_btn login_btn"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
-    to: "".concat(_routes.ROUTES.loginSignup, "?redirectTo=").concat(encodeURIComponent(location.pathname)),
-    className: _ref4 => {
-      let {
-        isActive
-      } = _ref4;
-      return isActive ? "active" : "";
-    }
-  }, "Login")), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, "Login"))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "list_business_btn"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     to: _routes.ROUTES.forBusiness
   }, /*#__PURE__*/_react.default.createElement(_material.Button, {
     sx: {
@@ -144,6 +141,6 @@ function Header() {
       borderRadius: "25px",
       padding: "5px 15px"
     }
-  }, "List Your Business"))))), user && token && /*#__PURE__*/_react.default.createElement(_Menu.default, null))));
+  }, "List Your Business")))), /*#__PURE__*/_react.default.createElement(_Menu.default, null)))));
 }
 var _default = exports.default = Header;

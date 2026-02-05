@@ -8,7 +8,7 @@ require("./App.scss");
 require("./responsive.scss");
 var _react = _interopRequireDefault(require("react"));
 var _reactRouterDom = require("react-router-dom");
-var _Home = _interopRequireDefault(require("./screens/Home/Home"));
+var _HomeNew = _interopRequireDefault(require("./screens/Home/HomeNew"));
 var _Login = _interopRequireDefault(require("./screens/Login/Login"));
 var _ProtectedRoute = _interopRequireDefault(require("./components/ProtectedRoute"));
 var _Dashboard = _interopRequireDefault(require("./components/Admin/Dashboard/Dashboard"));
@@ -19,7 +19,7 @@ var _routes = require("./routes");
 var _AddStore = _interopRequireDefault(require("./components/Admin/Stores/AddStore"));
 var _ServiceCategory = _interopRequireDefault(require("./components/Admin/ServiceCategory/ServiceCategory"));
 var _Services = _interopRequireDefault(require("./components/Admin/Services/Services"));
-var _Store = _interopRequireDefault(require("./screens/Store/Store"));
+var _StoreNew = _interopRequireDefault(require("./screens/Store/StoreNew"));
 var _EditStore = _interopRequireDefault(require("./components/Admin/Stores/EditStore"));
 var _WorkingHours = _interopRequireDefault(require("./components/Admin/WorkingHours/WorkingHours"));
 var _Team = _interopRequireDefault(require("./components/Admin/Team/Team"));
@@ -80,7 +80,7 @@ function App(_ref) {
     element: /*#__PURE__*/_react.default.createElement(_MainComponent.default, null)
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.home,
-    element: /*#__PURE__*/_react.default.createElement(_Home.default, null)
+    element: /*#__PURE__*/_react.default.createElement(_HomeNew.default, null)
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.status,
     element: /*#__PURE__*/_react.default.createElement(_StatusPage.default, null)
@@ -137,7 +137,7 @@ function App(_ref) {
     element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, null, /*#__PURE__*/_react.default.createElement(_Favorites.default, null))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.storePage,
-    element: /*#__PURE__*/_react.default.createElement(_Store.default, {
+    element: /*#__PURE__*/_react.default.createElement(_StoreNew.default, {
       initialData: initialData
     })
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {

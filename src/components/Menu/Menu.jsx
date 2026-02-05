@@ -37,11 +37,6 @@ function MenuButton() {
         endIcon={user && token ? <KeyboardArrowDownIcon /> : <MenuIcon />}
       >
         {user && token ? (
-          // user?.user_info?.profile_image ? (
-          //   <img className='user_profile_img' src={`${process.env.REACT_APP_IMG_URL}/${user.user_info.profile_image}`} alt=""/>
-          // ) : (
-          //   <DummyImage username={user.username} />
-          // )
           user?.user_info?.profile_image ? (
             user?.user_info?.signup_platform == "manual" ? (
               <img

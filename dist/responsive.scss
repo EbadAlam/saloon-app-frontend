@@ -159,10 +159,6 @@
         width: 100%;
     }
 
-    .right_side {
-        display: none;
-    }
-
     .two_sections {
         flex-wrap: wrap;
     }
@@ -618,6 +614,24 @@
             gap:20px;
             .store_card{
                 width: 100%;
+            }
+        }
+    }
+    .store_detail_new{
+        .store_details_sides{
+            flex-direction: column;
+        }
+        .store_details_left,.store_details_right{
+            width:100%;
+        }
+        .store_services{
+            .services{
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+        .store_tabs_ist{
+            .MuiTabs-list{
+                overflow: scroll;
             }
         }
     }

@@ -92,14 +92,16 @@ h6 {
   background-color: transparent;
   padding-block: 10px;
   // border-bottom: 1px solid #DADADA;
-      position: relative !important;
-    z-index: 2;
+  position: relative !important;
+  z-index: 2;
+
   .container {
     display: flex;
     justify-content: start;
     align-items: center;
-    gap:30px;
+    gap: 30px;
   }
+
   .logo {
     svg {
       width: 100px;
@@ -221,6 +223,7 @@ h6 {
           transition: all .3s ease;
           color: black;
           font-size: 18px;
+
           &:after {
             content: "";
             position: absolute;
@@ -616,7 +619,7 @@ h6 {
 
 .review .review-text p {
   font-size: 18px;
-  font-weight: 600;
+  // font-weight: 600;
 }
 
 .rating {
@@ -676,7 +679,7 @@ h6 {
 }
 
 .see_all_reviews_btn_div a {
-  color: #D8A7B1;
+  color: $buttonBg;
   font-size: 18px;
 }
 
@@ -823,7 +826,7 @@ h6 {
 .inputDiv {
   width: 30%;
   gap: 10px;
-  height:100%;
+  height: 100%;
 }
 
 .inputDiv .input,
@@ -832,8 +835,9 @@ h6 {
   height: 40px;
   display: flex;
   align-items: center;
-  .MuiAutocomplete-root{
-    width:100%;
+
+  .MuiAutocomplete-root {
+    width: 100%;
   }
 }
 
@@ -852,7 +856,7 @@ h6 {
   z-index: 1;
   position: relative;
   background: white;
-  padding-left:10px;
+  padding-left: 10px;
 }
 
 .white-bg {
@@ -864,7 +868,7 @@ h6 {
   bottom: 0;
   z-index: -1;
   border-radius: 10px;
-  display:none;
+  display: none;
 }
 
 .search_bar {
@@ -878,7 +882,7 @@ h6 {
 
 .search_btn .search {
   background-color: #333333;
-  border-radius:0px 10px 10px 0px;
+  border-radius: 0px 10px 10px 0px;
   color: white;
   padding: 15px 20px;
   font-weight: 600;
@@ -2957,6 +2961,7 @@ input::-webkit-inner-spin-button {
 
 .home_new {
   margin-top: -110px;
+
   .divider {
     margin: 0px;
   }
@@ -2970,17 +2975,20 @@ input::-webkit-inner-spin-button {
     justify-content: center;
     background-size: cover;
     position: relative;
-    .overlay{
+
+    .overlay {
       display: none;
       position: absolute;
       inset: 0;
       background-color: #0000006e;
       z-index: 1;
     }
+
     .banner_content {
       margin: 0 auto;
       width: 60%;
       position: relative;
+
       .searchBarDiv {
         width: 100%;
       }
@@ -3151,11 +3159,126 @@ input::-webkit-inner-spin-button {
       .bookNow_btn {
         button {
           background-color: $buttonBg;
-          width: 10%;
+          width: fit-content;
           padding: 10px;
           color: white;
         }
       }
     }
+  }
+
+  .store_services {
+    .service_title_btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h3 {
+        font-size: 30px;
+      }
+
+      button {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        span {
+          background-color: $buttonBg;
+          border-radius: 50%;
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+
+    .services {
+      .divider {
+        margin: 0px;
+        width: 100%;
+      }
+
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+
+      .service {
+        display: flex;
+        flex-direction: column;
+        align-items: self-start;
+        gap: 10px;
+
+        .service_name {
+          h4 {
+            font-size: 24px;
+          }
+        }
+
+        .service_price_eta {
+          display: flex;
+          align-items: center;
+          justify-content: start;
+          gap: 10px;
+
+          h5 {
+            font-size: 18px;
+          }
+
+          h6 {
+            font-size: 16px;
+          }
+        }
+
+        .service_book {
+          button {
+            background-color: $buttonBg;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+  .store_team{
+    .team_members{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      .member{
+        display:flex;
+        border:1px solid #e0e0e0;
+        border-radius: 5px;
+        align-items: center;
+        .member_img{
+          width: 40%;
+          height: 200px;
+          img{
+            width: 100%;
+            height: 100%;
+    object-fit: cover;
+          }
+        }
+        .member_details{
+          width: 60%;
+          padding: 10px;
+          .member_name{
+            h4{
+              font-size: 26px;
+            }
+          }
+          .member_spec{
+            h5{
+              font-size: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .right_side{
+    box-shadow: none;
+    border:none;
   }
 }

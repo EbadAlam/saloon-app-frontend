@@ -1,49 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import ReplyAllOutlinedIcon from "@mui/icons-material/ReplyAllOutlined";
-import Seperator from "../../components/Seperator/Seperator";
-import CustomGallery from "../../components/CustomGallery/CustomGallery";
-import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 import DummyImage from "../../components/DummyImage/DummyImage";
 import StarRating from "../../components/StarRating/StarRating";
 import { useAuth } from "../../contexts/AuthContext";
-import AddReviewForm from "../../components/AddReviewForm/AddReviewForm";
 import Address from "../../components/Address/Address";
-import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
-import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import {
-  Badge,
-  Box,
-  Button,
-  CircularProgress,
-  Skeleton,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import Masonry from "@mui/lab/Masonry";
+import { Box, Button, Skeleton, Typography } from "@mui/material";
 import { ROUTES } from "../../routes";
 import { saveRecentlyViewedStore } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
-import Slider from "react-slick";
-import ReviewsSlider from "../../components/ReviewsSlider/ReviewsSlider";
 
 function StorePage({ initialData }) {
-  const { formatDate, user, token, updateFavorites } = useAuth();
-  const [activeTab, setActiveTab] = useState("1");
-
+  const { formatDate, user } = useAuth();
+  const [activeTab, setActiveTab] = useState("photos");
+  
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [loadingFav, setLoadingFav] = useState(false);
-  const isBrowser = typeof window !== "undefined";
   const [storeDetails, setStoreDetails] = useState(() => {
     if (initialData) {
       return initialData;
@@ -55,10 +33,8 @@ function StorePage({ initialData }) {
   const [loading, setLoading] = useState(!storeDetails);
   const [alertMessage, setAlertMessage] = useState("");
   const [isFav, setIsFav] = useState(false);
-  const theme = useTheme();
   const { showSnackbar } = useSnackbar();
   const [MapComponents, setMapComponents] = useState(null);
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   useEffect(() => {
     if (typeof window !== "undefined") {
       Promise.all([
@@ -113,6 +89,25 @@ function StorePage({ initialData }) {
       console.log("removing data froms windows");
     }
   }, []);
+  useEffect(() => {
+  const defaultTab = getDefaultTab(storeDetails);
+  if (defaultTab) {
+    setActiveTab(defaultTab);
+  }
+}, [storeDetails]);
+const getDefaultTab = (storeDetails) => {
+  if (storeDetails?.gallery?.length > 0) return 'photos';
+  if (storeDetails?.services?.length > 0) return 'services';
+  if (storeDetails?.workers?.length > 0) return 'team_members';
+  if (storeDetails?.reviews?.length > 0) return 'reviews';
+  if (
+    storeDetails?.about ||
+    storeDetails?.address ||
+    (storeDetails?.lat && storeDetails?.lng)
+  ) return 'about';
+
+  return false; // no tabs available
+};
   useEffect(() => {
     if (
       storeDetails &&
@@ -176,71 +171,21 @@ function StorePage({ initialData }) {
       </span>
     );
   };
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
-  const handleAddReview = async (reviewData) => {
-    setLoading(true);
-    try {
-      const { data } = await axiosClient.post("addReview", reviewData);
-      setStoreDetails(data.storeDetails);
-    } catch (error) {
-      console.error("Failed to fetch store details:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
   const reviews =
     storeDetails?.reviews?.filter((review) => review.status === "active") || [];
   const total = reviews.reduce((sum, r) => sum + parseFloat(r.rating || 0), 0);
   const averageRatingStore =
     reviews.length > 0 ? (total / reviews.length).toFixed(1) : "N/A";
 
-  const handleCopy = () => {
-    const storeUrl = window.location.href;
-    navigator.clipboard
-      .writeText(storeUrl)
-      .then(() => {
-        setAlertMessage("Link copied to clipboard!");
-        setTimeout(() => setAlertMessage(""), 2000);
-      })
-      .catch((err) => {
-        console.error("Failed to copy: ", err);
-      });
-  };
-
-  const handleAddToFav = async () => {
-    setLoadingFav(true);
-    try {
-      const payload = {
-        store_id: storeDetails.id,
-        user_id: user.id,
-      };
-      let data;
-      if (isFav) {
-        ({ data } = await axiosClient.post("removeFromFavourite", payload));
-      } else {
-        ({ data } = await axiosClient.post("addToFavourite", payload));
-      }
-      updateFavorites(data.favouriteStores);
-      setAlertMessage(data.message);
-      setTimeout(() => {
-        setAlertMessage("");
-      }, 2000);
-      setIsFav(!isFav);
-    } catch (error) {
-      console.error("Failed to add or remove to favourites", error);
-    } finally {
-      setLoadingFav(false);
-    }
-  };
   useEffect(() => {
     if (alertMessage) {
       showSnackbar(alertMessage, "success");
     }
   }, [alertMessage]);
-  const handleChange = (event, newValue) => {
+  const handleChange = (event,newValue) => {
     setActiveTab(newValue);
   };
+
   if (!MapComponents) {
     return (
       <div style={{ height: "400px", background: "#eee" }}>Loading map...</div>
@@ -302,25 +247,37 @@ function StorePage({ initialData }) {
           <Box
             className="store_banner"
             sx={{
-              background: `url(http://127.0.0.1:8000/storage//thumbnails/3UpeT36WJGKaP8vpkbw93xXbWbkYUlzCmBLUJcUV.jpg)`,
+              background: `url(${process.env.REACT_APP_IMG_URL}${storeDetails.thumbnail})`,
             }}
           >
             <Box className="overlay"></Box>
             <Box className="banner_content container">
               <Box className="store_name">
-                <Typography variant="h2">Store_Name</Typography>
+                <Typography variant="h2">{storeDetails.title}</Typography>
               </Box>
-              <Box className="rating">
-                <StarRating rating={5} color="#ffb200" size="medium" />
-                255 Review
-              </Box>
+              {storeDetails.reviews?.length > 0 && (
+                <Box className="rating">
+                  <StarRating
+                    rating={averageRatingStore}
+                    color="#ffb200"
+                    size="medium"
+                  />
+                  {storeDetails.reviews.length > 1
+                    ? `${storeDetails.reviews.length} Reviews`
+                    : "1 Review"}
+                </Box>
+              )}
+
               <Box className="timing">
                 <Typography variant="body1">
-                  Timing 9:00 AM to 10:00 PM Open
+                  {getTodayTiming(storeDetails.working_hours)}
                 </Typography>
               </Box>
               <Box className="bookNow_btn">
-                <Link>
+                <Link
+                  to={ROUTES.getBookingPage(storeDetails.slug)}
+                  state={{ storeDetails: storeDetails }}
+                >
                   <Button>Book Now</Button>
                 </Link>
               </Box>
@@ -331,60 +288,284 @@ function StorePage({ initialData }) {
               <TabContext value={activeTab}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <Box className="container">
-                    <TabList onChange={handleChange}>
-                      <Tab label="About" value="1" />
-                      <Tab label="Services" value="2" />
-                      <Tab label="Team Members" value="3" />
-                      <Tab label="Reviews" value="4" />
-                      <Tab label="Photos" value="5" />
+                    <TabList onChange={handleChange} className="store_tabs_ist">
+                      {storeDetails.gallery?.length > 0 && (
+                        <Tab label="Photos" value="photos" />
+                      )}
+                      {storeDetails.services?.length > 0 && (
+                        <Tab label="Services" value="services" />
+                      )}
+                      {storeDetails.workers?.length > 0 && (
+                        <Tab label="Team Members" value="team_members" />
+                      )}
+                      {storeDetails.reviews?.length > 0 && (
+                        <Tab label="Reviews" value="reviews" />
+                      )}
+                      {(storeDetails.about ||
+                        storeDetails.address ||
+                        (storeDetails.lat && storeDetails.lng)) && (
+                        <Tab label="About" value="about" />
+                      )}
                     </TabList>
                   </Box>
                 </Box>
-                <Box className="container">
-                  <TabPanel value="1">
-                    About
-                    {/* <Box className="store_about">
-                      <p>{storeDetails.about}</p>
-                      <div className="map">
-                        {storeDetails.lat &&
-                          storeDetails.lng &&
-                          typeof window !== "undefined" && (
-                            <MapContainer
-                              center={[storeDetails.lat, storeDetails.lng]}
-                              zoom={15}
-                              style={{ height: 500, width: "100%" }}
-                            >
-                              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                              <Marker
-                                position={[storeDetails.lat, storeDetails.lng]}
-                              />
-                            </MapContainer>
-                          )}
-                        <Address details={storeDetails} />
-                      </div>
-                    </Box> */}
-                  </TabPanel>
-                  <TabPanel value="2">
-                    Services
-                    {/* <Box className="store_services">
-                      <Box className="service_title_btn">
-                        <Typography variant="body1">Services</Typography>
-                        <Link>
-                          <Badge badgeContent={4} color="secondary">
-                            <Button>View All</Button>
-                          </Badge>
-                        </Link>
+                <Box className="container store_details_sides" display="flex">
+                  <Box sx={{ width: "70%" }} className="store_details_left">
+                    <TabPanel value="about">
+                      <Box className="store_about">
+                        <p>{storeDetails.about}</p>
+                        <div className="map">
+                          {storeDetails.lat &&
+                            storeDetails.lng &&
+                            typeof window !== "undefined" && (
+                              <MapContainer
+                                center={[storeDetails.lat, storeDetails.lng]}
+                                zoom={15}
+                                style={{ height: 500, width: "100%" }}
+                              >
+                                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                <Marker
+                                  position={[
+                                    storeDetails.lat,
+                                    storeDetails.lng,
+                                  ]}
+                                />
+                              </MapContainer>
+                            )}
+                          <Address details={storeDetails} />
+                        </div>
                       </Box>
-                      <Box className="services">
-                        <Box className="service">
-
+                    </TabPanel>
+                    <TabPanel value="services">
+                      <Box className="store_services">
+                        <Box className="service_title_btn">
+                          <Typography variant="h3">Services</Typography>
+                          {storeDetails.services?.length > 6 && (
+                            <Link
+                              to={ROUTES.getBookingPage(storeDetails.slug)}
+                              state={{ storeDetails: storeDetails }}
+                            >
+                              <Button>
+                                View All{" "}
+                                <span className="badge">
+                                  {storeDetails.services.length}
+                                </span>
+                              </Button>
+                            </Link>
+                          )}
+                        </Box>
+                        <Box className="services">
+                          {storeDetails.services?.length > 0 &&
+                            storeDetails.services
+                              .slice(0, 6)
+                              .map((singleSer, index) => (
+                                <Box className="service" key={index}>
+                                  <Box className="service_name">
+                                    <Typography variant="h4">
+                                      {singleSer.title}
+                                    </Typography>
+                                  </Box>
+                                  <Box className="service_price_eta">
+                                    <Typography variant="h5">
+                                      {singleSer.price} {singleSer.currency}
+                                    </Typography>
+                                    <Typography variant="h6">
+                                      {singleSer.eta}
+                                    </Typography>
+                                  </Box>
+                                  <Box className="service_gender">
+                                    <Typography variant="body1">
+                                      {singleSer.gender
+                                        ? `Only for ${singleSer.gender}`
+                                        : "Available for all"}
+                                    </Typography>
+                                  </Box>
+                                  <hr className="divider" />
+                                  <Box className="service_book">
+                                    <Link
+                                      to={ROUTES.getBookingPage(
+                                        storeDetails.slug,
+                                      )}
+                                      state={{
+                                        storeDetails: storeDetails,
+                                        service: singleSer,
+                                      }}
+                                    >
+                                      <Button>Book Now</Button>
+                                    </Link>
+                                  </Box>
+                                </Box>
+                              ))}
                         </Box>
                       </Box>
-                    </Box> */}
-                  </TabPanel>
-                  <TabPanel value="3">Team Members</TabPanel>
-                  <TabPanel value="4">Reviews</TabPanel>
-                  <TabPanel value="5">Photos</TabPanel>
+                    </TabPanel>
+                    <TabPanel value="team_members">
+                      Team members
+                      {/* <Box className="store_team">
+                        <Box className="service_title_btn">
+                          <Typography variant="h3">Team Members</Typography>
+                        </Box>
+                        <Box className="team_members">
+                          <Box className="member">
+                            <Box className="member_img">
+                              <img src={`${process.env.REACT_APP_IMG_URL}profile_images/a8wVYt0bkt04exrxvQjP6yJZuqK1NKs4AxyjJWdg.jpg`} alt="" />
+                            </Box>
+                            <Box className="member_details">
+                              <Box className="member_name">
+                                <Typography variant="h4">Member_Name</Typography>
+                              </Box>
+                              <Box className="member_spec">
+                                <Typography variant="h5">Member_Designation</Typography>
+                              </Box>
+                              <Box className="member_rating">
+                                <Typography variant="body1">Member_Rating</Typography>
+                              </Box>
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box> */}
+                    </TabPanel>
+                    <TabPanel value="reviews">
+                      {storeDetails?.reviews &&
+                        storeDetails?.reviews?.length > 0 && (
+                          <div className="reviews-div">
+                            <h2>Our Happy Customers</h2>
+                            <div className="reviews mt-3">
+                              {storeDetails.reviews
+                                ?.slice(0, 9)
+                                .filter((review) => review.status === "active")
+                                .map((singleReview) => (
+                                  <div
+                                    className="review"
+                                    key={singleReview?.id}
+                                  >
+                                    <div className="user_info">
+                                      <div className="user_img">
+                                        {singleReview.reviewer.user_info &&
+                                        singleReview.reviewer.user_info
+                                          .profile_image ? (
+                                          <img
+                                            src={`${process.env.REACT_APP_IMG_URL}${singleReview.reviewer.user_info.profile_image}`}
+                                            alt=""
+                                          />
+                                        ) : (
+                                          <DummyImage
+                                            username={
+                                              singleReview.reviewer.username
+                                            }
+                                          />
+                                        )}
+                                      </div>
+                                      <div className="user-name-time">
+                                        <p className="username">
+                                          <b>
+                                            {singleReview.reviewer.username}
+                                          </b>
+                                        </p>
+                                        <p className="time">
+                                          {formatDate(singleReview.reviewed_at)}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="rating">
+                                      <StarRating
+                                        rating={singleReview.rating}
+                                        color="#7b7bfa"
+                                      />
+                                    </div>
+                                    <div className="review-text">
+                                      <p>{singleReview.review}</p>
+                                    </div>
+                                  </div>
+                                ))}
+                            </div>
+
+                            {storeDetails.reviews?.length > 9 && (
+                              <div className="see_all_reviews_btn_div mt-3">
+                                <Link
+                                  to={ROUTES.getAllReviewPage(
+                                    storeDetails.slug,
+                                  )}
+                                  state={{ storeDetails: storeDetails }}
+                                >
+                                  See more...
+                                </Link>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                    </TabPanel>
+                    <TabPanel value="photos">
+                      <Masonry columns={{ xs: 2, md: 3 }} spacing={2}>
+                        {storeDetails.gallery?.map((item, index) => (
+                          <div key={index}>
+                            <img
+                              src={`${process.env.REACT_APP_IMG_URL}${item.image}`}
+                              alt={storeDetails.title}
+                              style={{
+                                borderBottomLeftRadius: 4,
+                                borderBottomRightRadius: 4,
+                                display: "block",
+                                width: "100%",
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </Masonry>
+                    </TabPanel>
+                  </Box>
+                  <Box sx={{ width: "30%" }} className="store_details_right">
+                    <div
+                      className="right_side"
+                      style={{
+                        width: "100%",
+                        padding: "0px",
+                        marginTop: "25px",
+                      }}
+                    >
+                      <div className="opening-hours">
+                        <h2>Working Hours</h2>
+                        <ul style={{ width: "100%" }}>
+                          {storeDetails?.working_hours &&
+                            storeDetails?.working_hours?.length > 0 &&
+                            storeDetails.working_hours.map((singleHour) => (
+                              <li key={singleHour.id}>
+                                <div>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="15"
+                                    height="16"
+                                    viewBox="0 0 15 16"
+                                    fill="none"
+                                  >
+                                    <circle
+                                      cx="7.5"
+                                      cy="8"
+                                      r="7.5"
+                                      fill="#D8A7B1"
+                                    />
+                                  </svg>
+                                  <p>{singleHour.day}</p>
+                                </div>
+                                <div>
+                                  <p>
+                                    {singleHour.start_time_formatted} -{" "}
+                                    {singleHour.end_time_formatted}{" "}
+                                    {singleHour.is_closed !== "active" ? (
+                                      <strong style={{ color: "red" }}>
+                                        Closed
+                                      </strong>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </p>
+                                </div>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </Box>
                 </Box>
               </TabContext>
             </Box>

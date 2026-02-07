@@ -21,10 +21,11 @@ var _routes = require("../../routes");
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
+var _StarOutlined = _interopRequireDefault(require("@mui/icons-material/StarOutlined"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function StorePage(_ref) {
-  var _storeDetails$reviews2, _storeDetails$reviews3, _storeDetails$gallery2, _storeDetails$service2, _storeDetails$workers2, _storeDetails$reviews4, _storeDetails$service3, _storeDetails$service4, _storeDetails$reviews5, _storeDetails$reviews6, _storeDetails$reviews7, _storeDetails$gallery3, _storeDetails$working;
+  var _storeDetails$reviews2, _storeDetails$reviews3, _storeDetails$gallery2, _storeDetails$service2, _storeDetails$workers2, _storeDetails$reviews4, _storeDetails$service3, _storeDetails$service4, _storeDetails$workers3, _storeDetails$reviews5, _storeDetails$reviews6, _storeDetails$reviews7, _storeDetails$gallery3, _storeDetails$working;
   let {
     initialData
   } = _ref;
@@ -106,11 +107,11 @@ function StorePage(_ref) {
   }, [storeDetails]);
   const getDefaultTab = storeDetails => {
     var _storeDetails$gallery, _storeDetails$service, _storeDetails$workers, _storeDetails$reviews;
-    if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$gallery = storeDetails.gallery) === null || _storeDetails$gallery === void 0 ? void 0 : _storeDetails$gallery.length) > 0) return 'photos';
-    if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$service = storeDetails.services) === null || _storeDetails$service === void 0 ? void 0 : _storeDetails$service.length) > 0) return 'services';
-    if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0) return 'team_members';
-    if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews = storeDetails.reviews) === null || _storeDetails$reviews === void 0 ? void 0 : _storeDetails$reviews.length) > 0) return 'reviews';
-    if (storeDetails !== null && storeDetails !== void 0 && storeDetails.about || storeDetails !== null && storeDetails !== void 0 && storeDetails.address || storeDetails !== null && storeDetails !== void 0 && storeDetails.lat && storeDetails !== null && storeDetails !== void 0 && storeDetails.lng) return 'about';
+    if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$gallery = storeDetails.gallery) === null || _storeDetails$gallery === void 0 ? void 0 : _storeDetails$gallery.length) > 0) return "photos";
+    if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$service = storeDetails.services) === null || _storeDetails$service === void 0 ? void 0 : _storeDetails$service.length) > 0) return "services";
+    if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0) return "team_members";
+    if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews = storeDetails.reviews) === null || _storeDetails$reviews === void 0 ? void 0 : _storeDetails$reviews.length) > 0) return "reviews";
+    if (storeDetails !== null && storeDetails !== void 0 && storeDetails.about || storeDetails !== null && storeDetails !== void 0 && storeDetails.address || storeDetails !== null && storeDetails !== void 0 && storeDetails.lat && storeDetails !== null && storeDetails !== void 0 && storeDetails.lng) return "about";
     return false; // no tabs available
   };
   (0, _react.useEffect)(() => {
@@ -375,7 +376,50 @@ function StorePage(_ref) {
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Button, null, "Book Now")))))))), /*#__PURE__*/_react.default.createElement(_TabPanel.default, {
     value: "team_members"
-  }, "Team members"), /*#__PURE__*/_react.default.createElement(_TabPanel.default, {
+  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "store_team"
+  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "teamMember_title"
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h3"
+  }, "Team Members")), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "team_members_cards"
+  }, ((_storeDetails$workers3 = storeDetails.workers) === null || _storeDetails$workers3 === void 0 ? void 0 : _storeDetails$workers3.length) > 0 && storeDetails.workers.filter(singleWorker => {
+    var _singleWorker$user;
+    return ((_singleWorker$user = singleWorker.user) === null || _singleWorker$user === void 0 ? void 0 : _singleWorker$user.account_status) === "active";
+  }).map((singleWorker, index) => {
+    var _singleWorker$user2, _singleWorker$user$us;
+    const reviews = (singleWorker === null || singleWorker === void 0 || (_singleWorker$user2 = singleWorker.user) === null || _singleWorker$user2 === void 0 ? void 0 : _singleWorker$user2.reviews_received) || [];
+    const total = reviews.reduce((sum, r) => sum + parseFloat(r.rating || 0), 0);
+    const averageRating = reviews.length > 0 ? (total / reviews.length).toFixed(1) : "";
+    return /*#__PURE__*/_react.default.createElement("div", {
+      class: "flip-card",
+      key: index
+    }, /*#__PURE__*/_react.default.createElement("div", {
+      class: "flip-card-inner"
+    }, /*#__PURE__*/_react.default.createElement("div", {
+      class: "flip-card-front"
+    }, singleWorker.user.user_info.profile_image ? /*#__PURE__*/_react.default.createElement("img", {
+      src: "".concat(process.env.REACT_APP_IMG_URL).concat(singleWorker.user.user_info.profile_image),
+      alt: ""
+    }) : /*#__PURE__*/_react.default.createElement("div", {
+      className: "dummy_img"
+    }, ((_singleWorker$user$us = singleWorker.user.username) === null || _singleWorker$user$us === void 0 ? void 0 : _singleWorker$user$us.charAt(0)) || "?")), /*#__PURE__*/_react.default.createElement("div", {
+      class: "flip-card-back"
+    }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+      className: "member_name"
+    }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+      variant: "body1"
+    }, singleWorker.user.username)), /*#__PURE__*/_react.default.createElement(_material.Box, {
+      className: "member_desig"
+    }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+      variant: "body1"
+    }, singleWorker.user.user_info.designation)), averageRating && /*#__PURE__*/_react.default.createElement(_material.Box, {
+      className: "member_rating"
+    }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+      variant: "body1"
+    }, averageRating, " ", /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null))))));
+  })))), /*#__PURE__*/_react.default.createElement(_TabPanel.default, {
     value: "reviews"
   }, (storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.reviews) && (storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews5 = storeDetails.reviews) === null || _storeDetails$reviews5 === void 0 ? void 0 : _storeDetails$reviews5.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
     className: "reviews-div"

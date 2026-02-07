@@ -3241,44 +3241,86 @@ input::-webkit-inner-spin-button {
       }
     }
   }
-  .store_team{
-    .team_members{
+
+  .store_team {
+    .teamMember_title{
+      h3{
+        font-size:30px;
+      }
+    }
+    .team_members_cards {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 20px;
-      .member{
-        display:flex;
-        border:1px solid #e0e0e0;
-        border-radius: 5px;
+
+      .flip-card {
+        background-color: transparent;
+        height: 250px;
+        overflow: hidden;
+        border-radius: 16px;
+
+        img {
+          border-radius: 16px;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+      }
+
+      .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+      }
+
+      .flip-card-front,
+      .flip-card-back {
+        box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.2);
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 16px;
+      }
+
+      .flip-card-back {
+        border: 1px solid #0000001f;
+        transform: rotateY(180deg);
+        display: flex;
+        justify-content: center;
         align-items: center;
-        .member_img{
-          width: 40%;
-          height: 200px;
-          img{
-            width: 100%;
-            height: 100%;
-    object-fit: cover;
+        gap: 5px;
+
+        .member_name {
+          p {
+            font-size: 20px;
           }
         }
-        .member_details{
-          width: 60%;
-          padding: 10px;
-          .member_name{
-            h4{
-              font-size: 26px;
-            }
-          }
-          .member_spec{
-            h5{
-              font-size: 20px;
-            }
+
+        .member_rating {
+          p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
         }
       }
     }
+
   }
-  .right_side{
+
+  .right_side {
     box-shadow: none;
-    border:none;
+    border: none;
   }
 }

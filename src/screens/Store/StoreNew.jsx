@@ -15,11 +15,12 @@ import { ROUTES } from "../../routes";
 import { saveRecentlyViewedStore } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
+import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 
 function StorePage({ initialData }) {
   const { formatDate, user } = useAuth();
   const [activeTab, setActiveTab] = useState("photos");
-  
+
   const { slug } = useParams();
   const navigate = useNavigate();
   const [storeDetails, setStoreDetails] = useState(() => {
@@ -90,24 +91,25 @@ function StorePage({ initialData }) {
     }
   }, []);
   useEffect(() => {
-  const defaultTab = getDefaultTab(storeDetails);
-  if (defaultTab) {
-    setActiveTab(defaultTab);
-  }
-}, [storeDetails]);
-const getDefaultTab = (storeDetails) => {
-  if (storeDetails?.gallery?.length > 0) return 'photos';
-  if (storeDetails?.services?.length > 0) return 'services';
-  if (storeDetails?.workers?.length > 0) return 'team_members';
-  if (storeDetails?.reviews?.length > 0) return 'reviews';
-  if (
-    storeDetails?.about ||
-    storeDetails?.address ||
-    (storeDetails?.lat && storeDetails?.lng)
-  ) return 'about';
+    const defaultTab = getDefaultTab(storeDetails);
+    if (defaultTab) {
+      setActiveTab(defaultTab);
+    }
+  }, [storeDetails]);
+  const getDefaultTab = (storeDetails) => {
+    if (storeDetails?.gallery?.length > 0) return "photos";
+    if (storeDetails?.services?.length > 0) return "services";
+    if (storeDetails?.workers?.length > 0) return "team_members";
+    if (storeDetails?.reviews?.length > 0) return "reviews";
+    if (
+      storeDetails?.about ||
+      storeDetails?.address ||
+      (storeDetails?.lat && storeDetails?.lng)
+    )
+      return "about";
 
-  return false; // no tabs available
-};
+    return false; // no tabs available
+  };
   useEffect(() => {
     if (
       storeDetails &&
@@ -182,7 +184,7 @@ const getDefaultTab = (storeDetails) => {
       showSnackbar(alertMessage, "success");
     }
   }, [alertMessage]);
-  const handleChange = (event,newValue) => {
+  const handleChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
@@ -400,30 +402,62 @@ const getDefaultTab = (storeDetails) => {
                       </Box>
                     </TabPanel>
                     <TabPanel value="team_members">
-                      Team members
-                      {/* <Box className="store_team">
-                        <Box className="service_title_btn">
+                      {/* Team members */}
+                      <Box className="store_team">
+                        <Box className="teamMember_title">
                           <Typography variant="h3">Team Members</Typography>
                         </Box>
-                        <Box className="team_members">
-                          <Box className="member">
-                            <Box className="member_img">
-                              <img src={`${process.env.REACT_APP_IMG_URL}profile_images/a8wVYt0bkt04exrxvQjP6yJZuqK1NKs4AxyjJWdg.jpg`} alt="" />
-                            </Box>
-                            <Box className="member_details">
-                              <Box className="member_name">
-                                <Typography variant="h4">Member_Name</Typography>
-                              </Box>
-                              <Box className="member_spec">
-                                <Typography variant="h5">Member_Designation</Typography>
-                              </Box>
-                              <Box className="member_rating">
-                                <Typography variant="body1">Member_Rating</Typography>
-                              </Box>
-                            </Box>
-                          </Box>
+                        <Box className="team_members_cards">
+                          {storeDetails.workers?.length > 0 && (
+                            storeDetails.workers.filter( (singleWorker) => singleWorker.user?.account_status === "active" ).map((singleWorker,index) => {
+                              const reviews =
+                                singleWorker?.user?.reviews_received || [];
+                              const total = reviews.reduce(
+                                (sum, r) => sum + parseFloat(r.rating || 0),
+                                0
+                              );
+                              const averageRating =
+                                reviews.length > 0
+                                  ? (total / reviews.length).toFixed(1)
+                                  : "";
+                                  return (
+                                    <div class="flip-card" key={index}>
+                                    <div class="flip-card-inner">
+                                      <div class="flip-card-front">
+                                        {singleWorker.user.user_info.profile_image ? (
+                                          <img
+                                            src={`${process.env.REACT_APP_IMG_URL}${singleWorker.user.user_info.profile_image}`}
+                                            alt=""
+                                          />
+                                        ) : (
+                                          <div className="dummy_img">
+                                            {singleWorker.user.username?.charAt(0) || "?"}
+                                          </div>
+                                        )}
+                                      </div>
+                                      <div class="flip-card-back">
+                                        <Box className="member_name">
+                                          <Typography variant="body1">
+                                            {singleWorker.user.username}
+                                          </Typography>
+                                        </Box>
+                                        <Box className="member_desig">
+                                          <Typography variant="body1">{singleWorker.user.user_info.designation}</Typography>
+                                        </Box>
+                                        {averageRating && (
+                                          <Box className="member_rating">
+                                          <Typography variant="body1">{averageRating} <StarOutlinedIcon /></Typography>
+                                        </Box>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  )
+                            })
+                          )}
+                          
                         </Box>
-                      </Box> */}
+                      </Box>
                     </TabPanel>
                     <TabPanel value="reviews">
                       {storeDetails?.reviews &&
@@ -514,6 +548,7 @@ const getDefaultTab = (storeDetails) => {
                       </Masonry>
                     </TabPanel>
                   </Box>
+                  {/* <hr /> */}
                   <Box sx={{ width: "30%" }} className="store_details_right">
                     <div
                       className="right_side"

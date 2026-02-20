@@ -152,7 +152,8 @@
     }
 
     .reviews {
-        gap: 25px;
+        grid-template-columns: repeat(1, 1fr) !important;
+        row-gap: 30px;
     }
 
     .opening-hours ul {

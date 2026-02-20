@@ -170,7 +170,7 @@ function ServiceCategoriesPage() {
               </TableHead>
               <TableBody>
                 {availableCategories && availableCategories.length > 0 ? (
-                  availableCategories.map((singleCat, index) => (
+                  availableCategories.filter((singleCat) => (singleCat.status == 'active')).map((singleCat, index) => (
                     <TableRow key={singleCat.id}>
                       <TableCell align="left">{index + 1}</TableCell>
                       <TableCell>{singleCat.title}</TableCell>

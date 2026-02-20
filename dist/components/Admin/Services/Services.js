@@ -232,7 +232,7 @@ function Servicespage() {
     }
   }, "Save Service")), /*#__PURE__*/_react.default.createElement(_material.TableContainer, {
     sx: {
-      maxWidth: 1000
+      maxWidth: 1300
     },
     component: _material.Paper
   }, /*#__PURE__*/_react.default.createElement(_material.Table, {

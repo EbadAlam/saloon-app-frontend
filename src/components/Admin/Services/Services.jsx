@@ -245,7 +245,7 @@ function Servicespage() {
             </Button>
           </Box>
         )}
-        <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
+        <TableContainer sx={{ maxWidth: 1300 }} component={Paper}>
           <Table aria-label="Services Table">
             <TableHead>
               <TableRow>

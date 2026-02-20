@@ -271,6 +271,7 @@ h6 {
   border-radius: 20px;
   color: black;
   align-items: center;
+  background: white;
 
   svg {
     margin-bottom: 3px;
@@ -406,7 +407,6 @@ h6 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     h4,
     p {
       margin: 0;
@@ -574,9 +574,12 @@ h6 {
 }
 
 .reviews {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 70px;
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 70px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 50px;
 }
 
 .review p {
@@ -619,6 +622,10 @@ h6 {
 
 .review .review-text p {
   font-size: 18px;
+  max-width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   // font-weight: 600;
 }
 
@@ -3172,7 +3179,11 @@ input::-webkit-inner-spin-button {
       display: flex;
       justify-content: space-between;
       align-items: center;
-
+      button {
+        .MuiTouchRipple-root{
+          display: none;
+        }
+      }
       h3 {
         font-size: 30px;
       }
@@ -3209,7 +3220,7 @@ input::-webkit-inner-spin-button {
         display: flex;
         flex-direction: column;
         align-items: self-start;
-        gap: 10px;
+        gap: 15px;
 
         .service_name {
           h4 {
@@ -3292,7 +3303,11 @@ input::-webkit-inner-spin-button {
         backface-visibility: hidden;
         border-radius: 16px;
       }
-
+      .flip-card-front{
+        background: #00000073;
+        color: white;
+        font-size: 50px;
+      }
       .flip-card-back {
         border: 1px solid #0000001f;
         transform: rotateY(180deg);

@@ -634,5 +634,13 @@
                 overflow: scroll;
             }
         }
+        .team_members_cards {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+        .flip-card-inner{
+            transform: rotateY(180deg);
+            background: #00000073;
+            color: white;
+        }
     }
 }

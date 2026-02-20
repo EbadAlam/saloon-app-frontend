@@ -158,7 +158,7 @@ function ServiceCategoriesPage() {
     align: "left"
   }, "#"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Title"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     align: "right"
-  }, "Add to store"))), /*#__PURE__*/_react.default.createElement(_material.TableBody, null, availableCategories && availableCategories.length > 0 ? availableCategories.map((singleCat, index) => /*#__PURE__*/_react.default.createElement(_material.TableRow, {
+  }, "Add to store"))), /*#__PURE__*/_react.default.createElement(_material.TableBody, null, availableCategories && availableCategories.length > 0 ? availableCategories.filter(singleCat => singleCat.status == 'active').map((singleCat, index) => /*#__PURE__*/_react.default.createElement(_material.TableRow, {
     key: singleCat.id
   }, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     align: "left"

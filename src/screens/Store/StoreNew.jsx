@@ -313,7 +313,7 @@ function StorePage({ initialData }) {
                 </Box>
                 <Box className="container store_details_sides" display="flex">
                   <Box sx={{ width: "70%" }} className="store_details_left">
-                    <TabPanel value="about">
+                    <TabPanel value="about" keepMounted>
                       <Box className="store_about">
                         <p>{storeDetails.about}</p>
                         <div className="map">
@@ -338,7 +338,7 @@ function StorePage({ initialData }) {
                         </div>
                       </Box>
                     </TabPanel>
-                    <TabPanel value="services">
+                    <TabPanel value="services" keepMounted>
                       <Box className="store_services">
                         <Box className="service_title_btn">
                           <Typography variant="h3">Services</Typography>
@@ -401,7 +401,7 @@ function StorePage({ initialData }) {
                         </Box>
                       </Box>
                     </TabPanel>
-                    <TabPanel value="team_members">
+                    <TabPanel value="team_members" keepMounted>
                       {/* Team members */}
                       <Box className="store_team">
                         <Box className="teamMember_title">
@@ -459,7 +459,7 @@ function StorePage({ initialData }) {
                         </Box>
                       </Box>
                     </TabPanel>
-                    <TabPanel value="reviews">
+                    <TabPanel value="reviews" keepMounted>
                       {storeDetails?.reviews &&
                         storeDetails?.reviews?.length > 0 && (
                           <div className="reviews-div">
@@ -529,7 +529,7 @@ function StorePage({ initialData }) {
                           </div>
                         )}
                     </TabPanel>
-                    <TabPanel value="photos">
+                    <TabPanel value="photos" keepMounted>
                       <Masonry columns={{ xs: 2, md: 3 }} spacing={2}>
                         {storeDetails.gallery?.map((item, index) => (
                           <div key={index}>

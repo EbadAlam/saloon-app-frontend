@@ -312,7 +312,8 @@ function StorePage(_ref) {
     },
     className: "store_details_left"
   }, /*#__PURE__*/_react.default.createElement(_TabPanel.default, {
-    value: "about"
+    value: "about",
+    keepMounted: true
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "store_about"
   }, /*#__PURE__*/_react.default.createElement("p", null, storeDetails.about), /*#__PURE__*/_react.default.createElement("div", {
@@ -331,7 +332,8 @@ function StorePage(_ref) {
   })), /*#__PURE__*/_react.default.createElement(_Address.default, {
     details: storeDetails
   })))), /*#__PURE__*/_react.default.createElement(_TabPanel.default, {
-    value: "services"
+    value: "services",
+    keepMounted: true
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "store_services"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -375,7 +377,8 @@ function StorePage(_ref) {
       service: singleSer
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Button, null, "Book Now")))))))), /*#__PURE__*/_react.default.createElement(_TabPanel.default, {
-    value: "team_members"
+    value: "team_members",
+    keepMounted: true
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "store_team"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -420,7 +423,8 @@ function StorePage(_ref) {
       variant: "body1"
     }, averageRating, " ", /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null))))));
   })))), /*#__PURE__*/_react.default.createElement(_TabPanel.default, {
-    value: "reviews"
+    value: "reviews",
+    keepMounted: true
   }, (storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.reviews) && (storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews5 = storeDetails.reviews) === null || _storeDetails$reviews5 === void 0 ? void 0 : _storeDetails$reviews5.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
     className: "reviews-div"
   }, /*#__PURE__*/_react.default.createElement("h2", null, "Our Happy Customers"), /*#__PURE__*/_react.default.createElement("div", {
@@ -458,7 +462,8 @@ function StorePage(_ref) {
       storeDetails: storeDetails
     }
   }, "See more...")))), /*#__PURE__*/_react.default.createElement(_TabPanel.default, {
-    value: "photos"
+    value: "photos",
+    keepMounted: true
   }, /*#__PURE__*/_react.default.createElement(_Masonry.default, {
     columns: {
       xs: 2,

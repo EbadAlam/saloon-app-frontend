@@ -40,6 +40,7 @@ function TeamsPage() {
     name: '',
     designation: '',
     email: '',
+    gender: '',
     password: '',
     profileImage: null,
     id: ''
@@ -98,6 +99,7 @@ function TeamsPage() {
       dataToSend.append('email', formData.email);
       dataToSend.append('password', formData.password);
       dataToSend.append('designation', formData.designation);
+      dataToSend.append('gender', formData.gender);
       dataToSend.append('profileImage', formData.profileImage);
       dataToSend.append('owner_id', user.id);
       dataToSend.append('store_id', storeId);
@@ -220,7 +222,21 @@ function TeamsPage() {
     sx: {
       mb: 2
     }
-  }), !formData.id && /*#__PURE__*/_react.default.createElement(_material.TextField, {
+  }), /*#__PURE__*/_react.default.createElement(_material.TextField, {
+    select: true,
+    fullWidth: true,
+    label: "Gender",
+    name: "gender",
+    value: formData.gender,
+    onChange: handleChange,
+    sx: {
+      mb: 2
+    }
+  }, /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
+    value: "Male"
+  }, "Male"), /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
+    value: "Female"
+  }, "Female")), !formData.id && /*#__PURE__*/_react.default.createElement(_material.TextField, {
     fullWidth: true,
     label: "Password",
     name: "password",
@@ -244,20 +260,20 @@ function TeamsPage() {
     onChange: handleChange
   })), formData.profileImage && /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body2"
-  }, "Selected: ", formData.profileImage.name), /*#__PURE__*/_react.default.createElement(_material.Button, {
+  }, "Selected: ", formData.profileImage.name), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_material.Button, {
     type: "submit",
     variant: "contained",
     sx: {
       mt: 2
     }
-  }, "Save Member")), /*#__PURE__*/_react.default.createElement(_material.TableContainer, {
+  }, "Save Member"))), /*#__PURE__*/_react.default.createElement(_material.TableContainer, {
     component: _material.Paper
   }, /*#__PURE__*/_react.default.createElement(_material.Table, {
     "aria-label": "Services Table"
   }, /*#__PURE__*/_react.default.createElement(_material.TableHead, null, /*#__PURE__*/_react.default.createElement(_material.TableRow, null, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     align: "left"
-  }, "#"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Username"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Email"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Profile Img"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Designation"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Status"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Edit"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Delete"))), teamMembers && teamMembers.length > 0 ? teamMembers.map((singleMember, index) => {
-    var _singleMember$user, _singleMember$user2, _singleMember$user3, _singleMember$user4, _singleMember$user5, _singleMember$user6, _singleMember$user7, _singleMember$user8, _singleMember$user9, _singleMember$user0, _singleMember$user1;
+  }, "#"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Username"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Email"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Profile Img"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Gender"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Designation"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Status"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Edit"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Delete"))), teamMembers && teamMembers.length > 0 ? teamMembers.map((singleMember, index) => {
+    var _singleMember$user, _singleMember$user2, _singleMember$user3, _singleMember$user4, _singleMember$user5, _singleMember$user6, _singleMember$user7, _singleMember$user$us, _singleMember$user8, _singleMember$user9, _singleMember$user0, _singleMember$user1, _singleMember$user10;
     return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.TableBody, {
       key: index + 1
     }, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
@@ -291,17 +307,20 @@ function TeamsPage() {
     })), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
       component: "th",
       scope: "row"
-    }, (_singleMember$user8 = singleMember.user) === null || _singleMember$user8 === void 0 ? void 0 : _singleMember$user8.user_info.designation), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    }, (_singleMember$user$us = (_singleMember$user8 = singleMember.user) === null || _singleMember$user8 === void 0 ? void 0 : _singleMember$user8.user_info.gender) !== null && _singleMember$user$us !== void 0 ? _singleMember$user$us : 'N/A'), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+      component: "th",
+      scope: "row"
+    }, (_singleMember$user9 = singleMember.user) === null || _singleMember$user9 === void 0 ? void 0 : _singleMember$user9.user_info.designation), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
       sx: {
-        color: ((_singleMember$user9 = singleMember.user) === null || _singleMember$user9 === void 0 ? void 0 : _singleMember$user9.account_status) === 'active' ? 'green' : 'red',
+        color: ((_singleMember$user0 = singleMember.user) === null || _singleMember$user0 === void 0 ? void 0 : _singleMember$user0.account_status) === 'active' ? 'green' : 'red',
         fontWeight: 'bold',
         textTransform: 'capitalize'
       }
-    }, (_singleMember$user0 = singleMember.user) === null || _singleMember$user0 === void 0 ? void 0 : _singleMember$user0.account_status), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_material.Button, {
+    }, (_singleMember$user1 = singleMember.user) === null || _singleMember$user1 === void 0 ? void 0 : _singleMember$user1.account_status), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_material.Button, {
       variant: "contained",
       onClick: () => handleToggleEditForm(singleMember.user)
     }, "Edit")), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_DeleteButton.default, {
-      id: (_singleMember$user1 = singleMember.user) === null || _singleMember$user1 === void 0 ? void 0 : _singleMember$user1.id,
+      id: (_singleMember$user10 = singleMember.user) === null || _singleMember$user10 === void 0 ? void 0 : _singleMember$user10.id,
       url: "/deleteTeamMember",
       onStatusChange: handleStatusChange
     }))));

@@ -12,7 +12,8 @@ import {
   TableCell,
   TableBody,
   Paper,
-  Alert
+  Alert,
+  MenuItem
 } from '@mui/material';
 import AdminLayout from '../Layout/Layout';
 import Loader from '../../Loader/Loader';
@@ -36,6 +37,7 @@ function TeamsPage() {
     name: '',
     designation: '',
     email: '',
+    gender: '',
     password: '',
     profileImage: null,
     id:'',
@@ -84,6 +86,7 @@ function TeamsPage() {
       dataToSend.append('email', formData.email);
       dataToSend.append('password', formData.password);
       dataToSend.append('designation', formData.designation);
+      dataToSend.append('gender', formData.gender);
       dataToSend.append('profileImage', formData.profileImage);
       dataToSend.append('owner_id', user.id);
       dataToSend.append('store_id', storeId);
@@ -195,6 +198,18 @@ function TeamsPage() {
               onChange={handleChange}
               sx={{ mb: 2 }}
             />
+            <TextField
+            select
+            fullWidth
+            label="Gender"
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            sx={{ mb: 2 }}
+          >
+            <MenuItem value="Male">Male</MenuItem>
+            <MenuItem value="Female">Female</MenuItem>
+          </TextField>
             {!formData.id && 
               <TextField
                 fullWidth
@@ -226,10 +241,11 @@ function TeamsPage() {
                 Selected: {formData.profileImage.name}
               </Typography>
             )}
-
-            <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-              Save Member
-            </Button>
+            <div>
+              <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+                Save Member
+              </Button>
+            </div>
           </Box>
         )}
         <TableContainer component={Paper}>
@@ -240,6 +256,7 @@ function TeamsPage() {
                 <TableCell>Username</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Profile Img</TableCell>
+                <TableCell>Gender</TableCell>
                 <TableCell>Designation</TableCell>
                 <TableCell>Status</TableCell>
                 {/* <TableCell>Change Status</TableCell> */}
@@ -287,6 +304,9 @@ function TeamsPage() {
                       ) : (
                         <DummyImage username={singleMember?.user?.username} />
                       )}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {singleMember.user?.user_info.gender ?? 'N/A'}
                     </TableCell>
                     <TableCell component="th" scope="row">
                       {singleMember.user?.user_info.designation}

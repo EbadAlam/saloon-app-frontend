@@ -143,6 +143,15 @@ function Servicespage() {
           showSnackbar(alertMessage, alertMessageType)
         }
       }, [alertMessage]);
+      const etaOptions = [
+        "30 minutes",
+        "45 minutes",
+        "1 hour",
+        "1 hour 15 minutes",
+        "1 hour 30 minutes",
+        "1 hour 45 minutes",
+        "2 hours",
+      ];
   return (
     <AdminLayout>
       {loading && <Loader />}
@@ -216,13 +225,20 @@ function Servicespage() {
           />
 
             <TextField
+              select
               fullWidth
-              label="Estimated Time (e.g. 30 mins)"
+              label="Estimated Time"
               value={eta}
               onChange={(e) => setEta(e.target.value)}
               required
               margin="normal"
-            />
+            >
+              {etaOptions.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
 
             <FormControl fullWidth margin="normal">
               <InputLabel id="gender-label">Gender</InputLabel>

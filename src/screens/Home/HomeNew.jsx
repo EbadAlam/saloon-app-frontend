@@ -70,13 +70,13 @@ function Home() {
   const categoriesSliderSettings = {
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 800,
     arrows: true,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 4000,
     pauseOnHover: true,
-    slidesToShow: 8,
-    slidesToScroll: 8,
+    slidesToShow: 6,
+    slidesToScroll: 3,
      responsive: [
     {
       breakpoint: 768,
@@ -150,7 +150,7 @@ function Home() {
                 </Box>
                 <Box className="stores_cards">
                   {stores?.new?.length > 0 &&
-                    stores.new.slice(0, 5).map((singleStore, index) => {
+                    stores.new.slice(0, 4).map((singleStore, index) => {
                       const rating = calculateAverageRating(singleStore.reviews);
                       return (
                         <Box className="store_card" key={index}>
@@ -215,7 +215,7 @@ function Home() {
                 </Box>
                 <Box className="stores_cards">
                   {stores?.trending?.length > 0 &&
-                    stores.trending.slice(0, 5).map((singleStore, index) => {
+                    stores.trending.slice(0, 4).map((singleStore, index) => {
                       const rating = calculateAverageRating(singleStore.reviews);
                       return (
                         <Box className="store_card" key={index}>

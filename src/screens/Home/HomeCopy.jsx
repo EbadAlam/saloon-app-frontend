@@ -67,9 +67,9 @@ function Home() {
   const reivewsSliderSettings = {
     dots: false,
     infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
+    speed: 800,
+    slidesToShow: 4,
+    slidesToScroll: 4,
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
@@ -78,14 +78,14 @@ function Home() {
             breakpoint: 1024,
             settings: {
                 slidesToShow: 3,
-                slidesToScroll: 1,
+                slidesToScroll: 3,
             }
         },
         {
             breakpoint: 768,
             settings: {
                 slidesToShow: 2,
-                slidesToScroll: 1,
+                slidesToScroll: 2,
             }
         },
         {
@@ -111,7 +111,7 @@ function Home() {
       {loading ? (
         <SkeletonHome />
       ) : (
-        <>
+        <div className='homeNewDesign'>
           <div className="container">
             <Box className="main_banner" sx={{paddingBlock:'100px'}}>
               <Box
@@ -123,12 +123,25 @@ function Home() {
                     variant="h1"
                     sx={{
                       color: "#333333",
-                      fontSize: "100px",
+                      fontSize: "70px",
                       fontWeight: "500",
                       fontFamily: "Bebas Neue",
+                      textAlign: "center",
                     }}
                   >
                     Book Local Beauty & Wellness Service...
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: "#333333",
+                      fontSize: "20px",
+                      fontWeight: "400",
+                      fontFamily: "Barlow",
+                      textAlign: "center",
+                    }}
+                  >
+                    Find the best salons, barbershops, medspas, wellness centers, and beauty specialists that millions of people around the world trust.
                   </Typography>
                 </Box>
                 <Box className="search_bar">
@@ -148,7 +161,7 @@ function Home() {
                     {bookingCount} appointments are booked today.
                   </Typography>
                 </Box>
-                <Box
+                {/* <Box
                   className="get_app_btn mt-5"
                   display="flex"
                   justifyContent="center"
@@ -168,7 +181,7 @@ function Home() {
                       Get the app <QrCodeIcon />
                     </Button>
                   </Link>
-                </Box>
+                </Box> */}
               </Box>
               <div className="background-gradient"></div>
             </Box>
@@ -176,9 +189,9 @@ function Home() {
           {recentStores.length > 0 && (
             <Box
                 className="recommended"
-                sx={{ background: "", zIndex: "3" }}
+                sx={{ background: "", zIndex: "3", position:"relative" }}
               >
-                <div className="container" style={{ paddingBlock: "40px" }}>
+                <div className="container" style={{ paddingTop: "40px" }}>
                   <Typography
                     variant="h3"
                     sx={{
@@ -200,9 +213,9 @@ function Home() {
           <Box className="sliders">
             <Box
               className="recommended"
-              sx={{ background: "#D8A7B1", zIndex: "3" }}
+              sx={{ background: "", zIndex: "3" }}
             >
-              <div className="container" style={{ paddingBlock: "40px" }}>
+              <div className="container" style={{ paddingTop: "40px" }}>
                 <Typography
                   variant="h3"
                   sx={{
@@ -221,9 +234,9 @@ function Home() {
             </Box>
             <Box
               className="new_to_site"
-              sx={{ background: "#E4F1F2", zIndex: "3" }}
+              sx={{ background: "", zIndex: "3" }}
             >
-              <div className="container" style={{ paddingBlock: "40px" }}>
+              <div className="container" style={{ paddingTop: "40px" }}>
                 <Typography
                   variant="h3"
                   sx={{
@@ -242,9 +255,9 @@ function Home() {
             </Box>
             <Box
               className="trending"
-              sx={{ background: "#e4e4e466", zIndex: "3" }}
+              sx={{ background: "", zIndex: "3" }}
             >
-              <div className="container" style={{ paddingBlock: "40px" }}>
+              <div className="container" style={{ paddingTop: "40px" }}>
                 <Typography
                   variant="h3"
                   sx={{
@@ -262,7 +275,7 @@ function Home() {
               </div>
             </Box>
           </Box>
-          <Box className="download_app_section">
+          {/* <Box className="download_app_section">
             <div className="container">
               <Box className="content">
                     <Box className="avail_heading" display='flex' alignItems='center' gap='8px'>
@@ -311,14 +324,22 @@ function Home() {
                 <img className="mobile_img" src={`${process.env.REACT_APP_BASE_URL}/avail_banner_img_1.png`} alt="" />
                 <img className="pillers_img" src={`${process.env.REACT_APP_BASE_URL}/pillers.png`} alt="" />
               </Box>
-          </Box>
+          </Box> */}
           {reviews && reviews.length > 0 && (
             <Box className="reviews_slider">
               <Box className="container">
-                <Typography variant="h3" sx={{fontSize:'32px',fontFamily:'Barlow',fontWeight:'600'}}>Reviews</Typography>
+                <Typography variant="h3" sx={{fontSize:'30px',fontFamily:'Barlow',fontWeight:'700',textTransform:'capitalize'}}>What client says</Typography>
                 <Slider {...reivewsSliderSettings} className="mt-5">
                   {reviews.map((singleRev) => (
                     <Box className="singleReview">
+                      <Box className="rating">
+                        <StarRating rating={singleRev.rating} size="large" color="gold" />
+                        {/* <Typography variant="body1" sx={{fontSize:'16px',fontWeight:'600',fontFamily:'Barlow'}}>{singleRev.rating}</Typography> */}
+                      </Box>
+                      <Box className="review">
+                        <Typography variant="body1" sx={{fontSize:'22px',fontWeight:'600',fontFamily:'Barlow',textTransform:'capitalize'}}>{singleRev.title}</Typography>
+                        <Typography className="review_content" variant="body1" sx={{fontSize:'18px',fontFamily:'Barlow'}}>{singleRev.review}</Typography>
+                      </Box>
                       <Box className="userInfo">
                         <Box className="profileImg">
                           {singleRev.reviewer.user_info.profile_image ? (
@@ -335,14 +356,6 @@ function Home() {
                           <Typography variant="body1" sx={{fontSize:'16px',fontWeight:'600',fontFamily:'Barlow'}}>{singleRev.reviewer.username}</Typography>
                           <Typography variant="body1" sx={{fontSize:'14px',fontFamily:'Barlow'}}>{singleRev.reviewer.user_info.city}</Typography>
                         </Box>
-                      </Box>
-                      <Box className="rating">
-                        <StarRating rating={singleRev.rating} color="#F4C430" />
-                        <Typography variant="body1" sx={{fontSize:'16px',fontWeight:'600',fontFamily:'Barlow'}}>{singleRev.rating}</Typography>
-                      </Box>
-                      <Box className="review">
-                        <Typography variant="body1" sx={{fontSize:'18px',fontWeight:'600',fontFamily:'Barlow'}}>{singleRev.title}</Typography>
-                        <Typography variant="body1" sx={{fontSize:'14px',fontFamily:'Barlow'}}>{singleRev.review}</Typography>
                       </Box>
                     </Box>
                   ))}
@@ -387,7 +400,7 @@ function Home() {
               </Box>
             </Box>
           </Box>
-        </>
+        </div>
       )}
     </>
   );
@@ -400,17 +413,22 @@ const PrevArrow = ({ className, style, onClick }) => (
      className="arrow-prev-custom"
      onClick={onClick}
         sx={{
-            backgroundColor: '#F7CAC9',
+            backgroundColor: 'white',
             color: 'black',
-            '&:hover': { color: 'black' },
+            transition: "all 0.3s ease",
+            "&:hover": { color: "black",backgroundColor:"#ffc0cb87" },
             position: 'absolute',
-            left: '90%',
-            top:'-90px',
+            left: '-10px',
+            rotate:"180deg",
+            top:'40%',
             zIndex: 1,
-            borderRadius:'20px 0px 0px 20px',
+            borderRadius:'20px',
+            border:"1px solid #ffc0cb87",
+            width:"40px",
+            height:"40px",
         }}
     >
-        <ArrowBackIosIcon />
+        <ArrowForwardIosIcon />
     </IconButton>
 );
 
@@ -419,14 +437,18 @@ const NextArrow = ({ className, style, onClick }) => (
      onClick={onClick}
      className="arrow-next-custom"
         sx={{
-            backgroundColor: '#F7CAC9',
+            backgroundColor: 'white',
             color: 'black',
-            '&:hover': { color: 'black' },
+            transition: "all 0.3s ease",
+            "&:hover": { color: "black",backgroundColor:"#ffc0cb87" },
             position: 'absolute',
-            right: '4%',
-            top:'-90px',
+            right: '-10px',
+            top:'40%',
             zIndex: 1,
-            borderRadius:'0px 20px 20px 0px',
+            borderRadius:'20px',
+            border:"1px solid #ffc0cb87",
+            width:"40px",
+            height:"40px",
         }}
     >
         <ArrowForwardIosIcon />

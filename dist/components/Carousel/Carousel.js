@@ -87,9 +87,9 @@ function Carousel(_ref) {
       alignItems: "center",
       justifyContent: "center",
       sx: {
-        overflow: "hidden",
-        height: "330px",
-        borderRadius: "10px 10px 0px 0px"
+        overflow: "hidden"
+        // height: "330px",
+        // borderRadius: "10px 10px 0px 0px",
       }
     }, !loadedImages[singleStore.id] && /*#__PURE__*/_react.default.createElement(_material.Box, {
       className: "image-loader"
@@ -103,12 +103,12 @@ function Carousel(_ref) {
     })), /*#__PURE__*/_react.default.createElement(_material.Box, {
       display: "flex",
       flexDirection: "column",
-      gap: "20px",
+      gap: "0px",
       className: "slideInfo",
       sx: {
         background: "white",
         borderRadius: "0px 0px 10px 10px",
-        padding: "15px 10px"
+        padding: "15px 0px"
       }
     }, /*#__PURE__*/_react.default.createElement(_material.Box, {
       className: "titleRating",
@@ -122,40 +122,31 @@ function Carousel(_ref) {
       sx: {
         fontSize: "18px",
         fontFamily: "Barlow",
-        fontWeight: "600"
+        fontWeight: "600",
+        textTransform: "capitalize"
       }
     }, singleStore.title)), /*#__PURE__*/_react.default.createElement(_material.Box, {
       className: "rating",
       display: "flex",
       alignItems: "center",
       gap: "3px"
-    }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    }, /*#__PURE__*/_react.default.createElement(_Star.default, {
+      fontSize: "small",
+      sx: {
+        color: "gold"
+      }
+    }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
       variant: "h4",
       sx: {
         fontSize: "16px",
         fontFamily: "Barlow",
         fontWeight: "600"
       }
-    }, averageRating), /*#__PURE__*/_react.default.createElement(_Star.default, {
-      fontSize: "small",
-      sx: {
-        color: "#333333"
-      }
-    }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-      variant: "h4",
-      sx: {
-        fontSize: "14px",
-        fontFamily: "Barlow"
-      }
-    }, "(", singleStore.reviews.length, ")"))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    }, averageRating))), /*#__PURE__*/_react.default.createElement(_material.Box, {
       className: "address",
       display: "flex",
       alignItems: "center"
-    }, /*#__PURE__*/_react.default.createElement(_RoomOutlined.default, {
-      sx: {
-        color: "#333333"
-      }
-    }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
       variant: "body1",
       sx: {
         fontSize: "14px",
@@ -183,7 +174,14 @@ function Carousel(_ref) {
         fontWeight: "600",
         color: "#333333"
       }
-    }, singleStore.type || "Saloon")))));
+    }, singleStore.type || "Saloon")), /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+      variant: "body1",
+      sx: {
+        fontSize: "14px",
+        fontFamily: "Barlow",
+        color: "#333333"
+      }
+    }, singleStore.type || "Saloon", " \u2022 ", singleStore.reviews.length == 1 ? "".concat(singleStore.reviews.length, " Reviews") : "".concat(singleStore.reviews.length, " Review"))))));
   })));
 }
 var _default = exports.default = Carousel;
@@ -197,18 +195,24 @@ const PrevArrow = _ref2 => {
     className: "arrow-prev-custom",
     onClick: onClick,
     sx: {
-      backgroundColor: "#F7CAC9",
+      backgroundColor: "#fff",
       color: "black",
+      transition: "all 0.3s ease",
       "&:hover": {
-        color: "black"
+        color: "black",
+        backgroundColor: "#dbdbdb"
       },
       position: "absolute",
-      left: "95%",
-      top: "-90px",
+      left: "-25px",
+      top: "28%",
       zIndex: 1,
-      borderRadius: "20px 0px 0px 20px"
+      borderRadius: "20px",
+      rotate: "180deg",
+      border: "1px solid #dbdbdb",
+      width: "40px",
+      height: "40px"
     }
-  }, /*#__PURE__*/_react.default.createElement(_ArrowBackIos.default, null));
+  }, /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, null));
 };
 const NextArrow = _ref3 => {
   let {
@@ -220,16 +224,21 @@ const NextArrow = _ref3 => {
     className: "arrow-next-custom",
     onClick: onClick,
     sx: {
-      backgroundColor: "#F7CAC9",
+      backgroundColor: "#fff",
       color: "black",
+      transition: "all 0.3s ease",
       "&:hover": {
-        color: "black"
+        color: "black",
+        backgroundColor: "#dbdbdb"
       },
       position: "absolute",
       right: "0",
-      top: "-90px",
+      top: "28%",
       zIndex: 1,
-      borderRadius: "0px 20px 20px 0px"
+      borderRadius: "20px",
+      border: "1px solid #dbdbdb",
+      width: "40px",
+      height: "40px"
     }
   }, /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, null));
 };

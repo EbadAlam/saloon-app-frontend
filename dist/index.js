@@ -9,6 +9,7 @@ var _AuthContext = require("./contexts/AuthContext");
 var _SnackBarContext = require("./contexts/SnackBarContext");
 var _reactRouterDom = require("react-router-dom");
 var _reactHelmetAsync = require("react-helmet-async");
+var _reactSnowfall = _interopRequireDefault(require("react-snowfall"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 const rootElement = document.getElementById("root");
 const initialData = window.__INITIAL_DATA__ || {};

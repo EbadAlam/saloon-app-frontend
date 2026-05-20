@@ -79,13 +79,13 @@ function Home() {
   const categoriesSliderSettings = {
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 800,
     arrows: true,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 4000,
     pauseOnHover: true,
-    slidesToShow: 8,
-    slidesToScroll: 8,
+    slidesToShow: 6,
+    slidesToScroll: 3,
     responsive: [{
       breakpoint: 768,
       settings: {
@@ -145,7 +145,7 @@ function Home() {
     className: "view_all"
   }, "View All"))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "stores_cards"
-  }, (stores === null || stores === void 0 || (_stores$new = stores.new) === null || _stores$new === void 0 ? void 0 : _stores$new.length) > 0 && stores.new.slice(0, 5).map((singleStore, index) => {
+  }, (stores === null || stores === void 0 || (_stores$new = stores.new) === null || _stores$new === void 0 ? void 0 : _stores$new.length) > 0 && stores.new.slice(0, 4).map((singleStore, index) => {
     var _singleStore$reviews$;
     const rating = calculateAverageRating(singleStore.reviews);
     return /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -196,7 +196,7 @@ function Home() {
     className: "view_all"
   }, "View All"))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "stores_cards"
-  }, (stores === null || stores === void 0 || (_stores$trending = stores.trending) === null || _stores$trending === void 0 ? void 0 : _stores$trending.length) > 0 && stores.trending.slice(0, 5).map((singleStore, index) => {
+  }, (stores === null || stores === void 0 || (_stores$trending = stores.trending) === null || _stores$trending === void 0 ? void 0 : _stores$trending.length) > 0 && stores.trending.slice(0, 4).map((singleStore, index) => {
     var _singleStore$reviews$2;
     const rating = calculateAverageRating(singleStore.reviews);
     return /*#__PURE__*/_react.default.createElement(_material.Box, {

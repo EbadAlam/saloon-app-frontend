@@ -66,6 +66,14 @@ const AuthProvider = _ref => {
     });
     localStorage.setItem("AUTH_USER", JSON.stringify(user));
   };
+  function getVisitorId() {
+    let visitorId = localStorage.getItem("visitor_id");
+    if (!visitorId) {
+      visitorId = crypto.randomUUID();
+      localStorage.setItem("visitor_id", visitorId);
+    }
+    return visitorId;
+  }
   return /*#__PURE__*/_react.default.createElement(AuthContext.Provider, {
     value: {
       user,
@@ -74,7 +82,8 @@ const AuthProvider = _ref => {
       logout,
       loading,
       formatDate,
-      updateFavorites
+      updateFavorites,
+      getVisitorId
     }
   }, children);
 };

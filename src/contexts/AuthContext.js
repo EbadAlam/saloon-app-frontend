@@ -56,8 +56,18 @@ export const AuthProvider = ({ children }) => {
 
     localStorage.setItem("AUTH_USER", JSON.stringify(user));
   }
+  function getVisitorId() {
+    let visitorId = localStorage.getItem("visitor_id");
+
+    if (!visitorId) {
+        visitorId = crypto.randomUUID();
+        localStorage.setItem("visitor_id", visitorId);
+    }
+
+    return visitorId;
+}
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, loading,formatDate,updateFavorites }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading,formatDate,updateFavorites,getVisitorId }}>
       {children}
     </AuthContext.Provider>
   );

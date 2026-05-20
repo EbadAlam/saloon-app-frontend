@@ -9,7 +9,7 @@ function MainLayout() {
   return (
     <>
       <Header />
-      <main style={{background:'white',minHeight:'50vh'}}>
+      <main style={{background:'white',minHeight:'50vh',paddingTop:'100px'}}>
         <Outlet />
       </main>
       <Footer />

@@ -145,6 +145,7 @@ function Servicespage() {
       showSnackbar(alertMessage, alertMessageType);
     }
   }, [alertMessage]);
+  const etaOptions = ["30 minutes", "45 minutes", "1 hour", "1 hour 15 minutes", "1 hour 30 minutes", "1 hour 45 minutes", "2 hours"];
   return /*#__PURE__*/_react.default.createElement(_Layout.default, null, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement("div", {
     className: "container-fluid dashboard-content"
   }, /*#__PURE__*/_react.default.createElement(_material.Stack, {
@@ -205,13 +206,17 @@ function Servicespage() {
       }, currency)
     }
   }), /*#__PURE__*/_react.default.createElement(_material.TextField, {
+    select: true,
     fullWidth: true,
-    label: "Estimated Time (e.g. 30 mins)",
+    label: "Estimated Time",
     value: eta,
     onChange: e => setEta(e.target.value),
     required: true,
     margin: "normal"
-  }), /*#__PURE__*/_react.default.createElement(_material.FormControl, {
+  }, etaOptions.map(option => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
+    key: option,
+    value: option
+  }, option))), /*#__PURE__*/_react.default.createElement(_material.FormControl, {
     fullWidth: true,
     margin: "normal"
   }, /*#__PURE__*/_react.default.createElement(_material.InputLabel, {

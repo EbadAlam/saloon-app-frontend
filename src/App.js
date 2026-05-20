@@ -2,7 +2,7 @@ import './App.scss';
 import './responsive.scss';
 import React from 'react';
 import {  Route, Routes } from 'react-router-dom';
-import Home from './screens/Home/HomeNew';
+// import Home from './screens/Home/HomeNew';
 import Login from './screens/Login/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './components/Admin/Dashboard/Dashboard';
@@ -13,7 +13,7 @@ import { ROUTES } from './routes';
 import AddStore from './components/Admin/Stores/AddStore';
 import ServiceCategoriesPage from './components/Admin/ServiceCategory/ServiceCategory';
 import Servicespage from './components/Admin/Services/Services';
-import StorePage from './screens/Store/StoreNew';
+import StorePage from './screens/Store/Store';
 import EditStore from './components/Admin/Stores/EditStore';
 import WorkingHoursPage from './components/Admin/WorkingHours/WorkingHours';
 import TeamsPage from './components/Admin/Team/Team';
@@ -62,6 +62,7 @@ import Pricing from './screens/Pricing/Pricing';
 import HelpCenter from './screens/HelpCenter/HelpCenter';
 import MasterInqueriesPage from './components/Admin/MasterAdmin/Inqueries/Inqueries';
 import CategoryPage from './screens/CategoryPage/CategoryPage';
+import Home from './screens/Home/HomeCopy';
 
 function App({initialData}) {
   return (

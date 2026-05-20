@@ -33,7 +33,8 @@ function AddStore() {
     about: "",
     type: '',
     lat: "",
-    lng: ""
+    lng: "",
+    whatsapp: ""
   });
   const [thumbnail, setThumbnail] = (0, _react.useState)(null);
   const [location, setLocation] = (0, _react.useState)(null);
@@ -162,6 +163,15 @@ function AddStore() {
     margin: "normal",
     multiline: true,
     rows: 4,
+    disabled: loading
+  }), /*#__PURE__*/_react.default.createElement(_material.TextField, {
+    fullWidth: true,
+    label: "Whatsapp (Optional)",
+    name: "whatsapp",
+    value: form.whatsapp,
+    onChange: handleChange,
+    helperText: "Include country code. Example: +923001234567",
+    margin: "normal",
     disabled: loading
   }), typeof window !== "undefined" ? /*#__PURE__*/_react.default.createElement(_LocationPicker.default
   // onChange={(val) => setForm({ ...form, ...val })}

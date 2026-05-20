@@ -106,19 +106,25 @@ function Stores() {
     sx: {
       color: "white"
     }
+  }, "Store Leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    sx: {
+      color: "white"
+    }
+  }, "Whatsapp Leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    sx: {
+      color: "white"
+    }
   }, "Status"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     sx: {
       color: "white"
     }
-  }, "Edit"))), stores && stores.length > 0 ? stores.map(singleStore => /*#__PURE__*/_react.default.createElement(_material.TableBody, {
+  }, "Edit"))), /*#__PURE__*/_react.default.createElement(_material.TableBody, null, stores && stores.length > 0 ? stores.map((singleStore, index) => /*#__PURE__*/_react.default.createElement(_material.TableRow, {
     key: singleStore.id
   }, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     align: "left"
-  }, "1"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-    component: "th",
+  }, index + 1), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     scope: "row"
   }, singleStore.title), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-    component: "th",
     scope: "row"
   }, singleStore.thumbnail ? /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_IMG_URL).concat(singleStore.thumbnail),
@@ -128,7 +134,10 @@ function Stores() {
       borderRadius: "5px"
     }
   }) : "No Thumbnail"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-    component: "th",
+    scope: "row"
+  }, "2 leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    scope: "row"
+  }, "2 leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     scope: "row",
     sx: {
       textTransform: "capitalize",
@@ -156,7 +165,6 @@ function Stores() {
       gap: "10px"
     }
   }, /*#__PURE__*/_react.default.createElement(_Circle.default, null), singleStore.status)), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-    component: "th",
     scope: "row"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: _routes.ROUTES.getAdminSingleStore(singleStore.id),
@@ -168,7 +176,7 @@ function Stores() {
       background: "#333333"
     },
     variant: "contained"
-  }, "Edit"))))) : /*#__PURE__*/_react.default.createElement(_material.TableBody, null, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+  }, "Edit"))))) : /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     align: "left"
   }, "No Stores.\xA0", /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     to: _routes.ROUTES.adminStoresAdd,

@@ -8,7 +8,6 @@ require("./App.scss");
 require("./responsive.scss");
 var _react = _interopRequireDefault(require("react"));
 var _reactRouterDom = require("react-router-dom");
-var _HomeNew = _interopRequireDefault(require("./screens/Home/HomeNew"));
 var _Login = _interopRequireDefault(require("./screens/Login/Login"));
 var _ProtectedRoute = _interopRequireDefault(require("./components/ProtectedRoute"));
 var _Dashboard = _interopRequireDefault(require("./components/Admin/Dashboard/Dashboard"));
@@ -19,7 +18,7 @@ var _routes = require("./routes");
 var _AddStore = _interopRequireDefault(require("./components/Admin/Stores/AddStore"));
 var _ServiceCategory = _interopRequireDefault(require("./components/Admin/ServiceCategory/ServiceCategory"));
 var _Services = _interopRequireDefault(require("./components/Admin/Services/Services"));
-var _StoreNew = _interopRequireDefault(require("./screens/Store/StoreNew"));
+var _Store = _interopRequireDefault(require("./screens/Store/Store"));
 var _EditStore = _interopRequireDefault(require("./components/Admin/Stores/EditStore"));
 var _WorkingHours = _interopRequireDefault(require("./components/Admin/WorkingHours/WorkingHours"));
 var _Team = _interopRequireDefault(require("./components/Admin/Team/Team"));
@@ -68,7 +67,10 @@ var _Pricing = _interopRequireDefault(require("./screens/Pricing/Pricing"));
 var _HelpCenter = _interopRequireDefault(require("./screens/HelpCenter/HelpCenter"));
 var _Inqueries = _interopRequireDefault(require("./components/Admin/MasterAdmin/Inqueries/Inqueries"));
 var _CategoryPage = _interopRequireDefault(require("./screens/CategoryPage/CategoryPage"));
+var _HomeCopy = _interopRequireDefault(require("./screens/Home/HomeCopy"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+// import Home from './screens/Home/HomeNew';
+
 function App(_ref) {
   let {
     initialData
@@ -80,7 +82,7 @@ function App(_ref) {
     element: /*#__PURE__*/_react.default.createElement(_MainComponent.default, null)
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.home,
-    element: /*#__PURE__*/_react.default.createElement(_HomeNew.default, null)
+    element: /*#__PURE__*/_react.default.createElement(_HomeCopy.default, null)
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.status,
     element: /*#__PURE__*/_react.default.createElement(_StatusPage.default, null)
@@ -137,7 +139,7 @@ function App(_ref) {
     element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, null, /*#__PURE__*/_react.default.createElement(_Favorites.default, null))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.storePage,
-    element: /*#__PURE__*/_react.default.createElement(_StoreNew.default, {
+    element: /*#__PURE__*/_react.default.createElement(_Store.default, {
       initialData: initialData
     })
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {

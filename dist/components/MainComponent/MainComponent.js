@@ -15,7 +15,8 @@ function MainLayout() {
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Header.default, null), /*#__PURE__*/_react.default.createElement("main", {
     style: {
       background: 'white',
-      minHeight: '50vh'
+      minHeight: '50vh',
+      paddingTop: '100px'
     }
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Outlet, null)), /*#__PURE__*/_react.default.createElement(_Footer.default, null));
 }

@@ -16,9 +16,10 @@ import { saveRecentlyViewedStore } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
 import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 function StorePage({ initialData }) {
-  const { formatDate, user } = useAuth();
+  const { formatDate, user, getVisitorId } = useAuth();
   const [activeTab, setActiveTab] = useState("photos");
 
   const { slug } = useParams();
@@ -58,9 +59,9 @@ function StorePage({ initialData }) {
   }, []);
   useEffect(() => {
     if (!storeDetails || slug !== storeDetails.slug) {
-      console.log("details not found");
+      // console.log("details not found");
       const fetchStoreDetails = async () => {
-        console.log("fetching details");
+        // console.log("fetching details");
 
         setLoading(true);
         try {
@@ -72,7 +73,7 @@ function StorePage({ initialData }) {
             navigate(ROUTES.home);
           }
           setStoreDetails(data.storeDetails);
-          console.log("details fetched: ", data.storeDetails);
+          // console.log("details fetched: ", data.storeDetails);
         } catch (error) {
           console.error("Failed to fetch store details:", error);
         } finally {
@@ -108,7 +109,7 @@ function StorePage({ initialData }) {
     )
       return "about";
 
-    return false; // no tabs available
+    return false;
   };
   useEffect(() => {
     if (
@@ -122,9 +123,21 @@ function StorePage({ initialData }) {
       setIsFav(isUserFav);
     }
   }, [storeDetails, user]);
+  const captureLead = async (source) => {
+    const payload = {
+      store_id: storeDetails.id,
+      source: source,
+      visitor_id: getVisitorId()
+    }
+    await axiosClient.post('/captureLead',payload);
+  }
+  const handleWhatsappClick = () => {
+    captureLead('whatsapp');
+  };
   useEffect(() => {
     if (storeDetails?.id) {
       saveRecentlyViewedStore(storeDetails);
+      captureLead('store');
     }
   }, [storeDetails]);
   const getTodayTiming = (workingHours) => {
@@ -246,6 +259,23 @@ function StorePage({ initialData }) {
         </Box>
       ) : (
         <Box className="store_detail_new">
+          {storeDetails.whatsapp && (
+            <Box className="whatsapp_div">
+              <div class="card-new">
+                <div class="bg">
+                  <a
+                  href={`https://wa.me/${storeDetails.whatsapp}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleWhatsappClick}
+                >
+                    <WhatsAppIcon />
+                  </a>
+                </div>
+                <div class="blob"></div>
+              </div>
+            </Box>
+          )}
           <Box
             className="store_banner"
             sx={{
@@ -408,30 +438,39 @@ function StorePage({ initialData }) {
                           <Typography variant="h3">Team Members</Typography>
                         </Box>
                         <Box className="team_members_cards">
-                          {storeDetails.workers?.length > 0 && (
-                            storeDetails.workers.filter( (singleWorker) => singleWorker.user?.account_status === "active" ).map((singleWorker,index) => {
-                              const reviews =
-                                singleWorker?.user?.reviews_received || [];
-                              const total = reviews.reduce(
-                                (sum, r) => sum + parseFloat(r.rating || 0),
-                                0
-                              );
-                              const averageRating =
-                                reviews.length > 0
-                                  ? (total / reviews.length).toFixed(1)
-                                  : "";
-                                  return (
-                                    <div class="flip-card" key={index}>
+                          {storeDetails.workers?.length > 0 &&
+                            storeDetails.workers
+                              .filter(
+                                (singleWorker) =>
+                                  singleWorker.user?.account_status ===
+                                  "active",
+                              )
+                              .map((singleWorker, index) => {
+                                const reviews =
+                                  singleWorker?.user?.reviews_received || [];
+                                const total = reviews.reduce(
+                                  (sum, r) => sum + parseFloat(r.rating || 0),
+                                  0,
+                                );
+                                const averageRating =
+                                  reviews.length > 0
+                                    ? (total / reviews.length).toFixed(1)
+                                    : "";
+                                return (
+                                  <div class="flip-card" key={index}>
                                     <div class="flip-card-inner">
                                       <div class="flip-card-front">
-                                        {singleWorker.user.user_info.profile_image ? (
+                                        {singleWorker.user.user_info
+                                          .profile_image ? (
                                           <img
                                             src={`${process.env.REACT_APP_IMG_URL}${singleWorker.user.user_info.profile_image}`}
                                             alt=""
                                           />
                                         ) : (
                                           <div className="dummy_img">
-                                            {singleWorker.user.username?.charAt(0) || "?"}
+                                            {singleWorker.user.username?.charAt(
+                                              0,
+                                            ) || "?"}
                                           </div>
                                         )}
                                       </div>
@@ -442,20 +481,26 @@ function StorePage({ initialData }) {
                                           </Typography>
                                         </Box>
                                         <Box className="member_desig">
-                                          <Typography variant="body1">{singleWorker.user.user_info.designation}</Typography>
+                                          <Typography variant="body1">
+                                            {
+                                              singleWorker.user.user_info
+                                                .designation
+                                            }
+                                          </Typography>
                                         </Box>
                                         {averageRating && (
                                           <Box className="member_rating">
-                                          <Typography variant="body1">{averageRating} <StarOutlinedIcon /></Typography>
-                                        </Box>
+                                            <Typography variant="body1">
+                                              {averageRating}{" "}
+                                              <StarOutlinedIcon />
+                                            </Typography>
+                                          </Box>
                                         )}
                                       </div>
                                     </div>
                                   </div>
-                                  )
-                            })
-                          )}
-                          
+                                );
+                              })}
                         </Box>
                       </Box>
                     </TabPanel>

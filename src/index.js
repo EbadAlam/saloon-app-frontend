@@ -7,6 +7,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { SnackbarProvider } from "./contexts/SnackBarContext";
 import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import Snowfall from "react-snowfall";
 
 const rootElement = document.getElementById("root");
 
@@ -18,6 +19,7 @@ const app = (
       <BrowserRouter>
         <AuthProvider>
           <SnackbarProvider>
+            {/* <Snowfall radius={[0.5, 4.0]} color="#d8b4fe" /> */}
             <App initialData={initialData.storeDetails} />
           </SnackbarProvider>
         </AuthProvider>

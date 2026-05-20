@@ -1,5 +1,5 @@
 // src/components/Layout/Header.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import MenuButton from "../Menu/Menu";
 import { ROUTES } from "../../routes";
@@ -10,9 +10,22 @@ import SearchBar from "../SearchBar/SearchBar";
 function Header() {
   const { user, token } = useAuth();
   const location = useLocation();
+   const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const isHomePage = location.pathname === ROUTES.home;
   return (
-    <header className="header">
+     <header className={`header ${isScrolled ? "scrolled" : ""}`}>
       <div className="container">
         <div className="logo">
           <NavLink to={ROUTES.home}>

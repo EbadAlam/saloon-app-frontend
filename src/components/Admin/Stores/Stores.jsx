@@ -93,18 +93,21 @@ function Stores() {
                 </TableCell>
                 <TableCell sx={{ color: "white" }}>Store Name</TableCell>
                 <TableCell sx={{ color: "white" }}>Thumbnail</TableCell>
+                <TableCell sx={{ color: "white" }}>Store Leads</TableCell>
+                <TableCell sx={{ color: "white" }}>Whatsapp Leads</TableCell>
                 <TableCell sx={{ color: "white" }}>Status</TableCell>
                 <TableCell sx={{ color: "white" }}>Edit</TableCell>
               </TableRow>
             </TableHead>
+            <TableBody>
             {stores && stores.length > 0 ? (
-              stores.map((singleStore) => (
-                <TableBody key={singleStore.id}>
-                  <TableCell align="left">1</TableCell>
-                  <TableCell component="th" scope="row">
+              stores.map((singleStore,index) => (
+                <TableRow key={singleStore.id}>
+                  <TableCell align="left">{index+1}</TableCell>
+                  <TableCell scope="row">
                     {singleStore.title}
                   </TableCell>
-                  <TableCell component="th" scope="row">
+                  <TableCell scope="row">
                     {singleStore.thumbnail ? (
                       <img
                         src={`${process.env.REACT_APP_IMG_URL}${singleStore.thumbnail}`}
@@ -118,8 +121,16 @@ function Stores() {
                       "No Thumbnail"
                     )}
                   </TableCell>
+                  <TableCell scope="row">
+                    2 leads
+                    {/* {singleStore.store_leads_count} Visits */}
+                  </TableCell>
+                  <TableCell scope="row">
+                    2 leads
+                    {/* {singleStore.whatsapp_leads_count} clicks */}
+                  </TableCell>
                   <TableCell
-                    component="th"
+                  
                     scope="row"
                     sx={{ textTransform: "capitalize", fontWeight: "700" }}
                   >
@@ -161,7 +172,7 @@ function Stores() {
                       </span>
                     )}
                   </TableCell>
-                  <TableCell component="th" scope="row">
+                  <TableCell scope="row">
                     <Link
                       to={ROUTES.getAdminSingleStore(singleStore.id)}
                       style={{ color: "white" }}
@@ -174,10 +185,9 @@ function Stores() {
                       </Button>
                     </Link>
                   </TableCell>
-                </TableBody>
+                </TableRow>
               ))
             ) : (
-              <TableBody>
                 <TableCell align="left">
                   No Stores.&nbsp;
                   <NavLink
@@ -187,8 +197,8 @@ function Stores() {
                     Add Now
                   </NavLink>
                 </TableCell>
-              </TableBody>
             )}
+            </TableBody>
           </Table>
         </TableContainer>
       </div>

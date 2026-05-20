@@ -81,8 +81,8 @@ function Carousel({ stores = [] }) {
                       justifyContent="center"
                       sx={{
                         overflow: "hidden",
-                        height: "330px",
-                        borderRadius: "10px 10px 0px 0px",
+                        // height: "330px",
+                        // borderRadius: "10px 10px 0px 0px",
                       }}
                     >
                       {!loadedImages[singleStore.id] && (
@@ -100,12 +100,12 @@ function Carousel({ stores = [] }) {
                     <Box
                       display="flex"
                       flexDirection="column"
-                      gap="20px"
+                      gap="0px"
                       className="slideInfo"
                       sx={{
                         background: "white",
                         borderRadius: "0px 0px 10px 10px",
-                        padding: "15px 10px",
+                        padding: "15px 0px",
                       }}
                     >
                       <Box
@@ -121,6 +121,7 @@ function Carousel({ stores = [] }) {
                               fontSize: "18px",
                               fontFamily: "Barlow",
                               fontWeight: "600",
+                              textTransform: "capitalize",
                             }}
                           >
                             {singleStore.title}
@@ -132,6 +133,10 @@ function Carousel({ stores = [] }) {
                           alignItems="center"
                           gap="3px"
                         >
+                          <StarIcon
+                            fontSize="small"
+                            sx={{ color: "gold" }}
+                          />
                           <Typography
                             variant="h4"
                             sx={{
@@ -142,16 +147,12 @@ function Carousel({ stores = [] }) {
                           >
                             {averageRating}
                           </Typography>
-                          <StarIcon
-                            fontSize="small"
-                            sx={{ color: "#333333" }}
-                          />
-                          <Typography
+                          {/* <Typography
                             variant="h4"
                             sx={{ fontSize: "14px", fontFamily: "Barlow" }}
                           >
                             ({singleStore.reviews.length})
-                          </Typography>
+                          </Typography> */}
                         </Box>
                       </Box>
                       <Box
@@ -159,7 +160,7 @@ function Carousel({ stores = [] }) {
                         display="flex"
                         alignItems="center"
                       >
-                        <RoomOutlinedIcon sx={{ color: "#333333" }} />
+                        {/* <RoomOutlinedIcon sx={{ color: "#333333" }} /> */}
                         <Typography
                           variant="body1"
                           sx={{
@@ -197,6 +198,18 @@ function Carousel({ stores = [] }) {
                           {singleStore.type || "Saloon"}
                         </Typography>
                       </Box>
+                      <Box>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            fontSize: "14px",
+                            fontFamily: "Barlow",
+                            color: "#333333",
+                          }}
+                        >
+                          {singleStore.type || "Saloon"} • {singleStore.reviews.length == 1 ? `${singleStore.reviews.length} Reviews` : `${singleStore.reviews.length} Review`}
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
                 </Link>
@@ -214,17 +227,22 @@ const PrevArrow = ({ className, style, onClick }) => (
     className="arrow-prev-custom"
     onClick={onClick}
     sx={{
-      backgroundColor: "#F7CAC9",
+      backgroundColor: "#fff",
       color: "black",
-      "&:hover": { color: "black" },
+      transition: "all 0.3s ease",
+      "&:hover": { color: "black",backgroundColor:"#dbdbdb" },
       position: "absolute",
-      left: "95%",
-      top: "-90px",
+      left: "-25px",
+      top: "28%",
       zIndex: 1,
-      borderRadius: "20px 0px 0px 20px",
+      borderRadius: "20px",
+      rotate:"180deg",
+      border:"1px solid #dbdbdb",
+      width:"40px",
+      height:"40px",
     }}
   >
-    <ArrowBackIosIcon />
+    <ArrowForwardIosIcon />
   </IconButton>
 );
 
@@ -233,14 +251,18 @@ const NextArrow = ({ className, style, onClick }) => (
     className="arrow-next-custom"
     onClick={onClick}
     sx={{
-      backgroundColor: "#F7CAC9",
+      backgroundColor: "#fff",
       color: "black",
-      "&:hover": { color: "black" },
+      transition: "all 0.3s ease",
+      "&:hover": { color: "black",backgroundColor:"#dbdbdb" },
       position: "absolute",
       right: "0",
-      top: "-90px",
+      top: "28%",
       zIndex: 1,
-      borderRadius: "0px 20px 20px 0px",
+      borderRadius: "20px",
+      border:"1px solid #dbdbdb",
+      width:"40px",
+      height:"40px",
     }}
   >
     <ArrowForwardIosIcon />

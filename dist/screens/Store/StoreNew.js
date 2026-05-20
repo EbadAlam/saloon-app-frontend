@@ -22,6 +22,7 @@ var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
 var _StarOutlined = _interopRequireDefault(require("@mui/icons-material/StarOutlined"));
+var _WhatsApp = _interopRequireDefault(require("@mui/icons-material/WhatsApp"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function StorePage(_ref) {
@@ -31,7 +32,8 @@ function StorePage(_ref) {
   } = _ref;
   const {
     formatDate,
-    user
+    user,
+    getVisitorId
   } = (0, _AuthContext.useAuth)();
   const [activeTab, setActiveTab] = (0, _react.useState)("photos");
   const {
@@ -68,9 +70,10 @@ function StorePage(_ref) {
   }, []);
   (0, _react.useEffect)(() => {
     if (!storeDetails || slug !== storeDetails.slug) {
-      console.log("details not found");
+      // console.log("details not found");
       const fetchStoreDetails = async () => {
-        console.log("fetching details");
+        // console.log("fetching details");
+
         setLoading(true);
         try {
           var _user$user_info;
@@ -81,7 +84,7 @@ function StorePage(_ref) {
             navigate(_routes.ROUTES.home);
           }
           setStoreDetails(data.storeDetails);
-          console.log("details fetched: ", data.storeDetails);
+          // console.log("details fetched: ", data.storeDetails);
         } catch (error) {
           console.error("Failed to fetch store details:", error);
         } finally {
@@ -112,7 +115,7 @@ function StorePage(_ref) {
     if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0) return "team_members";
     if ((storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews = storeDetails.reviews) === null || _storeDetails$reviews === void 0 ? void 0 : _storeDetails$reviews.length) > 0) return "reviews";
     if (storeDetails !== null && storeDetails !== void 0 && storeDetails.about || storeDetails !== null && storeDetails !== void 0 && storeDetails.address || storeDetails !== null && storeDetails !== void 0 && storeDetails.lat && storeDetails !== null && storeDetails !== void 0 && storeDetails.lng) return "about";
-    return false; // no tabs available
+    return false;
   };
   (0, _react.useEffect)(() => {
     if (storeDetails && user && Array.isArray(storeDetails.favourited_by_users)) {
@@ -120,9 +123,21 @@ function StorePage(_ref) {
       setIsFav(isUserFav);
     }
   }, [storeDetails, user]);
+  const captureLead = async source => {
+    const payload = {
+      store_id: storeDetails.id,
+      source: source,
+      visitor_id: getVisitorId()
+    };
+    await _axiosClient.default.post('/captureLead', payload);
+  };
+  const handleWhatsappClick = () => {
+    captureLead('whatsapp');
+  };
   (0, _react.useEffect)(() => {
     if (storeDetails !== null && storeDetails !== void 0 && storeDetails.id) {
       (0, _storeRecentlyViewed.saveRecentlyViewedStore)(storeDetails);
+      captureLead('store');
     }
   }, [storeDetails]);
   const getTodayTiming = workingHours => {
@@ -239,7 +254,20 @@ function StorePage(_ref) {
     }
   }))))) : /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "store_detail_new"
-  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, storeDetails.whatsapp && /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "whatsapp_div"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    class: "card-new"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    class: "bg"
+  }, /*#__PURE__*/_react.default.createElement("a", {
+    href: "https://wa.me/".concat(storeDetails.whatsapp),
+    target: "_blank",
+    rel: "noopener noreferrer",
+    onClick: handleWhatsappClick
+  }, /*#__PURE__*/_react.default.createElement(_WhatsApp.default, null))), /*#__PURE__*/_react.default.createElement("div", {
+    class: "blob"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "store_banner",
     sx: {
       background: "url(".concat(process.env.REACT_APP_IMG_URL).concat(storeDetails.thumbnail, ")")

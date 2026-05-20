@@ -27,6 +27,7 @@ function AddStore() {
     type:'',
     lat:"",
     lng:"",
+    whatsapp:"",
   });
   const [thumbnail, setThumbnail] = useState(null);
   const [location, setLocation] = useState(null);
@@ -146,6 +147,16 @@ function AddStore() {
               margin="normal"
               multiline
               rows={4}
+              disabled={loading}
+            />
+            <TextField
+              fullWidth
+              label="Whatsapp (Optional)"
+              name="whatsapp"
+              value={form.whatsapp}
+              onChange={handleChange}
+              helperText="Include country code. Example: +923001234567"
+              margin="normal"
               disabled={loading}
             />
             {/* <TextField

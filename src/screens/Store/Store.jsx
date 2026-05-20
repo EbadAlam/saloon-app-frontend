@@ -14,6 +14,7 @@ import AddReviewForm from "../../components/AddReviewForm/AddReviewForm";
 import Address from "../../components/Address/Address";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import {
   Box,
   CircularProgress,
@@ -49,6 +50,7 @@ function StorePage({ initialData }) {
   const [isFav, setIsFav] = useState(false);
   const theme = useTheme();
   const { showSnackbar } = useSnackbar();
+  const [isScrolled, setIsScrolled] = useState(false);
   const [MapComponents, setMapComponents] = useState(null);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   useEffect(() => {
@@ -73,9 +75,9 @@ function StorePage({ initialData }) {
   }, []);
   useEffect(() => {
     if (!storeDetails || slug !== storeDetails.slug) {
-      console.log("details not found");
+      // console.log("details not found");
       const fetchStoreDetails = async () => {
-        console.log("fetching details");
+        // console.log("fetching details");
         
         setLoading(true);
         try {
@@ -87,7 +89,7 @@ function StorePage({ initialData }) {
             navigate(ROUTES.home);
           }
           setStoreDetails(data.storeDetails);
-          console.log("details fetched: ", data.storeDetails);
+          // console.log("details fetched: ", data.storeDetails);
         } catch (error) {
           console.error("Failed to fetch store details:", error);
         } finally {
@@ -199,7 +201,18 @@ function StorePage({ initialData }) {
         console.error("Failed to copy: ", err);
       });
   };
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
 
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const handleAddToFav = async () => {
     setLoadingFav(true);
     try {
@@ -294,7 +307,7 @@ function StorePage({ initialData }) {
               />
             </div>
           )}
-        <Box>
+        <Box className="storeNew">
             <div
               className="container"
               style={{ background: "transparent", paddingBlock: "20px" }}
@@ -310,6 +323,17 @@ function StorePage({ initialData }) {
                   }}
                 >
                   {storeDetails.title}
+                </Typography>
+              </div>
+              <div className="store_data_mobile">
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: "#333333",
+                    fontSize: "16px",
+                  }}
+                >
+                  {storeDetails.type || "Saloon"} • 
                 </Typography>
               </div>
               <div className="info_save_div">
@@ -379,6 +403,7 @@ function StorePage({ initialData }) {
               className="container">
               <div className="two_sections">
                 <div className="left_side">
+                  <h2>Services</h2>
                   <div className="services_categories">
                     <div
                       className={`category ${
@@ -425,18 +450,18 @@ function StorePage({ initialData }) {
                             <div className="service" key={singleSer.id}>
                               <div className="info">
                                 <h4 className="title">{singleSer.title}</h4>
-                                <p className="eta">{singleSer.eta}</p>
-                                <p className="price">
-                                  <b>
-                                    {singleSer.currency} {singleSer.price}
-                                  </b>
-                                </p>
-                                <p className="gender">
-                                  {singleSer.gender &&
-                                    `Only for ${singleSer.gender}`}
-                                </p>
+                                <Box display="flex" alignItems="center" gap="15px">
+                                  <p className="eta"><AccessTimeIcon /> {singleSer.eta}</p>
+                                  <p className={`gender ${singleSer.gender}`}>
+                                    {singleSer.gender &&
+                                      `Only for ${singleSer.gender}`}
+                                  </p>
+                                </Box>
                               </div>
                               <div className="book_btn">
+                                <p className="price">
+                                  {singleSer.currency} {singleSer.price}
+                                </p>
                                 <Link
                                   to={ROUTES.getBookingPage(storeDetails.slug)}
                                   state={{
@@ -534,7 +559,7 @@ function StorePage({ initialData }) {
                     storeDetails.workers?.length > 0 && (
                       <div className="teams_div_new">
                         <h2>Team</h2>
-                        <div className="team_members">
+                        <div className="team_members new">
                           {storeDetails.workers
                             .filter(
                               (worker) => worker.user?.account_status === "active"
@@ -573,7 +598,7 @@ function StorePage({ initialData }) {
                                         {worker.user.username?.charAt(0) || "?"}
                                       </div>
                                     )}
-                                    <dov className="overlay"></dov>
+                                    {/* <dov className="overlay"></dov>
                                     <div className="name_des">
                                       <h3 className="username">
                                         {worker.user.username}
@@ -586,8 +611,19 @@ function StorePage({ initialData }) {
                                           {averageRating} <StarOutlinedIcon />
                                         </div>
                                       )}
-                                    </div>
+                                    </div> */}
                                   </div>
+                                  <h3 className="username">
+                                    {worker.user.username}
+                                  </h3>
+                                  <p className="designation">
+                                    {worker.user.user_info.designation}
+                                  </p>
+                                  {averageRating && (
+                                    <div className="worker_rating">
+                                      <StarOutlinedIcon /> {averageRating}
+                                    </div>
+                                  )}
                                 </div>
                               );
                             })}
@@ -653,13 +689,18 @@ function StorePage({ initialData }) {
                 </div>
                 <div className="right_side">
                   <div className="padding">
-                    <h2>{storeDetails.title}</h2>
-                    <div className="rating">
-                      <p>
-                        <b>{averageRatingStore}</b>
-                      </p>
-                      <StarRating rating={averageRatingStore} />
-                      <span>({storeDetails?.reviews?.length})</span>
+                    <div className={`store-info ${isScrolled ? "visible" : ""}`}>
+                      <h2>{storeDetails.title}</h2>
+
+                      <div className="rating">
+                        <p>
+                          <b>{averageRatingStore}</b>
+                        </p>
+
+                        <StarRating rating={averageRatingStore} />
+
+                        <span>({storeDetails?.reviews?.length})</span>
+                      </div>
                     </div>
                     <div className="book_now_btn">
                       <Link

@@ -42,6 +42,7 @@ function EditStore() {
         thumbnail: data.storeDetails.thumbnail || '',
         lat: data.storeDetails.lat || '',
         lng: data.storeDetails.lng || '',
+        whatsapp: data.storeDetails.whatsapp || '',
       });
     } catch (error) {
       console.error('Failed to fetch store details:', error);
@@ -80,6 +81,7 @@ function EditStore() {
     dataToSend.append('address', storeDetails.address);
     dataToSend.append('lat', storeDetails.lat);
     dataToSend.append('lng', storeDetails.lng);
+    dataToSend.append('whatsapp', storeDetails.whatsapp);
     
     galleryFiles.forEach((file, index) => {
       if (file instanceof File) {
@@ -149,6 +151,15 @@ function EditStore() {
                 onChange={handleChange}
                 multiline
                 rows={4}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                fullWidth
+                label="Whatsapp (Optional)"
+                name="whatsapp"
+                value={storeDetails.whatsapp}
+                onChange={handleChange}
+                helperText="Include country code. Example: +923001234567"
                 sx={{ mb: 2 }}
               />
               {/* <TextField

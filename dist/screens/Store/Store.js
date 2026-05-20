@@ -20,6 +20,7 @@ var _AddReviewForm = _interopRequireDefault(require("../../components/AddReviewF
 var _Address = _interopRequireDefault(require("../../components/Address/Address"));
 var _AccessTimeOutlined = _interopRequireDefault(require("@mui/icons-material/AccessTimeOutlined"));
 var _RoomOutlined = _interopRequireDefault(require("@mui/icons-material/RoomOutlined"));
+var _AccessTime = _interopRequireDefault(require("@mui/icons-material/AccessTime"));
 var _material = require("@mui/material");
 var _routes = require("../../routes");
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
@@ -61,6 +62,7 @@ function StorePage(_ref) {
   const {
     showSnackbar
   } = (0, _SnackBarContext.useSnackbar)();
+  const [isScrolled, setIsScrolled] = (0, _react.useState)(false);
   const [MapComponents, setMapComponents] = (0, _react.useState)(null);
   const isMobile = (0, _material.useMediaQuery)(theme.breakpoints.down("sm"));
   (0, _react.useEffect)(() => {
@@ -78,9 +80,10 @@ function StorePage(_ref) {
   }, []);
   (0, _react.useEffect)(() => {
     if (!storeDetails || slug !== storeDetails.slug) {
-      console.log("details not found");
+      // console.log("details not found");
       const fetchStoreDetails = async () => {
-        console.log("fetching details");
+        // console.log("fetching details");
+
         setLoading(true);
         try {
           var _user$user_info;
@@ -91,7 +94,7 @@ function StorePage(_ref) {
             navigate(_routes.ROUTES.home);
           }
           setStoreDetails(data.storeDetails);
-          console.log("details fetched: ", data.storeDetails);
+          // console.log("details fetched: ", data.storeDetails);
         } catch (error) {
           console.error("Failed to fetch store details:", error);
         } finally {
@@ -183,6 +186,15 @@ function StorePage(_ref) {
       console.error("Failed to copy: ", err);
     });
   };
+  (0, _react.useEffect)(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const handleAddToFav = async () => {
     setLoadingFav(true);
     try {
@@ -286,7 +298,9 @@ function StorePage(_ref) {
   }, /*#__PURE__*/_react.default.createElement(_CustomGallery.default, {
     images: storeDetails.gallery,
     thumbnail: storeDetails.thumbnail
-  })), /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "storeNew"
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "container",
     style: {
       background: "transparent",
@@ -303,6 +317,14 @@ function StorePage(_ref) {
       fontWeight: "600"
     }
   }, storeDetails.title)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "store_data_mobile"
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    sx: {
+      color: "#333333",
+      fontSize: "16px"
+    }
+  }, storeDetails.type || "Saloon", " \u2022")), /*#__PURE__*/_react.default.createElement("div", {
     className: "info_save_div"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "store_info"
@@ -348,7 +370,7 @@ function StorePage(_ref) {
     className: "two_sections"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "left_side"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("h2", null, "Services"), /*#__PURE__*/_react.default.createElement("div", {
     className: "services_categories"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "category ".concat(selectedCategory === null ? "active" : ""),
@@ -375,15 +397,19 @@ function StorePage(_ref) {
     className: "info"
   }, /*#__PURE__*/_react.default.createElement("h4", {
     className: "title"
-  }, singleSer.title), /*#__PURE__*/_react.default.createElement("p", {
+  }, singleSer.title), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    display: "flex",
+    alignItems: "center",
+    gap: "15px"
+  }, /*#__PURE__*/_react.default.createElement("p", {
     className: "eta"
-  }, singleSer.eta), /*#__PURE__*/_react.default.createElement("p", {
-    className: "price"
-  }, /*#__PURE__*/_react.default.createElement("b", null, singleSer.currency, " ", singleSer.price)), /*#__PURE__*/_react.default.createElement("p", {
-    className: "gender"
-  }, singleSer.gender && "Only for ".concat(singleSer.gender))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_AccessTime.default, null), " ", singleSer.eta), /*#__PURE__*/_react.default.createElement("p", {
+    className: "gender ".concat(singleSer.gender)
+  }, singleSer.gender && "Only for ".concat(singleSer.gender)))), /*#__PURE__*/_react.default.createElement("div", {
     className: "book_btn"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  }, /*#__PURE__*/_react.default.createElement("p", {
+    className: "price"
+  }, singleSer.currency, " ", singleSer.price), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: _routes.ROUTES.getBookingPage(storeDetails.slug),
     state: {
       storeDetails: storeDetails,
@@ -399,7 +425,7 @@ function StorePage(_ref) {
   }, /*#__PURE__*/_react.default.createElement("button", null, "See All"))))), storeDetails.workers && ((_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
     className: "teams_div_new"
   }, /*#__PURE__*/_react.default.createElement("h2", null, "Team"), /*#__PURE__*/_react.default.createElement("div", {
-    className: "team_members"
+    className: "team_members new"
   }, storeDetails.workers.filter(worker => {
     var _worker$user;
     return ((_worker$user = worker.user) === null || _worker$user === void 0 ? void 0 : _worker$user.account_status) === "active";
@@ -418,26 +444,24 @@ function StorePage(_ref) {
       alt: ""
     }) : /*#__PURE__*/_react.default.createElement("div", {
       className: "dummy_img"
-    }, ((_worker$user$username = worker.user.username) === null || _worker$user$username === void 0 ? void 0 : _worker$user$username.charAt(0)) || "?"), /*#__PURE__*/_react.default.createElement("dov", {
-      className: "overlay"
-    }), /*#__PURE__*/_react.default.createElement("div", {
-      className: "name_des"
-    }, /*#__PURE__*/_react.default.createElement("h3", {
+    }, ((_worker$user$username = worker.user.username) === null || _worker$user$username === void 0 ? void 0 : _worker$user$username.charAt(0)) || "?")), /*#__PURE__*/_react.default.createElement("h3", {
       className: "username"
     }, worker.user.username), /*#__PURE__*/_react.default.createElement("p", {
       className: "designation"
     }, worker.user.user_info.designation), averageRating && /*#__PURE__*/_react.default.createElement("div", {
-      className: "user_rating"
-    }, averageRating, " ", /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null)))));
+      className: "worker_rating"
+    }, /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null), " ", averageRating));
   })))), /*#__PURE__*/_react.default.createElement("div", {
     className: "right_side"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "padding"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "store-info ".concat(isScrolled ? "visible" : "")
   }, /*#__PURE__*/_react.default.createElement("h2", null, storeDetails.title), /*#__PURE__*/_react.default.createElement("div", {
     className: "rating"
   }, /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("b", null, averageRatingStore)), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
     rating: averageRatingStore
-  }), /*#__PURE__*/_react.default.createElement("span", null, "(", storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews2 = storeDetails.reviews) === null || _storeDetails$reviews2 === void 0 ? void 0 : _storeDetails$reviews2.length, ")")), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react.default.createElement("span", null, "(", storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews2 = storeDetails.reviews) === null || _storeDetails$reviews2 === void 0 ? void 0 : _storeDetails$reviews2.length, ")"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "book_now_btn"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: _routes.ROUTES.getBookingPage(storeDetails.slug),

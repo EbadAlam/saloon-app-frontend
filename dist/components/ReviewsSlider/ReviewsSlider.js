@@ -25,7 +25,13 @@ function ReviewsSlider(_ref) {
     slidesToScroll: 1,
     arrows: true,
     nextArrow: /*#__PURE__*/_react.default.createElement(NextArrow, null),
-    prevArrow: /*#__PURE__*/_react.default.createElement(PrevArrow, null)
+    prevArrow: /*#__PURE__*/_react.default.createElement(PrevArrow, null),
+    responsive: [{
+      breakpoint: 768,
+      settings: {
+        arrows: false
+      }
+    }]
   };
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, (reviews === null || reviews === void 0 ? void 0 : reviews.length) > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "reviews_div"

@@ -12,7 +12,7 @@ function Carousel({ stores = [] }) {
   const calculateAverageRating = (reviews = []) => {
     const total = reviews.reduce(
       (sum, r) => sum + parseFloat(r.rating || 0),
-      0
+      0,
     );
     return reviews.length > 0 ? (total / reviews.length).toFixed(1) : "N/A";
   };
@@ -28,8 +28,8 @@ function Carousel({ stores = [] }) {
     slidesToShow: 4,
     slidesToScroll: 1,
     arrows: true,
-    autoplay: true,
-    autoplaySpeed: 2000,
+    autoplay: false,
+    autoplaySpeed: 3000,
     pauseOnHover: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
@@ -47,6 +47,7 @@ function Carousel({ stores = [] }) {
           slidesToShow: 2,
           slidesToScroll: 1,
           arrows: false,
+          autoplay: true,
         },
       },
       {
@@ -55,6 +56,7 @@ function Carousel({ stores = [] }) {
           slidesToShow: 1,
           slidesToScroll: 1,
           arrows: false,
+          autoplay: true,
         },
       },
     ],
@@ -69,7 +71,7 @@ function Carousel({ stores = [] }) {
           stores
             .filter(
               (store) =>
-                store.status === "active" && store.is_active_by_admin == 1
+                store.status === "active" && store.is_active_by_admin == 1,
             )
             .map((singleStore) => {
               const averageRating = calculateAverageRating(singleStore.reviews);
@@ -138,10 +140,7 @@ function Carousel({ stores = [] }) {
                           alignItems="center"
                           gap="3px"
                         >
-                          <StarIcon
-                            fontSize="small"
-                            sx={{ color: "gold" }}
-                          />
+                          <StarIcon fontSize="small" sx={{ color: "gold" }} />
                           <Typography
                             variant="h4"
                             sx={{
@@ -212,7 +211,10 @@ function Carousel({ stores = [] }) {
                             color: "#333333",
                           }}
                         >
-                          {singleStore.type || "Saloon"} • {singleStore.reviews.length == 1 ? `${singleStore.reviews.length} Reviews` : `${singleStore.reviews.length} Review`}
+                          {singleStore.type || "Saloon"} •{" "}
+                          {singleStore.reviews.length == 1
+                            ? `${singleStore.reviews.length} Reviews`
+                            : `${singleStore.reviews.length} Review`}
                         </Typography>
                       </Box>
                     </Box>
@@ -235,16 +237,16 @@ const PrevArrow = ({ className, style, onClick }) => (
       backgroundColor: "#fff",
       color: "black",
       transition: "all 0.3s ease",
-      "&:hover": { color: "black",backgroundColor:"#dbdbdb" },
+      "&:hover": { color: "black", backgroundColor: "#dbdbdb" },
       position: "absolute",
       left: "-50px",
       top: "28%",
       zIndex: 1,
       borderRadius: "20px",
-      rotate:"180deg",
-      border:"1px solid #dbdbdb",
-      width:"40px",
-      height:"40px",
+      rotate: "180deg",
+      border: "1px solid #dbdbdb",
+      width: "40px",
+      height: "40px",
     }}
   >
     <ArrowForwardIosIcon />
@@ -259,15 +261,15 @@ const NextArrow = ({ className, style, onClick }) => (
       backgroundColor: "#fff",
       color: "black",
       transition: "all 0.3s ease",
-      "&:hover": { color: "black",backgroundColor:"#dbdbdb" },
+      "&:hover": { color: "black", backgroundColor: "#dbdbdb" },
       position: "absolute",
       right: "-30px",
       top: "28%",
       zIndex: 1,
       borderRadius: "20px",
-      border:"1px solid #dbdbdb",
-      width:"40px",
-      height:"40px",
+      border: "1px solid #dbdbdb",
+      width: "40px",
+      height: "40px",
     }}
   >
     <ArrowForwardIosIcon />

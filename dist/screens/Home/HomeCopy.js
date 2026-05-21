@@ -82,6 +82,9 @@ function Home() {
     slidesToShow: 4,
     slidesToScroll: 4,
     arrows: true,
+    autoplay: false,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     nextArrow: /*#__PURE__*/_react.default.createElement(NextArrow, null),
     prevArrow: /*#__PURE__*/_react.default.createElement(PrevArrow, null),
     responsive: [{
@@ -94,13 +97,17 @@ function Home() {
       breakpoint: 768,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 2
+        slidesToScroll: 2,
+        arrows: false,
+        autoplay: true
       }
     }, {
       breakpoint: 480,
       settings: {
         slidesToShow: 1,
-        slidesToScroll: 1
+        slidesToScroll: 1,
+        arrows: false,
+        autoplay: true
       }
     }]
   };
@@ -119,7 +126,7 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "main_banner",
     sx: {
-      paddingBlock: '100px'
+      paddingBlock: "100px"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "content",
@@ -180,7 +187,7 @@ function Home() {
       fontSize: "32px",
       fontFamily: "Barlow",
       fontWeight: "600",
-      color: '#333333'
+      color: "#333333"
     }
   }, "Recently Viewed"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "slider"
@@ -205,7 +212,7 @@ function Home() {
       fontSize: "32px",
       fontFamily: "Barlow",
       fontWeight: "600",
-      color: '#333333'
+      color: "#333333"
     }
   }, "Recommended"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "slider"
@@ -228,7 +235,7 @@ function Home() {
       fontSize: "32px",
       fontFamily: "Barlow",
       fontWeight: "600",
-      color: '#333333'
+      color: "#333333"
     }
   }, "New to BeautyTrafic"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "slider"
@@ -251,7 +258,7 @@ function Home() {
       fontSize: "32px",
       fontFamily: "Barlow",
       fontWeight: "600",
-      color: '#333333'
+      color: "#333333"
     }
   }, "Trending"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "slider"
@@ -264,10 +271,10 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h3",
     sx: {
-      fontSize: '30px',
-      fontFamily: 'Barlow',
-      fontWeight: '700',
-      textTransform: 'capitalize'
+      fontSize: "30px",
+      fontFamily: "Barlow",
+      fontWeight: "700",
+      textTransform: "capitalize"
     }
   }, "What client says"), /*#__PURE__*/_react.default.createElement(_reactSlick.default, _extends({}, reivewsSliderSettings, {
     className: "mt-5"
@@ -284,23 +291,23 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
-      fontSize: '22px',
-      fontWeight: '600',
-      fontFamily: 'Barlow',
-      textTransform: 'capitalize'
+      fontSize: "22px",
+      fontWeight: "600",
+      fontFamily: "Barlow",
+      textTransform: "capitalize"
     }
   }, singleRev.title), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     className: "review_content",
     variant: "body1",
     sx: {
-      fontSize: '18px',
-      fontFamily: 'Barlow'
+      fontSize: "18px",
+      fontFamily: "Barlow"
     }
   }, singleRev.review)), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "userInfo"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "profileImg"
-  }, singleRev.reviewer.user_info.profile_image ? singleRev.reviewer.user_info.signup_platform == 'manual' ? /*#__PURE__*/_react.default.createElement("img", {
+  }, singleRev.reviewer.user_info.profile_image ? singleRev.reviewer.user_info.signup_platform == "manual" ? /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleRev.reviewer.user_info.profile_image),
     alt: ""
   }) : /*#__PURE__*/_react.default.createElement("img", {
@@ -313,15 +320,15 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
-      fontSize: '16px',
-      fontWeight: '600',
-      fontFamily: 'Barlow'
+      fontSize: "16px",
+      fontWeight: "600",
+      fontFamily: "Barlow"
     }
   }, singleRev.reviewer.username), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
-      fontSize: '14px',
-      fontFamily: 'Barlow'
+      fontSize: "14px",
+      fontFamily: "Barlow"
     }
   }, singleRev.reviewer.user_info.city)))))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "top_rated"
@@ -366,18 +373,18 @@ function Home() {
     variant: "h2"
   }, "Boost your salon or spa business for free with the world\u2019s leading booking platform \u2014 rated No. 1 by industry experts."), /*#__PURE__*/_react.default.createElement(_material.Button, {
     sx: {
-      background: '#333333',
-      color: '#FFF8F0',
-      borderRadius: '30px',
-      padding: '10px 15px',
-      marginBlock: '15px'
+      background: "#333333",
+      color: "#FFF8F0",
+      borderRadius: "30px",
+      padding: "10px 15px",
+      marginBlock: "15px"
     }
   }, "Find out more"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h2"
   }, "Excellent 5/5"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "rating",
     sx: {
-      marginBlock: '15px'
+      marginBlock: "15px"
     }
   }, /*#__PURE__*/_react.default.createElement(_StarRating.default, {
     rating: 5
@@ -401,19 +408,19 @@ const PrevArrow = _ref => {
     className: "arrow-prev-custom",
     onClick: onClick,
     sx: {
-      backgroundColor: 'white',
-      color: 'black',
+      backgroundColor: "white",
+      color: "black",
       transition: "all 0.3s ease",
       "&:hover": {
         color: "black",
         backgroundColor: "#ffc0cb87"
       },
-      position: 'absolute',
-      left: '-40px',
+      position: "absolute",
+      left: "-40px",
       rotate: "180deg",
-      top: '40%',
+      top: "40%",
       zIndex: 1,
-      borderRadius: '20px',
+      borderRadius: "20px",
       border: "1px solid #ffc0cb87",
       width: "40px",
       height: "40px"
@@ -430,18 +437,18 @@ const NextArrow = _ref2 => {
     onClick: onClick,
     className: "arrow-next-custom",
     sx: {
-      backgroundColor: 'white',
-      color: 'black',
+      backgroundColor: "white",
+      color: "black",
       transition: "all 0.3s ease",
       "&:hover": {
         color: "black",
         backgroundColor: "#ffc0cb87"
       },
-      position: 'absolute',
-      right: '-40px',
-      top: '40%',
+      position: "absolute",
+      right: "-40px",
+      top: "40%",
       zIndex: 1,
-      borderRadius: '20px',
+      borderRadius: "20px",
       border: "1px solid #ffc0cb87",
       width: "40px",
       height: "40px"

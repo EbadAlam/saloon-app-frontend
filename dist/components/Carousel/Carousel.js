@@ -43,8 +43,8 @@ function Carousel(_ref) {
     slidesToShow: 4,
     slidesToScroll: 1,
     arrows: true,
-    autoplay: true,
-    autoplaySpeed: 2000,
+    autoplay: false,
+    autoplaySpeed: 3000,
     pauseOnHover: true,
     nextArrow: /*#__PURE__*/_react.default.createElement(NextArrow, null),
     prevArrow: /*#__PURE__*/_react.default.createElement(PrevArrow, null),
@@ -59,14 +59,16 @@ function Carousel(_ref) {
       settings: {
         slidesToShow: 2,
         slidesToScroll: 1,
-        arrows: false
+        arrows: false,
+        autoplay: true
       }
     }, {
       breakpoint: 480,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-        arrows: false
+        arrows: false,
+        autoplay: true
       }
     }]
   };
@@ -186,7 +188,7 @@ function Carousel(_ref) {
         fontFamily: "Barlow",
         color: "#333333"
       }
-    }, singleStore.type || "Saloon", " \u2022 ", singleStore.reviews.length == 1 ? "".concat(singleStore.reviews.length, " Reviews") : "".concat(singleStore.reviews.length, " Review"))))));
+    }, singleStore.type || "Saloon", " \u2022", " ", singleStore.reviews.length == 1 ? "".concat(singleStore.reviews.length, " Reviews") : "".concat(singleStore.reviews.length, " Review"))))));
   })));
 }
 var _default = exports.default = Carousel;

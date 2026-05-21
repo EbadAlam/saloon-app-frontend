@@ -48,7 +48,9 @@ function ReviewsSlider(_ref) {
     className: "rating"
   }, /*#__PURE__*/_react.default.createElement(_StarRating.default, {
     rating: singleReview.rating,
-    color: "#ebe0ff",
+    color: "gold"
+    // color="#ebe0ff"
+    ,
     size: "large"
   })), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h2"

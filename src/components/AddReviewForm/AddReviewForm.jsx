@@ -60,11 +60,10 @@ const AddReviewForm = ({ onSubmit, storeId, userId, storeUsers = [] }) => {
     <Box
       component="form"
       onSubmit={handleSubmit}
+      className={`reviewFormDiv ${showForm ? 'show' : ''}`}
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 2,
-        p: 3,
         border: "1px solid #ddd",
         borderRadius: 2,
         mx: "auto",
@@ -78,8 +77,7 @@ const AddReviewForm = ({ onSubmit, storeId, userId, storeUsers = [] }) => {
       >
         Write a Review
       </Typography>
-      {showForm && (
-        <>
+        <div className="addReviewForm">
           <Rating
             name="rating"
             value={rating}
@@ -135,8 +133,7 @@ const AddReviewForm = ({ onSubmit, storeId, userId, storeUsers = [] }) => {
           >
             {loading ? "Submitting..." : "Submit Review"}
           </Button>
-        </>
-      )}
+        </div>
     </Box>
   );
 };

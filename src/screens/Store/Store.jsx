@@ -14,7 +14,8 @@ import AddReviewForm from "../../components/AddReviewForm/AddReviewForm";
 import Address from "../../components/Address/Address";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import "react-indiana-drag-scroll/dist/style.css";
 import {
   Box,
   CircularProgress,
@@ -30,6 +31,7 @@ import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
 import Slider from "react-slick";
 import ReviewsSlider from "../../components/ReviewsSlider/ReviewsSlider";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 function StorePage({ initialData }) {
   const { formatDate, user, token, updateFavorites } = useAuth();
@@ -38,7 +40,7 @@ function StorePage({ initialData }) {
   const [loadingFav, setLoadingFav] = useState(false);
   const isBrowser = typeof window !== "undefined";
   const [storeDetails, setStoreDetails] = useState(() => {
-    if(initialData) {
+    if (initialData) {
       return initialData;
     } else if (typeof window !== "undefined" && window.__INITIAL_DATA__) {
       return window.__INITIAL_DATA__.storeDetails;
@@ -53,6 +55,7 @@ function StorePage({ initialData }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [MapComponents, setMapComponents] = useState(null);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
       Promise.all([
@@ -78,7 +81,7 @@ function StorePage({ initialData }) {
       // console.log("details not found");
       const fetchStoreDetails = async () => {
         // console.log("fetching details");
-        
+
         setLoading(true);
         try {
           const { data } = await axiosClient.get(`/getStoreBySlug/${slug}`);
@@ -98,7 +101,7 @@ function StorePage({ initialData }) {
       };
       fetchStoreDetails();
     }
-  }, [storeDetails,slug]);
+  }, [storeDetails, slug]);
   useEffect(() => {
     if (window.__INITIAL_DATA__) {
       console.log("data from window: ", window.__INITIAL_DATA__);
@@ -114,7 +117,7 @@ function StorePage({ initialData }) {
       Array.isArray(storeDetails.favourited_by_users)
     ) {
       const isUserFav = storeDetails.favourited_by_users.some(
-        (singleFav) => singleFav?.id === user?.id
+        (singleFav) => singleFav?.id === user?.id,
       );
       setIsFav(isUserFav);
     }
@@ -129,7 +132,7 @@ function StorePage({ initialData }) {
 
     const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
     const todayTiming = workingHours.find(
-      (item) => item.day.toLowerCase() === today.toLowerCase()
+      (item) => item.day.toLowerCase() === today.toLowerCase(),
     );
     const timing = todayTiming || workingHours[0];
     if (!timing) return null;
@@ -201,7 +204,7 @@ function StorePage({ initialData }) {
         console.error("Failed to copy: ", err);
       });
   };
-  
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30);
@@ -244,9 +247,12 @@ function StorePage({ initialData }) {
     }
   }, [alertMessage]);
   if (!MapComponents) {
-    return <div style={{ height: "400px", background: "#eee" }}>Loading map...</div>;
+    return (
+      <div style={{ height: "400px", background: "#eee" }}>Loading map...</div>
+    );
   }
-  const { MapContainer, TileLayer, Marker} = MapComponents;
+  const { MapContainer, TileLayer, Marker } = MapComponents;
+
   return (
     <>
       <Helmet>
@@ -266,36 +272,36 @@ function StorePage({ initialData }) {
       </Helmet>
       {loading || !storeDetails ? (
         <Box>
-        <div
-          className="container"
-          style={{ background: "transparent", paddingBlock: "20px" }}
-        >
-          <div className="skeleton-title">
-            <Skeleton variant="text" width={300} height={40} />
+          <div
+            className="container"
+            style={{ background: "transparent", paddingBlock: "20px" }}
+          >
+            <div className="skeleton-title">
+              <Skeleton variant="text" width={300} height={40} />
+            </div>
+            <div className="skeleton-address">
+              <Skeleton variant="text" width={150} height={40} />
+              <Skeleton variant="text" width={200} height={40} />
+              <Skeleton variant="text" width={150} height={40} />
+            </div>
+            <div className="skeleton-info">
+              <Skeleton variant="rectangular" width="100%" height={150} />
+            </div>
+            <div className="skeleton-gallery">
+              <Skeleton variant="rectangular" width="100%" height={200} />
+            </div>
+            <div className="skeleton-services">
+              {[1, 2, 3, 4].map((i) => (
+                <Skeleton
+                  key={i}
+                  variant="rectangular"
+                  width="100%"
+                  height={100}
+                  style={{ margin: "10px 0" }}
+                />
+              ))}
+            </div>
           </div>
-          <div className="skeleton-address">
-            <Skeleton variant="text" width={150} height={40} />
-            <Skeleton variant="text" width={200} height={40} />
-            <Skeleton variant="text" width={150} height={40} />
-          </div>
-          <div className="skeleton-info">
-            <Skeleton variant="rectangular" width="100%" height={150} />
-          </div>
-          <div className="skeleton-gallery">
-            <Skeleton variant="rectangular" width="100%" height={200} />
-          </div>
-          <div className="skeleton-services">
-            {[1, 2, 3, 4].map((i) => (
-              <Skeleton
-                key={i}
-                variant="rectangular"
-                width="100%"
-                height={100}
-                style={{ margin: "10px 0" }}
-              />
-            ))}
-          </div>
-        </div>
         </Box>
       ) : (
         <>
@@ -307,7 +313,7 @@ function StorePage({ initialData }) {
               />
             </div>
           )}
-        <Box className="storeNew">
+          <Box className="storeNew">
             <div
               className="container"
               style={{ background: "transparent", paddingBlock: "20px" }}
@@ -326,15 +332,52 @@ function StorePage({ initialData }) {
                 </Typography>
               </div>
               <div className="store_data_mobile">
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: "#333333",
-                    fontSize: "16px",
-                  }}
-                >
-                  {storeDetails.type || "Saloon"} • 
-                </Typography>
+                <div className="storeMeta">
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: "#333333",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {storeDetails.type || "Saloon"}
+                  </Typography>
+                  {storeDetails.reviews && (
+                    <>
+                      •
+                      <div className="rating">
+                        <StarOutlinedIcon />{" "}
+                        <strong>{averageRatingStore} </strong>
+                        <span>({storeDetails.reviews.length})</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div className="address">
+                    <p>{storeDetails.address}</p>
+                  </div>
+                <div className="storeAbout">
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: "#333333",
+                      fontSize: "18px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    About
+                  </Typography>
+                  <div className={`about_wrapper ${expanded ? "expanded" : ""}`}>
+                    <p>{storeDetails.about}</p>
+
+                    <span
+                      className="read_more"
+                      onClick={() => setExpanded(!expanded)}
+                    >
+                      {expanded ? "Read Less" : "Read More"}
+                    </span>
+                  </div>
+                </div>
               </div>
               <div className="info_save_div">
                 <div className="store_info">
@@ -342,7 +385,7 @@ function StorePage({ initialData }) {
                     <p>
                       <b>{averageRatingStore}</b>
                     </p>
-                    <StarRating rating={averageRatingStore} />
+                    <StarRating rating={averageRatingStore} color="gold" />
                   </div>
                   <Seperator />
                   <div className="timing">
@@ -389,48 +432,41 @@ function StorePage({ initialData }) {
                   </div>
                 </div>
               </div>
+            </div>
+            {!isMobile && (
+              <div className="gallery">
+                <CustomGallery
+                  images={storeDetails.gallery}
+                  thumbnail={storeDetails.thumbnail}
+                  slug={storeDetails.slug}
+                />
               </div>
-              {!isMobile && (
-                <div className="gallery">
-                  <CustomGallery
-                    images={storeDetails.gallery}
-                    thumbnail={storeDetails.thumbnail}
-                    slug={storeDetails.slug}
-                  />
-                </div>
-              )}
-              <div
-              className="container">
+            )}
+            <div className="container">
               <div className="two_sections">
                 <div className="left_side">
                   <h2>Services</h2>
-                  <div className="services_categories">
+                  <ScrollContainer className="services_categories_scroll services_categories">
                     <div
-                      className={`category ${
-                        selectedCategory === null ? "active" : ""
-                      }`}
+                      className={`category ${selectedCategory === null ? "active" : ""}`}
                       onClick={() => setSelectedCategory(null)}
-                      style={{ cursor: "pointer" }}
                     >
                       All
                     </div>
-                    {storeDetails?.services_categories?.length > 0 &&
-                      storeDetails.services_categories
-                        ?.filter((singleCat) => singleCat.status === "active")
-                        .map((singleCat, index) => (
-                          <div
-                            key={index}
-                            className={`category ${
-                              selectedCategory === singleCat?.id ? "active" : ""
-                            }`}
-                            onClick={() => setSelectedCategory(singleCat?.id)}
-                            style={{ cursor: "pointer" }}
-                          >
-                            {singleCat.title}
-                          </div>
-                        ))}
-                  </div>
-
+                    {storeDetails?.services_categories
+                      ?.filter((singleCat) => singleCat.status === "active")
+                      .map((singleCat) => (
+                        <div
+                          key={singleCat.id}
+                          className={`category ${
+                            selectedCategory === singleCat?.id ? "active" : ""
+                          }`}
+                          onClick={() => setSelectedCategory(singleCat?.id)}
+                        >
+                          {singleCat.title}
+                        </div>
+                      ))}
+                  </ScrollContainer>
                   <div className="services">
                     {storeDetails?.services?.length > 0 && (
                       <>
@@ -438,20 +474,27 @@ function StorePage({ initialData }) {
                           .filter((service) =>
                             selectedCategory
                               ? service.service_category_id === selectedCategory
-                              : true && service.category?.status === "active"
+                              : true && service.category?.status === "active",
                           )
                           .slice(0, 4)
                           .filter(
                             (service) =>
                               service.status === "active" &&
-                              service.is_active_by_admin == 1
+                              service.is_active_by_admin == 1,
                           )
                           .map((singleSer) => (
                             <div className="service" key={singleSer.id}>
                               <div className="info">
                                 <h4 className="title">{singleSer.title}</h4>
-                                <Box display="flex" alignItems="center" gap="15px">
-                                  <p className="eta"><AccessTimeIcon /> {singleSer.eta}</p>
+                                <Box
+                                  className="service_meta"
+                                  display="flex"
+                                  alignItems="center"
+                                  gap="15px"
+                                >
+                                  <p className="eta">
+                                    <AccessTimeIcon /> {singleSer.eta}
+                                  </p>
                                   <p className={`gender ${singleSer.gender}`}>
                                     {singleSer.gender &&
                                       `Only for ${singleSer.gender}`}
@@ -478,7 +521,7 @@ function StorePage({ initialData }) {
                         {storeDetails.services.filter((service) =>
                           selectedCategory
                             ? service.category_id === selectedCategory
-                            : true
+                            : true,
                         ).length > 4 && (
                           <div className="see-all-btn">
                             <Link
@@ -555,64 +598,51 @@ function StorePage({ initialData }) {
                         </div>
                       </div>
                     )} */}
-                    {storeDetails.workers &&
-                    storeDetails.workers?.length > 0 && (
-                      <div className="teams_div_new">
-                        <h2>Team</h2>
-                        <div className="team_members new">
-                          {storeDetails.workers
-                            .filter(
-                              (worker) => worker.user?.account_status === "active"
-                            )
-                            .map((worker) => {
-                              const reviews =
-                                worker?.user?.reviews_received || [];
-                              const total = reviews.reduce(
-                                (sum, r) => sum + parseFloat(r.rating || 0),
-                                0
-                              );
-                              const averageRating =
-                                reviews.length > 0
-                                  ? (total / reviews.length).toFixed(1)
-                                  : "";
+                  {storeDetails.workers && storeDetails.workers?.length > 0 && (
+                    <div className="teams_div_new">
+                      <h2>Team</h2>
+                      <div className="team_members new">
+                        {storeDetails.workers
+                          .filter(
+                            (worker) =>
+                              worker.user?.account_status === "active",
+                          )
+                          .map((worker) => {
+                            const reviews =
+                              worker?.user?.reviews_received || [];
+                            const total = reviews.reduce(
+                              (sum, r) => sum + parseFloat(r.rating || 0),
+                              0,
+                            );
+                            const averageRating =
+                              reviews.length > 0
+                                ? (total / reviews.length).toFixed(1)
+                                : "";
 
-                              return (
+                            return (
+                              <div
+                                className="single_member"
+                                key={worker.user?.id}
+                              >
                                 <div
-                                  className="single_member"
-                                  key={worker.user?.id}
+                                  className={`profile_img ${
+                                    worker.user.user_info.profile_image
+                                      ? ""
+                                      : "no-img"
+                                  }`}
                                 >
-                                  <div
-                                    className={`profile_img ${
-                                      worker.user.user_info.profile_image
-                                        ? ""
-                                        : "no-img"
-                                    }`}
-                                  >
-                                    {worker.user.user_info.profile_image ? (
-                                      <img
-                                        src={`${process.env.REACT_APP_IMG_URL}${worker.user.user_info.profile_image}`}
-                                        alt=""
-                                      />
-                                    ) : (
-                                      <div className="dummy_img">
-                                        {worker.user.username?.charAt(0) || "?"}
-                                      </div>
-                                    )}
-                                    {/* <dov className="overlay"></dov>
-                                    <div className="name_des">
-                                      <h3 className="username">
-                                        {worker.user.username}
-                                      </h3>
-                                      <p className="designation">
-                                        {worker.user.user_info.designation}
-                                      </p>
-                                      {averageRating && (
-                                        <div className="user_rating">
-                                          {averageRating} <StarOutlinedIcon />
-                                        </div>
-                                      )}
-                                    </div> */}
-                                  </div>
+                                  {worker.user.user_info.profile_image ? (
+                                    <img
+                                      src={`${process.env.REACT_APP_IMG_URL}${worker.user.user_info.profile_image}`}
+                                      alt=""
+                                    />
+                                  ) : (
+                                    <p className="dummy_img">
+                                      {worker.user.username?.charAt(0) || "?"}
+                                    </p>
+                                  )}
+                                </div>
+                                <div className="worker_info">
                                   <h3 className="username">
                                     {worker.user.username}
                                   </h3>
@@ -620,16 +650,19 @@ function StorePage({ initialData }) {
                                     {worker.user.user_info.designation}
                                   </p>
                                   {averageRating && (
-                                    <div className="worker_rating">
+                                    <div
+                                      className={`worker_rating ${worker.user.user_info.gender}`}
+                                    >
                                       <StarOutlinedIcon /> {averageRating}
                                     </div>
                                   )}
                                 </div>
-                              );
-                            })}
-                        </div>
+                              </div>
+                            );
+                          })}
                       </div>
-                    )}
+                    </div>
+                  )}
                   {/* {storeDetails?.reviews && storeDetails?.reviews?.length > 0 && (
                     <div className="reviews-div mt-5">
                       <h2>Reviews</h2>
@@ -685,11 +718,12 @@ function StorePage({ initialData }) {
                       )}
                     </div>
                   )} */}
-                  
                 </div>
                 <div className="right_side">
                   <div className="padding">
-                    <div className={`store-info ${isScrolled ? "visible" : ""}`}>
+                    <div
+                      className={`store-info ${isScrolled ? "visible" : ""}`}
+                    >
                       <h2>{storeDetails.title}</h2>
 
                       <div className="rating">
@@ -727,35 +761,37 @@ function StorePage({ initialData }) {
                 </div>
               </div>
             </div>
-            
-                <div className="bottom_side">
-                  <ReviewsSlider reviews={storeDetails.reviews} />
-                  <div className="container">
-                  {user &&
-                    token &&
-                    user?.id != storeDetails.user_id &&
-                    !storeDetails.workers?.some(
-                      (worker) => worker.user?.id == user?.id
-                    ) && (
-                      <div className="add_review">
-                        <AddReviewForm
-                          storeId={storeDetails?.id}
-                          userId={user?.id}
-                          onSubmit={handleAddReview}
-                          storeUsers={storeDetails.workers}
-                        />
-                      </div>
-                    )}
 
-                  <div className="about mt-5">
-                    <h2>About</h2>
-                    <p>{storeDetails.about}</p>
-                    <div className="map">
-                      {storeDetails.lat && storeDetails.lng && typeof window !== "undefined" && (
+            <div className="bottom_side">
+              <ReviewsSlider reviews={storeDetails.reviews} />
+              <div className="container">
+                {user &&
+                  token &&
+                  user?.id != storeDetails.user_id &&
+                  !storeDetails.workers?.some(
+                    (worker) => worker.user?.id == user?.id,
+                  ) && (
+                    <div className="add_review">
+                      <AddReviewForm
+                        storeId={storeDetails?.id}
+                        userId={user?.id}
+                        onSubmit={handleAddReview}
+                        storeUsers={storeDetails.workers}
+                      />
+                    </div>
+                  )}
+
+                <div className="about about-desktop mt-5">
+                  <h2>About</h2>
+                  <p className="store_about">{storeDetails.about}</p>
+                  <div className="map">
+                    {storeDetails.lat &&
+                      storeDetails.lng &&
+                      typeof window !== "undefined" && (
                         <MapContainer
                           center={[storeDetails.lat, storeDetails.lng]}
                           zoom={15}
-                          style={{ height: 500, width: "100%" }}
+                          className="store_map"
                         >
                           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                           <Marker
@@ -763,45 +799,45 @@ function StorePage({ initialData }) {
                           />
                         </MapContainer>
                       )}
-                      <Address details={storeDetails} />
-                    </div>
-                  </div>
-                  <div className="opening-hours mt-5">
-                    <h2>Opening Hours</h2>
-                    <ul>
-                      {storeDetails?.working_hours &&
-                        storeDetails?.working_hours?.length > 0 &&
-                        storeDetails.working_hours.map((singleHour) => (
-                          <li key={singleHour.id}>
-                            <div>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="15"
-                                height="16"
-                                viewBox="0 0 15 16"
-                                fill="none"
-                              >
-                                <circle cx="7.5" cy="8" r="7.5" fill="#D8A7B1" />
-                              </svg>
-                              <p>{singleHour.day}</p>
-                            </div>
-                            <div>
-                              <p>
-                                {singleHour.start_time_formatted} -{" "}
-                                {singleHour.end_time_formatted}{" "}
-                                {singleHour.is_closed !== "active" ? (
-                                  <strong style={{ color: "red" }}>Closed</strong>
-                                ) : (
-                                  ""
-                                )}
-                              </p>
-                            </div>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
+                    <Address details={storeDetails} />
                   </div>
                 </div>
+                <div className="opening-hours mt-5">
+                  <h2>Opening Hours</h2>
+                  <ul>
+                    {storeDetails?.working_hours &&
+                      storeDetails?.working_hours?.length > 0 &&
+                      storeDetails.working_hours.map((singleHour) => (
+                        <li key={singleHour.id}>
+                          <div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="15"
+                              height="16"
+                              viewBox="0 0 15 16"
+                              fill="none"
+                            >
+                              <circle cx="7.5" cy="8" r="7.5" fill="#D8A7B1" />
+                            </svg>
+                            <p>{singleHour.day}</p>
+                          </div>
+                          <div>
+                            <p>
+                              {singleHour.start_time_formatted} -{" "}
+                              {singleHour.end_time_formatted}{" "}
+                              {singleHour.is_closed !== "active" ? (
+                                <strong style={{ color: "red" }}>Closed</strong>
+                              ) : (
+                                ""
+                              )}
+                            </p>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </Box>
         </>
       )}

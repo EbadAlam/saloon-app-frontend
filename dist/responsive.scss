@@ -18,10 +18,6 @@
         font-size: 25px;
     }
 
-    .arrow-next-custom,
-    .arrow-prev-custom {
-        // display: none !important;
-    }
 
     .sliders {
         padding-bottom: 0px;
@@ -117,9 +113,9 @@
 
     .save_share {
         position: absolute;
-        top: 200px;
+        top: 25px;
         right: 20px;
-        display: none;
+        // display: none;
     }
 
     .save_share .save,
@@ -134,10 +130,10 @@
         width: 100%;
     }
 
-    .services_categories {
-        flex-wrap: wrap;
-        // overflow: scroll;
-    }
+    // .services_categories {
+    //     flex-wrap: wrap;
+    //     // overflow: scroll;
+    // }
 
     .single_member {
         // display: flex;
@@ -576,7 +572,7 @@
 
     .reviews_div {
         h3 {
-            font-size: $headingFontSize;
+            font-size: 28px;
         }
 
         .reviews {
@@ -585,122 +581,270 @@
     }
 
     .gallerySlider {
+        position: fixed;
+        top: 100px;
+        left: 0;
+        right: 0;
+
         .slick-track {
             gap: 0px;
         }
     }
 
     .home_new {
-        margin-top:0px;
+        margin-top: 0px;
+
         .home_banner {
-            height:40vh;
+            height: 40vh;
             background-position: 85%;
-            .overlay{
+
+            .overlay {
                 display: block;
             }
+
             .banner_content {
                 width: 80%;
-                h1{
+
+                h1 {
                     font-size: 40px;
-                    color:black !important;
-                    br{
+                    color: black !important;
+
+                    br {
                         display: none;
                     }
                 }
-                .search{
-                    display:none;
+
+                .search {
+                    display: none;
                 }
             }
         }
-        .stores_cards{
+
+        .stores_cards {
             flex-direction: column;
-            gap:20px;
-            .store_card{
+            gap: 20px;
+
+            .store_card {
                 width: 100%;
             }
         }
     }
-    .store_detail_new{
-        .store_details_sides{
+
+    .store_detail_new {
+        .store_details_sides {
             flex-direction: column;
         }
-        .store_details_left,.store_details_right{
-            width:100%;
+
+        .store_details_left,
+        .store_details_right {
+            width: 100%;
         }
-        .store_services{
-            .services{
+
+        .store_services {
+            .services {
                 grid-template-columns: repeat(1, 1fr);
             }
         }
-        .store_tabs_ist{
-            .MuiTabs-list{
+
+        .store_tabs_ist {
+            .MuiTabs-list {
                 overflow: scroll;
             }
         }
+
         .team_members_cards {
             grid-template-columns: repeat(2, 1fr) !important;
         }
-        .flip-card-inner{
+
+        .flip-card-inner {
             transform: rotateY(180deg);
             background: #00000073;
             color: white;
         }
     }
-    .homeNewDesign{
-    position: relative;
-    overflow:hidden;
-    .searchBarDiv{
-        flex-direction: column;
-        gap:10px;
-        .search_btn{
-            button {
-                width:100%;
-                border-radius: 30px;
-                padding-block:10px;
+
+    .homeNewDesign {
+        position: relative;
+        overflow: hidden;
+
+        .searchBarDiv {
+            flex-direction: column;
+            gap: 10px;
+
+            .search_btn {
+                button {
+                    width: 100%;
+                    border-radius: 30px;
+                    padding-block: 10px;
+                }
             }
         }
+
+        .inputDivMain {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .inputDiv {
+            padding-block: 3px;
+        }
+
+        .arrow-prev-custom {
+            left: 0px;
+        }
     }
-    .inputDivMain {
-        flex-direction: column;
-        gap:10px;
-    }
-    .inputDiv {
-        padding-block: 3px;
-    }
-    .arrow-prev-custom{
-        left:0px;
-    }
-}
-    .right_side{
+
+    .right_side {
         width: 100%;
     }
-    .team_members.new{
+
+    .team_members.new {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
     }
+
     .gallerySlide {
         height: 250px !important;
     }
+
     .services .service .book_btn .price {
         text-align: right;
         width: 75px;
     }
-    .storeNew{
-        border-radius: 20px;
+
+    .storeNew {
+        border-radius: 20px 20px 0px 0px;
         overflow: hidden;
-        margin-top: -20px;
+        margin-top: 200px;
         z-index: 111;
         position: relative;
         background: white;
+
         .store_info {
-            .address{
+            .address {
+                display: none;
+            }
+        }
+
+        .services_categories {
+            flex-wrap: nowrap;
+            overflow: scroll;
+        }
+
+        .service_meta {
+            flex-direction: column !important;
+            align-items: self-start !important;
+            gap: 5px !important;
+        }
+
+        .single_member {
+            padding-inline: 0px !important;
+
+            .profile_img {
+                width: 80px !important;
+                height: 80px !important;
+            }
+
+            .designation {
+                font-size: 14px !important;
+            }
+
+            .worker_rating {
+                left: 24px !important;
+                bottom: 20px !important;
+                font-size: 12px !important;
+            }
+        }
+
+        .store_data_mobile {
+            display: block;
+
+            .storeMeta {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+
+                .rating {
+                    display: flex;
+                    gap: 5px;
+                    align-items: center;
+                    font-size: 18px;
+
+                    svg {
+                        font-size: 20px;
+                        color: gold;
+                    }
+
+                    span {
+                        color: #009bff;
+                    }
+                }
+            }
+
+            .storeAbout {
+                margin-top: 15px;
+                .about_wrapper {
+                    position: relative;
+
+                    p {
+                        max-height: 120px; 
+                        overflow: hidden;
+                        line-height: 24px;
+                        transition: max-height 0.3s ease;
+                    }
+
+                    &:not(.expanded) {
+                        p::after {
+                            content: "";
+                            position: absolute;
+                            bottom: 30px;
+                            left: 0;
+                            width: 100%;
+                            height: 40px;
+                            background: linear-gradient(transparent, #fff);
+                            pointer-events: none;
+                        }
+                    }
+
+                    &.expanded {
+                        p {
+                            max-height: 1000px;
+                        }
+                    }
+
+                    .read_more {
+                        display: inline-block;
+                        margin-top: 8px;
+                        cursor: pointer;
+                        font-weight: 600;
+                        color: #000;
+                    }
+                }
+
+                p {
+                    font-size: 18px;
+                    margin:0px;
+                }
+            }
+
+            .address {
                 background: #ededed;
                 padding: 5px 10px;
                 border-radius: 10px;
                 margin-top: 10px;
+
                 p {
                     font-size: 16px;
+                    color: black;
                 }
+            }
+        }
+        .about-desktop{
+            .store_about,h2{
+                display: none;
+            }
+            .store_map {
+                height: 200px;
             }
         }
     }

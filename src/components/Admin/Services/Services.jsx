@@ -34,7 +34,7 @@ function Servicespage() {
   const [categories, setCategories] = useState([]);
   const [showForm, setShowForm] = useState(false);
   
-  const genderOptions = ['Male', 'Female'];
+  const genderOptions = ['male', 'female'];
   const [title, setTitle] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [price, setPrice] = useState('');
@@ -250,7 +250,7 @@ function Servicespage() {
               >
                 {genderOptions.map((option) => (
                   <MenuItem key={option} value={option}>
-                    {option}
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
                   </MenuItem>
                 ))}
               </Select>
@@ -297,7 +297,7 @@ function Servicespage() {
                       {singleSer.currency} {singleSer.price}
                     </TableCell>
                     <TableCell align="right">
-                      {singleSer.gender ?? '---'}
+                      {singleSer.gender ? singleSer.gender.charAt(0).toUpperCase() + singleSer.gender.slice(1) : '---'}
                     </TableCell>
                     <TableCell
                       align="right"

@@ -233,9 +233,9 @@ function TeamsPage() {
       mb: 2
     }
   }, /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
-    value: "Male"
+    value: "male"
   }, "Male"), /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
-    value: "Female"
+    value: "female"
   }, "Female")), !formData.id && /*#__PURE__*/_react.default.createElement(_material.TextField, {
     fullWidth: true,
     label: "Password",

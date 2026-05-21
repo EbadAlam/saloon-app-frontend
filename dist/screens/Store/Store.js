@@ -21,6 +21,7 @@ var _Address = _interopRequireDefault(require("../../components/Address/Address"
 var _AccessTimeOutlined = _interopRequireDefault(require("@mui/icons-material/AccessTimeOutlined"));
 var _RoomOutlined = _interopRequireDefault(require("@mui/icons-material/RoomOutlined"));
 var _AccessTime = _interopRequireDefault(require("@mui/icons-material/AccessTime"));
+require("react-indiana-drag-scroll/dist/style.css");
 var _material = require("@mui/material");
 var _routes = require("../../routes");
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
@@ -28,10 +29,11 @@ var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
 var _reactSlick = _interopRequireDefault(require("react-slick"));
 var _ReviewsSlider = _interopRequireDefault(require("../../components/ReviewsSlider/ReviewsSlider"));
+var _reactIndianaDragScroll = _interopRequireDefault(require("react-indiana-drag-scroll"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function StorePage(_ref) {
-  var _storeDetails$reviews, _storeDetails$service, _storeDetails$service2, _storeDetails$service3, _storeDetails$workers, _storeDetails$reviews2, _storeDetails$workers2, _storeDetails$working;
+  var _storeDetails$reviews, _storeDetails$service, _storeDetails$service2, _storeDetails$workers, _storeDetails$reviews2, _storeDetails$workers2, _storeDetails$working;
   let {
     initialData
   } = _ref;
@@ -65,6 +67,7 @@ function StorePage(_ref) {
   const [isScrolled, setIsScrolled] = (0, _react.useState)(false);
   const [MapComponents, setMapComponents] = (0, _react.useState)(null);
   const isMobile = (0, _material.useMediaQuery)(theme.breakpoints.down("sm"));
+  const [expanded, setExpanded] = (0, _react.useState)(false);
   (0, _react.useEffect)(() => {
     if (typeof window !== "undefined") {
       Promise.all([Promise.resolve().then(() => _interopRequireWildcard(require("leaflet"))), Promise.resolve().then(() => _interopRequireWildcard(require("react-leaflet"))), Promise.resolve().then(() => _interopRequireWildcard(require("leaflet/dist/leaflet.css")))]).then(_ref2 => {
@@ -318,20 +321,41 @@ function StorePage(_ref) {
     }
   }, storeDetails.title)), /*#__PURE__*/_react.default.createElement("div", {
     className: "store_data_mobile"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "storeMeta"
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
       color: "#333333",
       fontSize: "16px"
     }
-  }, storeDetails.type || "Saloon", " \u2022")), /*#__PURE__*/_react.default.createElement("div", {
+  }, storeDetails.type || "Saloon"), storeDetails.reviews && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, "\u2022", /*#__PURE__*/_react.default.createElement("div", {
+    className: "rating"
+  }, /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null), " ", /*#__PURE__*/_react.default.createElement("strong", null, averageRatingStore, " "), /*#__PURE__*/_react.default.createElement("span", null, "(", storeDetails.reviews.length, ")")))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "address"
+  }, /*#__PURE__*/_react.default.createElement("p", null, storeDetails.address)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "storeAbout"
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    sx: {
+      color: "#333333",
+      fontSize: "18px",
+      fontWeight: "600"
+    }
+  }, "About"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "about_wrapper ".concat(expanded ? "expanded" : "")
+  }, /*#__PURE__*/_react.default.createElement("p", null, storeDetails.about), /*#__PURE__*/_react.default.createElement("span", {
+    className: "read_more",
+    onClick: () => setExpanded(!expanded)
+  }, expanded ? "Read Less" : "Read More")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "info_save_div"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "store_info"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "rating"
   }, /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("b", null, averageRatingStore)), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
-    rating: averageRatingStore
+    rating: averageRatingStore,
+    color: "gold"
   })), /*#__PURE__*/_react.default.createElement(_Seperator.default, null), /*#__PURE__*/_react.default.createElement("div", {
     className: "timing"
   }, /*#__PURE__*/_react.default.createElement("p", null, getTodayTiming(storeDetails.working_hours))), /*#__PURE__*/_react.default.createElement(_Seperator.default, null), /*#__PURE__*/_react.default.createElement("div", {
@@ -370,24 +394,18 @@ function StorePage(_ref) {
     className: "two_sections"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "left_side"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "Services"), /*#__PURE__*/_react.default.createElement("div", {
-    className: "services_categories"
+  }, /*#__PURE__*/_react.default.createElement("h2", null, "Services"), /*#__PURE__*/_react.default.createElement(_reactIndianaDragScroll.default, {
+    className: "services_categories_scroll services_categories"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "category ".concat(selectedCategory === null ? "active" : ""),
-    onClick: () => setSelectedCategory(null),
-    style: {
-      cursor: "pointer"
-    }
-  }, "All"), (storeDetails === null || storeDetails === void 0 || (_storeDetails$service = storeDetails.services_categories) === null || _storeDetails$service === void 0 ? void 0 : _storeDetails$service.length) > 0 && ((_storeDetails$service2 = storeDetails.services_categories) === null || _storeDetails$service2 === void 0 ? void 0 : _storeDetails$service2.filter(singleCat => singleCat.status === "active").map((singleCat, index) => /*#__PURE__*/_react.default.createElement("div", {
-    key: index,
+    onClick: () => setSelectedCategory(null)
+  }, "All"), storeDetails === null || storeDetails === void 0 || (_storeDetails$service = storeDetails.services_categories) === null || _storeDetails$service === void 0 ? void 0 : _storeDetails$service.filter(singleCat => singleCat.status === "active").map(singleCat => /*#__PURE__*/_react.default.createElement("div", {
+    key: singleCat.id,
     className: "category ".concat(selectedCategory === (singleCat === null || singleCat === void 0 ? void 0 : singleCat.id) ? "active" : ""),
-    onClick: () => setSelectedCategory(singleCat === null || singleCat === void 0 ? void 0 : singleCat.id),
-    style: {
-      cursor: "pointer"
-    }
-  }, singleCat.title)))), /*#__PURE__*/_react.default.createElement("div", {
+    onClick: () => setSelectedCategory(singleCat === null || singleCat === void 0 ? void 0 : singleCat.id)
+  }, singleCat.title))), /*#__PURE__*/_react.default.createElement("div", {
     className: "services"
-  }, (storeDetails === null || storeDetails === void 0 || (_storeDetails$service3 = storeDetails.services) === null || _storeDetails$service3 === void 0 ? void 0 : _storeDetails$service3.length) > 0 && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, storeDetails.services.filter(service => {
+  }, (storeDetails === null || storeDetails === void 0 || (_storeDetails$service2 = storeDetails.services) === null || _storeDetails$service2 === void 0 ? void 0 : _storeDetails$service2.length) > 0 && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, storeDetails.services.filter(service => {
     var _service$category;
     return selectedCategory ? service.service_category_id === selectedCategory : true && ((_service$category = service.category) === null || _service$category === void 0 ? void 0 : _service$category.status) === "active";
   }).slice(0, 4).filter(service => service.status === "active" && service.is_active_by_admin == 1).map(singleSer => /*#__PURE__*/_react.default.createElement("div", {
@@ -398,6 +416,7 @@ function StorePage(_ref) {
   }, /*#__PURE__*/_react.default.createElement("h4", {
     className: "title"
   }, singleSer.title), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "service_meta",
     display: "flex",
     alignItems: "center",
     gap: "15px"
@@ -442,15 +461,17 @@ function StorePage(_ref) {
     }, worker.user.user_info.profile_image ? /*#__PURE__*/_react.default.createElement("img", {
       src: "".concat(process.env.REACT_APP_IMG_URL).concat(worker.user.user_info.profile_image),
       alt: ""
-    }) : /*#__PURE__*/_react.default.createElement("div", {
+    }) : /*#__PURE__*/_react.default.createElement("p", {
       className: "dummy_img"
-    }, ((_worker$user$username = worker.user.username) === null || _worker$user$username === void 0 ? void 0 : _worker$user$username.charAt(0)) || "?")), /*#__PURE__*/_react.default.createElement("h3", {
+    }, ((_worker$user$username = worker.user.username) === null || _worker$user$username === void 0 ? void 0 : _worker$user$username.charAt(0)) || "?")), /*#__PURE__*/_react.default.createElement("div", {
+      className: "worker_info"
+    }, /*#__PURE__*/_react.default.createElement("h3", {
       className: "username"
     }, worker.user.username), /*#__PURE__*/_react.default.createElement("p", {
       className: "designation"
     }, worker.user.user_info.designation), averageRating && /*#__PURE__*/_react.default.createElement("div", {
-      className: "worker_rating"
-    }, /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null), " ", averageRating));
+      className: "worker_rating ".concat(worker.user.user_info.gender)
+    }, /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null), " ", averageRating)));
   })))), /*#__PURE__*/_react.default.createElement("div", {
     className: "right_side"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -499,16 +520,15 @@ function StorePage(_ref) {
     onSubmit: handleAddReview,
     storeUsers: storeDetails.workers
   })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "about mt-5"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "About"), /*#__PURE__*/_react.default.createElement("p", null, storeDetails.about), /*#__PURE__*/_react.default.createElement("div", {
+    className: "about about-desktop mt-5"
+  }, /*#__PURE__*/_react.default.createElement("h2", null, "About"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "store_about"
+  }, storeDetails.about), /*#__PURE__*/_react.default.createElement("div", {
     className: "map"
   }, storeDetails.lat && storeDetails.lng && typeof window !== "undefined" && /*#__PURE__*/_react.default.createElement(MapContainer, {
     center: [storeDetails.lat, storeDetails.lng],
     zoom: 15,
-    style: {
-      height: 500,
-      width: "100%"
-    }
+    className: "store_map"
   }, /*#__PURE__*/_react.default.createElement(TileLayer, {
     url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   }), /*#__PURE__*/_react.default.createElement(Marker, {

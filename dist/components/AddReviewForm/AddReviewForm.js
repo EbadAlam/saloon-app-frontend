@@ -58,11 +58,10 @@ const AddReviewForm = _ref => {
   return /*#__PURE__*/_react.default.createElement(_material.Box, {
     component: "form",
     onSubmit: handleSubmit,
+    className: "reviewFormDiv ".concat(showForm ? 'show' : ''),
     sx: {
       display: "flex",
       flexDirection: "column",
-      gap: 2,
-      p: 3,
       border: "1px solid #ddd",
       borderRadius: 2,
       mx: "auto",
@@ -74,7 +73,9 @@ const AddReviewForm = _ref => {
     sx: {
       cursor: "pointer"
     }
-  }, "Write a Review"), showForm && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Rating, {
+  }, "Write a Review"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "addReviewForm"
+  }, /*#__PURE__*/_react.default.createElement(_material.Rating, {
     name: "rating",
     value: rating,
     onChange: (_, newValue) => setRating(newValue),

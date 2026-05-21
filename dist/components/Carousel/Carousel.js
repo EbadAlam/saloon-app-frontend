@@ -203,7 +203,7 @@ const PrevArrow = _ref2 => {
         backgroundColor: "#dbdbdb"
       },
       position: "absolute",
-      left: "-25px",
+      left: "-50px",
       top: "28%",
       zIndex: 1,
       borderRadius: "20px",
@@ -232,7 +232,7 @@ const NextArrow = _ref3 => {
         backgroundColor: "#dbdbdb"
       },
       position: "absolute",
-      right: "0",
+      right: "-30px",
       top: "28%",
       zIndex: 1,
       borderRadius: "20px",

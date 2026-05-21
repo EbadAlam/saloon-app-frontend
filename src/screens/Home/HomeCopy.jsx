@@ -65,7 +65,7 @@ function Home() {
   }, []);
 
   const reivewsSliderSettings = {
-    dots: false,
+    dots: true,
     infinite: false,
     speed: 800,
     slidesToShow: 4,
@@ -418,7 +418,7 @@ const PrevArrow = ({ className, style, onClick }) => (
             transition: "all 0.3s ease",
             "&:hover": { color: "black",backgroundColor:"#ffc0cb87" },
             position: 'absolute',
-            left: '-10px',
+            left: '-40px',
             rotate:"180deg",
             top:'40%',
             zIndex: 1,
@@ -442,7 +442,7 @@ const NextArrow = ({ className, style, onClick }) => (
             transition: "all 0.3s ease",
             "&:hover": { color: "black",backgroundColor:"#ffc0cb87" },
             position: 'absolute',
-            right: '-10px',
+            right: '-40px',
             top:'40%',
             zIndex: 1,
             borderRadius:'20px',

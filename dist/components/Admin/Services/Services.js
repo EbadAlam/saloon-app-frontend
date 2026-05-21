@@ -21,7 +21,7 @@ function Servicespage() {
   const [services, setServices] = (0, _react.useState)([]);
   const [categories, setCategories] = (0, _react.useState)([]);
   const [showForm, setShowForm] = (0, _react.useState)(false);
-  const genderOptions = ['Male', 'Female'];
+  const genderOptions = ['male', 'female'];
   const [title, setTitle] = (0, _react.useState)('');
   const [categoryId, setCategoryId] = (0, _react.useState)('');
   const [price, setPrice] = (0, _react.useState)('');
@@ -229,7 +229,7 @@ function Servicespage() {
   }, genderOptions.map(option => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
     key: option,
     value: option
-  }, option)))), /*#__PURE__*/_react.default.createElement(_material.Button, {
+  }, option.charAt(0).toUpperCase() + option.slice(1))))), /*#__PURE__*/_react.default.createElement(_material.Button, {
     type: "submit",
     variant: "contained",
     sx: {
@@ -258,44 +258,41 @@ function Servicespage() {
     align: "right"
   }, "Change Status"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Edit"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     align: "right"
-  }, "Delete"))), services && services.length > 0 ? services.map((singleSer, index) => {
-    var _singleSer$gender;
-    return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.TableBody, null, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-      align: "left"
-    }, index + 1), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-      component: "th",
-      scope: "row"
-    }, singleSer.title), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-      align: "right"
-    }, singleSer.category.title), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-      align: "right"
-    }, singleSer.eta), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-      align: "right"
-    }, singleSer.currency, " ", singleSer.price), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-      align: "right"
-    }, (_singleSer$gender = singleSer.gender) !== null && _singleSer$gender !== void 0 ? _singleSer$gender : '---'), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-      align: "right",
-      sx: {
-        color: singleSer.status === 'active' && singleSer.is_active_by_admin == 1 ? 'green' : 'red',
-        fontWeight: 'bold',
-        textTransform: 'capitalize'
-      }
-    }, singleSer.status === 'active' && singleSer.is_active_by_admin == 1 ? 'active' : singleSer.is_active_by_admin != 1 ? 'Disabled by admin' : ""), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
-      align: "right"
-    }, singleSer.is_active_by_admin == 1 && /*#__PURE__*/_react.default.createElement(_ActiveDeactiveSwitch.default, {
-      id: singleSer.id,
-      apiUrl: "/updateServicesStatus",
-      status: singleSer.status,
-      onStatusChange: handleStatusChange
-    })), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_material.Button, {
-      variant: "contained",
-      onClick: () => handleToggleEditForm(singleSer)
-    }, "Edit")), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_DeleteButton.default, {
-      id: singleSer.id,
-      url: "/deleteServices",
-      onStatusChange: handleStatusChange
-    }))));
-  }) : /*#__PURE__*/_react.default.createElement(_material.TableBody, null, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+  }, "Delete"))), services && services.length > 0 ? services.map((singleSer, index) => /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.TableBody, null, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "left"
+  }, index + 1), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    component: "th",
+    scope: "row"
+  }, singleSer.title), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "right"
+  }, singleSer.category.title), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "right"
+  }, singleSer.eta), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "right"
+  }, singleSer.currency, " ", singleSer.price), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "right"
+  }, singleSer.gender ? singleSer.gender.charAt(0).toUpperCase() + singleSer.gender.slice(1) : '---'), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "right",
+    sx: {
+      color: singleSer.status === 'active' && singleSer.is_active_by_admin == 1 ? 'green' : 'red',
+      fontWeight: 'bold',
+      textTransform: 'capitalize'
+    }
+  }, singleSer.status === 'active' && singleSer.is_active_by_admin == 1 ? 'active' : singleSer.is_active_by_admin != 1 ? 'Disabled by admin' : ""), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "right"
+  }, singleSer.is_active_by_admin == 1 && /*#__PURE__*/_react.default.createElement(_ActiveDeactiveSwitch.default, {
+    id: singleSer.id,
+    apiUrl: "/updateServicesStatus",
+    status: singleSer.status,
+    onStatusChange: handleStatusChange
+  })), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_material.Button, {
+    variant: "contained",
+    onClick: () => handleToggleEditForm(singleSer)
+  }, "Edit")), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_DeleteButton.default, {
+    id: singleSer.id,
+    url: "/deleteServices",
+    onStatusChange: handleStatusChange
+  }))))) : /*#__PURE__*/_react.default.createElement(_material.TableBody, null, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     align: "center"
   }, "No Services"))))));
 }

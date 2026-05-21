@@ -38,11 +38,14 @@ function Carousel(_ref) {
   };
   const settings = {
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
     arrows: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
     nextArrow: /*#__PURE__*/_react.default.createElement(NextArrow, null),
     prevArrow: /*#__PURE__*/_react.default.createElement(PrevArrow, null),
     responsive: [{
@@ -55,13 +58,15 @@ function Carousel(_ref) {
       breakpoint: 768,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 1
+        slidesToScroll: 1,
+        arrows: false
       }
     }, {
       breakpoint: 480,
       settings: {
         slidesToShow: 1,
-        slidesToScroll: 1
+        slidesToScroll: 1,
+        arrows: false
       }
     }]
   };

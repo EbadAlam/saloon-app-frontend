@@ -890,19 +890,13 @@ h6 {
   top: 0;
   left: 0;
   width: 100%;
-  height: 200vh;
-  // background: radial-gradient(circle at 30% 30%, #fceabb 0%, transparent 50%),
-  //               radial-gradient(circle at 70% 40%, #f8bfa8 0%, transparent 50%),
-  //               radial-gradient(circle at 50% 70%, #fcd6e4 0%, transparent 50%);
-  // background: radial-gradient(circle at 15% 30%, #fceabb 0%, transparent 50%),
-  //   radial-gradient(circle at 68% 60%, #f8bfa8 0%, transparent 50%),
-  //   radial-gradient(circle at 50% 70%, #fcd6e4 0%, transparent 50%);
-  background: radial-gradient(circle at 30% 30%, #f9a8d4 0%, transparent 50%),
+  height: 70vh;
+  background: radial-gradient(circle at 30% 30%, #fbc8d9 0%, transparent 50%),
     radial-gradient(circle at 70% 40%, #d8b4fe 0%, transparent 50%),
-    radial-gradient(circle at 50% 70%, #f5c2e7 0%, transparent 50%),
+    radial-gradient(circle at 50% 70%, #fbc8d9 0%, transparent 50%),
     #fff;
   z-index: 0;
-  filter: blur(80px);
+  filter: blur(100px);
   animation: rotateBg 25s linear infinite;
   transform-origin: center center;
 }
@@ -916,6 +910,7 @@ h6 {
     transform: rotate(360deg) scale(1.5);
   }
 }
+
 
 .prev-arrow-slider,
 .next-arrow-slider {

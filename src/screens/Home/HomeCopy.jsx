@@ -125,7 +125,7 @@ function Home() {
       ) : (
         <div className="homeNewDesign">
           <div className="container">
-            <Box className="main_banner" sx={{ paddingBlock: "100px" }}>
+            <Box className="main_banner" sx={{ paddingBlock: "100px", position: "relative" }}>
               <Box
                 className="content"
                 sx={{ zIndex: "1", position: "relative" }}

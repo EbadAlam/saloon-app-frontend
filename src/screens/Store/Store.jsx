@@ -678,7 +678,7 @@ function StorePage({ initialData }) {
                     {storeDetails?.reviews &&
                       storeDetails?.reviews?.length > 0 && (
                         <div className="reviews-div">
-                          <h2>Our Happy Customers</h2>
+                          <h2>Customer Reviews</h2>
                           <StarRating size="large" color="gold" rating={averageRatingStore} />
                           <Typography variant="body1" sx={{ marginBottom: "20px",fontSize:"18px" }}>
                             {averageRatingStore} out of 5 based on {reviews.length} reviews
@@ -849,7 +849,7 @@ function StorePage({ initialData }) {
                       }}
                     >
                       <IosShareIcon sx={{ fontSize: 18 }} />
-                      Recommend to a Friend
+                      Refer a Friend
                     </button>
                   </div>
                 </div>

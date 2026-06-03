@@ -126,7 +126,8 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "main_banner",
     sx: {
-      paddingBlock: "100px"
+      paddingBlock: "100px",
+      position: "relative"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "content",

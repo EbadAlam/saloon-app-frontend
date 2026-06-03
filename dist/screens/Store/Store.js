@@ -557,7 +557,7 @@ function StorePage(_ref) {
     }, worker.user.user_info.designation)));
   }))), /*#__PURE__*/_react.default.createElement(_material.Box, null, (storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.reviews) && (storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews2 = storeDetails.reviews) === null || _storeDetails$reviews2 === void 0 ? void 0 : _storeDetails$reviews2.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
     className: "reviews-div"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "Our Happy Customers"), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
+  }, /*#__PURE__*/_react.default.createElement("h2", null, "Customer Reviews"), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
     size: "large",
     color: "gold",
     rating: averageRatingStore
@@ -675,7 +675,7 @@ function StorePage(_ref) {
     sx: {
       fontSize: 18
     }
-  }), "Recommend to a Friend"))), /*#__PURE__*/_react.default.createElement("div", {
+  }), "Refer a Friend"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "right_side",
     ref: rightSideRef,
     style: {

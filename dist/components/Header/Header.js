@@ -99,6 +99,12 @@ function Header() {
     className: "nav",
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%"
+  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "nav",
+    display: "flex",
+    alignItems: "center",
     justifyContent: "start",
     gap: "25px"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -131,7 +137,13 @@ function Header() {
       } = _ref3;
       return isActive ? "active" : "";
     }
-  }, "Contact us")), !user && !token && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, "Contact us"))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "nav",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "start",
+    gap: "25px"
+  }, !user && !token && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "menu_btn login_btn"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     to: "".concat(_routes.ROUTES.loginSignup, "?redirectTo=").concat(encodeURIComponent(location.pathname)),
@@ -155,6 +167,6 @@ function Header() {
       borderRadius: "25px",
       padding: "5px 15px"
     }
-  }, "List Your Business"))))), user && token && /*#__PURE__*/_react.default.createElement(_Menu.default, null))));
+  }, "List Your Business")))))), user && token && /*#__PURE__*/_react.default.createElement(_Menu.default, null))));
 }
 var _default = exports.default = Header;

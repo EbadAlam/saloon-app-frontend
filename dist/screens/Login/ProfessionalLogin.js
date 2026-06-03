@@ -82,16 +82,18 @@ function ProfessionalLoginPage() {
         data
       } = await _axiosClient.default.post('/login', payload);
       if (data.success === true) {
-        var _data$user$user_info;
         login(data.user, data.token);
         setAlertType('success');
         setAlertMessage(data.message || "Login Succesfull!");
         setShowAlert(true);
-        if (((_data$user$user_info = data.user.user_info) === null || _data$user$user_info === void 0 ? void 0 : _data$user$user_info.role) == 'owner') {
-          navigate(_routes.ROUTES.adminDashboard);
-        } else {
-          navigate(_routes.ROUTES.workerDashboard);
-        }
+        setTimeout(() => {
+          var _data$user$user_info;
+          if (((_data$user$user_info = data.user.user_info) === null || _data$user$user_info === void 0 ? void 0 : _data$user$user_info.role) == 'owner') {
+            navigate(_routes.ROUTES.adminDashboard);
+          } else {
+            navigate(_routes.ROUTES.workerDashboard);
+          }
+        }, 100);
       } else {
         setAlertMessage(data.message || "Something went wrong!");
         setShowAlert(true);

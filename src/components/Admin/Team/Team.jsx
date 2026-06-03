@@ -25,12 +25,20 @@ import DeleteButton from '../../DeleteButton/DeleteButton';
 import DummyImage from '../../DummyImage/DummyImage';
 import { useParams } from 'react-router-dom';
 import { useSnackbar } from '../../../contexts/SnackBarContext';
-
+const badgeColors = [
+  '#FFE5E5', // light red
+  '#E5F4FF', // light blue
+  '#E8FFE5', // light green
+  '#FFF4E5', // light orange
+  '#F3E5FF', // light purple
+  '#FFFBE5', // light yellow
+];
 function TeamsPage() {
   const { user } = useAuth();
   const { storeId } = useParams();
   const [loading, setLoading] = useState(true);
   const [teamMembers, setTeamMembers] = useState([]);
+  const [storeServices, setStoreServices] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const { showSnackbar } = useSnackbar();
   const [formData, setFormData] = useState({
@@ -41,6 +49,7 @@ function TeamsPage() {
     password: '',
     profileImage: null,
     id:'',
+    services: [],
   });
   const [alertMessage, setAlertMessage] = useState('');
   const [alertMessageType, setAlertMessageType] = useState('');
@@ -58,9 +67,13 @@ function TeamsPage() {
   const fetchTeamMembers = async () => {
     setLoading(true);
     try {
-      const { data } = await axiosClient.get(`/getTeamMember/${storeId}`);
-      console.log(data.store.workers);
-      setTeamMembers(data.store.workers);
+      const [teamRes, serviceRes] = await Promise.all([
+        axiosClient.get(`/getTeamMember/${storeId}`),
+        axiosClient.get(`/getServices/${storeId}`),
+      ]);
+      // console.log(data.store.workers);
+      setTeamMembers(teamRes.data.store.workers);
+      setStoreServices(serviceRes.data.services);
     } catch (error) {
       console.error('Failed to fetch services:', error);
     } finally {
@@ -91,6 +104,7 @@ function TeamsPage() {
       dataToSend.append('owner_id', user.id);
       dataToSend.append('store_id', storeId);
       dataToSend.append('id', formData.id);
+      formData.services.forEach(id => dataToSend.append('services[]', id));
       const { data } = await axiosClient.post(`/addTeamMember`, dataToSend);
       setTeamMembers(data.store.workers);
       setAlertMessageType('success');
@@ -136,13 +150,15 @@ function TeamsPage() {
       }, 3000);
       return () => clearTimeout(timer);
   }
-  const handleToggleEditForm = (user) => {
+  const handleToggleEditForm = (user,workerServices) => {
     setFormData({
       name: user.username,
       designation: user.user_info?.designation,
       email: user.email,
       profileImage: user.user_info?.profile_image,
       id:user.id,
+      gender: user.user_info?.gender,
+      services: workerServices.map(ws => ws.service_id),
     });
     setShowForm(true);
   }
@@ -210,6 +226,67 @@ function TeamsPage() {
             <MenuItem value="male">Male</MenuItem>
             <MenuItem value="female">Female</MenuItem>
           </TextField>
+
+{/* Services multi-select */}
+<Box sx={{ mb: 2 }}>
+  <Typography variant="body2" sx={{ mb: 1, color: '#555' }}>
+    Assign Services (worker will only be bookable for selected services)
+  </Typography>
+  <Box
+    sx={{
+      border: '1px solid #ccc',
+      borderRadius: 1,
+      p: 1.5,
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 1,
+      maxHeight: 200,
+      overflowY: 'auto',
+    }}
+  >
+    {storeServices.length === 0 && (
+      <Typography variant="body2" color="text.secondary">
+        No services found
+      </Typography>
+    )}
+    {storeServices.map(service => {
+      const isSelected = formData.services?.includes(service.id);
+      return (
+        <Box
+          key={service.id}
+          onClick={() => {
+            setFormData(prev => ({
+              ...prev,
+              services: isSelected
+                ? prev.services.filter(id => id !== service.id)
+                : [...(prev.services ?? []), service.id],
+            }));
+          }}
+          sx={{
+            px: 1.5,
+            py: 0.5,
+            borderRadius: '20px',
+            border: '1px solid',
+            borderColor: isSelected ? '#333' : '#ddd',
+            backgroundColor: isSelected ? '#333' : 'transparent',
+            color: isSelected ? '#fff' : '#333',
+            cursor: 'pointer',
+            fontSize: '13px',
+            userSelect: 'none',
+            transition: 'all 0.2s',
+          }}
+        >
+          {service.title}
+        </Box>
+      );
+    })}
+  </Box>
+  {formData.services?.length === 0 && (
+    <Typography variant="caption" color="text.secondary">
+      No services selected — worker will appear for all services
+    </Typography>
+  )}
+</Box>
             {!formData.id && 
               <TextField
                 fullWidth
@@ -255,6 +332,7 @@ function TeamsPage() {
                 <TableCell align="left">#</TableCell>
                 <TableCell>Username</TableCell>
                 <TableCell>Email</TableCell>
+                <TableCell>Services</TableCell>
                 <TableCell>Profile Img</TableCell>
                 <TableCell>Gender</TableCell>
                 <TableCell>Designation</TableCell>
@@ -277,6 +355,27 @@ function TeamsPage() {
                     <TableCell component="th" scope="row">
                       {singleMember.user?.email}
                     </TableCell>
+                    <TableCell>
+  {singleMember.services?.length > 0 ? (
+    <Box display="flex" flexWrap="wrap" gap={0.5}>
+      {singleMember.services.map((ws, index) => (
+        <Box
+          key={ws.service_id}
+          sx={{
+            px: 1, py: 0.3,
+            borderRadius: '12px',
+            background: badgeColors[index % badgeColors.length],
+            fontSize: '12px',
+          }}
+        >
+          {storeServices.find(s => s.id === ws.service_id)?.title ?? ws.service_id}
+        </Box>
+      ))}
+    </Box>
+  ) : (
+    <Typography variant="caption" color="text.secondary">All services</Typography>
+  )}
+</TableCell>
                     <TableCell>
                       {/* {singleMember?.user?.user_info?.profile_image ? (
                         <img
@@ -325,7 +424,7 @@ function TeamsPage() {
                      <ActiveDeactiveSwitch id={singleMember.user.id} apiUrl='/changeTeamMemberStatus' status={singleMember.user.account_status} onStatusChange={handleStatusChange} />
                     </TableCell> */}
                     <TableCell>
-                      <Button variant="contained" onClick={() => handleToggleEditForm(singleMember.user)}>
+                      <Button variant="contained" onClick={() => handleToggleEditForm(singleMember.user, singleMember.services ?? [])}>
                         Edit
                       </Button>
                     </TableCell>

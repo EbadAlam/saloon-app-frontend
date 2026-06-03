@@ -23,7 +23,20 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+const badgeColors = ['#FFE5E5',
+// light red
+'#E5F4FF',
+// light blue
+'#E8FFE5',
+// light green
+'#FFF4E5',
+// light orange
+'#F3E5FF',
+// light purple
+'#FFFBE5' // light yellow
+];
 function TeamsPage() {
+  var _formData$services2;
   const {
     user
   } = (0, _AuthContext.useAuth)();
@@ -32,6 +45,7 @@ function TeamsPage() {
   } = (0, _reactRouterDom.useParams)();
   const [loading, setLoading] = (0, _react.useState)(true);
   const [teamMembers, setTeamMembers] = (0, _react.useState)([]);
+  const [storeServices, setStoreServices] = (0, _react.useState)([]);
   const [showForm, setShowForm] = (0, _react.useState)(false);
   const {
     showSnackbar
@@ -43,7 +57,8 @@ function TeamsPage() {
     gender: '',
     password: '',
     profileImage: null,
-    id: ''
+    id: '',
+    services: []
   });
   const [alertMessage, setAlertMessage] = (0, _react.useState)('');
   const [alertMessageType, setAlertMessageType] = (0, _react.useState)('');
@@ -69,11 +84,10 @@ function TeamsPage() {
   const fetchTeamMembers = async () => {
     setLoading(true);
     try {
-      const {
-        data
-      } = await _axiosClient.default.get("/getTeamMember/".concat(storeId));
-      console.log(data.store.workers);
-      setTeamMembers(data.store.workers);
+      const [teamRes, serviceRes] = await Promise.all([_axiosClient.default.get("/getTeamMember/".concat(storeId)), _axiosClient.default.get("/getServices/".concat(storeId))]);
+      // console.log(data.store.workers);
+      setTeamMembers(teamRes.data.store.workers);
+      setStoreServices(serviceRes.data.services);
     } catch (error) {
       console.error('Failed to fetch services:', error);
     } finally {
@@ -104,6 +118,7 @@ function TeamsPage() {
       dataToSend.append('owner_id', user.id);
       dataToSend.append('store_id', storeId);
       dataToSend.append('id', formData.id);
+      formData.services.forEach(id => dataToSend.append('services[]', id));
       const {
         data
       } = await _axiosClient.default.post("/addTeamMember", dataToSend);
@@ -149,14 +164,16 @@ function TeamsPage() {
     }, 3000);
     return () => clearTimeout(timer);
   };
-  const handleToggleEditForm = user => {
-    var _user$user_info, _user$user_info2;
+  const handleToggleEditForm = (user, workerServices) => {
+    var _user$user_info, _user$user_info2, _user$user_info3;
     setFormData({
       name: user.username,
       designation: (_user$user_info = user.user_info) === null || _user$user_info === void 0 ? void 0 : _user$user_info.designation,
       email: user.email,
       profileImage: (_user$user_info2 = user.user_info) === null || _user$user_info2 === void 0 ? void 0 : _user$user_info2.profile_image,
-      id: user.id
+      id: user.id,
+      gender: (_user$user_info3 = user.user_info) === null || _user$user_info3 === void 0 ? void 0 : _user$user_info3.gender,
+      services: workerServices.map(ws => ws.service_id)
     });
     setShowForm(true);
   };
@@ -236,7 +253,61 @@ function TeamsPage() {
     value: "male"
   }, "Male"), /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
     value: "female"
-  }, "Female")), !formData.id && /*#__PURE__*/_react.default.createElement(_material.TextField, {
+  }, "Female")), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    sx: {
+      mb: 2
+    }
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body2",
+    sx: {
+      mb: 1,
+      color: '#555'
+    }
+  }, "Assign Services (worker will only be bookable for selected services)"), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    sx: {
+      border: '1px solid #ccc',
+      borderRadius: 1,
+      p: 1.5,
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 1,
+      maxHeight: 200,
+      overflowY: 'auto'
+    }
+  }, storeServices.length === 0 && /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body2",
+    color: "text.secondary"
+  }, "No services found"), storeServices.map(service => {
+    var _formData$services;
+    const isSelected = (_formData$services = formData.services) === null || _formData$services === void 0 ? void 0 : _formData$services.includes(service.id);
+    return /*#__PURE__*/_react.default.createElement(_material.Box, {
+      key: service.id,
+      onClick: () => {
+        setFormData(prev => {
+          var _prev$services;
+          return _objectSpread(_objectSpread({}, prev), {}, {
+            services: isSelected ? prev.services.filter(id => id !== service.id) : [...((_prev$services = prev.services) !== null && _prev$services !== void 0 ? _prev$services : []), service.id]
+          });
+        });
+      },
+      sx: {
+        px: 1.5,
+        py: 0.5,
+        borderRadius: '20px',
+        border: '1px solid',
+        borderColor: isSelected ? '#333' : '#ddd',
+        backgroundColor: isSelected ? '#333' : 'transparent',
+        color: isSelected ? '#fff' : '#333',
+        cursor: 'pointer',
+        fontSize: '13px',
+        userSelect: 'none',
+        transition: 'all 0.2s'
+      }
+    }, service.title);
+  })), ((_formData$services2 = formData.services) === null || _formData$services2 === void 0 ? void 0 : _formData$services2.length) === 0 && /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "caption",
+    color: "text.secondary"
+  }, "No services selected \u2014 worker will appear for all services")), !formData.id && /*#__PURE__*/_react.default.createElement(_material.TextField, {
     fullWidth: true,
     label: "Password",
     name: "password",
@@ -272,8 +343,8 @@ function TeamsPage() {
     "aria-label": "Services Table"
   }, /*#__PURE__*/_react.default.createElement(_material.TableHead, null, /*#__PURE__*/_react.default.createElement(_material.TableRow, null, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     align: "left"
-  }, "#"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Username"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Email"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Profile Img"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Gender"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Designation"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Status"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Edit"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Delete"))), teamMembers && teamMembers.length > 0 ? teamMembers.map((singleMember, index) => {
-    var _singleMember$user, _singleMember$user2, _singleMember$user3, _singleMember$user4, _singleMember$user5, _singleMember$user6, _singleMember$user7, _singleMember$user$us, _singleMember$user8, _singleMember$user9, _singleMember$user0, _singleMember$user1, _singleMember$user10;
+  }, "#"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Username"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Email"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Services"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Profile Img"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Gender"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Designation"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Status"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Edit"), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, "Delete"))), teamMembers && teamMembers.length > 0 ? teamMembers.map((singleMember, index) => {
+    var _singleMember$user, _singleMember$user2, _singleMember$service, _singleMember$user3, _singleMember$user4, _singleMember$user5, _singleMember$user6, _singleMember$user7, _singleMember$user$us, _singleMember$user8, _singleMember$user9, _singleMember$user0, _singleMember$user1, _singleMember$user10;
     return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.TableBody, {
       key: index + 1
     }, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
@@ -284,7 +355,26 @@ function TeamsPage() {
     }, (_singleMember$user = singleMember.user) === null || _singleMember$user === void 0 ? void 0 : _singleMember$user.username), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
       component: "th",
       scope: "row"
-    }, (_singleMember$user2 = singleMember.user) === null || _singleMember$user2 === void 0 ? void 0 : _singleMember$user2.email), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, singleMember !== null && singleMember !== void 0 && (_singleMember$user3 = singleMember.user) !== null && _singleMember$user3 !== void 0 && (_singleMember$user3 = _singleMember$user3.user_info) !== null && _singleMember$user3 !== void 0 && _singleMember$user3.profile_image ? (singleMember === null || singleMember === void 0 || (_singleMember$user4 = singleMember.user) === null || _singleMember$user4 === void 0 || (_singleMember$user4 = _singleMember$user4.user_info) === null || _singleMember$user4 === void 0 ? void 0 : _singleMember$user4.signup_platform) == "manual" ? /*#__PURE__*/_react.default.createElement("img", {
+    }, (_singleMember$user2 = singleMember.user) === null || _singleMember$user2 === void 0 ? void 0 : _singleMember$user2.email), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, ((_singleMember$service = singleMember.services) === null || _singleMember$service === void 0 ? void 0 : _singleMember$service.length) > 0 ? /*#__PURE__*/_react.default.createElement(_material.Box, {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 0.5
+    }, singleMember.services.map((ws, index) => {
+      var _storeServices$find$t, _storeServices$find;
+      return /*#__PURE__*/_react.default.createElement(_material.Box, {
+        key: ws.service_id,
+        sx: {
+          px: 1,
+          py: 0.3,
+          borderRadius: '12px',
+          background: badgeColors[index % badgeColors.length],
+          fontSize: '12px'
+        }
+      }, (_storeServices$find$t = (_storeServices$find = storeServices.find(s => s.id === ws.service_id)) === null || _storeServices$find === void 0 ? void 0 : _storeServices$find.title) !== null && _storeServices$find$t !== void 0 ? _storeServices$find$t : ws.service_id);
+    })) : /*#__PURE__*/_react.default.createElement(_material.Typography, {
+      variant: "caption",
+      color: "text.secondary"
+    }, "All services")), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, singleMember !== null && singleMember !== void 0 && (_singleMember$user3 = singleMember.user) !== null && _singleMember$user3 !== void 0 && (_singleMember$user3 = _singleMember$user3.user_info) !== null && _singleMember$user3 !== void 0 && _singleMember$user3.profile_image ? (singleMember === null || singleMember === void 0 || (_singleMember$user4 = singleMember.user) === null || _singleMember$user4 === void 0 || (_singleMember$user4 = _singleMember$user4.user_info) === null || _singleMember$user4 === void 0 ? void 0 : _singleMember$user4.signup_platform) == "manual" ? /*#__PURE__*/_react.default.createElement("img", {
       src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleMember === null || singleMember === void 0 || (_singleMember$user5 = singleMember.user) === null || _singleMember$user5 === void 0 ? void 0 : _singleMember$user5.user_info.profile_image),
       alt: "Profile",
       style: {
@@ -318,7 +408,10 @@ function TeamsPage() {
       }
     }, (_singleMember$user1 = singleMember.user) === null || _singleMember$user1 === void 0 ? void 0 : _singleMember$user1.account_status), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_material.Button, {
       variant: "contained",
-      onClick: () => handleToggleEditForm(singleMember.user)
+      onClick: () => {
+        var _singleMember$service2;
+        return handleToggleEditForm(singleMember.user, (_singleMember$service2 = singleMember.services) !== null && _singleMember$service2 !== void 0 ? _singleMember$service2 : []);
+      }
     }, "Edit")), /*#__PURE__*/_react.default.createElement(_material.TableCell, null, /*#__PURE__*/_react.default.createElement(_DeleteButton.default, {
       id: (_singleMember$user10 = singleMember.user) === null || _singleMember$user10 === void 0 ? void 0 : _singleMember$user10.id,
       url: "/deleteTeamMember",

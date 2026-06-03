@@ -75,11 +75,14 @@ function ProfessionalLoginPage() {
                 setAlertType('success');
                 setAlertMessage(data.message || "Login Succesfull!");
                 setShowAlert(true);
-                if(data.user.user_info?.role == 'owner') {
-                    navigate(ROUTES.adminDashboard);
-                } else {
-                    navigate(ROUTES.workerDashboard);
-                }
+                setTimeout(() => {
+                    if(data.user.user_info?.role == 'owner') {
+                        navigate(ROUTES.adminDashboard);
+                    } else {
+                        navigate(ROUTES.workerDashboard);
+                    }
+                }, 100);
+                
             } else {
                 setAlertMessage(data.message || "Something went wrong!");
                 setShowAlert(true);

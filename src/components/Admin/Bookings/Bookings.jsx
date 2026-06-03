@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Typography,
   Stack,
@@ -153,6 +153,52 @@ function AdminBookingsPage() {
     }
     setOpen(true);
   };
+  const calendarRef = useRef(null);
+
+// add this effect after fetchStoreBookings sets events:
+useEffect(() => {
+  if (!calendarRef.current) return;
+
+  const calendarApi = calendarRef.current.getApi();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const pendingPast = bookings.filter((b) => {
+    const d = new Date(b.booking_date);
+    return d < today && b.status === "pending";
+  }).length;
+
+  const pendingFuture = bookings.filter((b) => {
+    const d = new Date(b.booking_date);
+    return d >= today && b.status === "pending";
+  }).length;
+
+  // inject badges into toolbar
+  const toolbar = document.querySelector(".fc-toolbar");
+  if (!toolbar) return;
+
+  // remove old badges if re-rendering
+  document.querySelectorAll(".booking-badge").forEach((el) => el.remove());
+
+  const prevBtn = document.querySelector(".fc-prev-button");
+  const nextBtn = document.querySelector(".fc-next-button");
+
+  if (prevBtn && pendingPast > 0) {
+    const badge = document.createElement("span");
+    badge.className = "booking-badge past-badge";
+    badge.innerText = pendingPast;
+    prevBtn.style.position = "relative";
+    prevBtn.appendChild(badge);
+  }
+
+  if (nextBtn && pendingFuture > 0) {
+    const badge = document.createElement("span");
+    badge.className = "booking-badge future-badge";
+    badge.innerText = pendingFuture;
+    nextBtn.style.position = "relative";
+    nextBtn.appendChild(badge);
+  }
+}, [bookings]);
   const renderEventContent = (eventInfo) => {
     return (
       <div className="p-1 text-xs">
@@ -230,6 +276,7 @@ function AdminBookingsPage() {
             </Stack>
           </Stack>
           <FullCalendar
+            ref={calendarRef}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView={"dayGridMonth"}
             headerToolbar={{

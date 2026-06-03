@@ -56,6 +56,7 @@ function BookingPage() {
         setLoading(true);
         try {
         const { data } = await axiosClient.get(`/getStoreBySlug/${slug}`);
+        // console.log('data', data.storeDetails);
         setStoreDetails(data.storeDetails);
         } catch (error) {
         console.error("Failed to fetch store details:", error);
@@ -66,7 +67,8 @@ function BookingPage() {
     if (!storeDetails && slug) {
       fetchStoreDetails();
     }
-  }, [storeDetails, slug]);
+
+  }, [storeDetails,slug]);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -347,7 +349,13 @@ const handleFormSubmit = () => {
 }
 
 
-
+// helper
+const workerCanDoService = (worker, serviceId) => {
+  // console.log('service check: ', worker.services?.some(ws => ws.service_id == serviceId));
+    const workerServices = worker.services ?? [];
+    if (workerServices.length === 0) return true; // no restriction = all services
+    return workerServices.some(ws => ws.service_id == serviceId);
+};
 const [email,setEmail] = useState('random@gmail.com');
 const [password,setPassword] = useState('random123');
 const handleLoginSubmit = async (e) => {
@@ -690,6 +698,11 @@ const handleLoginSubmit = async (e) => {
                           (singlePro) =>
                             singlePro.user?.account_status === "active"
                         )
+                        .filter(singlePro => {
+                            return selectedServices.every(service => 
+                                workerCanDoService(singlePro, service.id)
+                            );
+                        })
                         .map((singlePro) => (
                           <Box
                           key={singlePro.id}
@@ -798,6 +811,7 @@ const handleLoginSubmit = async (e) => {
                                                       (singlePro) =>
                                                       singlePro.user?.account_status === "active"
                                                   )
+                                                  .filter(singlePro => workerCanDoService(singlePro, singleSer.id))
                                                   .map((singlePro) => (
                                                       <MenuItem value={singlePro.user.id}>{singlePro.user.username}</MenuItem>
                                                   ))}

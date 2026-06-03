@@ -82,6 +82,13 @@ function Header() {
             className="nav"
             display="flex"
             alignItems="center"
+            justifyContent="space-between"
+            width="100%"
+          >
+          <Box
+            className="nav"
+            display="flex"
+            alignItems="center"
             justifyContent="start"
             gap="25px"
           >
@@ -100,6 +107,14 @@ function Header() {
                 Contact us
               </NavLink>
             </Box>
+          </Box>
+          <Box
+            className="nav"
+            display="flex"
+            alignItems="center"
+            justifyContent="start"
+            gap="25px"
+          >
             {!user && !token && (
               <>
                 <Box className="menu_btn login_btn">
@@ -129,6 +144,7 @@ function Header() {
                 </Box>
               </>
             )}
+          </Box>
           </Box>
           {user && token && <MenuButton />}
         </div>

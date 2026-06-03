@@ -135,9 +135,9 @@ function Stores() {
     }
   }) : "No Thumbnail"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     scope: "row"
-  }, "2 leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+  }, singleStore.store_leads_count, " leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     scope: "row"
-  }, "2 leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+  }, singleStore.whatsapp_leads_count, " leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
     scope: "row",
     sx: {
       textTransform: "capitalize",

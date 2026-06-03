@@ -217,7 +217,7 @@ function Home() {
                 >
                   Recently Viewed
                 </Typography>
-                <Box className="slider">
+                <Box className="sliders">
                   <Carousel stores={recentStores} />
                 </Box>
               </div>

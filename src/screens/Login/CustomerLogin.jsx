@@ -16,6 +16,7 @@ function CustomerLoginPage() {
     const { login, user, token } = useAuth();
     const searchParams = new URLSearchParams(location.search);
     const redirectTo = searchParams.get("redirectTo");
+    console.log('Redirect to: ', redirectTo);
     const handleClick = () => {
         if(showForm != 'basic'){
             setShowForm('basic');
@@ -77,7 +78,9 @@ function CustomerLoginPage() {
                 setAlertType('success');
                 setAlertMessage(data.message || "Login Succesfull!");
                 setShowAlert(true);
-                navigate(redirectTo || ROUTES.home);
+                setTimeout(() => {
+                    navigate(redirectTo || ROUTES.home);
+                }, 100);
             } else {
                 setAlertType('error');
                 setAlertMessage(data.message || "Something went wrong!");

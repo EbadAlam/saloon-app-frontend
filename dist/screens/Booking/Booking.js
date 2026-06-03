@@ -77,6 +77,7 @@ function BookingPage() {
         const {
           data
         } = await _axiosClient.default.get("/getStoreBySlug/".concat(slug));
+        // console.log('data', data.storeDetails);
         setStoreDetails(data.storeDetails);
       } catch (error) {
         console.error("Failed to fetch store details:", error);
@@ -330,6 +331,15 @@ function BookingPage() {
         setShowLoginForm(true);
       }
     }
+  };
+
+  // helper
+  const workerCanDoService = (worker, serviceId) => {
+    var _worker$services;
+    // console.log('service check: ', worker.services?.some(ws => ws.service_id == serviceId));
+    const workerServices = (_worker$services = worker.services) !== null && _worker$services !== void 0 ? _worker$services : [];
+    if (workerServices.length === 0) return true; // no restriction = all services
+    return workerServices.some(ws => ws.service_id == serviceId);
   };
   const [email, setEmail] = (0, _react.useState)('random@gmail.com');
   const [password, setPassword] = (0, _react.useState)('random123');
@@ -620,6 +630,8 @@ function BookingPage() {
   }, "Select professional per service"))), ((_storeDetails$workers2 = storeDetails.workers) === null || _storeDetails$workers2 === void 0 ? void 0 : _storeDetails$workers2.length) > 0 && storeDetails.workers.filter(singlePro => {
     var _singlePro$user;
     return ((_singlePro$user = singlePro.user) === null || _singlePro$user === void 0 ? void 0 : _singlePro$user.account_status) === "active";
+  }).filter(singlePro => {
+    return selectedServices.every(service => workerCanDoService(singlePro, service.id));
   }).map(singlePro => {
     var _singlePro$user2, _singlePro$user3;
     return /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -711,7 +723,7 @@ function BookingPage() {
     }, ((_storeDetails$workers3 = storeDetails.workers) === null || _storeDetails$workers3 === void 0 ? void 0 : _storeDetails$workers3.length) > 0 && storeDetails.workers.filter(singlePro => {
       var _singlePro$user4;
       return ((_singlePro$user4 = singlePro.user) === null || _singlePro$user4 === void 0 ? void 0 : _singlePro$user4.account_status) === "active";
-    }).map(singlePro => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
+    }).filter(singlePro => workerCanDoService(singlePro, singleSer.id)).map(singlePro => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
       value: singlePro.user.id
     }, singlePro.user.username))))));
   }))), step === 3 && !indWorker && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {

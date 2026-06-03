@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -15,14 +15,10 @@ import Address from "../../components/Address/Address";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import IosShareIcon from "@mui/icons-material/IosShare";
 import "react-indiana-drag-scroll/dist/style.css";
 import {
   Box,
   CircularProgress,
-  IconButton,
   Skeleton,
   Tooltip,
   Typography,
@@ -33,6 +29,7 @@ import { ROUTES } from "../../routes";
 import { saveRecentlyViewedStore } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
+import Slider from "react-slick";
 import ReviewsSlider from "../../components/ReviewsSlider/ReviewsSlider";
 import ScrollContainer from "react-indiana-drag-scroll";
 
@@ -41,14 +38,13 @@ function StorePage({ initialData }) {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [loadingFav, setLoadingFav] = useState(false);
-  const scrollRef = useRef(null);
-  const rightSideRef = useRef(null);
-  const [isSticky, setIsSticky] = useState(false);
-
+  const isBrowser = typeof window !== "undefined";
   const [storeDetails, setStoreDetails] = useState(() => {
-    if (initialData) return initialData;
-    else if (typeof window !== "undefined" && window.__INITIAL_DATA__)
+    if (initialData) {
+      return initialData;
+    } else if (typeof window !== "undefined" && window.__INITIAL_DATA__) {
       return window.__INITIAL_DATA__.storeDetails;
+    }
     return null;
   });
   const [loading, setLoading] = useState(!storeDetails);
@@ -60,7 +56,6 @@ function StorePage({ initialData }) {
   const [MapComponents, setMapComponents] = useState(null);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [expanded, setExpanded] = useState(false);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       Promise.all([
@@ -76,14 +71,17 @@ function StorePage({ initialData }) {
           shadowUrl:
             "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
         });
+
         setMapComponents(ReactLeaflet);
       });
     }
   }, []);
-
   useEffect(() => {
     if (!storeDetails || slug !== storeDetails.slug) {
+      // console.log("details not found");
       const fetchStoreDetails = async () => {
+        // console.log("fetching details");
+
         setLoading(true);
         try {
           const { data } = await axiosClient.get(`/getStoreBySlug/${slug}`);
@@ -94,6 +92,7 @@ function StorePage({ initialData }) {
             navigate(ROUTES.home);
           }
           setStoreDetails(data.storeDetails);
+          // console.log("details fetched: ", data.storeDetails);
         } catch (error) {
           console.error("Failed to fetch store details:", error);
         } finally {
@@ -103,13 +102,14 @@ function StorePage({ initialData }) {
       fetchStoreDetails();
     }
   }, [storeDetails, slug]);
-
   useEffect(() => {
     if (window.__INITIAL_DATA__) {
+      console.log("data from window: ", window.__INITIAL_DATA__);
+      console.log("data from state: ", storeDetails);
       delete window.__INITIAL_DATA__;
+      console.log("removing data froms windows");
     }
   }, []);
-
   useEffect(() => {
     if (
       storeDetails &&
@@ -122,32 +122,21 @@ function StorePage({ initialData }) {
       setIsFav(isUserFav);
     }
   }, [storeDetails, user]);
-
   useEffect(() => {
-    if (storeDetails?.id) saveRecentlyViewedStore(storeDetails);
+    if (storeDetails?.id) {
+      saveRecentlyViewedStore(storeDetails);
+    }
   }, [storeDetails]);
-
-  // sticky right side observer
-  useEffect(() => {
-    if (!rightSideRef.current) return;
-
-    const handleScroll = () => {
-      const top = rightSideRef.current?.getBoundingClientRect().top ?? 0;
-      setIsSticky(top <= 20);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [storeDetails]);
-
   const getTodayTiming = (workingHours) => {
     if (!Array.isArray(workingHours)) return null;
+
     const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
     const todayTiming = workingHours.find(
       (item) => item.day.toLowerCase() === today.toLowerCase(),
     );
     const timing = todayTiming || workingHours[0];
     if (!timing) return null;
+
     const {
       start_time_formatted,
       end_time_formatted,
@@ -155,16 +144,24 @@ function StorePage({ initialData }) {
       end_time,
       is_closed,
     } = timing;
+
     const now = new Date();
     const [startHour, startMinute] = start_time.split(":").map(Number);
     const [endHour, endMinute] = end_time.split(":").map(Number);
+
     const startTime = new Date(now);
     startTime.setHours(startHour, startMinute, 0, 0);
+
     const endTime = new Date(now);
     endTime.setHours(endHour, endMinute, 0, 0);
-    if (endTime <= startTime) endTime.setDate(endTime.getDate() + 1);
+
+    if (endTime <= startTime) {
+      endTime.setDate(endTime.getDate() + 1);
+    }
+
     const isWithinTime = now >= startTime && now <= endTime;
     const isActuallyOpen = is_closed === "active" && isWithinTime;
+
     return (
       <span>
         Timing {start_time_formatted} to {end_time_formatted}{" "}
@@ -176,7 +173,6 @@ function StorePage({ initialData }) {
       </span>
     );
   };
-
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleAddReview = async (reviewData) => {
@@ -190,64 +186,43 @@ function StorePage({ initialData }) {
       setLoading(false);
     }
   };
-
   const reviews =
     storeDetails?.reviews?.filter((review) => review.status === "active") || [];
   const total = reviews.reduce((sum, r) => sum + parseFloat(r.rating || 0), 0);
   const averageRatingStore =
     reviews.length > 0 ? (total / reviews.length).toFixed(1) : "N/A";
 
-  // Share using Web Share API, fallback to clipboard
-  const handleCopy = async () => {
+  const handleCopy = () => {
     const storeUrl = window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: storeDetails?.title || "Check this out",
-          text: `Check out ${storeDetails?.title} on BeautyTrafic`,
-          url: storeUrl,
-        });
-      } catch (err) {
-        if (err.name !== "AbortError") console.error("Share failed:", err);
-      }
-    } else {
-      navigator.clipboard.writeText(storeUrl).then(() => {
+    navigator.clipboard
+      .writeText(storeUrl)
+      .then(() => {
         setAlertMessage("Link copied to clipboard!");
         setTimeout(() => setAlertMessage(""), 2000);
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
       });
-    }
-  };
-
-  // Share to friend button handler
-  const handleShareToFriend = async () => {
-    const storeUrl = window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: storeDetails?.title,
-          text: `Hey! I found this amazing place — ${storeDetails?.title}. Check it out!`,
-          url: storeUrl,
-        });
-      } catch (err) {
-        if (err.name !== "AbortError") console.error("Share failed:", err);
-      }
-    } else {
-      navigator.clipboard.writeText(storeUrl).then(() => {
-        showSnackbar("Link copied! Share it with your friend.", "success");
-      });
-    }
   };
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
 
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const handleAddToFav = async () => {
     setLoadingFav(true);
     try {
-      const payload = { store_id: storeDetails.id, user_id: user.id };
+      const payload = {
+        store_id: storeDetails.id,
+        user_id: user.id,
+      };
       let data;
       if (isFav) {
         ({ data } = await axiosClient.post("removeFromFavourite", payload));
@@ -256,7 +231,9 @@ function StorePage({ initialData }) {
       }
       updateFavorites(data.favouriteStores);
       setAlertMessage(data.message);
-      setTimeout(() => setAlertMessage(""), 2000);
+      setTimeout(() => {
+        setAlertMessage("");
+      }, 2000);
       setIsFav(!isFav);
     } catch (error) {
       console.error("Failed to add or remove to favourites", error);
@@ -264,24 +241,11 @@ function StorePage({ initialData }) {
       setLoadingFav(false);
     }
   };
-
   useEffect(() => {
-    if (alertMessage) showSnackbar(alertMessage, "success");
-  }, [alertMessage]);
-
-  // Scroll categories left/right
-  const scrollCategories = (direction) => {
-    if (scrollRef.current) {
-      const container = scrollRef.current.getElement
-        ? scrollRef.current.getElement()
-        : scrollRef.current;
-      container.scrollBy({
-        left: direction === "left" ? -200 : 200,
-        behavior: "smooth",
-      });
+    if (alertMessage) {
+      showSnackbar(alertMessage, "success");
     }
-  };
-
+  }, [alertMessage]);
   if (!MapComponents) {
     return (
       <div style={{ height: "400px", background: "#eee" }}>Loading map...</div>
@@ -371,7 +335,10 @@ function StorePage({ initialData }) {
                 <div className="storeMeta">
                   <Typography
                     variant="body1"
-                    sx={{ color: "#333333", fontSize: "16px" }}
+                    sx={{
+                      color: "#333333",
+                      fontSize: "16px",
+                    }}
                   >
                     {storeDetails.type || "Saloon"}
                   </Typography>
@@ -387,8 +354,8 @@ function StorePage({ initialData }) {
                   )}
                 </div>
                 <div className="address">
-                  <p>{storeDetails.address}</p>
-                </div>
+                    <p>{storeDetails.address}</p>
+                  </div>
                 <div className="storeAbout">
                   <Typography
                     variant="body1"
@@ -400,10 +367,9 @@ function StorePage({ initialData }) {
                   >
                     About
                   </Typography>
-                  <div
-                    className={`about_wrapper ${expanded ? "expanded" : ""}`}
-                  >
+                  <div className={`about_wrapper ${expanded ? "expanded" : ""}`}>
                     <p>{storeDetails.about}</p>
+
                     <span
                       className="read_more"
                       onClick={() => setExpanded(!expanded)}
@@ -444,6 +410,7 @@ function StorePage({ initialData }) {
                   {user && token && (
                     <>
                       {loadingFav && <CircularProgress size="20px" />}
+
                       <div className="save" onClick={handleAddToFav}>
                         {isFav ? (
                           <Tooltip title="Remove from favourites">
@@ -457,15 +424,15 @@ function StorePage({ initialData }) {
                       </div>
                     </>
                   )}
+
                   <div className="share" onClick={handleCopy}>
-                    <Tooltip title="Share">
+                    <Tooltip title="Copy Link">
                       <ReplyAllOutlinedIcon />
                     </Tooltip>
                   </div>
                 </div>
               </div>
             </div>
-
             {!isMobile && (
               <div className="gallery">
                 <CustomGallery
@@ -475,73 +442,31 @@ function StorePage({ initialData }) {
                 />
               </div>
             )}
-
             <div className="container">
               <div className="two_sections">
-                {/* LEFT SIDE */}
                 <div className="left_side">
                   <h2>Services</h2>
-
-                  {/* Categories scroll with arrows */}
-                  <Box
-                    sx={{
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px",
-                    }}
-                  >
-                    <IconButton
-                      size="small"
-                      onClick={() => scrollCategories("left")}
-                      sx={{
-                        flexShrink: 0,
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "50%",
-                        width: 30,
-                        height: 30,
-                        background: "#fff",
-                        "&:hover": { background: "#f5f5f5" },
-                      }}
+                  <ScrollContainer className="services_categories_scroll services_categories">
+                    {/* <div
+                      className={`category ${selectedCategory === null ? "active" : ""}`}
+                      onClick={() => setSelectedCategory(null)}
                     >
-                      <ArrowBackIosNewIcon sx={{ fontSize: 14 }} />
-                    </IconButton>
-
-                    <ScrollContainer
-                      ref={scrollRef}
-                      className="services_categories_scroll services_categories"
-                      style={{ flex: 1, overflow: "hidden" }}
-                    >
-                      {storeDetails?.services_categories
-                        ?.filter((singleCat) => singleCat.status === "active")
-                        .map((singleCat) => (
-                          <div
-                            key={singleCat.id}
-                            className={`category ${selectedCategory === singleCat?.id ? "active" : ""}`}
-                            onClick={() => setSelectedCategory(singleCat?.id)}
-                          >
-                            {singleCat.title}
-                          </div>
-                        ))}
-                    </ScrollContainer>
-
-                    <IconButton
-                      size="small"
-                      onClick={() => scrollCategories("right")}
-                      sx={{
-                        flexShrink: 0,
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "50%",
-                        width: 30,
-                        height: 30,
-                        background: "#fff",
-                        "&:hover": { background: "#f5f5f5" },
-                      }}
-                    >
-                      <ArrowForwardIosIcon sx={{ fontSize: 14 }} />
-                    </IconButton>
-                  </Box>
-
+                      All
+                    </div> */}
+                    {storeDetails?.services_categories
+                      ?.filter((singleCat) => singleCat.status === "active")
+                      .map((singleCat) => (
+                        <div
+                          key={singleCat.id}
+                          className={`category ${
+                            selectedCategory === singleCat?.id ? "active" : ""
+                          }`}
+                          onClick={() => setSelectedCategory(singleCat?.id)}
+                        >
+                          {singleCat.title}
+                        </div>
+                      ))}
+                  </ScrollContainer>
                   <div className="services">
                     {storeDetails?.services?.length > 0 && (
                       <>
@@ -610,8 +535,69 @@ function StorePage({ initialData }) {
                       </>
                     )}
                   </div>
+                  {/* {storeDetails.workers &&
+                    storeDetails.workers?.length > 0 && (
+                      <div className="teams_div">
+                        <h2>Team</h2>
+                        <div className="team_members">
+                          {storeDetails.workers
+                            .filter(
+                              (worker) => worker.user?.account_status === "active"
+                            )
+                            .map((worker) => {
+                              const reviews =
+                                worker?.user?.reviews_received || [];
+                              const total = reviews.reduce(
+                                (sum, r) => sum + parseFloat(r.rating || 0),
+                                0
+                              );
+                              const averageRating =
+                                reviews.length > 0
+                                  ? (total / reviews.length).toFixed(1)
+                                  : "";
 
-                  {/* Team section */}
+                              return (
+                                <div
+                                  className="single_member"
+                                  key={worker.user?.id}
+                                >
+                                  <div
+                                    className={`profile_img ${
+                                      worker.user.user_info.profile_image
+                                        ? ""
+                                        : "no-img"
+                                    }`}
+                                  >
+                                    {worker.user.user_info.profile_image ? (
+                                      <img
+                                        src={`${process.env.REACT_APP_IMG_URL}${worker.user.user_info.profile_image}`}
+                                        alt=""
+                                      />
+                                    ) : (
+                                      <div className="dummy_img">
+                                        {worker.user.username?.charAt(0) || "?"}
+                                      </div>
+                                    )}
+                                    <div className="name_des">
+                                      <h3 className="username">
+                                        {worker.user.username}
+                                      </h3>
+                                      <p className="designation">
+                                        {worker.user.user_info.designation}
+                                      </p>
+                                    </div>
+                                    {averageRating && (
+                                      <div className="user_rating">
+                                        {averageRating} <StarOutlinedIcon />
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </div>
+                    )} */}
                   {storeDetails.workers && storeDetails.workers?.length > 0 && (
                     <div className="teams_div_new">
                       <h2>Team</h2>
@@ -622,23 +608,28 @@ function StorePage({ initialData }) {
                               worker.user?.account_status === "active",
                           )
                           .map((worker) => {
-                            const wReviews =
+                            const reviews =
                               worker?.user?.reviews_received || [];
-                            const wTotal = wReviews.reduce(
+                            const total = reviews.reduce(
                               (sum, r) => sum + parseFloat(r.rating || 0),
                               0,
                             );
                             const averageRating =
-                              wReviews.length > 0
-                                ? (wTotal / wReviews.length).toFixed(1)
+                              reviews.length > 0
+                                ? (total / reviews.length).toFixed(1)
                                 : "";
+
                             return (
                               <div
                                 className="single_member"
                                 key={worker.user?.id}
                               >
                                 <div
-                                  className={`profile_img ${worker.user.user_info.profile_image ? "" : "no-img"}`}
+                                  className={`profile_img ${
+                                    worker.user.user_info.profile_image
+                                      ? ""
+                                      : "no-img"
+                                  }`}
                                 >
                                   {worker.user.user_info.profile_image ? (
                                     <img
@@ -650,13 +641,6 @@ function StorePage({ initialData }) {
                                       {worker.user.username?.charAt(0) || "?"}
                                     </p>
                                   )}
-                                  {averageRating && (
-                                    <div
-                                      className={`worker_rating ${worker.user.user_info.gender}`}
-                                    >
-                                      <StarOutlinedIcon /> {averageRating}
-                                    </div>
-                                  )}
                                 </div>
                                 <div className="worker_info">
                                   <h3 className="username">
@@ -665,6 +649,13 @@ function StorePage({ initialData }) {
                                   <p className="designation">
                                     {worker.user.user_info.designation}
                                   </p>
+                                  {averageRating && (
+                                    <div
+                                      className={`worker_rating ${worker.user.user_info.gender}`}
+                                    >
+                                      <StarOutlinedIcon /> {averageRating}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             );
@@ -672,208 +663,76 @@ function StorePage({ initialData }) {
                       </div>
                     </div>
                   )}
-
-                  {/* <ReviewsSlider reviews={storeDetails.reviews} /> */}
-                  <Box>
-                    {storeDetails?.reviews &&
-                      storeDetails?.reviews?.length > 0 && (
-                        <div className="reviews-div">
-                          <h2>Our Happy Customers</h2>
-                          <StarRating size="large" color="gold" rating={averageRatingStore} />
-                          <Typography variant="body1" sx={{ marginBottom: "20px",fontSize:"18px" }}>
-                            {averageRatingStore} out of 5 based on {reviews.length} reviews
-                          </Typography>
-                          <div className="reviews mt-3">
-                            {storeDetails.reviews
-                              ?.slice(0, 6)
-                              .filter((review) => review.status === "active")
-                              .map((singleReview) => (
-                                <div className="review" key={singleReview?.id}>
-                                  <div className="user_info">
-                                    <div className="user_img">
-                                      {singleReview.reviewer.user_info &&
-                                      singleReview.reviewer.user_info
-                                        .profile_image ? (
-                                        <img
-                                          src={`${process.env.REACT_APP_IMG_URL}${singleReview.reviewer.user_info.profile_image}`}
-                                          alt=""
-                                        />
-                                      ) : (
-                                        <DummyImage
-                                          username={
-                                            singleReview.reviewer.username
-                                          }
-                                        />
-                                      )}
-                                    </div>
-                                    <div className="user-name-time">
-                                      <p className="username">
-                                        <b>{singleReview.reviewer.username}</b>
-                                      </p>
-                                      <p className="time">
-                                        {formatDate(singleReview.reviewed_at)}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div className="rating">
-                                    <StarRating
-                                      rating={singleReview.rating}
-                                      color="gold"
+                  {/* {storeDetails?.reviews && storeDetails?.reviews?.length > 0 && (
+                    <div className="reviews-div mt-5">
+                      <h2>Reviews</h2>
+                      <div className="reviews">
+                        {storeDetails.reviews
+                          ?.slice(0, 9)
+                          .filter((review) => review.status === "active")
+                          .map((singleReview) => (
+                            <div className="review" key={singleReview?.id}>
+                              <div className="user_info">
+                                <div className="user_img">
+                                  {singleReview.reviewer.user_info &&
+                                  singleReview.reviewer.user_info
+                                    .profile_image ? (
+                                    <img
+                                      src={`${process.env.REACT_APP_IMG_URL}${singleReview.reviewer.user_info.profile_image}`}
+                                      alt=""
                                     />
-                                  </div>
-                                  <div className="review-text">
-                                    <p>{singleReview.review}</p>
-                                  </div>
+                                  ) : (
+                                    <DummyImage
+                                      username={singleReview.reviewer.username}
+                                    />
+                                  )}
                                 </div>
-                              ))}
-                          </div>
-
-                          {storeDetails.reviews?.length > 6 && (
-                            <div className="see_all_reviews_btn_div mt-3">
-                              <Link
-                                to={ROUTES.getAllReviewPage(storeDetails.slug)}
-                                state={{ storeDetails: storeDetails }}
-                              >
-                                See more...
-                              </Link>
+                                <div className="user-name-time">
+                                  <p className="username">
+                                    <b>{singleReview.reviewer.username}</b>
+                                  </p>
+                                  <p className="time">
+                                    {formatDate(singleReview.reviewed_at)}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="rating">
+                                <StarRating rating={singleReview.rating} />
+                              </div>
+                              <div className="review-text">
+                                <p>{singleReview.review}</p>
+                              </div>
                             </div>
-                          )}
+                          ))}
+                      </div>
+
+                      {storeDetails.reviews?.length > 9 && (
+                        <div className="see_all_reviews_btn_div mt-3">
+                          <Link
+                            to={ROUTES.getAllReviewPage(storeDetails.slug)}
+                            state={{ storeDetails: storeDetails }}
+                          >
+                            See more...
+                          </Link>
                         </div>
                       )}
-                  </Box>
-                  {user &&
-                    token &&
-                    user?.id != storeDetails.user_id &&
-                    !storeDetails.workers?.some(
-                      (worker) => worker.user?.id == user?.id,
-                    ) && (
-                      <div className="add_review mt-4">
-                        <AddReviewForm
-                          storeId={storeDetails?.id}
-                          userId={user?.id}
-                          onSubmit={handleAddReview}
-                          storeUsers={storeDetails.workers}
-                        />
-                      </div>
-                    )}
-
-                  {/* About */}
-                  <div className="about about-desktop mt-5">
-                    <h2>About</h2>
-                    <p className="store_about">{storeDetails.about}</p>
-                    <div className="map">
-                      {storeDetails.lat &&
-                        storeDetails.lng &&
-                        typeof window !== "undefined" && (
-                          <MapContainer
-                            center={[storeDetails.lat, storeDetails.lng]}
-                            zoom={15}
-                            className="store_map"
-                          >
-                            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                            <Marker
-                              position={[storeDetails.lat, storeDetails.lng]}
-                            />
-                          </MapContainer>
-                        )}
-                      <Address details={storeDetails} />
                     </div>
-                  </div>
-
-                  {/* Opening Hours */}
-                  <div className="opening-hours mt-5">
-                    <h2>Business Hours</h2>
-                    <ul>
-                      {storeDetails?.working_hours?.length > 0 &&
-                        storeDetails.working_hours.map((singleHour) => (
-                          <li key={singleHour.id}>
-                            <div>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="15"
-                                height="16"
-                                viewBox="0 0 15 16"
-                                fill="none"
-                              >
-                                <circle
-                                  cx="7.5"
-                                  cy="8"
-                                  r="7.5"
-                                  fill="#D8A7B1"
-                                />
-                              </svg>
-                              <p>{singleHour.day}</p>
-                            </div>
-                            <div>
-                              <p>
-                                {singleHour.start_time_formatted} –{" "}
-                                {singleHour.end_time_formatted}{" "}
-                                {singleHour.is_closed !== "active" ? (
-                                  <strong style={{ color: "red" }}>
-                                    Closed
-                                  </strong>
-                                ) : (
-                                  ""
-                                )}
-                              </p>
-                            </div>
-                          </li>
-                        ))}
-                    </ul>
-
-                    {/* Share to friend button */}
-                    <button
-                      onClick={handleShareToFriend}
-                      style={{
-                        marginTop: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        padding: "12px 24px",
-                        border: "1px solid #D8A7B1",
-                        borderRadius: "10px",
-                        background: "transparent",
-                        color: "#333",
-                        fontSize: "15px",
-                        fontWeight: "500",
-                        cursor: "pointer",
-                        transition: "all 0.2s ease",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = "#D8A7B1";
-                        e.currentTarget.style.color = "#fff";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = "transparent";
-                        e.currentTarget.style.color = "#333";
-                      }}
-                    >
-                      <IosShareIcon sx={{ fontSize: 18 }} />
-                      Recommend to a Friend
-                    </button>
-                  </div>
+                  )} */}
                 </div>
-
-                {/* RIGHT SIDE — sticky */}
-                <div
-                  className="right_side"
-                  ref={rightSideRef}
-                  style={{
-                    position: "sticky",
-                    top: "140px",
-                    right: 0,
-                  }}
-                >
+                <div className="right_side">
                   <div className="padding">
                     <div
                       className={`store-info ${isScrolled ? "visible" : ""}`}
                     >
                       <h2>{storeDetails.title}</h2>
+
                       <div className="rating">
                         <p>
                           <b>{averageRatingStore}</b>
                         </p>
+
                         <StarRating rating={averageRatingStore} />
+
                         <span>({storeDetails?.reviews?.length})</span>
                       </div>
                     </div>
@@ -903,7 +762,82 @@ function StorePage({ initialData }) {
               </div>
             </div>
 
-            {/* bottom_side removed — content moved to left_side above */}
+            <div className="bottom_side">
+              <ReviewsSlider reviews={storeDetails.reviews} />
+              <div className="container">
+                {user &&
+                  token &&
+                  user?.id != storeDetails.user_id &&
+                  !storeDetails.workers?.some(
+                    (worker) => worker.user?.id == user?.id,
+                  ) && (
+                    <div className="add_review">
+                      <AddReviewForm
+                        storeId={storeDetails?.id}
+                        userId={user?.id}
+                        onSubmit={handleAddReview}
+                        storeUsers={storeDetails.workers}
+                      />
+                    </div>
+                  )}
+
+                <div className="about about-desktop mt-5">
+                  <h2>About</h2>
+                  <p className="store_about">{storeDetails.about}</p>
+                  <div className="map">
+                    {storeDetails.lat &&
+                      storeDetails.lng &&
+                      typeof window !== "undefined" && (
+                        <MapContainer
+                          center={[storeDetails.lat, storeDetails.lng]}
+                          zoom={15}
+                          className="store_map"
+                        >
+                          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                          <Marker
+                            position={[storeDetails.lat, storeDetails.lng]}
+                          />
+                        </MapContainer>
+                      )}
+                    <Address details={storeDetails} />
+                  </div>
+                </div>
+                <div className="opening-hours mt-5">
+                  <h2>Opening Hours</h2>
+                  <ul>
+                    {storeDetails?.working_hours &&
+                      storeDetails?.working_hours?.length > 0 &&
+                      storeDetails.working_hours.map((singleHour) => (
+                        <li key={singleHour.id}>
+                          <div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="15"
+                              height="16"
+                              viewBox="0 0 15 16"
+                              fill="none"
+                            >
+                              <circle cx="7.5" cy="8" r="7.5" fill="#D8A7B1" />
+                            </svg>
+                            <p>{singleHour.day}</p>
+                          </div>
+                          <div>
+                            <p>
+                              {singleHour.start_time_formatted} -{" "}
+                              {singleHour.end_time_formatted}{" "}
+                              {singleHour.is_closed !== "active" ? (
+                                <strong style={{ color: "red" }}>Closed</strong>
+                              ) : (
+                                ""
+                              )}
+                            </p>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </Box>
         </>
       )}

@@ -190,7 +190,7 @@ function Home() {
       color: "#333333"
     }
   }, "Recently Viewed"), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "slider"
+    className: "sliders"
   }, /*#__PURE__*/_react.default.createElement(_Carousel.default, {
     stores: recentStores
   })))), /*#__PURE__*/_react.default.createElement(_material.Box, {

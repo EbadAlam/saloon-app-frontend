@@ -122,12 +122,10 @@ function Stores() {
                     )}
                   </TableCell>
                   <TableCell scope="row">
-                    2 leads
-                    {/* {singleStore.store_leads_count} Visits */}
+                    {singleStore.store_leads_count} leads
                   </TableCell>
                   <TableCell scope="row">
-                    2 leads
-                    {/* {singleStore.whatsapp_leads_count} clicks */}
+                    {singleStore.whatsapp_leads_count} leads
                   </TableCell>
                   <TableCell
                   

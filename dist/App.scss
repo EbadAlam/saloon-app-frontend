@@ -1,6 +1,6 @@
 $newBgColor: #5d6de7;
 $buttonBg: #7b7bfa;
-
+$primaryColor: #ff00f6;
 #root {
   background-color: white;
 }
@@ -311,7 +311,7 @@ h6 {
 .save_share{
   .save {
     svg{
-      fill:red;
+      fill:#ff1840;
     }
   }
 }
@@ -329,14 +329,15 @@ h6 {
 
 .store_info {
   justify-content: start;
-
+  width:92%;
+  
   p {
     font-size: 18px;
     color: black;
   }
 
-  address {
-    width: 40%;
+  .address {
+    width: 48%;
 
     p {
       /* width: 70%; */
@@ -377,8 +378,8 @@ h6 {
   width: 38%;
   // margin-top: 55px;
   border: 1px solid #EDEDED;
-  border-radius: 10px;
-  padding-block: 15px;
+  border-radius: 20px;
+  padding-block: 20px;
 
   .store-info {
     max-height: 0px;
@@ -392,7 +393,7 @@ h6 {
   }
 
   .padding {
-    padding: 20px 15px;
+    padding: 20px;
   }
 }
 
@@ -617,7 +618,7 @@ h6 {
   }
 
   a {
-    color: #ccb2fd;
+    color: $primaryColor;
     font-size: 18px;
   }
 }
@@ -626,7 +627,7 @@ h6 {
 .opening-hours {
   svg {
     circle {
-      fill: #ccb2fd;
+      fill: $primaryColor;
     }
   }
 
@@ -689,6 +690,8 @@ h6 {
 
 .review .user_img img {
   height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .review {
@@ -771,7 +774,7 @@ h6 {
 }
 
 .see_all_reviews_btn_div a {
-  color: $buttonBg;
+  color: $primaryColor;
   font-size: 18px;
 }
 
@@ -887,7 +890,7 @@ h6 {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 200vh;
   // background: radial-gradient(circle at 30% 30%, #fceabb 0%, transparent 50%),
   //               radial-gradient(circle at 70% 40%, #f8bfa8 0%, transparent 50%),
   //               radial-gradient(circle at 50% 70%, #fcd6e4 0%, transparent 50%);
@@ -910,7 +913,7 @@ h6 {
   }
 
   to {
-    transform: rotate(360deg) scale(1.2);
+    transform: rotate(360deg) scale(1.5);
   }
 }
 
@@ -1060,7 +1063,9 @@ h6 {
 
   .lsideImg img {
     transition: all .3s ease;
-
+    width:100%;
+    height:100%;
+    object-fit: cover;
     &:hover {
       transform: scale(1.1);
     }
@@ -1368,11 +1373,11 @@ h6 {
 }
 
 .sidebar .items .item.active {
-  background: #d8a7b182;
+  background: #ff00f636;
 }
 
 .sidebar .items .item:not(.active):hover {
-  background: #80808014;
+  background: #ff00f60a;
 }
 
 .sidebar .items .item .title {
@@ -1453,7 +1458,7 @@ h6 {
 }
 
 .profile .divs .update_profile_div .info .heading {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .profile .divs .update_profile_div .label {
@@ -1786,6 +1791,7 @@ input::-webkit-inner-spin-button {
 .footerr {
   background-color: white;
   position: relative;
+  z-index:1111;
 }
 
 .footer-inner {
@@ -3026,12 +3032,11 @@ input::-webkit-inner-spin-button {
       .profile_img {
         border-radius: 0px;
         border-radius: 100px;
-        overflow: hidden;
+        overflow: visible;
         display: flex;
         justify-content: space-between;
         align-items: center;
         position: relative;
-
         .overlay {
           position: absolute;
           inset: 0;
@@ -3587,13 +3592,15 @@ input::-webkit-inner-spin-button {
         justify-content: center !important;
         background: #bb4a4a;
         margin-bottom: 10px !important;
-        overflow: hidden;
+        overflow: visible;
+        border-radius: 100px;
 
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           transition: all .3s ease;
+          border-radius: 100px;
         }
       }
 
@@ -3612,23 +3619,24 @@ input::-webkit-inner-spin-button {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 5px;
+        gap: 0px;
         position: absolute;
-        left: 20px;
         background: #ececec;
         border-radius: 20px;
         font-size: 13px;
         padding: 3px 5px;
         font-weight: 600;
+        background:white;
+        box-shadow:0 4px 12px 0 rgba(19,19,19,0.0784313725),0 2px 6px 2px rgba(19,19,19,0.0196078431);
+        bottom:-10px;
+        // &.male {
+        //   background: #00a2ff;
+        // }
 
-        &.male {
-          background: #00a2ff;
-        }
-
-        &.female {
-          background: #ff00c9;
-          color: white;
-        }
+        // &.female {
+        //   background: #ff00c9;
+        //   color: white;
+        // }
 
         svg {
           color: gold;
@@ -3693,4 +3701,111 @@ input::-webkit-inner-spin-button {
       gap:10px;
     }
   }
+  .reviews{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+  }
+}
+.booking-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #f44336;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 600;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  line-height: 1;
+  z-index: 1;
+}
+.fc .fc-button-group{
+  gap:10px !important;
+}
+/* Reset everything first */
+.fc {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Day cells */
+.fc .fc-daygrid-day {
+  background-color: #ffffff;
+}
+
+/* Weekend cells */
+.fc .fc-day-sat,
+.fc .fc-day-sun {
+  background-color: #f8f9ff;
+}
+
+/* Today */
+.fc .fc-day-today {
+  background-color: #eff6ff !important;
+  box-shadow: inset 0 0 0 2px #3b82f6;
+}
+
+/* Outside month days */
+.fc .fc-day-other {
+  background-color: #fafafa;
+}
+
+/* Header row */
+.fc .fc-col-header-cell {
+  background-color: #f1f5f9;
+  color: #475569;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+  padding: 10px 0;
+  text-transform: uppercase;
+}
+
+/* Borders */
+.fc td, .fc th {
+  border-color: #e2e8f0 !important;
+}
+
+/* Day number */
+.fc .fc-daygrid-day-number {
+  color: #334155;
+  font-weight: 500;
+}
+
+.fc .fc-day-other .fc-daygrid-day-number {
+  color: #cbd5e1;
+}
+
+/* Toolbar title */
+.fc .fc-toolbar-title {
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+/* Toolbar buttons */
+.fc .fc-button {
+  background-color: #3b82f6 !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: background 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+.fc .fc-button:hover {
+  background-color: #2563eb !important;
+}
+
+.fc .fc-button-active {
+  background-color: #1d4ed8 !important;
 }

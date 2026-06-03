@@ -137,6 +137,46 @@ function AdminBookingsPage() {
     }
     setOpen(true);
   };
+  const calendarRef = (0, _react.useRef)(null);
+
+  // add this effect after fetchStoreBookings sets events:
+  (0, _react.useEffect)(() => {
+    if (!calendarRef.current) return;
+    const calendarApi = calendarRef.current.getApi();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const pendingPast = bookings.filter(b => {
+      const d = new Date(b.booking_date);
+      return d < today && b.status === "pending";
+    }).length;
+    const pendingFuture = bookings.filter(b => {
+      const d = new Date(b.booking_date);
+      return d >= today && b.status === "pending";
+    }).length;
+
+    // inject badges into toolbar
+    const toolbar = document.querySelector(".fc-toolbar");
+    if (!toolbar) return;
+
+    // remove old badges if re-rendering
+    document.querySelectorAll(".booking-badge").forEach(el => el.remove());
+    const prevBtn = document.querySelector(".fc-prev-button");
+    const nextBtn = document.querySelector(".fc-next-button");
+    if (prevBtn && pendingPast > 0) {
+      const badge = document.createElement("span");
+      badge.className = "booking-badge past-badge";
+      badge.innerText = pendingPast;
+      prevBtn.style.position = "relative";
+      prevBtn.appendChild(badge);
+    }
+    if (nextBtn && pendingFuture > 0) {
+      const badge = document.createElement("span");
+      badge.className = "booking-badge future-badge";
+      badge.innerText = pendingFuture;
+      nextBtn.style.position = "relative";
+      nextBtn.appendChild(badge);
+    }
+  }, [bookings]);
   const renderEventContent = eventInfo => {
     var _eventInfo$event$exte, _eventInfo$event$exte2, _eventInfo$event$exte3, _eventInfo$event$exte4, _eventInfo$event$exte5, _eventInfo$event$exte6;
     return /*#__PURE__*/_react.default.createElement("div", {
@@ -187,6 +227,7 @@ function AdminBookingsPage() {
     direction: "row",
     gap: 2
   }, /*#__PURE__*/_react.default.createElement(_BackButton.default, null))), /*#__PURE__*/_react.default.createElement(_react2.default, {
+    ref: calendarRef,
     plugins: [_daygrid.default, _timegrid.default, _interaction.default],
     initialView: "dayGridMonth",
     headerToolbar: {

@@ -401,9 +401,8 @@ $primaryColor: #ff00f6;
     .MuiInputBase-formControl {
         padding: 0px !important;
     }
-
-    .blogs_main .blogs .blog {
-        width: 100%;
+    .blogs_main .blogs{
+        grid-template-columns: repeat(1, 1fr) !important;
     }
 
     .blogs_main h1 {

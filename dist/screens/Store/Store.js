@@ -352,10 +352,7 @@ function StorePage(_ref) {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h2",
     sx: {
-      color: "#333333",
-      fontSize: "32px",
-      fontFamily: "Barlow",
-      fontWeight: "600"
+      fontSize: "32px"
     }
   }, storeDetails.title)), /*#__PURE__*/_react.default.createElement("div", {
     className: "store_data_mobile"
@@ -369,7 +366,7 @@ function StorePage(_ref) {
     }
   }, storeDetails.type || "Saloon"), storeDetails.reviews && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, "\u2022", /*#__PURE__*/_react.default.createElement("div", {
     className: "rating"
-  }, /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null), " ", /*#__PURE__*/_react.default.createElement("strong", null, averageRatingStore, " "), /*#__PURE__*/_react.default.createElement("span", null, "(", storeDetails.reviews.length, ")")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_StarOutlined.default, null), " ", averageRatingStore, /*#__PURE__*/_react.default.createElement("span", null, "(", storeDetails.reviews.length, ")")))), /*#__PURE__*/_react.default.createElement("div", {
     className: "address"
   }, /*#__PURE__*/_react.default.createElement("p", null, storeDetails.address)), /*#__PURE__*/_react.default.createElement("div", {
     className: "storeAbout"
@@ -391,7 +388,7 @@ function StorePage(_ref) {
     className: "store_info"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "rating"
-  }, /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("b", null, averageRatingStore)), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
+  }, /*#__PURE__*/_react.default.createElement("p", null, averageRatingStore), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
     rating: averageRatingStore,
     color: "gold"
   })), /*#__PURE__*/_react.default.createElement(_Seperator.default, null), /*#__PURE__*/_react.default.createElement("div", {
@@ -404,7 +401,7 @@ function StorePage(_ref) {
     href: "https://www.google.com/maps/dir/?api=1&destination=".concat(storeDetails.lat, ",").concat(storeDetails.lng),
     target: "_blank",
     rel: "noopener noreferrer"
-  }, /*#__PURE__*/_react.default.createElement("b", null, "Get Directions")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Get Directions"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "save_share"
   }, user && token && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, loadingFav && /*#__PURE__*/_react.default.createElement(_material.CircularProgress, {
     size: "20px"
@@ -432,7 +429,13 @@ function StorePage(_ref) {
     className: "two_sections"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "left_side"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "Services"), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h2",
+    sx: {
+      fontWeight: "400",
+      fontSize: "30px"
+    }
+  }, "Services"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
       position: "relative",
       display: "flex",
@@ -585,7 +588,7 @@ function StorePage(_ref) {
     className: "user-name-time"
   }, /*#__PURE__*/_react.default.createElement("p", {
     className: "username"
-  }, /*#__PURE__*/_react.default.createElement("b", null, singleReview.reviewer.username)), /*#__PURE__*/_react.default.createElement("p", {
+  }, singleReview.reviewer.username), /*#__PURE__*/_react.default.createElement("p", {
     className: "time"
   }, formatDate(singleReview.reviewed_at)))), /*#__PURE__*/_react.default.createElement("div", {
     className: "rating"
@@ -689,7 +692,7 @@ function StorePage(_ref) {
     className: "store-info ".concat(isScrolled ? "visible" : "")
   }, /*#__PURE__*/_react.default.createElement("h2", null, storeDetails.title), /*#__PURE__*/_react.default.createElement("div", {
     className: "rating"
-  }, /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("b", null, averageRatingStore)), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
+  }, /*#__PURE__*/_react.default.createElement("p", null, averageRatingStore), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
     rating: averageRatingStore
   }), /*#__PURE__*/_react.default.createElement("span", null, "(", storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews5 = storeDetails.reviews) === null || _storeDetails$reviews5 === void 0 ? void 0 : _storeDetails$reviews5.length, ")"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "book_now_btn"
@@ -706,7 +709,7 @@ function StorePage(_ref) {
     className: "padding"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "time"
-  }, /*#__PURE__*/_react.default.createElement(_AccessTimeOutlined.default, null), /*#__PURE__*/_react.default.createElement("b", null, getTodayTiming(storeDetails.working_hours))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_AccessTimeOutlined.default, null), getTodayTiming(storeDetails.working_hours)), /*#__PURE__*/_react.default.createElement("div", {
     className: "location mt-3"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "mt-2"

@@ -14,10 +14,10 @@ function Address(_ref) {
     className: "get-dir-btn mt-2"
   }, /*#__PURE__*/_react.default.createElement("p", {
     className: "address"
-  }, /*#__PURE__*/_react.default.createElement("b", null, details.address)), /*#__PURE__*/_react.default.createElement("a", {
+  }, details.address), /*#__PURE__*/_react.default.createElement("a", {
     href: "https://www.google.com/maps/dir/?api=1&destination=".concat(details.lat, ",").concat(details.lng),
     target: "_blank",
     rel: "noopener noreferrer"
-  }, /*#__PURE__*/_react.default.createElement("b", null, "Get Directions")));
+  }, "Get Directions"));
 }
 var _default = exports.default = Address;

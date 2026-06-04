@@ -127,7 +127,6 @@ function Carousel({ stores = [] }) {
                             sx={{
                               fontSize: "18px",
                               fontFamily: "Barlow",
-                              fontWeight: "600",
                               textTransform: "capitalize",
                             }}
                           >
@@ -146,7 +145,6 @@ function Carousel({ stores = [] }) {
                             sx={{
                               fontSize: "16px",
                               fontFamily: "Barlow",
-                              fontWeight: "600",
                             }}
                           >
                             {averageRating}
@@ -195,7 +193,6 @@ function Carousel({ stores = [] }) {
                           sx={{
                             fontSize: "18px",
                             fontFamily: "Barlow",
-                            fontWeight: "600",
                             color: "#333333",
                           }}
                         >

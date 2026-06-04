@@ -134,10 +134,8 @@ function Home() {
                   <Typography
                     variant="h1"
                     sx={{
-                      color: "#333333",
-                      fontSize: "70px",
-                      fontWeight: "500",
-                      fontFamily: "Bebas Neue",
+                      color: "#000",
+                      fontSize: "40px",
                       textAlign: "center",
                     }}
                   >
@@ -146,10 +144,7 @@ function Home() {
                   <Typography
                     variant="body1"
                     sx={{
-                      color: "#333333",
                       fontSize: "20px",
-                      fontWeight: "400",
-                      fontFamily: "Barlow",
                       textAlign: "center",
                     }}
                   >
@@ -165,10 +160,7 @@ function Home() {
                   <Typography
                     variant="h3"
                     sx={{
-                      color: "#333333",
                       fontSize: "32px",
-                      fontWeight: "500",
-                      fontFamily: "Barlow",
                       textAlign: "center",
                     }}
                   >
@@ -210,9 +202,6 @@ function Home() {
                   variant="h3"
                   sx={{
                     fontSize: "32px",
-                    fontFamily: "Barlow",
-                    fontWeight: "600",
-                    color: "#333333",
                   }}
                 >
                   Recently Viewed
@@ -231,9 +220,6 @@ function Home() {
                   variant="h3"
                   sx={{
                     fontSize: "32px",
-                    fontFamily: "Barlow",
-                    fontWeight: "600",
-                    color: "#333333",
                   }}
                 >
                   Recommended
@@ -249,9 +235,6 @@ function Home() {
                   variant="h3"
                   sx={{
                     fontSize: "32px",
-                    fontFamily: "Barlow",
-                    fontWeight: "600",
-                    color: "#333333",
                   }}
                 >
                   New to BeautyTrafic
@@ -267,9 +250,6 @@ function Home() {
                   variant="h3"
                   sx={{
                     fontSize: "32px",
-                    fontFamily: "Barlow",
-                    fontWeight: "600",
-                    color: "#333333",
                   }}
                 >
                   Trending

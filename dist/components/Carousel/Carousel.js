@@ -129,7 +129,6 @@ function Carousel(_ref) {
       sx: {
         fontSize: "18px",
         fontFamily: "Barlow",
-        fontWeight: "600",
         textTransform: "capitalize"
       }
     }, singleStore.title)), /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -146,8 +145,7 @@ function Carousel(_ref) {
       variant: "h4",
       sx: {
         fontSize: "16px",
-        fontFamily: "Barlow",
-        fontWeight: "600"
+        fontFamily: "Barlow"
       }
     }, averageRating))), /*#__PURE__*/_react.default.createElement(_material.Box, {
       className: "address",
@@ -178,7 +176,6 @@ function Carousel(_ref) {
       sx: {
         fontSize: "18px",
         fontFamily: "Barlow",
-        fontWeight: "600",
         color: "#333333"
       }
     }, singleStore.type || "Saloon")), /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {

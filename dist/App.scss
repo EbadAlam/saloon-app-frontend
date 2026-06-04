@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Lexend+Giga:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+GB+J:ital,wght@0,100..400;1,100..400&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
 $newBgColor: #5d6de7;
 $buttonBg: #7b7bfa;
 $primaryColor: #ff00f6;
@@ -11,15 +13,18 @@ $primaryColor: #ff00f6;
 }
 
 body {
-  font-family: 'Barlow' !important;
-  color: #333333 !important;
+  font-family: "Fredoka", sans-serif !important;
+  color: #000 !important;
   overflow-x: hidden;
 }
-
+p {
+  font-family: "Fredoka", sans-serif !important;
+  color: #000 !important;
+}
 h1 {
   font-weight: 600 !important;
-  color: #333333 !important;
-  font-family: 'Bebas Neue' !important;
+  color: #000 !important;
+  font-family: "Playwrite GB J", cursive !important;
 }
 
 h2,
@@ -27,9 +32,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 600 !important;
-  color: #333333 !important;
-  font-family: 'Barlow' !important;
+  // font-weight: 600 !important;
+  color: #000 !important;
+  font-family: "Fredoka", sans-serif !important;
 }
 
 .my-masonry-grid {
@@ -337,10 +342,9 @@ h6 {
   }
 
   .address {
-    width: 48%;
+    width: 47%;
 
     p {
-      /* width: 70%; */
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -473,7 +477,6 @@ h6 {
 
       .price {
         font-size: 16px;
-        font-weight: 600;
       }
 
       button {
@@ -891,10 +894,15 @@ h6 {
   left: 0;
   width: 100%;
   height: 70vh;
-  background: radial-gradient(circle at 30% 30%, #fbc8d9 0%, transparent 50%),
-    radial-gradient(circle at 70% 40%, #d8b4fe 0%, transparent 50%),
-    radial-gradient(circle at 50% 70%, #fbc8d9 0%, transparent 50%),
+  background: radial-gradient(circle at 30% 30%, #fbc8d9 0%, transparent 35%),
+    radial-gradient(circle at 70% 40%, #d8b4fe 0%, transparent 35%),
+    radial-gradient(circle at 50% 70%, #fbc8d9 0%, transparent 35%),
     #fff;
+  // background: radial-gradient(circle at 30% 30%, #fbc8d9 0%, transparent 35%),
+  //   radial-gradient(circle at 70% 40%, #d8b4fe 0%, transparent 35%),
+  //   radial-gradient(circle at 50% 70%, #fbc8d9 0%, transparent 35%),
+  //   radial-gradient(circle at 50% 10%, #ffffff 0%, transparent 35%),
+  //   #fff;
   z-index: 0;
   filter: blur(100px);
   animation: rotateBg 25s linear infinite;
@@ -902,13 +910,29 @@ h6 {
 }
 
 @keyframes rotateBg {
-  from {
-    transform: rotate(0deg) scale(1.2);
-  }
+  // from {
+  //   transform: rotate(0deg) scale(1.2);
+  // }
 
-  to {
-    transform: rotate(360deg) scale(1.5);
-  }
+  // to {
+  //   transform: rotate(360deg) scale(1.2);
+  // }
+  0% {
+    transform: rotate(0deg) translateZ(100px);
+}
+20% {
+    transform: rotate(72deg) translateZ(100px);
+}
+40% {
+    transform: rotate(144deg) translateZ(100px);
+}
+
+60% {
+    transform: rotate(216deg) translateZ(100px);
+}
+100% {
+    transform: rotate(359.95deg) translateZ(100px);
+}
 }
 
 
@@ -1872,21 +1896,24 @@ input::-webkit-inner-spin-button {
 }
 
 .blogs_main .blogs {
-  display: flex;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: space-between;
   padding-block: 50px;
-  justify-content: space-between;
-  width: 85%;
+  max-width: 85%;
   margin: 0 auto;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:40px;
 }
 
-.blogs_main .blogs.flexStart {
-  justify-content: start;
-  gap: 75px;
-}
+// .blogs_main .blogs.flexStart {
+//   justify-content: start;
+//   gap: 75px;
+// }
 
 .blogs_main .blogs .blog {
-  width: 30%;
+  width: 100%;
   border: 1px solid #BDBDBD;
   border-radius: 10px;
   padding: 20px;
@@ -2773,12 +2800,14 @@ input::-webkit-inner-spin-button {
         align-items: center;
         height: 200px;
         position: relative;
-        border-radius: 15px;
+        border-radius: 20px;
 
         img {
           transition: all .3s ease;
           // scale: 1.05;
           width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
 
         .hover_content {
@@ -2908,7 +2937,7 @@ input::-webkit-inner-spin-button {
 }
 
 .category_page {
-  background: linear-gradient(90deg, #ffc0cb47, #ebe0ff);
+  // background: linear-gradient(90deg, #ffc0cb47, #ebe0ff);
   position: relative;
 
   .pagination_box {

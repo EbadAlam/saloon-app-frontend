@@ -3,13 +3,13 @@ import React from 'react'
 function Address({details}) {
   return (
     <div className="get-dir-btn mt-2">
-        <p className="address"><b>{details.address}</b></p>
+        <p className="address">{details.address}</p>
         <a
             href={`https://www.google.com/maps/dir/?api=1&destination=${details.lat},${details.lng}`}
             target="_blank"
             rel="noopener noreferrer"
         >
-            <b>Get Directions</b>
+            Get Directions
         </a>
     </div>
   )

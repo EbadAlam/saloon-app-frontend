@@ -358,10 +358,7 @@ function StorePage({ initialData }) {
                 <Typography
                   variant="h2"
                   sx={{
-                    color: "#333333",
                     fontSize: "32px",
-                    fontFamily: "Barlow",
-                    fontWeight: "600",
                   }}
                 >
                   {storeDetails.title}
@@ -380,7 +377,7 @@ function StorePage({ initialData }) {
                       •
                       <div className="rating">
                         <StarOutlinedIcon />{" "}
-                        <strong>{averageRatingStore} </strong>
+                        {averageRatingStore} 
                         <span>({storeDetails.reviews.length})</span>
                       </div>
                     </>
@@ -417,7 +414,7 @@ function StorePage({ initialData }) {
                 <div className="store_info">
                   <div className="rating">
                     <p>
-                      <b>{averageRatingStore}</b>
+                      {averageRatingStore}
                     </p>
                     <StarRating rating={averageRatingStore} color="gold" />
                   </div>
@@ -436,7 +433,7 @@ function StorePage({ initialData }) {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <b>Get Directions</b>
+                      Get Directions
                     </a>
                   </div>
                 </div>
@@ -480,8 +477,7 @@ function StorePage({ initialData }) {
               <div className="two_sections">
                 {/* LEFT SIDE */}
                 <div className="left_side">
-                  <h2>Services</h2>
-
+                  <Typography variant="h2" sx={{fontWeight:"400",fontSize:"30px"}}>Services</Typography>
                   {/* Categories scroll with arrows */}
                   <Box
                     sx={{
@@ -708,7 +704,7 @@ function StorePage({ initialData }) {
                                     </div>
                                     <div className="user-name-time">
                                       <p className="username">
-                                        <b>{singleReview.reviewer.username}</b>
+                                        {singleReview.reviewer.username}
                                       </p>
                                       <p className="time">
                                         {formatDate(singleReview.reviewed_at)}
@@ -871,7 +867,7 @@ function StorePage({ initialData }) {
                       <h2>{storeDetails.title}</h2>
                       <div className="rating">
                         <p>
-                          <b>{averageRatingStore}</b>
+                          {averageRatingStore}
                         </p>
                         <StarRating rating={averageRatingStore} />
                         <span>({storeDetails?.reviews?.length})</span>
@@ -890,7 +886,7 @@ function StorePage({ initialData }) {
                   <div className="padding">
                     <div className="time">
                       <AccessTimeOutlinedIcon />
-                      <b>{getTodayTiming(storeDetails.working_hours)}</b>
+                      {getTodayTiming(storeDetails.working_hours)}
                     </div>
                     <div className="location mt-3">
                       <div className="mt-2">

@@ -140,19 +140,14 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h1",
     sx: {
-      color: "#333333",
-      fontSize: "70px",
-      fontWeight: "500",
-      fontFamily: "Bebas Neue",
+      color: "#000",
+      fontSize: "40px",
       textAlign: "center"
     }
   }, "Book Local Beauty & Wellness Service..."), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
-      color: "#333333",
       fontSize: "20px",
-      fontWeight: "400",
-      fontFamily: "Barlow",
       textAlign: "center"
     }
   }, "Find the best salons, barbershops, medspas, wellness centers, and beauty specialists that millions of people around the world trust.")), /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -162,10 +157,7 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h3",
     sx: {
-      color: "#333333",
       fontSize: "32px",
-      fontWeight: "500",
-      fontFamily: "Barlow",
       textAlign: "center"
     }
   }, bookingCount, " appointments are booked today."))), /*#__PURE__*/_react.default.createElement("div", {
@@ -185,10 +177,7 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h3",
     sx: {
-      fontSize: "32px",
-      fontFamily: "Barlow",
-      fontWeight: "600",
-      color: "#333333"
+      fontSize: "32px"
     }
   }, "Recently Viewed"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "sliders"
@@ -210,10 +199,7 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h3",
     sx: {
-      fontSize: "32px",
-      fontFamily: "Barlow",
-      fontWeight: "600",
-      color: "#333333"
+      fontSize: "32px"
     }
   }, "Recommended"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "slider"
@@ -233,10 +219,7 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h3",
     sx: {
-      fontSize: "32px",
-      fontFamily: "Barlow",
-      fontWeight: "600",
-      color: "#333333"
+      fontSize: "32px"
     }
   }, "New to BeautyTrafic"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "slider"
@@ -256,10 +239,7 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h3",
     sx: {
-      fontSize: "32px",
-      fontFamily: "Barlow",
-      fontWeight: "600",
-      color: "#333333"
+      fontSize: "32px"
     }
   }, "Trending"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "slider"

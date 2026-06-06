@@ -15,7 +15,7 @@ function Footer() {
     className: "row"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12"
-  }, "Copyright \xA9 2025. All rights reserved."), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Copyright \xA9 ", new Date().getFullYear(), ". All rights reserved."), /*#__PURE__*/_react.default.createElement("div", {
     className: "col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "text-md-right footer-links d-none d-sm-block"

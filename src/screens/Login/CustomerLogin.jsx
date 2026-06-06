@@ -169,6 +169,9 @@ function CustomerLoginPage() {
   return (
     <Box display='flex' sx={{background:'#FFF8F0'}}>
         <Box className="login-signup-div" sx={{width:'55%', padding:'40px'}}>
+            {loading && (
+                <Loader />
+            )}
             <div className="back-div">
                 <button onClick={handleClick} >
                     <ArrowBackIcon />
@@ -202,13 +205,10 @@ function CustomerLoginPage() {
                 </Alert>
             )}
             <Box className="buttons" display='flex' justifyContent='center' alignItems='center' flexDirection='column' gap='50px' sx={{marginTop:'50px', position:'relative'}}>
-                {loading && (
-                    <Loader />
-                )}
                     {showForm === 'basic' ? (
                     <>
                         <Box display='flex' flexDirection='column' textAlign='center'>
-                            <Typography variant='h4' sx={{fontSize:'32px'}}><b>Beauty Trafic for Customers</b></Typography>
+                            <Typography variant='h4' sx={{fontSize:'32px'}}>Beauty Trafic for Customers</Typography>
                             <Typography variant='h5' sx={{fontSize:'18px'}}>Create an account or log in to book and manage your applications.</Typography>
                         </Box>
                         <Box display='flex' flexDirection='column' gap='30px' className="login-signup-sub-div" sx={{width:'60%'}}>
@@ -280,7 +280,7 @@ function CustomerLoginPage() {
                             </Box>
                             <Box display='flex' justifyContent='center' flexDirection='column' gap='5px' alignItems='center'>
                                 <Box display='flex' flexDirection='column' gap='15px'>
-                                    <p style={{color:'#333333',fontSize:'18px',margin:'0',fontWeight:'600'}}>Have a business account?</p>
+                                    <p style={{color:'#333333',fontSize:'18px',margin:'0'}}>Have a business account?</p>
                                 </Box>
                                 <Box display='flex' flexDirection='column' gap='15px'>
                                     <Link to={ROUTES.ownerLogin}>
@@ -294,8 +294,8 @@ function CustomerLoginPage() {
                     <>
                         <Box display='flex' justifyContent='center' flexDirection='column' gap='10px' alignItems='center'>
                             <Box display='flex' flexDirection='column' gap='15px' textAlign='center'>
-                                <Typography variant='h4' sx={{fontSize:'32px'}}><b>Welcome back</b></Typography>
-                                <Typography variant='h5' sx={{fontSize:'18px'}}>Enter your password and login as <b>{email}</b></Typography>
+                                <Typography variant='h4' sx={{fontSize:'32px'}}>Welcome back</Typography>
+                                <Typography variant='h5' sx={{fontSize:'18px'}}>Enter your password and login as {email}</Typography>
                             </Box>
                             <Box display='flex' justifyContent='center' gap='10px' alignItems='center' sx={{width:'100%'}}>
                                 <form style={{width:'100%'}} onSubmit={handleLogin}>
@@ -334,8 +334,8 @@ function CustomerLoginPage() {
                 ) : showForm === 'completeForm' ? (
                     <Box display='flex' justifyContent='center' flexDirection='column' gap='10px' alignItems='center'>
                         <Box display='flex' flexDirection='column' textAlign='center'>
-                            <Typography variant='h4' sx={{fontSize:'32px'}}><b>Create account</b></Typography>
-                            <Typography variant='h5' sx={{fontSize:'18px'}}>You're almost there! Create your new account for <b>{email}</b> by completing these details</Typography>
+                            <Typography variant='h4' sx={{fontSize:'32px'}}>Create account</Typography>
+                            <Typography variant='h5' sx={{fontSize:'18px'}}>You're almost there! Create your new account for {email} by completing these details</Typography>
                         </Box>
                         <Box display='flex' justifyContent='center' gap='10px' alignItems='center' sx={{width:'100%'}}>
                                 <form style={{width:'100%'}} onSubmit={handleSignup}>

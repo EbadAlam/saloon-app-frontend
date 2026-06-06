@@ -854,4 +854,13 @@ $primaryColor: #ff00f6;
             display:none;
         }
     }
+    
+    .all-reviews-container{
+        max-width:90%;
+        .rating_filter{
+            border:none;
+            box-shadow:none;
+            padding:0px;
+        }
+    }
 }

@@ -250,7 +250,6 @@ useEffect(() => {
   // }, []);
   return (
     <>
-      {loading && <Loader />}
       <AdminLayout>
         {selectedEvent && (
           <BookingDetailsModal
@@ -262,6 +261,7 @@ useEffect(() => {
         )}
 
         <div className="container-fluid dashboard-content">
+      {loading && <Loader />}
           <Stack
             direction="row"
             justifyContent="space-between"

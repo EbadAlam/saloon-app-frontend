@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {  useLocation, useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import axiosClient from "../../axios-client";
@@ -49,7 +49,7 @@ function BookingPage() {
     id: "",
     username: "any professional",
   });
-
+  const sideBarRef = useRef(null);
   
   useEffect(() => {
     const fetchStoreDetails = async () => {
@@ -247,22 +247,49 @@ const updateWorkerId = (serviceId, workerId,workerName) => {
     }
   }
   // Group total ETA by worker
+  // const workerDurations = {};
+  // selectedServices.forEach((service) => {
+  //   if (!service.worker_id) return;
+
+  //   let etaMinutes = 0;
+  //   const etaMatch = service.eta.match(/(\d+)\s*(hr|hrs|minutes|min|mins)/i);
+  //   if (etaMatch) {
+  //     etaMinutes = etaMatch[2].startsWith("hr")
+  //       ? parseInt(etaMatch[1]) * 60
+  //       : parseInt(etaMatch[1]);
+  //   }
+
+  //   // Add up duration if worker has multiple services
+  //   workerDurations[service.worker_id] =
+  //     (workerDurations[service.worker_id] || 0) + etaMinutes;
+  // });
   const workerDurations = {};
-  selectedServices.forEach((service) => {
-    if (!service.worker_id) return;
 
-    let etaMinutes = 0;
-    const etaMatch = service.eta.match(/(\d+)\s*(hr|hrs|minutes|min|mins)/i);
-    if (etaMatch) {
-      etaMinutes = etaMatch[2].startsWith("hr")
-        ? parseInt(etaMatch[1]) * 60
-        : parseInt(etaMatch[1]);
+selectedServices.forEach((service) => {
+  if (!service.worker_id) return;
+
+  let etaMinutes = 0;
+
+  const eta = (service.eta || "").toLowerCase();
+
+  const match = eta.match(/(\d+)\s*(hr|hrs|hour|hours|min|mins|minute|minutes)/i);
+
+  if (match) {
+    const value = parseInt(match[1], 10);
+    const unit = match[2];
+
+    if (unit.includes("hour") || unit.includes("hours") || unit.includes("hr") || unit.includes("hrs")) {
+      etaMinutes = value * 60;
+    } else {
+      etaMinutes = value;
     }
+  } else {
+    etaMinutes = 30;
+  }
 
-    // Add up duration if worker has multiple services
-    workerDurations[service.worker_id] =
-      (workerDurations[service.worker_id] || 0) + etaMinutes;
-  });
+  workerDurations[service.worker_id] =
+    (workerDurations[service.worker_id] || 0) + etaMinutes;
+});
 
   // Check conflicts for each worker
   const hasConflict = Object.entries(workerDurations).some(
@@ -567,14 +594,14 @@ const handleLoginSubmit = async (e) => {
                         >
                           <h3 className="category-title">{cat.title}</h3>
                           {servicesInCategory.filter(s => s.status == 'active').map((singleSer,index) => (
-                            <label htmlFor={`book_checkbox_${index}`} className="service mt-3" key={singleSer.id}>
+                            <label htmlFor={`book_checkbox_${singleSer.id}`} className="service mt-3" key={singleSer.id}>
                                 <div className="info">
                                   <h4 className="title">{singleSer.title}</h4>
                                   <p className="eta">{singleSer.eta}</p>
                                   <p className="price">
-                                    <b>
+                                    
                                       {singleSer.currency} {singleSer.price}
-                                    </b>
+                                    
                                   </p>
                                   <p className="gender">
                                     {singleSer.gender &&
@@ -583,7 +610,7 @@ const handleLoginSubmit = async (e) => {
                                 </div>
                                 <div className="book_btn">
                                   <Checkbox
-                                    id={`book_checkbox_${index}`}
+                                    id={`book_checkbox_${singleSer.id}`}
                                     checked={selectedServices.some(
                                       (s) => s.id === singleSer.id
                                     )}
@@ -860,7 +887,7 @@ const handleLoginSubmit = async (e) => {
                                           sx={{ fontSize: "16px", color: "#333333" }}
                                           textAlign="center"
                                         >
-                                          <b>{getDayName(date)}</b>
+                                          {getDayName(date)}
                                         </Typography>
                                       </Box>
                                       <Box
@@ -929,9 +956,26 @@ const handleLoginSubmit = async (e) => {
                   </>
               )}
             </Box>
-            <Box sx={{ width: "40%" }} className='booking_details'>
+            <Box 
+            ref={sideBarRef}
+            sx={{
+              width: {
+                xs: "100%",
+                md: "40%",
+              },
+              position: {
+                xs: "static",
+                md: "sticky",
+              },
+              top: {
+                md: "50px",
+              },
+              right: 0,
+            }}
+            className='booking_details'>
               {storeDetails && (
-                <div className="rating_filter">
+                <div 
+                className="rating_filter">
                   <Box sx={{ padding: "15px" }}>
                     <Box className="store_info_head" display="flex" gap="20px">
                       <Box
@@ -1002,7 +1046,7 @@ const handleLoginSubmit = async (e) => {
                                 variant="body1"
                                 sx={{ fontSize: "18px" }}
                               >
-                                <b>{service.title}</b>
+                                {service.title}
                               </Typography>
                               <Typography
                                 display="block"
@@ -1017,7 +1061,7 @@ const handleLoginSubmit = async (e) => {
                                 variant="body1"
                                 sx={{ fontSize: "18px" }}
                               >
-                                <b>{service.currency} {service.price}</b>
+                                {service.currency} {service.price}
                               </Typography>
                             </Box>
                           </Box>

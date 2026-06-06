@@ -103,13 +103,14 @@ function App({initialData}) {
                 <StoreGalleryPage />
               }
             />
-            <Route
+            
+          </Route>
+          <Route
               path={ROUTES.allReviewPage}
               element={
                   <AllReviewsPage />
               }
             />
-          </Route>
           <Route path={ROUTES.loginSignup} element={<LoginSignupPage />} />
           <Route path={ROUTES.customerLogin} element={<CustomerLogin />} />
           <Route path={ROUTES.ownerLogin} element={<ProfessionalLoginPage />} />

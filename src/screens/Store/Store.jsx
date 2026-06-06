@@ -127,7 +127,7 @@ function StorePage({ initialData }) {
     if (storeDetails?.id) saveRecentlyViewedStore(storeDetails);
   }, [storeDetails]);
 
-  // sticky right side observer
+
   useEffect(() => {
     if (!rightSideRef.current) return;
 
@@ -376,8 +376,7 @@ function StorePage({ initialData }) {
                     <>
                       •
                       <div className="rating">
-                        <StarOutlinedIcon />{" "}
-                        {averageRatingStore} 
+                        <StarOutlinedIcon /> {averageRatingStore}
                         <span>({storeDetails.reviews.length})</span>
                       </div>
                     </>
@@ -413,9 +412,7 @@ function StorePage({ initialData }) {
               <div className="info_save_div">
                 <div className="store_info">
                   <div className="rating">
-                    <p>
-                      {averageRatingStore}
-                    </p>
+                    <p>{averageRatingStore}</p>
                     <StarRating rating={averageRatingStore} color="gold" />
                   </div>
                   <Seperator />
@@ -477,7 +474,12 @@ function StorePage({ initialData }) {
               <div className="two_sections">
                 {/* LEFT SIDE */}
                 <div className="left_side">
-                  <Typography variant="h2" sx={{fontWeight:"400",fontSize:"30px"}}>Services</Typography>
+                  <Typography
+                    variant="h2"
+                    sx={{ fontWeight: "400", fontSize: "30px" }}
+                  >
+                    Services
+                  </Typography>
                   {/* Categories scroll with arrows */}
                   <Box
                     sx={{
@@ -675,9 +677,17 @@ function StorePage({ initialData }) {
                       storeDetails?.reviews?.length > 0 && (
                         <div className="reviews-div">
                           <h2>Customer Reviews</h2>
-                          <StarRating size="large" color="gold" rating={averageRatingStore} />
-                          <Typography variant="body1" sx={{ marginBottom: "20px",fontSize:"18px" }}>
-                            {averageRatingStore} out of 5 based on {reviews.length} reviews
+                          <StarRating
+                            size="large"
+                            color="gold"
+                            rating={averageRatingStore}
+                          />
+                          <Typography
+                            variant="body1"
+                            sx={{ marginBottom: "20px", fontSize: "18px" }}
+                          >
+                            {averageRatingStore} out of 5 based on{" "}
+                            {reviews.length} reviews
                           </Typography>
                           <div className="reviews mt-3">
                             {storeDetails.reviews
@@ -765,6 +775,10 @@ function StorePage({ initialData }) {
                             center={[storeDetails.lat, storeDetails.lng]}
                             zoom={15}
                             className="store_map"
+                            scrollWheelZoom={false}
+                            dragging={false}
+                            doubleClickZoom={false}
+                            touchZoom={false}
                           >
                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                             <Marker
@@ -850,7 +864,6 @@ function StorePage({ initialData }) {
                   </div>
                 </div>
 
-                {/* RIGHT SIDE — sticky */}
                 <div
                   className="right_side"
                   ref={rightSideRef}
@@ -866,10 +879,8 @@ function StorePage({ initialData }) {
                     >
                       <h2>{storeDetails.title}</h2>
                       <div className="rating">
-                        <p>
-                          {averageRatingStore}
-                        </p>
-                        <StarRating rating={averageRatingStore} />
+                        <p>{averageRatingStore}</p>
+                        <StarRating rating={averageRatingStore} color="gold" />
                         <span>({storeDetails?.reviews?.length})</span>
                       </div>
                     </div>

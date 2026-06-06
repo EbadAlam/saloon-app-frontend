@@ -145,10 +145,10 @@ function App(_ref) {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.storeGalleryPage,
     element: /*#__PURE__*/_react.default.createElement(_StoreGallery.default, null)
-  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.allReviewPage,
     element: /*#__PURE__*/_react.default.createElement(_AllReviews.default, null)
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.loginSignup,
     element: /*#__PURE__*/_react.default.createElement(_LoginSignup.default, null)
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {

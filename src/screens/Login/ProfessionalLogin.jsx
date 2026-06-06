@@ -185,6 +185,9 @@ function ProfessionalLoginPage() {
   return (
     <Box display='flex' sx={{background:'#FFF8F0'}}>
         <Box className="login-signup-div" sx={{width:'55%', padding:'40px'}}>
+            {loading && (
+                <Loader />
+            )}
             <div className="back-div">
                 <button onClick={handleClick} >
                     <ArrowBackIcon />
@@ -218,13 +221,10 @@ function ProfessionalLoginPage() {
                 </Alert>
             )}
             <Box className="buttons" display='flex' justifyContent='center' alignItems='center' flexDirection='column' gap='50px' sx={{marginTop:'50px', position:'relative'}}>
-                {loading && (
-                    <Loader />
-                )}
                     {showForm === 'basic' ? (
                     <>
                         <Box display='flex' flexDirection='column' textAlign='center'>
-                            <Typography variant='h4' sx={{fontSize:'32px'}}><b>Beauty Trafic for Professionals</b></Typography>
+                            <Typography variant='h4' sx={{fontSize:'32px'}}>Beauty Trafic for Professionals</Typography>
                             <Typography variant='h5' sx={{fontSize:'18px'}}>Create an account or log in to book and manage your business</Typography>
                         </Box>
                         <Box display='flex' flexDirection='column' gap='30px' className="login-signup-sub-div" sx={{width:'60%'}}>
@@ -308,7 +308,7 @@ function ProfessionalLoginPage() {
                             
                             <Box display='flex' justifyContent='center' flexDirection='column' gap='5px' alignItems='center'>
                                 <Box display='flex' flexDirection='column' gap='15px'>
-                                    <p style={{color:'#333333',fontSize:'18px',margin:'0',fontWeight:'600'}}>Are you a customer looking to book an appointment?</p>
+                                    <p style={{color:'#333333',fontSize:'18px',margin:'0'}}>Are you a customer looking to book an appointment?</p>
                                 </Box>
                                 <Box display='flex' flexDirection='column' gap='15px'>
                                     <Link to={ROUTES.customerLogin}>
@@ -322,8 +322,8 @@ function ProfessionalLoginPage() {
                     <>
                         <Box display='flex' justifyContent='center' flexDirection='column' gap='10px' alignItems='center'>
                             <Box display='flex' flexDirection='column' gap='15px' textAlign='center'>
-                                <Typography variant='h4' sx={{fontSize:'32px'}}><b>Welcome back</b></Typography>
-                                <Typography variant='h5' sx={{fontSize:'18px'}}>Enter your password and login as <b>{email}</b></Typography>
+                                <Typography variant='h4' sx={{fontSize:'32px'}}>Welcome back</Typography>
+                                <Typography variant='h5' sx={{fontSize:'18px'}}>Enter your password and login as {email}</Typography>
                             </Box>
                             <Box display='flex' justifyContent='center' gap='10px' alignItems='center' sx={{width:'100%'}}>
                                 <form style={{width:'100%'}} onSubmit={handleLogin}>
@@ -362,8 +362,8 @@ function ProfessionalLoginPage() {
                 ) : showForm === 'completeForm' ? (
                     <Box display='flex' justifyContent='center' flexDirection='column' gap='10px' alignItems='center'>
                         <Box display='flex' flexDirection='column' textAlign='center'>
-                            <Typography variant='h4' sx={{fontSize:'32px'}}><b>Create account</b></Typography>
-                            <Typography variant='h5' sx={{fontSize:'18px'}}>You're almost there! Create your new account for <b>{email}</b> by completing these details</Typography>
+                            <Typography variant='h4' sx={{fontSize:'32px'}}>Create account</Typography>
+                            <Typography variant='h5' sx={{fontSize:'18px'}}>You're almost there! Create your new account for {email} by completing these details</Typography>
                         </Box>
                         <Box display='flex' justifyContent='center' gap='10px' alignItems='center' sx={{width:'100%'}}>
                                 <form style={{width:'100%'}} onSubmit={handleSignup}>
@@ -463,8 +463,8 @@ function ProfessionalLoginPage() {
                     (<>
                         <Box display='flex' justifyContent='center' flexDirection='column' gap='10px' alignItems='center'>
                             <Box display='flex' flexDirection='column' gap='15px' textAlign='center'>
-                                <Typography variant='h4' sx={{fontSize:'32px'}}><b>Enter Code</b></Typography>
-                                <Typography variant='h5' sx={{fontSize:'18px'}}>Enter the verification code we've sent to <b>{email}</b></Typography>
+                                <Typography variant='h4' sx={{fontSize:'32px'}}>Enter Code</Typography>
+                                <Typography variant='h5' sx={{fontSize:'18px'}}>Enter the verification code we've sent to {email}</Typography>
                             </Box>
                             <Box display='flex' justifyContent='center' gap='10px' alignItems='center' sx={{width:'100%'}}>
                                 <form style={{width:'100%'}} onSubmit={handleVerification}>

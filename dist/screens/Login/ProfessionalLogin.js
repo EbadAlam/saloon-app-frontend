@@ -211,7 +211,7 @@ function ProfessionalLoginPage() {
       width: '55%',
       padding: '40px'
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, loading && /*#__PURE__*/React.createElement(_Loader.default, null), /*#__PURE__*/React.createElement("div", {
     className: "back-div"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: handleClick
@@ -253,7 +253,7 @@ function ProfessionalLoginPage() {
       marginTop: '50px',
       position: 'relative'
     }
-  }, loading && /*#__PURE__*/React.createElement(_Loader.default, null), showForm === 'basic' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_material.Box, {
+  }, showForm === 'basic' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_material.Box, {
     display: "flex",
     flexDirection: "column",
     textAlign: "center"
@@ -262,7 +262,7 @@ function ProfessionalLoginPage() {
     sx: {
       fontSize: '32px'
     }
-  }, /*#__PURE__*/React.createElement("b", null, "Beauty Trafic for Professionals")), /*#__PURE__*/React.createElement(_material.Typography, {
+  }, "Beauty Trafic for Professionals"), /*#__PURE__*/React.createElement(_material.Typography, {
     variant: "h5",
     sx: {
       fontSize: '18px'
@@ -440,8 +440,7 @@ function ProfessionalLoginPage() {
     style: {
       color: '#333333',
       fontSize: '18px',
-      margin: '0',
-      fontWeight: '600'
+      margin: '0'
     }
   }, "Are you a customer looking to book an appointment?")), /*#__PURE__*/React.createElement(_material.Box, {
     display: "flex",
@@ -471,12 +470,12 @@ function ProfessionalLoginPage() {
     sx: {
       fontSize: '32px'
     }
-  }, /*#__PURE__*/React.createElement("b", null, "Welcome back")), /*#__PURE__*/React.createElement(_material.Typography, {
+  }, "Welcome back"), /*#__PURE__*/React.createElement(_material.Typography, {
     variant: "h5",
     sx: {
       fontSize: '18px'
     }
-  }, "Enter your password and login as ", /*#__PURE__*/React.createElement("b", null, email))), /*#__PURE__*/React.createElement(_material.Box, {
+  }, "Enter your password and login as ", email)), /*#__PURE__*/React.createElement(_material.Box, {
     display: "flex",
     justifyContent: "center",
     gap: "10px",
@@ -539,12 +538,12 @@ function ProfessionalLoginPage() {
     sx: {
       fontSize: '32px'
     }
-  }, /*#__PURE__*/React.createElement("b", null, "Create account")), /*#__PURE__*/React.createElement(_material.Typography, {
+  }, "Create account"), /*#__PURE__*/React.createElement(_material.Typography, {
     variant: "h5",
     sx: {
       fontSize: '18px'
     }
-  }, "You're almost there! Create your new account for ", /*#__PURE__*/React.createElement("b", null, email), " by completing these details")), /*#__PURE__*/React.createElement(_material.Box, {
+  }, "You're almost there! Create your new account for ", email, " by completing these details")), /*#__PURE__*/React.createElement(_material.Box, {
     display: "flex",
     justifyContent: "center",
     gap: "10px",
@@ -656,12 +655,12 @@ function ProfessionalLoginPage() {
     sx: {
       fontSize: '32px'
     }
-  }, /*#__PURE__*/React.createElement("b", null, "Enter Code")), /*#__PURE__*/React.createElement(_material.Typography, {
+  }, "Enter Code"), /*#__PURE__*/React.createElement(_material.Typography, {
     variant: "h5",
     sx: {
       fontSize: '18px'
     }
-  }, "Enter the verification code we've sent to ", /*#__PURE__*/React.createElement("b", null, email))), /*#__PURE__*/React.createElement(_material.Box, {
+  }, "Enter the verification code we've sent to ", email)), /*#__PURE__*/React.createElement(_material.Box, {
     display: "flex",
     justifyContent: "center",
     gap: "10px",

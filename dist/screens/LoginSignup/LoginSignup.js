@@ -67,7 +67,7 @@ function LoginSignupPage() {
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h4"
-  }, /*#__PURE__*/_react.default.createElement("b", null, "Log in Or Sign up")), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, "Log in Or Sign up"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     display: "flex",
     flexDirection: "column",
     gap: "30px",

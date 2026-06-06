@@ -207,14 +207,14 @@ function AdminBookingsPage() {
   //   window.addEventListener("resize", handleResize);
   //   return () => window.removeEventListener("resize", handleResize);
   // }, []);
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement(_Layout.default, null, selectedEvent && /*#__PURE__*/_react.default.createElement(_BookingDetailsModal.default, {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Layout.default, null, selectedEvent && /*#__PURE__*/_react.default.createElement(_BookingDetailsModal.default, {
     open: open,
     onClose: () => setOpen(false),
     booking: selectedEvent.extendedProps.booking,
     handleStatusChangeStatus: handleStatusChangeStatus
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "container-fluid dashboard-content"
-  }, /*#__PURE__*/_react.default.createElement(_material.Stack, {
+  }, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement(_material.Stack, {
     direction: "row",
     justifyContent: "space-between",
     alignItems: "center",

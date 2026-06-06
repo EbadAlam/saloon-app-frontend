@@ -58,7 +58,7 @@ function LoginSignupPage() {
             sx={{ marginTop: "50px" }}
           >
             <Typography variant="h4">
-              <b>Log in Or Sign up</b>
+              Log in Or Sign up
             </Typography>
             <Box
               display="flex"

@@ -26,11 +26,13 @@ function AllReviewsPage() {
   } = (0, _reactRouterDom.useParams)();
   const [storeDetails, setStoreDetails] = (0, _react.useState)((state === null || state === void 0 ? void 0 : state.storeDetails) || null);
   const [loading, setLoading] = (0, _react.useState)(!(state !== null && state !== void 0 && state.storeDetails));
-  const [sortBy, setSortBy] = (0, _react.useState)('latest');
+  const [sortBy, setSortBy] = (0, _react.useState)("latest");
   const [selectedRatings, setSelectedRatings] = (0, _react.useState)([]);
   const {
     formatDate
   } = (0, _AuthContext.useAuth)();
+  const filterRef = (0, _react.useRef)(null);
+  const [isSticky, setIsSticky] = (0, _react.useState)(false);
   (0, _react.useEffect)(() => {
     const fetchStoreDetails = async () => {
       setLoading(true);
@@ -40,7 +42,7 @@ function AllReviewsPage() {
         } = await _axiosClient.default.get("/getStoreBySlug/".concat(slug));
         setStoreDetails(data.storeDetails);
       } catch (error) {
-        console.error('Failed to fetch store details:', error);
+        console.error("Failed to fetch store details:", error);
       } finally {
         setLoading(false);
       }
@@ -54,7 +56,7 @@ function AllReviewsPage() {
   }
   const reviews = storeDetails.reviews || [];
   const total = reviews.reduce((sum, r) => sum + parseFloat(r.rating || 0), 0);
-  const averageRatingStore = reviews.length > 0 ? (total / reviews.length).toFixed(1) : 'N/A';
+  const averageRatingStore = reviews.length > 0 ? (total / reviews.length).toFixed(1) : "N/A";
   const totalReviews = reviews.length;
   const ratingCounts = [5, 4, 3, 2, 1].map(value => ({
     value,
@@ -76,10 +78,7 @@ function AllReviewsPage() {
     return 0;
   });
   return /*#__PURE__*/_react.default.createElement(_material.Box, {
-    sx: {
-      maxWidth: '70%',
-      margin: '0 auto'
-    }
+    className: "all-reviews-container"
   }, /*#__PURE__*/_react.default.createElement(_BackComponent.default, {
     fallback: _routes.ROUTES.getStoreFrontPage(storeDetails.slug)
   }), /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -88,12 +87,12 @@ function AllReviewsPage() {
     gap: "50px",
     className: "all-reviews-main",
     sx: {
-      paddingInline: '150px'
+      paddingInline: "150px"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "all-reviews-reviews",
     sx: {
-      width: '60%'
+      width: "60%"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h4",
@@ -109,7 +108,7 @@ function AllReviewsPage() {
     alignItems: "center",
     gap: "10px",
     sx: {
-      margin: '0'
+      margin: "0"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "p"
@@ -120,7 +119,7 @@ function AllReviewsPage() {
     sx: {
       mt: 1.5,
       minWidth: 120,
-      borderRadius: '20px'
+      borderRadius: "20px"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
     value: "latest"
@@ -130,7 +129,7 @@ function AllReviewsPage() {
     value: "worst"
   }, "Worst")))), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement("div", {
     className: "all-reviews"
-  }, filteredReviews.length > 0 ? filteredReviews.filter(review => review.status === 'active').map(singleReview => {
+  }, filteredReviews.length > 0 ? filteredReviews.filter(review => review.status === "active").map(singleReview => {
     var _singleReview$reviewe;
     return /*#__PURE__*/_react.default.createElement("div", {
       className: "review mt-3",
@@ -148,8 +147,8 @@ function AllReviewsPage() {
       style: {
         width: 40,
         height: 40,
-        borderRadius: '50%',
-        objectFit: 'cover'
+        borderRadius: "50%",
+        objectFit: "cover"
       }
     }) : /*#__PURE__*/_react.default.createElement(_DummyImage.default, {
       username: singleReview.reviewer.username
@@ -157,49 +156,41 @@ function AllReviewsPage() {
       className: "user-name-time"
     }, /*#__PURE__*/_react.default.createElement("p", {
       className: "username"
-    }, /*#__PURE__*/_react.default.createElement("b", null, singleReview.reviewer.username)), /*#__PURE__*/_react.default.createElement("p", {
+    }, singleReview.reviewer.username), /*#__PURE__*/_react.default.createElement("p", {
       className: "time"
     }, formatDate(singleReview.reviewed_at)))), /*#__PURE__*/_react.default.createElement("div", {
       className: "rating"
     }, /*#__PURE__*/_react.default.createElement(_StarRating.default, {
-      rating: singleReview.rating
+      rating: singleReview.rating,
+      color: "gold"
     })), /*#__PURE__*/_react.default.createElement("div", {
       className: "review-text"
     }, /*#__PURE__*/_react.default.createElement("p", null, singleReview.review)));
   }) : /*#__PURE__*/_react.default.createElement(_material.Typography, null, "No reviews found for selected filter"))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    ref: filterRef,
     className: "all-reviews-filter",
     sx: {
-      width: '40%'
+      width: {
+        xs: "100%",
+        md: "40%"
+      },
+      position: {
+        xs: "static",
+        md: "sticky"
+      },
+      top: {
+        md: "50px"
+      },
+      right: 0
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "rating_filter"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "rating_star"
-  }, /*#__PURE__*/_react.default.createElement(_Star.default, {
-    fontSize: "large",
-    style: {
-      color: '#333333'
-    }
-  }), /*#__PURE__*/_react.default.createElement(_Star.default, {
-    fontSize: "large",
-    style: {
-      color: '#333333'
-    }
-  }), /*#__PURE__*/_react.default.createElement(_Star.default, {
-    fontSize: "large",
-    style: {
-      color: '#333333'
-    }
-  }), /*#__PURE__*/_react.default.createElement(_Star.default, {
-    fontSize: "large",
-    style: {
-      color: '#333333'
-    }
-  }), /*#__PURE__*/_react.default.createElement(_Star.default, {
-    fontSize: "large",
-    style: {
-      color: '#333333'
-    }
+  }, /*#__PURE__*/_react.default.createElement(_StarRating.default, {
+    rating: "5",
+    color: "gold",
+    size: "large"
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "avg_count"
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
@@ -208,7 +199,7 @@ function AllReviewsPage() {
     className: "filter_by mt-3"
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h6"
-  }, /*#__PURE__*/_react.default.createElement("b", null, "Filter By"), /*#__PURE__*/_react.default.createElement(_material.Box, null, ratingCounts.map(_ref => {
+  }, "Filter By", /*#__PURE__*/_react.default.createElement(_material.Box, null, ratingCounts.map(_ref => {
     let {
       value,
       count
@@ -238,15 +229,15 @@ function AllReviewsPage() {
       sx: {
         height: 6,
         borderRadius: 3,
-        backgroundColor: '#eee',
-        '& .MuiLinearProgress-bar': {
-          backgroundColor: '#000'
+        backgroundColor: "#eee",
+        "& .MuiLinearProgress-bar": {
+          backgroundColor: "#000"
         }
       }
     })), /*#__PURE__*/_react.default.createElement(_material.Typography, {
       sx: {
         width: 30,
-        textAlign: 'right'
+        textAlign: "right"
       }
     }, count));
   }))))))));

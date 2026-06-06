@@ -579,7 +579,6 @@ h6 {
 }
 
 .profile_img.no-img .dummy_img {
-  font-weight: 900;
   font-size: 55px;
   color: white;
 }
@@ -666,14 +665,7 @@ h6 {
   // row-gap: 50px;
 }
 
-.review p {
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 
-}
 
 .review .user_info {
   display: flex;
@@ -711,14 +703,7 @@ h6 {
   font-size: 14px;
 }
 
-.review .review-text p {
-  font-size: 18px;
-  max-width: 300px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  // font-weight: 600;
-}
+
 
 .rating {
   display: flex;
@@ -3699,6 +3684,20 @@ input::-webkit-inner-spin-button {
       border: 1px solid #00000036;
     }
   }
+  .review .review-text p {
+    font-size: 18px;
+    max-width: 300px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .review p {
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
   .reviewFormDiv{
     width: fit-content;
   max-width: 200px;
@@ -3832,4 +3831,24 @@ input::-webkit-inner-spin-button {
 
 .fc .fc-button-active {
   background-color: #1d4ed8 !important;
+}
+.all-reviews-container{
+  max-width:70%;
+  margin:0 auto;
+  padding-bottom: 50px;
+  .backButtonCp {
+    button {
+      border: 1px solid #dcdcdc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      transition: all .3s ease;
+      &:hover {
+        background-color: #f4f4f4;
+      }
+    }
+  }
 }

@@ -117,8 +117,6 @@ function StorePage(_ref) {
   (0, _react.useEffect)(() => {
     if (storeDetails !== null && storeDetails !== void 0 && storeDetails.id) (0, _storeRecentlyViewed.saveRecentlyViewedStore)(storeDetails);
   }, [storeDetails]);
-
-  // sticky right side observer
   (0, _react.useEffect)(() => {
     if (!rightSideRef.current) return;
     const handleScroll = () => {
@@ -570,7 +568,7 @@ function StorePage(_ref) {
       marginBottom: "20px",
       fontSize: "18px"
     }
-  }, averageRatingStore, " out of 5 based on ", reviews.length, " reviews"), /*#__PURE__*/_react.default.createElement("div", {
+  }, averageRatingStore, " out of 5 based on", " ", reviews.length, " reviews"), /*#__PURE__*/_react.default.createElement("div", {
     className: "reviews mt-3"
   }, (_storeDetails$reviews3 = storeDetails.reviews) === null || _storeDetails$reviews3 === void 0 ? void 0 : _storeDetails$reviews3.slice(0, 6).filter(review => review.status === "active").map(singleReview => /*#__PURE__*/_react.default.createElement("div", {
     className: "review",
@@ -623,7 +621,11 @@ function StorePage(_ref) {
   }, storeDetails.lat && storeDetails.lng && typeof window !== "undefined" && /*#__PURE__*/_react.default.createElement(MapContainer, {
     center: [storeDetails.lat, storeDetails.lng],
     zoom: 15,
-    className: "store_map"
+    className: "store_map",
+    scrollWheelZoom: false,
+    dragging: false,
+    doubleClickZoom: false,
+    touchZoom: false
   }, /*#__PURE__*/_react.default.createElement(TileLayer, {
     url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   }), /*#__PURE__*/_react.default.createElement(Marker, {
@@ -693,7 +695,8 @@ function StorePage(_ref) {
   }, /*#__PURE__*/_react.default.createElement("h2", null, storeDetails.title), /*#__PURE__*/_react.default.createElement("div", {
     className: "rating"
   }, /*#__PURE__*/_react.default.createElement("p", null, averageRatingStore), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
-    rating: averageRatingStore
+    rating: averageRatingStore,
+    color: "gold"
   }), /*#__PURE__*/_react.default.createElement("span", null, "(", storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews5 = storeDetails.reviews) === null || _storeDetails$reviews5 === void 0 ? void 0 : _storeDetails$reviews5.length, ")"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "book_now_btn"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {

@@ -70,6 +70,7 @@ function BookingPage() {
     id: "",
     username: "any professional"
   });
+  const sideBarRef = (0, _react.useRef)(null);
   (0, _react.useEffect)(() => {
     const fetchStoreDetails = async () => {
       setLoading(true);
@@ -246,16 +247,39 @@ function BookingPage() {
       }
     }
     // Group total ETA by worker
+    // const workerDurations = {};
+    // selectedServices.forEach((service) => {
+    //   if (!service.worker_id) return;
+
+    //   let etaMinutes = 0;
+    //   const etaMatch = service.eta.match(/(\d+)\s*(hr|hrs|minutes|min|mins)/i);
+    //   if (etaMatch) {
+    //     etaMinutes = etaMatch[2].startsWith("hr")
+    //       ? parseInt(etaMatch[1]) * 60
+    //       : parseInt(etaMatch[1]);
+    //   }
+
+    //   // Add up duration if worker has multiple services
+    //   workerDurations[service.worker_id] =
+    //     (workerDurations[service.worker_id] || 0) + etaMinutes;
+    // });
     const workerDurations = {};
     selectedServices.forEach(service => {
       if (!service.worker_id) return;
       let etaMinutes = 0;
-      const etaMatch = service.eta.match(/(\d+)\s*(hr|hrs|minutes|min|mins)/i);
-      if (etaMatch) {
-        etaMinutes = etaMatch[2].startsWith("hr") ? parseInt(etaMatch[1]) * 60 : parseInt(etaMatch[1]);
+      const eta = (service.eta || "").toLowerCase();
+      const match = eta.match(/(\d+)\s*(hr|hrs|hour|hours|min|mins|minute|minutes)/i);
+      if (match) {
+        const value = parseInt(match[1], 10);
+        const unit = match[2];
+        if (unit.includes("hour") || unit.includes("hours") || unit.includes("hr") || unit.includes("hrs")) {
+          etaMinutes = value * 60;
+        } else {
+          etaMinutes = value;
+        }
+      } else {
+        etaMinutes = 30;
       }
-
-      // Add up duration if worker has multiple services
       workerDurations[service.worker_id] = (workerDurations[service.worker_id] || 0) + etaMinutes;
     });
 
@@ -540,7 +564,7 @@ function BookingPage() {
     }, /*#__PURE__*/_react.default.createElement("h3", {
       className: "category-title"
     }, cat.title), servicesInCategory.filter(s => s.status == 'active').map((singleSer, index) => /*#__PURE__*/_react.default.createElement("label", {
-      htmlFor: "book_checkbox_".concat(index),
+      htmlFor: "book_checkbox_".concat(singleSer.id),
       className: "service mt-3",
       key: singleSer.id
     }, /*#__PURE__*/_react.default.createElement("div", {
@@ -551,12 +575,12 @@ function BookingPage() {
       className: "eta"
     }, singleSer.eta), /*#__PURE__*/_react.default.createElement("p", {
       className: "price"
-    }, /*#__PURE__*/_react.default.createElement("b", null, singleSer.currency, " ", singleSer.price)), /*#__PURE__*/_react.default.createElement("p", {
+    }, singleSer.currency, " ", singleSer.price), /*#__PURE__*/_react.default.createElement("p", {
       className: "gender"
     }, singleSer.gender && "Only for ".concat(singleSer.gender))), /*#__PURE__*/_react.default.createElement("div", {
       className: "book_btn"
     }, /*#__PURE__*/_react.default.createElement(_material.Checkbox, {
-      id: "book_checkbox_".concat(index),
+      id: "book_checkbox_".concat(singleSer.id),
       checked: selectedServices.some(s => s.id === singleSer.id),
       onChange: e => {
         if (e.target.checked) {
@@ -759,7 +783,7 @@ function BookingPage() {
         color: "#333333"
       },
       textAlign: "center"
-    }, /*#__PURE__*/_react.default.createElement("b", null, getDayName(date)))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    }, getDayName(date))), /*#__PURE__*/_react.default.createElement(_material.Box, {
       className: "date mt-2",
       display: "flex",
       justifyContent: "center",
@@ -810,8 +834,20 @@ function BookingPage() {
       color: '#999'
     }
   }, closeStore ? 'Store is closed today' : 'No Available Slots')))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    ref: sideBarRef,
     sx: {
-      width: "40%"
+      width: {
+        xs: "100%",
+        md: "40%"
+      },
+      position: {
+        xs: "static",
+        md: "sticky"
+      },
+      top: {
+        md: "50px"
+      },
+      right: 0
     },
     className: "booking_details"
   }, storeDetails && /*#__PURE__*/_react.default.createElement("div", {
@@ -900,7 +936,7 @@ function BookingPage() {
     sx: {
       fontSize: "18px"
     }
-  }, /*#__PURE__*/_react.default.createElement("b", null, service.title)), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }, service.title), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     display: "block",
     variant: "body2",
     sx: {
@@ -911,7 +947,7 @@ function BookingPage() {
     sx: {
       fontSize: "18px"
     }
-  }, /*#__PURE__*/_react.default.createElement("b", null, service.currency, " ", service.price)))))))), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, service.currency, " ", service.price))))))), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
       paddingInline: "15px"
     }

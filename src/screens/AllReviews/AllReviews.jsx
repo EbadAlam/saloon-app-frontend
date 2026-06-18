@@ -92,7 +92,7 @@ function AllReviewsPage() {
         alignItems="start"
         gap="50px"
         className="all-reviews-main"
-        sx={{ paddingInline: "150px" }}
+        sx={{ paddingInline: "50px" }}
       >
         <Box className="all-reviews-reviews" sx={{ width: "60%" }}>
           <Typography variant="h4" className="mt-5">

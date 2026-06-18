@@ -15,12 +15,14 @@ var _ArrowForwardIos = _interopRequireDefault(require("@mui/icons-material/Arrow
 var _DummyImage = _interopRequireDefault(require("../../components/DummyImage/DummyImage"));
 var _ArrowBack = _interopRequireDefault(require("@mui/icons-material/ArrowBack"));
 var _Close = _interopRequireDefault(require("@mui/icons-material/Close"));
+var _ArrowBackIosNew = _interopRequireDefault(require("@mui/icons-material/ArrowBackIosNew"));
 var _reactSlick = _interopRequireDefault(require("react-slick"));
 var _ArrowBackIos = _interopRequireDefault(require("@mui/icons-material/ArrowBackIos"));
 var _AuthContext = require("../../contexts/AuthContext");
 var _LoginModal = _interopRequireDefault(require("../../components/LoginModal/LoginModal"));
 var _SnackBarContext = require("../../contexts/SnackBarContext");
 var _BookingConfirmModal = _interopRequireDefault(require("../../components/BookingConfirmModal/BookingConfirmModal"));
+var _reactIndianaDragScroll = _interopRequireDefault(require("react-indiana-drag-scroll"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -41,12 +43,13 @@ function BookingPage() {
     token,
     login
   } = (0, _AuthContext.useAuth)();
+  const scrollRef = (0, _react.useRef)(null);
   const [storeDetails, setStoreDetails] = (0, _react.useState)((state === null || state === void 0 ? void 0 : state.storeDetails) || null);
   const [loading, setLoading] = (0, _react.useState)(!(state !== null && state !== void 0 && state.storeDetails));
   const [loginLoading, setLoginLoading] = (0, _react.useState)(false);
   const [selectedCategory, setSelectedCategory] = (0, _react.useState)(null);
-  const [loginMessage, setLoginMessage] = (0, _react.useState)('');
-  const [alertMessage, setAlertMessage] = (0, _react.useState)('');
+  const [loginMessage, setLoginMessage] = (0, _react.useState)("");
+  const [alertMessage, setAlertMessage] = (0, _react.useState)("");
   const [step, setStep] = (0, _react.useState)(1);
   const {
     showSnackbar
@@ -56,7 +59,7 @@ function BookingPage() {
   const [closeStore, setCloseStore] = (0, _react.useState)(false);
   const [thankyou, setThankyou] = (0, _react.useState)(false);
   const [timeSlots, setTimeSlots] = (0, _react.useState)([]);
-  const [selectedTimeSlot, setSelectedTimeSlot] = (0, _react.useState)('');
+  const [selectedTimeSlot, setSelectedTimeSlot] = (0, _react.useState)("");
   const [selectedServices, setSelectedServices] = (0, _react.useState)(() => {
     if (state !== null && state !== void 0 && state.service) {
       return [_objectSpread(_objectSpread({}, state.service), {}, {
@@ -134,7 +137,7 @@ function BookingPage() {
       worker_name: workerName
     }) : service));
   };
-  const [selectedDate, setSelectedDate] = (0, _react.useState)(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = (0, _react.useState)(new Date().toISOString().split("T")[0]);
   const dates = Array.from({
     length: 60
   }, (_, index) => {
@@ -143,8 +146,8 @@ function BookingPage() {
     return date;
   });
   const getDayName = date => {
-    return date.toLocaleDateString('en-US', {
-      weekday: 'short'
+    return date.toLocaleDateString("en-US", {
+      weekday: "short"
     });
   };
   const getFullDayName = date => {
@@ -153,16 +156,16 @@ function BookingPage() {
     });
   };
   const getDateNumber = date => {
-    return String(date.getDate()).padStart(2, '0');
+    return String(date.getDate()).padStart(2, "0");
   };
   const getISODate = date => {
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   };
   const [currentMonth, setCurrentMonth] = (0, _react.useState)(() => {
     const today = new Date();
-    return today.toLocaleDateString('en-US', {
-      month: 'long',
-      year: 'numeric'
+    return today.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric"
     });
   });
   const settings = {
@@ -173,16 +176,16 @@ function BookingPage() {
     slidesToScroll: 7,
     arrows: true,
     nextArrow: /*#__PURE__*/_react.default.createElement(NextArrow, {
-      className: 'next-arrow'
+      className: "next-arrow"
     }),
     prevArrow: /*#__PURE__*/_react.default.createElement(PrevArrow, {
-      className: 'prev-arrow'
+      className: "prev-arrow"
     }),
     afterChange: currentSlide => {
       const visibleDate = dates[currentSlide];
-      const monthYear = visibleDate.toLocaleDateString('en-US', {
-        month: 'long',
-        year: 'numeric'
+      const monthYear = visibleDate.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric"
       });
       setCurrentMonth(monthYear);
     },
@@ -194,34 +197,34 @@ function BookingPage() {
       }
     }]
   };
-  const averageRating = (_storeDetails$reviews = storeDetails.reviews) !== null && _storeDetails$reviews !== void 0 && _storeDetails$reviews.length ? storeDetails.reviews.reduce((acc, review) => acc + parseFloat(review.rating), 0) / storeDetails.reviews.length : 0;
+  const averageRating = storeDetails !== null && storeDetails !== void 0 && (_storeDetails$reviews = storeDetails.reviews) !== null && _storeDetails$reviews !== void 0 && _storeDetails$reviews.length ? (storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.reviews.reduce((acc, review) => acc + parseFloat(review.rating), 0)) / (storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.reviews.length) : 0;
   const formatTo12Hour = (hour, minute) => {
-    const period = hour >= 12 ? 'PM' : 'AM';
+    const period = hour >= 12 ? "PM" : "AM";
     const hour12 = hour % 12 || 12;
-    return "".concat(hour12, ":").concat(String(minute).padStart(2, '0'), " ").concat(period);
+    return "".concat(hour12, ":").concat(String(minute).padStart(2, "0"), " ").concat(period);
   };
   const convertTo24Hour = time12h => {
-    const [time, modifier] = time12h.split(' ');
-    let [hours, minutes] = time.split(':');
-    if (hours === '12') {
-      hours = '00';
+    const [time, modifier] = time12h.split(" ");
+    let [hours, minutes] = time.split(":");
+    if (hours === "12") {
+      hours = "00";
     }
-    if (modifier === 'PM' && hours !== '12') {
+    if (modifier === "PM" && hours !== "12") {
       hours = String(parseInt(hours, 10) + 12);
     }
-    return "".concat(hours.padStart(2, '0'), ":").concat(minutes);
+    return "".concat(hours.padStart(2, "0"), ":").concat(minutes);
   };
   const addMinutesToTime = (time, minutesToAdd) => {
-    const [hours, minutes] = time.split(':').map(Number);
+    const [hours, minutes] = time.split(":").map(Number);
     const totalMinutes = hours * 60 + minutes + minutesToAdd;
     const newHours = Math.floor(totalMinutes / 60) % 24;
     const newMinutes = totalMinutes % 60;
-    return "".concat(String(newHours).padStart(2, '0'), ":").concat(String(newMinutes).padStart(2, '0'));
+    return "".concat(String(newHours).padStart(2, "0"), ":").concat(String(newMinutes).padStart(2, "0"));
   };
   const generateTimeSlots = (startTime, endTime) => {
     const slots = [];
-    let [startHour, startMinute] = startTime.split(':').map(Number);
-    const [endHour, endMinute] = endTime.split(':').map(Number);
+    let [startHour, startMinute] = startTime.split(":").map(Number);
+    const [endHour, endMinute] = endTime.split(":").map(Number);
     while (startHour < endHour || startHour === endHour && startMinute < endMinute) {
       const startFormatted = formatTo12Hour(startHour, startMinute);
       let endSlotHour = startHour;
@@ -246,23 +249,6 @@ function BookingPage() {
         return false;
       }
     }
-    // Group total ETA by worker
-    // const workerDurations = {};
-    // selectedServices.forEach((service) => {
-    //   if (!service.worker_id) return;
-
-    //   let etaMinutes = 0;
-    //   const etaMatch = service.eta.match(/(\d+)\s*(hr|hrs|minutes|min|mins)/i);
-    //   if (etaMatch) {
-    //     etaMinutes = etaMatch[2].startsWith("hr")
-    //       ? parseInt(etaMatch[1]) * 60
-    //       : parseInt(etaMatch[1]);
-    //   }
-
-    //   // Add up duration if worker has multiple services
-    //   workerDurations[service.worker_id] =
-    //     (workerDurations[service.worker_id] || 0) + etaMinutes;
-    // });
     const workerDurations = {};
     selectedServices.forEach(service => {
       if (!service.worker_id) return;
@@ -282,8 +268,6 @@ function BookingPage() {
       }
       workerDurations[service.worker_id] = (workerDurations[service.worker_id] || 0) + etaMinutes;
     });
-
-    // Check conflicts for each worker
     const hasConflict = Object.entries(workerDurations).some(_ref => {
       var _storeDetails$booking;
       let [workerId, totalEta] = _ref;
@@ -293,8 +277,6 @@ function BookingPage() {
         if (booking.worker_id != workerId) return false;
         const bookingStart = booking.booking_time.slice(0, 5);
         const bookingEnd = booking.booking_time_end.slice(0, 5);
-
-        // Overlap check
         return slotStart < bookingEnd && slotEnd > bookingStart;
       });
     });
@@ -302,16 +284,16 @@ function BookingPage() {
   });
   const handleDateClick = date => {
     var _storeDetails$working;
-    setAlertMessage('');
-    const isoDate = date.toISOString().split('T')[0];
+    setAlertMessage("");
+    const isoDate = date.toISOString().split("T")[0];
     setSelectedDate(isoDate);
     setCloseStore(false);
-    const dayName = date.toLocaleDateString('en-US', {
-      weekday: 'long'
+    const dayName = date.toLocaleDateString("en-US", {
+      weekday: "long"
     });
     const dayWorkingHours = storeDetails === null || storeDetails === void 0 || (_storeDetails$working = storeDetails.working_hours) === null || _storeDetails$working === void 0 ? void 0 : _storeDetails$working.find(day => day.day === dayName);
     if (dayWorkingHours) {
-      if (dayWorkingHours.is_closed === 'inactive') {
+      if (dayWorkingHours.is_closed === "inactive") {
         setCloseStore(true);
         setTimeSlots([]);
       } else {
@@ -335,19 +317,19 @@ function BookingPage() {
       store_id: storeDetails.id
     };
     try {
-      await _axiosClient.default.post('/addBooking', payload);
+      await _axiosClient.default.post("/addBooking", payload);
       setThankyou(true);
     } catch (err) {
-      console.error('error adding booking ', err);
+      console.error("error adding booking ", err);
     } finally {
       setLoading(false);
       // navigate(ROUTES.userAppointment, { state: { successMessage: 'Booked successfully!' } });
     }
   };
   const handleFormSubmit = () => {
-    setAlertMessage('');
+    setAlertMessage("");
     if (!selectedTimeSlot || !selectedDate) {
-      setAlertMessage('Please select date and time below!');
+      setAlertMessage("Please select date and time below!");
     } else {
       if (user && token) {
         bookingSubmitHandle();
@@ -357,16 +339,29 @@ function BookingPage() {
     }
   };
 
-  // helper
-  const workerCanDoService = (worker, serviceId) => {
+  // const workerCanDoService = (worker, serviceId) => {
+  //   // console.log('service check: ', worker.services?.some(ws => ws.service_id == serviceId));
+  //   const workerServices = worker.services ?? [];
+  //   if (workerServices.length === 0) return true;
+  //   return workerServices.some((ws) => ws.service_id == serviceId);
+  // };
+  const workerCanDoService = (worker, serviceId, allWorkers) => {
     var _worker$services;
-    // console.log('service check: ', worker.services?.some(ws => ws.service_id == serviceId));
-    const workerServices = (_worker$services = worker.services) !== null && _worker$services !== void 0 ? _worker$services : [];
-    if (workerServices.length === 0) return true; // no restriction = all services
-    return workerServices.some(ws => ws.service_id == serviceId);
+    const hasAssignedWorker = allWorkers.some(w => {
+      var _w$services;
+      return ((_w$services = w.services) !== null && _w$services !== void 0 ? _w$services : []).some(ws => ws.service_id == serviceId);
+    });
+
+    // No worker assigned to this service → allow everyone
+    if (!hasAssignedWorker) {
+      return true;
+    }
+
+    // Otherwise only allow assigned workers
+    return ((_worker$services = worker.services) !== null && _worker$services !== void 0 ? _worker$services : []).some(ws => ws.service_id == serviceId);
   };
-  const [email, setEmail] = (0, _react.useState)('random@gmail.com');
-  const [password, setPassword] = (0, _react.useState)('random123');
+  const [email, setEmail] = (0, _react.useState)("random@gmail.com");
+  const [password, setPassword] = (0, _react.useState)("random123");
   const handleLoginSubmit = async e => {
     if (e !== null && e !== void 0 && e.preventDefault) e.preventDefault();
     setLoginLoading(true);
@@ -377,7 +372,7 @@ function BookingPage() {
       };
       const {
         data
-      } = await _axiosClient.default.post('/login', payload);
+      } = await _axiosClient.default.post("/login", payload);
       if (data.success) {
         login(data.user, data.token);
         setShowLoginForm(false);
@@ -385,7 +380,7 @@ function BookingPage() {
         setLoginMessage(data.message);
       }
     } catch (err) {
-      console.error('Error login ', err);
+      console.error("Error login ", err);
     } finally {
       setLoginLoading(false);
     }
@@ -399,18 +394,31 @@ function BookingPage() {
     let totalMinutes = 0;
     services.forEach(service => {
       if (!service.eta) return;
-      const match = service.eta.match(/(\d+)\s*(hr|hrs|minutes|min|mins)/i);
+      const match = service.eta.match(/(\d+)\s*(hour|hours|minute|minutes|min|mins)/i);
       if (match) {
-        const value = parseInt(match[1]);
+        const value = parseInt(match[1], 10);
         const unit = match[2].toLowerCase();
-        totalMinutes += unit.startsWith("hr") ? value * 60 : value;
+        totalMinutes += unit.includes("hour") ? value * 60 : value;
       }
     });
     const hrs = Math.floor(totalMinutes / 60);
     const mins = totalMinutes % 60;
-    if (hrs > 0 && mins > 0) return "".concat(hrs, " hr").concat(hrs > 1 ? "s" : "", " ").concat(mins, " mins");
-    if (hrs > 0) return "".concat(hrs, " hr").concat(hrs > 1 ? "s" : "");
-    return "".concat(mins, " mins");
+    if (hrs > 0 && mins > 0) {
+      return "".concat(hrs, " hour").concat(hrs > 1 ? "s" : "", " ").concat(mins, " minute").concat(mins > 1 ? "s" : "");
+    }
+    if (hrs > 0) {
+      return "".concat(hrs, " hour").concat(hrs > 1 ? "s" : "");
+    }
+    return "".concat(mins, " minute").concat(mins > 1 ? "s" : "");
+  };
+  const scrollCategories = direction => {
+    if (scrollRef.current) {
+      const container = scrollRef.current.getElement ? scrollRef.current.getElement() : scrollRef.current;
+      container.scrollBy({
+        left: direction === "left" ? -200 : 200,
+        behavior: "smooth"
+      });
+    }
   };
   if (loading || !storeDetails) {
     return /*#__PURE__*/_react.default.createElement(_Loader.default, null);
@@ -418,7 +426,7 @@ function BookingPage() {
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
       paddingBlock: "20px",
-      minHeight: '100vh'
+      minHeight: "100vh"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
@@ -444,7 +452,7 @@ function BookingPage() {
     justifyContent: "space-between",
     className: "backButtonCp",
     sx: {
-      padding: '50px 0px'
+      padding: "50px 0px"
     }
   }, /*#__PURE__*/_react.default.createElement("button", {
     onClick: handleClick
@@ -455,7 +463,10 @@ function BookingPage() {
     alignItems: "start",
     gap: "50px",
     sx: {
-      paddingInline: "50px"
+      paddingInline: {
+        xs: "20px",
+        md: "50px"
+      }
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
@@ -475,7 +486,6 @@ function BookingPage() {
         setStep(1);
         setIndWorker(false);
       }
-      ;
     }
   }, "Services"), /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, {
     sx: {
@@ -489,7 +499,6 @@ function BookingPage() {
         setStep(2);
         setIndWorker(false);
       }
-      ;
     }
   }, "Professionals"), /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, {
     sx: {
@@ -503,7 +512,6 @@ function BookingPage() {
         setStep(3);
         setIndWorker(false);
       }
-      ;
     }
   }, "Time"), /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, {
     sx: {
@@ -517,26 +525,49 @@ function BookingPage() {
         setStep(4);
         setIndWorker(false);
       }
-      ;
     }
   }, "Confirm")), step === 1 && !indWorker && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h4",
-    className: "mt-5"
-  }, "Services"), /*#__PURE__*/_react.default.createElement("div", {
-    className: "services_categories"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "category ".concat(selectedCategory === null ? "active" : ""),
-    onClick: () => {
-      setSelectedCategory(null);
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    },
-    style: {
-      cursor: "pointer"
+    className: "mb-4",
+    sx: {
+      mt: {
+        xs: 3,
+        md: 5
+      }
     }
-  }, "All"), (storeDetails === null || storeDetails === void 0 || (_storeDetails$service = storeDetails.services_categories) === null || _storeDetails$service === void 0 ? void 0 : _storeDetails$service.length) > 0 && storeDetails.services_categories.filter(singleCat => singleCat.status === "active").map((singleCat, index) => /*#__PURE__*/_react.default.createElement("div", {
+  }, "Services"), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    sx: {
+      position: "relative",
+      display: "flex",
+      alignItems: "center",
+      gap: "4px"
+    }
+  }, /*#__PURE__*/_react.default.createElement(_material.IconButton, {
+    size: "small",
+    onClick: () => scrollCategories("left"),
+    sx: {
+      flexShrink: 0,
+      border: "1px solid #e0e0e0",
+      borderRadius: "50%",
+      width: 30,
+      height: 30,
+      background: "#fff",
+      "&:hover": {
+        background: "#f5f5f5"
+      }
+    }
+  }, /*#__PURE__*/_react.default.createElement(_ArrowBackIosNew.default, {
+    sx: {
+      fontSize: 14
+    }
+  })), /*#__PURE__*/_react.default.createElement(_reactIndianaDragScroll.default, {
+    ref: scrollRef,
+    className: "services_categories_scroll services_categories",
+    style: {
+      flex: 1,
+      overflow: "hidden"
+    }
+  }, storeDetails === null || storeDetails === void 0 || (_storeDetails$service = storeDetails.services_categories) === null || _storeDetails$service === void 0 ? void 0 : _storeDetails$service.filter(singleCat => singleCat.status === "active").map((singleCat, index) => /*#__PURE__*/_react.default.createElement("div", {
     key: index,
     className: "category ".concat(selectedCategory === singleCat.id ? "active" : ""),
     onClick: () => {
@@ -552,7 +583,25 @@ function BookingPage() {
     style: {
       cursor: "pointer"
     }
-  }, singleCat.title))), /*#__PURE__*/_react.default.createElement("div", {
+  }, singleCat.title))), /*#__PURE__*/_react.default.createElement(_material.IconButton, {
+    size: "small",
+    onClick: () => scrollCategories("right"),
+    sx: {
+      flexShrink: 0,
+      border: "1px solid #e0e0e0",
+      borderRadius: "50%",
+      width: 30,
+      height: 30,
+      background: "#fff",
+      "&:hover": {
+        background: "#f5f5f5"
+      }
+    }
+  }, /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, {
+    sx: {
+      fontSize: 14
+    }
+  }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "services"
   }, storeDetails === null || storeDetails === void 0 || (_storeDetails$service2 = storeDetails.services_categories) === null || _storeDetails$service2 === void 0 ? void 0 : _storeDetails$service2.map(cat => {
     const servicesInCategory = storeDetails.services.filter(s => s.service_category_id === cat.id);
@@ -563,7 +612,7 @@ function BookingPage() {
       className: "service-category-section"
     }, /*#__PURE__*/_react.default.createElement("h3", {
       className: "category-title"
-    }, cat.title), servicesInCategory.filter(s => s.status == 'active').map((singleSer, index) => /*#__PURE__*/_react.default.createElement("label", {
+    }, cat.title), servicesInCategory.filter(s => s.status == "active").map((singleSer, index) => /*#__PURE__*/_react.default.createElement("label", {
       htmlFor: "book_checkbox_".concat(singleSer.id),
       className: "service mt-3",
       key: singleSer.id
@@ -594,9 +643,7 @@ function BookingPage() {
     variant: "h4",
     className: "mt-5"
   }, "Select Professional"), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "professionals mt-3",
-    display: "flex",
-    flexWrap: "wrap"
+    className: "professionals mt-3"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "single-pro",
     onClick: () => {
@@ -655,7 +702,7 @@ function BookingPage() {
     var _singlePro$user;
     return ((_singlePro$user = singlePro.user) === null || _singlePro$user === void 0 ? void 0 : _singlePro$user.account_status) === "active";
   }).filter(singlePro => {
-    return selectedServices.every(service => workerCanDoService(singlePro, service.id));
+    return selectedServices.every(service => workerCanDoService(singlePro, service.id, storeDetails.workers));
   }).map(singlePro => {
     var _singlePro$user2, _singlePro$user3;
     return /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -681,7 +728,7 @@ function BookingPage() {
         height: "70px",
         overflow: "hidden"
       }
-    }, ((_singlePro$user3 = singlePro.user) === null || _singlePro$user3 === void 0 || (_singlePro$user3 = _singlePro$user3.user_info) === null || _singlePro$user3 === void 0 ? void 0 : _singlePro$user3.signup_platform) == 'manual' ? /*#__PURE__*/_react.default.createElement("img", {
+    }, ((_singlePro$user3 = singlePro.user) === null || _singlePro$user3 === void 0 || (_singlePro$user3 = _singlePro$user3.user_info) === null || _singlePro$user3 === void 0 ? void 0 : _singlePro$user3.signup_platform) == "manual" ? /*#__PURE__*/_react.default.createElement("img", {
       style: {
         width: "100%"
       },
@@ -721,10 +768,14 @@ function BookingPage() {
     return /*#__PURE__*/_react.default.createElement("div", {
       className: "service mt-3",
       key: singleSer.id
-    }, /*#__PURE__*/_react.default.createElement("div", {
+    }, /*#__PURE__*/_react.default.createElement(_material.Box, {
       className: "info",
-      style: {
-        width: '33%'
+      sx: {
+        width: {
+          xs: "100%",
+          sm: "50%",
+          md: "33%"
+        }
       }
     }, /*#__PURE__*/_react.default.createElement("h4", {
       className: "title"
@@ -738,7 +789,7 @@ function BookingPage() {
     }, "Select Professional"), /*#__PURE__*/_react.default.createElement(_material.Select, {
       labelId: "demo-simple-select-label",
       id: "demo-simple-select",
-      value: singleSer.worker_id || '',
+      value: singleSer.worker_id || "",
       label: "Select Professional",
       onChange: e => {
         const selectedPro = storeDetails.workers.find(worker => worker.user.id === e.target.value);
@@ -747,7 +798,7 @@ function BookingPage() {
     }, ((_storeDetails$workers3 = storeDetails.workers) === null || _storeDetails$workers3 === void 0 ? void 0 : _storeDetails$workers3.length) > 0 && storeDetails.workers.filter(singlePro => {
       var _singlePro$user4;
       return ((_singlePro$user4 = singlePro.user) === null || _singlePro$user4 === void 0 ? void 0 : _singlePro$user4.account_status) === "active";
-    }).filter(singlePro => workerCanDoService(singlePro, singleSer.id)).map(singlePro => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
+    }).filter(singlePro => workerCanDoService(singlePro, singleSer.id, storeDetails.workers)).map(singlePro => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
       value: singlePro.user.id
     }, singlePro.user.username))))));
   }))), step === 3 && !indWorker && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
@@ -763,7 +814,7 @@ function BookingPage() {
     var _storeDetails$working2;
     const isoDate = getISODate(date);
     const isSelected = selectedDate === isoDate;
-    const dayName = getFullDayName(date); // e.g., "Monday"
+    const dayName = getFullDayName(date);
     const workingDay = (_storeDetails$working2 = storeDetails.working_hours) === null || _storeDetails$working2 === void 0 ? void 0 : _storeDetails$working2.find(d => d.day.toLowerCase() === dayName.toLowerCase());
     const isDisabled = !workingDay || workingDay.is_closed !== "active";
     return /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -814,26 +865,26 @@ function BookingPage() {
     key: index,
     onClick: () => setSelectedTimeSlot(slot),
     sx: {
-      width: '100%',
-      padding: '15px 20px',
-      borderRadius: '8px',
-      border: '1px solid #E0E0E0',
-      backgroundColor: selectedTimeSlot === slot ? '#D8A7B1' : 'transparent',
-      borderColor: selectedTimeSlot === slot ? '#D8A7B1' : '#DADADA',
-      color: 'black',
-      cursor: 'pointer',
-      transition: 'all 0.2s ease',
-      textAlign: 'left',
-      minWidth: '80px',
-      fontSize: '18px'
+      width: "100%",
+      padding: "15px 20px",
+      borderRadius: "8px",
+      border: "1px solid #E0E0E0",
+      backgroundColor: selectedTimeSlot === slot ? "#D8A7B1" : "transparent",
+      borderColor: selectedTimeSlot === slot ? "#D8A7B1" : "#DADADA",
+      color: "black",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+      textAlign: "left",
+      minWidth: "80px",
+      fontSize: "18px"
     }
   }, slot))) : /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     className: "mt-4",
     sx: {
-      color: '#999'
+      color: "#999"
     }
-  }, closeStore ? 'Store is closed today' : 'No Available Slots')))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, closeStore ? "Store is closed today" : "No Available Slots")))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     ref: sideBarRef,
     sx: {
       width: {
@@ -942,7 +993,7 @@ function BookingPage() {
     sx: {
       fontSize: "16px"
     }
-  }, service.eta, " with ", !service.worker_id ? 'any professional' : service.worker_name)), /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }, service.eta, " with", " ", !service.worker_id ? "any professional" : service.worker_name)), /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
       fontSize: "18px"
@@ -1003,15 +1054,15 @@ function BookingPage() {
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h3",
     sx: {
-      fontSize: '18px'
+      fontSize: "18px"
     }
   }, "PKR", " ", selectedServices !== null && selectedServices !== void 0 && selectedServices.length ? selectedServices.reduce((acc, service) => acc + parseFloat(service.price), 0) : 0), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
-      fontSize: '16px',
-      color: '#333333a1'
+      fontSize: "16px",
+      color: "#333333a1"
     }
-  }, selectedServices.length, " ", selectedServices.length > 1 ? 'services' : 'service', " \u2022 ", getTotalEta(selectedServices))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, selectedServices.length, " ", selectedServices.length > 1 ? "services" : "service", " \u2022", " ", getTotalEta(selectedServices))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "buttn"
   }, step < 3 && /*#__PURE__*/_react.default.createElement(_material.Button, {
     sx: {
@@ -1036,7 +1087,7 @@ function BookingPage() {
     onClick: handleFormSubmit
   }, "Confirm Booking"))));
 }
-var _default = exports.default = BookingPage; // Custom Prev Arrow
+var _default = exports.default = BookingPage;
 const PrevArrow = _ref2 => {
   let {
     className,
@@ -1047,14 +1098,14 @@ const PrevArrow = _ref2 => {
     className: className,
     onClick: onClick,
     sx: _objectSpread(_objectSpread({}, style), {}, {
-      backgroundColor: 'transparent',
-      color: 'black',
-      '&:hover': {
-        color: 'black'
+      backgroundColor: "transparent",
+      color: "black",
+      "&:hover": {
+        color: "black"
       },
-      position: 'absolute',
-      left: '90%',
-      top: '-25px',
+      position: "absolute",
+      left: "90%",
+      top: "-25px",
       zIndex: 1
     })
   }, /*#__PURE__*/_react.default.createElement(_ArrowBackIos.default, null));
@@ -1069,14 +1120,14 @@ const NextArrow = _ref3 => {
     className: className,
     onClick: onClick,
     sx: _objectSpread(_objectSpread({}, style), {}, {
-      backgroundColor: 'transparent',
-      color: 'black',
-      '&:hover': {
-        color: 'black'
+      backgroundColor: "transparent",
+      color: "black",
+      "&:hover": {
+        color: "black"
       },
-      position: 'absolute',
-      right: '0',
-      top: '-25px',
+      position: "absolute",
+      right: "0",
+      top: "-25px",
       zIndex: 1
     })
   }, /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, null));

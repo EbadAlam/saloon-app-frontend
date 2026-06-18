@@ -87,7 +87,7 @@ function AllReviewsPage() {
     gap: "50px",
     className: "all-reviews-main",
     sx: {
-      paddingInline: "150px"
+      paddingInline: "50px"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "all-reviews-reviews",

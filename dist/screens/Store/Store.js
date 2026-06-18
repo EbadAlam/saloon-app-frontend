@@ -25,6 +25,7 @@ var _ArrowBackIosNew = _interopRequireDefault(require("@mui/icons-material/Arrow
 var _ArrowForwardIos = _interopRequireDefault(require("@mui/icons-material/ArrowForwardIos"));
 var _IosShare = _interopRequireDefault(require("@mui/icons-material/IosShare"));
 require("react-indiana-drag-scroll/dist/style.css");
+var _WhatsApp = _interopRequireDefault(require("@mui/icons-material/WhatsApp"));
 var _material = require("@mui/material");
 var _routes = require("../../routes");
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
@@ -43,7 +44,8 @@ function StorePage(_ref) {
     formatDate,
     user,
     token,
-    updateFavorites
+    updateFavorites,
+    getVisitorId
   } = (0, _AuthContext.useAuth)();
   const {
     slug
@@ -222,6 +224,17 @@ function StorePage(_ref) {
       });
     }
   };
+  const captureLead = async source => {
+    const payload = {
+      store_id: storeDetails.id,
+      source: source,
+      visitor_id: getVisitorId()
+    };
+    await _axiosClient.default.post('/captureLead', payload);
+  };
+  const handleWhatsappClick = () => {
+    captureLead('whatsapp');
+  };
   (0, _react.useEffect)(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 30);
     window.addEventListener("scroll", handleScroll);
@@ -339,7 +352,20 @@ function StorePage(_ref) {
     thumbnail: storeDetails.thumbnail
   })), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "storeNew"
+  }, storeDetails.whatsapp && /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "whatsapp_div"
   }, /*#__PURE__*/_react.default.createElement("div", {
+    class: "card-new"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    class: "bg"
+  }, /*#__PURE__*/_react.default.createElement("a", {
+    href: "https://wa.me/".concat(storeDetails.whatsapp),
+    target: "_blank",
+    rel: "noopener noreferrer",
+    onClick: handleWhatsappClick
+  }, /*#__PURE__*/_react.default.createElement(_WhatsApp.default, null))), /*#__PURE__*/_react.default.createElement("div", {
+    class: "blob"
+  }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "container",
     style: {
       background: "transparent",

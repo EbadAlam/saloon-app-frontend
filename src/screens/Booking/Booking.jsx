@@ -1,32 +1,44 @@
 import React, { useEffect, useRef, useState } from "react";
-import {  useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import axiosClient from "../../axios-client";
-import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem,  Select, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import { ROUTES } from "../../routes";
 import StarRating from "../../components/StarRating/StarRating";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DummyImage from "../../components/DummyImage/DummyImage";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CloseIcon from '@mui/icons-material/Close';
-import Slider from 'react-slick';
-import { IconButton } from '@mui/material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import Slider from "react-slick";
+import { IconButton } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useAuth } from "../../contexts/AuthContext";
 import LoginModal from "../../components/LoginModal/LoginModal";
 import { useSnackbar } from "../../contexts/SnackBarContext";
 import BookingConfirmModal from "../../components/BookingConfirmModal/BookingConfirmModal";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 function BookingPage() {
   const { state } = useLocation();
   const { slug } = useParams();
-  const { user,token,login } = useAuth();
+  const { user, token, login } = useAuth();
+  const scrollRef = useRef(null);
   const [storeDetails, setStoreDetails] = useState(state?.storeDetails || null);
   const [loading, setLoading] = useState(!state?.storeDetails);
   const [loginLoading, setLoginLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [loginMessage, setLoginMessage] = useState('');
-  const [alertMessage, setAlertMessage] = useState('');
+  const [loginMessage, setLoginMessage] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
   const [step, setStep] = useState(1);
   const { showSnackbar } = useSnackbar();
   const [showLoginForm, setShowLoginForm] = useState(false);
@@ -34,48 +46,49 @@ function BookingPage() {
   const [closeStore, setCloseStore] = useState(false);
   const [thankyou, setThankyou] = useState(false);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [selectedServices, setSelectedServices] = useState(() => {
     if (state?.service) {
-        return [{
-            ...state.service,
-            worker_id: "",
-            worker_name: "",
-        }];
+      return [
+        {
+          ...state.service,
+          worker_id: "",
+          worker_name: "",
+        },
+      ];
     }
     return [];
-});
+  });
   const [selectedProfessional, setSelectedProfessional] = useState({
     id: "",
     username: "any professional",
   });
   const sideBarRef = useRef(null);
-  
+
   useEffect(() => {
     const fetchStoreDetails = async () => {
-        setLoading(true);
-        try {
+      setLoading(true);
+      try {
         const { data } = await axiosClient.get(`/getStoreBySlug/${slug}`);
         // console.log('data', data.storeDetails);
         setStoreDetails(data.storeDetails);
-        } catch (error) {
+      } catch (error) {
         console.error("Failed to fetch store details:", error);
-        } finally {
+      } finally {
         setLoading(false);
-        }
+      }
     };
     if (!storeDetails && slug) {
       fetchStoreDetails();
     }
-
-  }, [storeDetails,slug]);
+  }, [storeDetails, slug]);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const id = parseInt(
-              entry.target.getAttribute("id").replace("cat-", "")
+              entry.target.getAttribute("id").replace("cat-", ""),
             );
             setSelectedCategory(id);
           }
@@ -84,7 +97,7 @@ function BookingPage() {
       {
         rootMargin: "-50% 0px -50% 0px",
         threshold: 0.1,
-      }
+      },
     );
 
     const sections = document.querySelectorAll(".service-category-section");
@@ -94,322 +107,329 @@ function BookingPage() {
       sections.forEach((section) => observer.unobserve(section));
     };
   }, [storeDetails]);
-    const navigate = useNavigate();
-    const handleClick = () => {
-        if(step > 1) {
-            setStep(step - 1);
-            setIndWorker(false);
-        } else {
-            if (window.history.length > 1) {
-                navigate(-1);
-            } else {
-                navigate(ROUTES.getStoreFrontPage(storeDetails.slug));
-            }
-        }
-        
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (step > 1) {
+      setStep(step - 1);
+      setIndWorker(false);
+    } else {
+      if (window.history.length > 1) {
+        navigate(-1);
+      } else {
+        navigate(ROUTES.getStoreFrontPage(storeDetails.slug));
+      }
     }
-    const handleClickClose = () => {
-        if (window.history.length > 1) {
-            navigate(-1);
-        } else {
-            navigate(ROUTES.getStoreFrontPage(storeDetails.slug));
-        }        
+  };
+  const handleClickClose = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate(ROUTES.getStoreFrontPage(storeDetails.slug));
     }
-const updateWorkerId = (serviceId, workerId,workerName) => {
-    setSelectedServices(prevServices =>
-        prevServices.map(service =>
-            service.id === serviceId
-                ? { ...service, worker_id: workerId,worker_name:workerName }
-                : service
-        )
+  };
+  const updateWorkerId = (serviceId, workerId, workerName) => {
+    setSelectedServices((prevServices) =>
+      prevServices.map((service) =>
+        service.id === serviceId
+          ? { ...service, worker_id: workerId, worker_name: workerName }
+          : service,
+      ),
     );
-};
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  };
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0],
+  );
 
-    const dates = Array.from({ length: 60 }, (_, index) => {
-        const date = new Date();
-        date.setDate(date.getDate() + index);
-        return date;
+  const dates = Array.from({ length: 60 }, (_, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() + index);
+    return date;
+  });
+
+  const getDayName = (date) => {
+    return date.toLocaleDateString("en-US", { weekday: "short" });
+  };
+  const getFullDayName = (date) => {
+    return date.toLocaleDateString("en-US", { weekday: "long" });
+  };
+
+  const getDateNumber = (date) => {
+    return String(date.getDate()).padStart(2, "0");
+  };
+
+  const getISODate = (date) => {
+    return date.toISOString().split("T")[0];
+  };
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const today = new Date();
+    return today.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
     });
+  });
 
-    const getDayName = (date) => {
-        return date.toLocaleDateString('en-US', { weekday: 'short' });
-    };
-    const getFullDayName = (date) => {
-       return date.toLocaleDateString("en-US", { weekday: "long" });
-    };
-
-    const getDateNumber = (date) => {
-        return String(date.getDate()).padStart(2, '0');
-    };
-
-    const getISODate = (date) => {
-        return date.toISOString().split('T')[0];
-    };
-    const [currentMonth, setCurrentMonth] = useState(() => {
-        const today = new Date();
-        return today.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    });
-
-    const settings = {
-        dots: false,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 7,
-        slidesToScroll: 7,
-        arrows: true,
-        nextArrow: <NextArrow className={'next-arrow'} />,
-        prevArrow: <PrevArrow className={'prev-arrow'} />,
-        afterChange: (currentSlide) => {
-            const visibleDate = dates[currentSlide];
-            const monthYear = visibleDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-            setCurrentMonth(monthYear);
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 7,
+    slidesToScroll: 7,
+    arrows: true,
+    nextArrow: <NextArrow className={"next-arrow"} />,
+    prevArrow: <PrevArrow className={"prev-arrow"} />,
+    afterChange: (currentSlide) => {
+      const visibleDate = dates[currentSlide];
+      const monthYear = visibleDate.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      });
+      setCurrentMonth(monthYear);
+    },
+    responsive: [
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 5,
         },
-        responsive: [
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 5,
-                    slidesToScroll: 5,
-                }
-            }
-        ]
-    };
-  const averageRating = storeDetails.reviews?.length
-    ? storeDetails.reviews.reduce(
+      },
+    ],
+  };
+  const averageRating = storeDetails?.reviews?.length
+    ? storeDetails?.reviews.reduce(
         (acc, review) => acc + parseFloat(review.rating),
-        0
-      ) / storeDetails.reviews.length
+        0,
+      ) / storeDetails?.reviews.length
     : 0;
-    const formatTo12Hour = (hour, minute) => {
-        const period = hour >= 12 ? 'PM' : 'AM';
-        const hour12 = hour % 12 || 12;
-        return `${hour12}:${String(minute).padStart(2, '0')} ${period}`;
-    };
-    const convertTo24Hour = (time12h) => {
-        const [time, modifier] = time12h.split(' ');
-        let [hours, minutes] = time.split(':');
+  const formatTo12Hour = (hour, minute) => {
+    const period = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${String(minute).padStart(2, "0")} ${period}`;
+  };
+  const convertTo24Hour = (time12h) => {
+    const [time, modifier] = time12h.split(" ");
+    let [hours, minutes] = time.split(":");
 
-        if (hours === '12') {
-            hours = '00';
-        }
+    if (hours === "12") {
+      hours = "00";
+    }
 
-        if (modifier === 'PM' && hours !== '12') {
-            hours = String(parseInt(hours, 10) + 12);
-        }
+    if (modifier === "PM" && hours !== "12") {
+      hours = String(parseInt(hours, 10) + 12);
+    }
 
-        return `${hours.padStart(2, '0')}:${minutes}`;
-    };
-    const addMinutesToTime = (time, minutesToAdd) => {
-        const [hours, minutes] = time.split(':').map(Number);
-        const totalMinutes = hours * 60 + minutes + minutesToAdd;
-        const newHours = Math.floor(totalMinutes / 60) % 24;
-        const newMinutes = totalMinutes % 60;
-        return `${String(newHours).padStart(2, '0')}:${String(newMinutes).padStart(2, '0')}`;
-    };
+    return `${hours.padStart(2, "0")}:${minutes}`;
+  };
+  const addMinutesToTime = (time, minutesToAdd) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    const totalMinutes = hours * 60 + minutes + minutesToAdd;
+    const newHours = Math.floor(totalMinutes / 60) % 24;
+    const newMinutes = totalMinutes % 60;
+    return `${String(newHours).padStart(2, "0")}:${String(newMinutes).padStart(2, "0")}`;
+  };
   const generateTimeSlots = (startTime, endTime) => {
-        const slots = [];
-        let [startHour, startMinute] = startTime.split(':').map(Number);
-        const [endHour, endMinute] = endTime.split(':').map(Number);
+    const slots = [];
+    let [startHour, startMinute] = startTime.split(":").map(Number);
+    const [endHour, endMinute] = endTime.split(":").map(Number);
 
-        while (
-            startHour < endHour ||
-            (startHour === endHour && startMinute < endMinute)
-        ) {
-            const startFormatted = formatTo12Hour(startHour, startMinute);
+    while (
+      startHour < endHour ||
+      (startHour === endHour && startMinute < endMinute)
+    ) {
+      const startFormatted = formatTo12Hour(startHour, startMinute);
 
-            let endSlotHour = startHour;
-            let endSlotMinute = startMinute + 30;
-            if (endSlotMinute >= 60) {
-                endSlotHour += 1;
-                endSlotMinute = endSlotMinute % 60;
-            }
+      let endSlotHour = startHour;
+      let endSlotMinute = startMinute + 30;
+      if (endSlotMinute >= 60) {
+        endSlotHour += 1;
+        endSlotMinute = endSlotMinute % 60;
+      }
 
-            slots.push(`${startFormatted}`);
+      slots.push(`${startFormatted}`);
 
-            startHour = endSlotHour;
-            startMinute = endSlotMinute;
-        }
+      startHour = endSlotHour;
+      startMinute = endSlotMinute;
+    }
 
-        return slots;
+    return slots;
   };
   const now = new Date();
   const todayStr = now.toISOString().split("T")[0];
   const filteredSlots = timeSlots.filter((slot) => {
-  const slotStart = convertTo24Hour(slot);
-  if (selectedDate === todayStr) {
-    const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(
-      now.getMinutes()
-    ).padStart(2, "0")}`;
+    const slotStart = convertTo24Hour(slot);
+    if (selectedDate === todayStr) {
+      const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(
+        now.getMinutes(),
+      ).padStart(2, "0")}`;
 
-    if (slotStart <= currentTime) {
-      return false;
+      if (slotStart <= currentTime) {
+        return false;
+      }
     }
-  }
-  // Group total ETA by worker
-  // const workerDurations = {};
-  // selectedServices.forEach((service) => {
-  //   if (!service.worker_id) return;
+    const workerDurations = {};
 
-  //   let etaMinutes = 0;
-  //   const etaMatch = service.eta.match(/(\d+)\s*(hr|hrs|minutes|min|mins)/i);
-  //   if (etaMatch) {
-  //     etaMinutes = etaMatch[2].startsWith("hr")
-  //       ? parseInt(etaMatch[1]) * 60
-  //       : parseInt(etaMatch[1]);
-  //   }
+    selectedServices.forEach((service) => {
+      if (!service.worker_id) return;
 
-  //   // Add up duration if worker has multiple services
-  //   workerDurations[service.worker_id] =
-  //     (workerDurations[service.worker_id] || 0) + etaMinutes;
-  // });
-  const workerDurations = {};
+      let etaMinutes = 0;
 
-selectedServices.forEach((service) => {
-  if (!service.worker_id) return;
+      const eta = (service.eta || "").toLowerCase();
 
-  let etaMinutes = 0;
+      const match = eta.match(
+        /(\d+)\s*(hr|hrs|hour|hours|min|mins|minute|minutes)/i,
+      );
 
-  const eta = (service.eta || "").toLowerCase();
+      if (match) {
+        const value = parseInt(match[1], 10);
+        const unit = match[2];
 
-  const match = eta.match(/(\d+)\s*(hr|hrs|hour|hours|min|mins|minute|minutes)/i);
+        if (
+          unit.includes("hour") ||
+          unit.includes("hours") ||
+          unit.includes("hr") ||
+          unit.includes("hrs")
+        ) {
+          etaMinutes = value * 60;
+        } else {
+          etaMinutes = value;
+        }
+      } else {
+        etaMinutes = 30;
+      }
 
-  if (match) {
-    const value = parseInt(match[1], 10);
-    const unit = match[2];
+      workerDurations[service.worker_id] =
+        (workerDurations[service.worker_id] || 0) + etaMinutes;
+    });
 
-    if (unit.includes("hour") || unit.includes("hours") || unit.includes("hr") || unit.includes("hrs")) {
-      etaMinutes = value * 60;
-    } else {
-      etaMinutes = value;
-    }
-  } else {
-    etaMinutes = 30;
-  }
+    const hasConflict = Object.entries(workerDurations).some(
+      ([workerId, totalEta]) => {
+        const slotEnd = addMinutesToTime(slotStart, totalEta);
 
-  workerDurations[service.worker_id] =
-    (workerDurations[service.worker_id] || 0) + etaMinutes;
-});
+        return storeDetails.bookings?.some((booking) => {
+          if (booking.booking_date !== selectedDate) return false;
+          if (booking.worker_id != workerId) return false;
 
-  // Check conflicts for each worker
-  const hasConflict = Object.entries(workerDurations).some(
-    ([workerId, totalEta]) => {
-      const slotEnd = addMinutesToTime(slotStart, totalEta);
+          const bookingStart = booking.booking_time.slice(0, 5);
+          const bookingEnd = booking.booking_time_end.slice(0, 5);
 
-      return storeDetails.bookings?.some((booking) => {
-        if (booking.booking_date !== selectedDate) return false;
-        if (booking.worker_id != workerId) return false;
+          return slotStart < bookingEnd && slotEnd > bookingStart;
+        });
+      },
+    );
 
-        const bookingStart = booking.booking_time.slice(0, 5);
-        const bookingEnd = booking.booking_time_end.slice(0, 5);
+    return !hasConflict;
+  });
 
-        // Overlap check
-        return slotStart < bookingEnd && slotEnd > bookingStart;
-      });
-    }
-  );
-
-  return !hasConflict;
-});
-
-
-const handleDateClick = (date) => {
-  setAlertMessage('');
-     const isoDate = date.toISOString().split('T')[0]
+  const handleDateClick = (date) => {
+    setAlertMessage("");
+    const isoDate = date.toISOString().split("T")[0];
     setSelectedDate(isoDate);
     setCloseStore(false);
 
-    const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+    const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
 
     const dayWorkingHours = storeDetails?.working_hours?.find(
-        (day) => day.day === dayName
+      (day) => day.day === dayName,
     );
 
     if (dayWorkingHours) {
-        if (dayWorkingHours.is_closed === 'inactive') {
-            setCloseStore(true);
-            setTimeSlots([]);
-        } else {
-            const slots = generateTimeSlots(
-                dayWorkingHours.start_time,
-                dayWorkingHours.end_time
-            );
-            setTimeSlots(slots);
-        }
-    } else {
+      if (dayWorkingHours.is_closed === "inactive") {
+        setCloseStore(true);
         setTimeSlots([]);
+      } else {
+        const slots = generateTimeSlots(
+          dayWorkingHours.start_time,
+          dayWorkingHours.end_time,
+        );
+        setTimeSlots(slots);
+      }
+    } else {
+      setTimeSlots([]);
     }
-};
-useEffect(() => {
+  };
+  useEffect(() => {
     handleDateClick(new Date());
   }, [storeDetails]);
-const bookingSubmitHandle = async () => {
-  setLoading(true);
+  const bookingSubmitHandle = async () => {
+    setLoading(true);
     const payload = {
-        services: selectedServices,
-        time: selectedTimeSlot,
-        date: selectedDate,
-        user_id:user.id,
-        store_id: storeDetails.id,
+      services: selectedServices,
+      time: selectedTimeSlot,
+      date: selectedDate,
+      user_id: user.id,
+      store_id: storeDetails.id,
     };
     try {
-        await axiosClient.post('/addBooking',payload);
-        setThankyou(true);
+      await axiosClient.post("/addBooking", payload);
+      setThankyou(true);
     } catch (err) {
-        console.error('error adding booking ', err);
+      console.error("error adding booking ", err);
     } finally {
-        setLoading(false);
-        // navigate(ROUTES.userAppointment, { state: { successMessage: 'Booked successfully!' } });
+      setLoading(false);
+      // navigate(ROUTES.userAppointment, { state: { successMessage: 'Booked successfully!' } });
     }
-}
-const handleFormSubmit = () => {
-  setAlertMessage('');
-  if(!selectedTimeSlot || !selectedDate){
-    setAlertMessage('Please select date and time below!');
-  } else {
-    if(user && token) {
-      bookingSubmitHandle();
+  };
+  const handleFormSubmit = () => {
+    setAlertMessage("");
+    if (!selectedTimeSlot || !selectedDate) {
+      setAlertMessage("Please select date and time below!");
     } else {
-      setShowLoginForm(true);
-    } 
+      if (user && token) {
+        bookingSubmitHandle();
+      } else {
+        setShowLoginForm(true);
+      }
+    }
+  };
+
+  // const workerCanDoService = (worker, serviceId) => {
+  //   // console.log('service check: ', worker.services?.some(ws => ws.service_id == serviceId));
+  //   const workerServices = worker.services ?? [];
+  //   if (workerServices.length === 0) return true;
+  //   return workerServices.some((ws) => ws.service_id == serviceId);
+  // };
+  const workerCanDoService = (worker, serviceId, allWorkers) => {
+  const hasAssignedWorker = allWorkers.some(w =>
+    (w.services ?? []).some(ws => ws.service_id == serviceId)
+  );
+
+  // No worker assigned to this service → allow everyone
+  if (!hasAssignedWorker) {
+    return true;
   }
-}
 
-
-// helper
-const workerCanDoService = (worker, serviceId) => {
-  // console.log('service check: ', worker.services?.some(ws => ws.service_id == serviceId));
-    const workerServices = worker.services ?? [];
-    if (workerServices.length === 0) return true; // no restriction = all services
-    return workerServices.some(ws => ws.service_id == serviceId);
+  // Otherwise only allow assigned workers
+  return (worker.services ?? []).some(
+    ws => ws.service_id == serviceId
+  );
 };
-const [email,setEmail] = useState('random@gmail.com');
-const [password,setPassword] = useState('random123');
-const handleLoginSubmit = async (e) => {
-  if (e?.preventDefault) e.preventDefault();
+  const [email, setEmail] = useState("random@gmail.com");
+  const [password, setPassword] = useState("random123");
+  const handleLoginSubmit = async (e) => {
+    if (e?.preventDefault) e.preventDefault();
     setLoginLoading(true);
-    try { 
+    try {
       const payload = {
-        email:email,
-        password:password
+        email: email,
+        password: password,
       };
-      const { data } = await axiosClient.post('/login',payload);
-      if(data.success){
+      const { data } = await axiosClient.post("/login", payload);
+      if (data.success) {
         login(data.user, data.token);
         setShowLoginForm(false);
       } else {
         setLoginMessage(data.message);
       }
     } catch (err) {
-      console.error('Error login ', err);
+      console.error("Error login ", err);
     } finally {
       setLoginLoading(false);
     }
-}
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     if (alertMessage) {
-      showSnackbar(alertMessage, "error")
+      showSnackbar(alertMessage, "error");
     }
   }, [alertMessage]);
   const getTotalEta = (services) => {
@@ -417,80 +437,111 @@ const handleLoginSubmit = async (e) => {
 
     services.forEach((service) => {
       if (!service.eta) return;
-      const match = service.eta.match(/(\d+)\s*(hr|hrs|minutes|min|mins)/i);
+
+      const match = service.eta.match(
+        /(\d+)\s*(hour|hours|minute|minutes|min|mins)/i,
+      );
+
       if (match) {
-        const value = parseInt(match[1]);
+        const value = parseInt(match[1], 10);
         const unit = match[2].toLowerCase();
-        totalMinutes += unit.startsWith("hr") ? value * 60 : value;
+
+        totalMinutes += unit.includes("hour") ? value * 60 : value;
       }
     });
 
     const hrs = Math.floor(totalMinutes / 60);
     const mins = totalMinutes % 60;
 
-    if (hrs > 0 && mins > 0) return `${hrs} hr${hrs > 1 ? "s" : ""} ${mins} mins`;
-    if (hrs > 0) return `${hrs} hr${hrs > 1 ? "s" : ""}`;
-    return `${mins} mins`;
-  };
+    if (hrs > 0 && mins > 0) {
+      return `${hrs} hour${hrs > 1 ? "s" : ""} ${mins} minute${mins > 1 ? "s" : ""}`;
+    }
 
+    if (hrs > 0) {
+      return `${hrs} hour${hrs > 1 ? "s" : ""}`;
+    }
+
+    return `${mins} minute${mins > 1 ? "s" : ""}`;
+  };
+  const scrollCategories = (direction) => {
+    if (scrollRef.current) {
+      const container = scrollRef.current.getElement
+        ? scrollRef.current.getElement()
+        : scrollRef.current;
+      container.scrollBy({
+        left: direction === "left" ? -200 : 200,
+        behavior: "smooth",
+      });
+    }
+  };
   if (loading || !storeDetails) {
     return <Loader />;
   }
   return (
     <>
-      <Box sx={{ paddingBlock: "20px",minHeight:'100vh' }}>
+      <Box sx={{ paddingBlock: "20px", minHeight: "100vh" }}>
         <Box sx={{ maxWidth: "1300px", margin: "0 auto" }}>
           <Box>
-              <LoginModal 
-              open={showLoginForm} 
-              onClose={() => setShowLoginForm(false)} 
-              email={email} 
-              password={password} 
-              setEmail={setEmail} 
-              setPassword={setPassword} 
-              onSubmit={handleLoginSubmit} 
+            <LoginModal
+              open={showLoginForm}
+              onClose={() => setShowLoginForm(false)}
+              email={email}
+              password={password}
+              setEmail={setEmail}
+              setPassword={setPassword}
+              onSubmit={handleLoginSubmit}
               loading={loginLoading}
               loginMessage={loginMessage}
-              />
+            />
           </Box>
           <Box>
-              <BookingConfirmModal 
-                open={thankyou} 
-                onClose={() => setThankyou(false)} 
-              />
+            <BookingConfirmModal
+              open={thankyou}
+              onClose={() => setThankyou(false)}
+            />
           </Box>
-          <Box display="flex" alignItems="center" justifyContent="space-between" className="backButtonCp" sx={{padding:'50px 0px'}}>
-              <button
-                  onClick={handleClick}
-              >
-                  <ArrowBackIcon />
-              </button>
-              <button
-                  onClick={handleClickClose}
-              >
-                  <CloseIcon />
-              </button>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            className="backButtonCp"
+            sx={{ padding: "50px 0px" }}
+          >
+            <button onClick={handleClick}>
+              <ArrowBackIcon />
+            </button>
+            <button onClick={handleClickClose}>
+              <CloseIcon />
+            </button>
           </Box>
           <Box
             display="flex"
             alignItems="start"
             gap="50px"
-            sx={{ paddingInline: "50px" }}
-            >
-            <Box sx={{ width: "60%" }} className='booking_steps'>
+            sx={{
+              paddingInline: {
+                xs: "20px",
+                md: "50px",
+              },
+            }}
+          >
+            <Box sx={{ width: "60%" }} className="booking_steps">
               <Box
                 display="flex"
                 alignItems="center"
                 gap="5px"
                 className="booking_breadCrumbs"
-                >
+              >
                 <Typography
                   variant="body1"
                   className={
                     step === 1 ? "active" : step >= 1 ? "prev-active" : ""
                   }
                   onClick={() => {
-                    if (step >= 1) {setStep(1);setIndWorker(false)};
+                    if (step >= 1) {
+                      setStep(1);
+                      setIndWorker(false);
+                    }
                   }}
                 >
                   Services
@@ -503,7 +554,10 @@ const handleLoginSubmit = async (e) => {
                     step === 2 ? "active" : step >= 2 ? "prev-active" : ""
                   }
                   onClick={() => {
-                    if (step >= 2) {setStep(2);setIndWorker(false)};
+                    if (step >= 2) {
+                      setStep(2);
+                      setIndWorker(false);
+                    }
                   }}
                 >
                   Professionals
@@ -516,7 +570,10 @@ const handleLoginSubmit = async (e) => {
                     step === 3 ? "active" : step >= 3 ? "prev-active" : ""
                   }
                   onClick={() => {
-                    if (step >= 3) {setStep(3);setIndWorker(false)};
+                    if (step >= 3) {
+                      setStep(3);
+                      setIndWorker(false);
+                    }
                   }}
                 >
                   Time
@@ -527,7 +584,10 @@ const handleLoginSubmit = async (e) => {
                   variant="body1"
                   className={step === 4 ? "active" : ""}
                   onClick={() => {
-                    if (step >= 4) {setStep(4);setIndWorker(false)};
+                    if (step >= 4) {
+                      setStep(4);
+                      setIndWorker(false);
+                    }
                   }}
                 >
                   Confirm
@@ -535,26 +595,41 @@ const handleLoginSubmit = async (e) => {
               </Box>
               {step === 1 && !indWorker && (
                 <>
-                  <Typography variant="h4" className="mt-5">
+                  <Typography variant="h4" className="mb-4" sx={{mt:{xs:3, md:5}}}>
                     Services
                   </Typography>
 
-                  <div className="services_categories">
-                    <div
-                      className={`category ${
-                        selectedCategory === null ? "active" : ""
-                      }`}
-                      onClick={() => {
-                        setSelectedCategory(null);
-                        window.scrollTo({ top: 0, behavior: "smooth" });
+                  <Box
+                    sx={{
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={() => scrollCategories("left")}
+                      sx={{
+                        flexShrink: 0,
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "50%",
+                        width: 30,
+                        height: 30,
+                        background: "#fff",
+                        "&:hover": { background: "#f5f5f5" },
                       }}
-                      style={{ cursor: "pointer" }}
                     >
-                      All
-                    </div>
-                    {storeDetails?.services_categories?.length > 0 &&
-                      storeDetails.services_categories
-                        .filter((singleCat) => singleCat.status === "active")
+                      <ArrowBackIosNewIcon sx={{ fontSize: 14 }} />
+                    </IconButton>
+
+                    <ScrollContainer
+                      ref={scrollRef}
+                      className="services_categories_scroll services_categories"
+                      style={{ flex: 1, overflow: "hidden" }}
+                    >
+                      {storeDetails?.services_categories
+                        ?.filter((singleCat) => singleCat.status === "active")
                         .map((singleCat, index) => (
                           <div
                             key={index}
@@ -564,7 +639,7 @@ const handleLoginSubmit = async (e) => {
                             onClick={() => {
                               setSelectedCategory(singleCat.id);
                               const section = document.getElementById(
-                                `cat-${singleCat.id}`
+                                `cat-${singleCat.id}`,
                               );
                               if (section) {
                                 section.scrollIntoView({
@@ -578,11 +653,28 @@ const handleLoginSubmit = async (e) => {
                             {singleCat.title}
                           </div>
                         ))}
-                  </div>
+                    </ScrollContainer>
+
+                    <IconButton
+                      size="small"
+                      onClick={() => scrollCategories("right")}
+                      sx={{
+                        flexShrink: 0,
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "50%",
+                        width: 30,
+                        height: 30,
+                        background: "#fff",
+                        "&:hover": { background: "#f5f5f5" },
+                      }}
+                    >
+                      <ArrowForwardIosIcon sx={{ fontSize: 14 }} />
+                    </IconButton>
+                  </Box>
                   <div className="services">
                     {storeDetails?.services_categories?.map((cat) => {
                       const servicesInCategory = storeDetails.services.filter(
-                        (s) => s.service_category_id === cat.id
+                        (s) => s.service_category_id === cat.id,
                       );
                       if (servicesInCategory.length === 0) return null;
 
@@ -593,15 +685,19 @@ const handleLoginSubmit = async (e) => {
                           className="service-category-section"
                         >
                           <h3 className="category-title">{cat.title}</h3>
-                          {servicesInCategory.filter(s => s.status == 'active').map((singleSer,index) => (
-                            <label htmlFor={`book_checkbox_${singleSer.id}`} className="service mt-3" key={singleSer.id}>
+                          {servicesInCategory
+                            .filter((s) => s.status == "active")
+                            .map((singleSer, index) => (
+                              <label
+                                htmlFor={`book_checkbox_${singleSer.id}`}
+                                className="service mt-3"
+                                key={singleSer.id}
+                              >
                                 <div className="info">
                                   <h4 className="title">{singleSer.title}</h4>
                                   <p className="eta">{singleSer.eta}</p>
                                   <p className="price">
-                                    
-                                      {singleSer.currency} {singleSer.price}
-                                    
+                                    {singleSer.currency} {singleSer.price}
                                   </p>
                                   <p className="gender">
                                     {singleSer.gender &&
@@ -612,7 +708,7 @@ const handleLoginSubmit = async (e) => {
                                   <Checkbox
                                     id={`book_checkbox_${singleSer.id}`}
                                     checked={selectedServices.some(
-                                      (s) => s.id === singleSer.id
+                                      (s) => s.id === singleSer.id,
                                     )}
                                     onChange={(e) => {
                                       if (e.target.checked) {
@@ -622,14 +718,16 @@ const handleLoginSubmit = async (e) => {
                                         ]);
                                       } else {
                                         setSelectedServices((prev) =>
-                                          prev.filter((s) => s.id !== singleSer.id)
+                                          prev.filter(
+                                            (s) => s.id !== singleSer.id,
+                                          ),
                                         );
                                       }
                                     }}
                                   />
                                 </div>
-                            </label>
-                          ))}
+                              </label>
+                            ))}
                         </div>
                       );
                     })}
@@ -643,19 +741,17 @@ const handleLoginSubmit = async (e) => {
                   </Typography>
                   <Box
                     className="professionals mt-3"
-                    display="flex"
-                    flexWrap="wrap"
                   >
                     <Box
                       className="single-pro"
                       onClick={() => {
                         setSelectedServices((prevServices) =>
                           prevServices.map((service) => ({
-                              ...service,
-                              worker_id: "",
-                              worker_name: "",
-                          }))
-                      );
+                            ...service,
+                            worker_id: "",
+                            worker_name: "",
+                          })),
+                        );
                       }}
                     >
                       <Box>
@@ -693,46 +789,53 @@ const handleLoginSubmit = async (e) => {
                         </Typography>
                       </Box>
                     </Box>
-                    {selectedServices.length > 1 && storeDetails.workers?.length > 0 && (
-                      <Box
+                    {selectedServices.length > 1 &&
+                      storeDetails.workers?.length > 0 && (
+                        <Box
                           className="single-pro"
                           onClick={() => {
-                          setSelectedProfessional({
+                            setSelectedProfessional({
                               id: "",
                               username: "any professional",
-                          });
-                          setIndWorker(true);
+                            });
+                            setIndWorker(true);
                           }}
-                      >
+                        >
                           <Box>
-                          <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M24.865 26.5a1 1 0 0 1-.343 1.402 1 1 0 0 1-1.387-.402 7.125 7.125 0 0 0-12.27 0 1 1 0 1 1-1.73-1 9 9 0 0 1 4.217-3.74 6 6 0 1 1 7.296 0 9 9 0 0 1 4.217 3.74M17 22a4 4 0 1 0 0-8 4 4 0 0 0 0 8m-7-7a1 1 0 0 0-1-1 3 3 0 1 1 2.905-3.75 1 1 0 0 0 1.938-.5 5 5 0 1 0-8.218 4.939 8.5 8.5 0 0 0-3.425 2.71A1 1 0 1 0 3.8 18.6 6.45 6.45 0 0 1 9 16a1 1 0 0 0 1-1M25 3a1 1 0 0 1 1 1v2h2a1 1 0 1 1 0 2h-2v2a1 1 0 1 1-2 0V8h-2a1 1 0 1 1 0-2h2V4a1 1 0 0 1 1-1"></path></svg>
+                            <svg
+                              fill="currentColor"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 32 32"
+                            >
+                              <path d="M24.865 26.5a1 1 0 0 1-.343 1.402 1 1 0 0 1-1.387-.402 7.125 7.125 0 0 0-12.27 0 1 1 0 1 1-1.73-1 9 9 0 0 1 4.217-3.74 6 6 0 1 1 7.296 0 9 9 0 0 1 4.217 3.74M17 22a4 4 0 1 0 0-8 4 4 0 0 0 0 8m-7-7a1 1 0 0 0-1-1 3 3 0 1 1 2.905-3.75 1 1 0 0 0 1.938-.5 5 5 0 1 0-8.218 4.939 8.5 8.5 0 0 0-3.425 2.71A1 1 0 1 0 3.8 18.6 6.45 6.45 0 0 1 9 16a1 1 0 0 0 1-1M25 3a1 1 0 0 1 1 1v2h2a1 1 0 1 1 0 2h-2v2a1 1 0 1 1-2 0V8h-2a1 1 0 1 1 0-2h2V4a1 1 0 0 1 1-1"></path>
+                            </svg>
                           </Box>
                           <Box>
-                          <Typography
+                            <Typography
                               variant="body1"
                               textAlign="center"
                               sx={{ fontSize: "14px", color: "#333333" }}
-                          >
+                            >
                               Select professional per service
-                          </Typography>
+                            </Typography>
                           </Box>
-                      </Box>
-                    )}
-                    
+                        </Box>
+                      )}
+
                     {storeDetails.workers?.length > 0 &&
                       storeDetails.workers
                         .filter(
                           (singlePro) =>
-                            singlePro.user?.account_status === "active"
+                            singlePro.user?.account_status === "active",
                         )
-                        .filter(singlePro => {
-                            return selectedServices.every(service => 
-                                workerCanDoService(singlePro, service.id)
-                            );
+                        .filter((singlePro) => {
+                          return selectedServices.every((service) =>
+                            workerCanDoService(singlePro, service.id, storeDetails.workers),
+                          );
                         })
                         .map((singlePro) => (
                           <Box
-                          key={singlePro.id}
+                            key={singlePro.id}
                             className={`single-pro ${
                               selectedProfessional.id === singlePro.user.id
                                 ? "active"
@@ -740,16 +843,16 @@ const handleLoginSubmit = async (e) => {
                             }`}
                             onClick={() => {
                               setSelectedServices((prevServices) =>
-                                  prevServices.map((service) => ({
-                                      ...service,
-                                      worker_id: singlePro.user.id,
-                                      worker_name: singlePro.user.username,
-                                  }))
+                                prevServices.map((service) => ({
+                                  ...service,
+                                  worker_id: singlePro.user.id,
+                                  worker_name: singlePro.user.username,
+                                })),
                               );
                               setSelectedProfessional({
-                                id:singlePro.user.id,
-                                username:singlePro.user.username,
-                              })
+                                id: singlePro.user.id,
+                                username: singlePro.user.username,
+                              });
                             }}
                           >
                             {singlePro.user?.user_info?.profile_image ? (
@@ -764,7 +867,8 @@ const handleLoginSubmit = async (e) => {
                                   overflow: "hidden",
                                 }}
                               >
-                                {singlePro.user?.user_info?.signup_platform == 'manual' ? (
+                                {singlePro.user?.user_info?.signup_platform ==
+                                "manual" ? (
                                   <img
                                     style={{ width: "100%" }}
                                     src={`${process.env.REACT_APP_IMG_URL}/${singlePro.user.user_info.profile_image}`}
@@ -808,174 +912,206 @@ const handleLoginSubmit = async (e) => {
                 </>
               )}
               {indWorker && (
-                  <>
-                      <Typography variant="h4" className="mt-5">
-                          Select Professional
-                      </Typography>
-                      <Box className="services">
-                          {selectedServices.map((singleSer) => (
-                              <div className="service mt-3" key={singleSer.id}>
-                                  <div className="info" style={{width:'33%'}}>
-                                      <h4 className="title">{singleSer.title}</h4>
-                                      <p className="eta">{singleSer.eta}</p>
-                                      <FormControl fullWidth className="mt-2">
-                                          <InputLabel id="demo-simple-select-label">Select Professional</InputLabel>
-                                          <Select
-                                              labelId="demo-simple-select-label"
-                                              id="demo-simple-select"
-                                              value={singleSer.worker_id || ''}
-                                              label="Select Professional"
-                                              onChange={(e) => {
-                                                  const selectedPro = storeDetails.workers.find(
-                                                      (worker) => worker.user.id === e.target.value
-                                                  );
-                                                  updateWorkerId(singleSer.id, selectedPro.user.id, selectedPro.user.username);
-                                              }}
-                                          >
-                                              {storeDetails.workers?.length > 0 &&
-                                                  storeDetails.workers
-                                                  .filter(
-                                                      (singlePro) =>
-                                                      singlePro.user?.account_status === "active"
-                                                  )
-                                                  .filter(singlePro => workerCanDoService(singlePro, singleSer.id))
-                                                  .map((singlePro) => (
-                                                      <MenuItem value={singlePro.user.id}>{singlePro.user.username}</MenuItem>
-                                                  ))}
-                                          </Select>
-                                      </FormControl>
-                                  </div>
-                              </div>
-                          ))}
-                      </Box>
-                  </>
+                <>
+                  <Typography variant="h4" className="mt-5">
+                    Select Professional
+                  </Typography>
+                  <Box className="services">
+                    {selectedServices.map((singleSer) => (
+                      <div className="service mt-3" key={singleSer.id}>
+                        <Box className="info" sx={{ width: {xs: "100%", sm: "50%", md: "33%" } }}>
+                          <h4 className="title">{singleSer.title}</h4>
+                          <p className="eta">{singleSer.eta}</p>
+                          <FormControl fullWidth className="mt-2">
+                            <InputLabel id="demo-simple-select-label">
+                              Select Professional
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={singleSer.worker_id || ""}
+                              label="Select Professional"
+                              onChange={(e) => {
+                                const selectedPro = storeDetails.workers.find(
+                                  (worker) => worker.user.id === e.target.value,
+                                );
+                                updateWorkerId(
+                                  singleSer.id,
+                                  selectedPro.user.id,
+                                  selectedPro.user.username,
+                                );
+                              }}
+                            >
+                              {storeDetails.workers?.length > 0 &&
+                                storeDetails.workers
+                                  .filter(
+                                    (singlePro) =>
+                                      singlePro.user?.account_status ===
+                                      "active",
+                                  )
+                                  .filter((singlePro) =>
+                                    workerCanDoService(singlePro, singleSer.id, storeDetails.workers),
+                                  )
+                                  .map((singlePro) => (
+                                    <MenuItem value={singlePro.user.id}>
+                                      {singlePro.user.username}
+                                    </MenuItem>
+                                  ))}
+                            </Select>
+                          </FormControl>
+                        </Box>
+                      </div>
+                    ))}
+                  </Box>
+                </>
               )}
-              {step === 3 && !indWorker  && (
-                  <>
-                      <Typography variant="h4" className="mt-5">
-                          Select Time
-                      </Typography>
-                      <Box className="mt-3">
-                          <Typography variant="h6">
-                              {currentMonth}
-                          </Typography>
-                          <Box className="mt-3">
-                              <Slider {...settings}>
-                                {dates.map((date) => {
-                                  const isoDate = getISODate(date);
-                                  const isSelected = selectedDate === isoDate;
+              {step === 3 && !indWorker && (
+                <>
+                  <Typography variant="h4" className="mt-5">
+                    Select Time
+                  </Typography>
+                  <Box className="mt-3">
+                    <Typography variant="h6">{currentMonth}</Typography>
+                    <Box className="mt-3">
+                      <Slider {...settings}>
+                        {dates.map((date) => {
+                          const isoDate = getISODate(date);
+                          const isSelected = selectedDate === isoDate;
 
-                                  const dayName = getFullDayName(date); // e.g., "Monday"
-                                  const workingDay = storeDetails.working_hours?.find(
-                                    (d) => d.day.toLowerCase() === dayName.toLowerCase()
-                                  );
-                                  const isDisabled = !workingDay || workingDay.is_closed !== "active";
+                          const dayName = getFullDayName(date);
+                          const workingDay = storeDetails.working_hours?.find(
+                            (d) =>
+                              d.day.toLowerCase() === dayName.toLowerCase(),
+                          );
+                          const isDisabled =
+                            !workingDay || workingDay.is_closed !== "active";
 
-                                  return (
-                                    <Box
-                                      key={isoDate}
-                                      className="singleDate"
-                                      sx={{
-                                        cursor: isDisabled ? "not-allowed" : "pointer",
-                                        opacity: isDisabled ? 0.4 : 1,
-                                      }}
-                                      onClick={() => !isDisabled && handleDateClick(date)}
-                                    >
-                                      <Box className="day">
-                                        <Typography
-                                          variant="body1"
-                                          sx={{ fontSize: "16px", color: "#333333" }}
-                                          textAlign="center"
-                                        >
-                                          {getDayName(date)}
-                                        </Typography>
-                                      </Box>
-                                      <Box
-                                        className="date mt-2"
-                                        display="flex"
-                                        justifyContent="center"
-                                        alignItems="center"
-                                        sx={{
-                                          background: isSelected ? "#D8A7B1" : "transparent",
-                                          border: "1px solid #E4E4E4",
-                                          borderColor: isSelected ? "white" : "#E4E4E4",
-                                          borderRadius: "50%",
-                                          width: "40px",
-                                          height: "40px",
-                                        }}
-                                      >
-                                        <Typography
-                                          variant="body1"
-                                          sx={{
-                                            fontSize: "16px",
-                                            color: isSelected ? "white" : "#333",
-                                          }}
-                                        >
-                                          {getDateNumber(date)}
-                                        </Typography>
-                                      </Box>
-                                    </Box>
-                                  );
-                                })}
-                              </Slider>
-
-                              <Box className="timeSlots">
-                                  {filteredSlots.length > 0 ? (
-                                      <Box display="flex" flexWrap="wrap" gap="15px" className="mt-4">
-                                          {filteredSlots.map((slot, index) => (
-                                              <Box
-                                                  key={index}
-                                                  onClick={() => setSelectedTimeSlot(slot)}
-                                                  sx={{
-                                                      width: '100%',
-                                                      padding: '15px 20px',
-                                                      borderRadius: '8px',
-                                                      border: '1px solid #E0E0E0',
-                                                      backgroundColor: selectedTimeSlot === slot ? '#D8A7B1' : 'transparent',
-                                                      borderColor: selectedTimeSlot === slot ? '#D8A7B1' : '#DADADA',
-                                                      color: 'black',
-                                                      cursor: 'pointer',
-                                                      transition: 'all 0.2s ease',
-                                                      textAlign: 'left',
-                                                      minWidth: '80px',
-                                                      fontSize: '18px'
-                                                  }}
-                                              >
-                                                  {slot}
-                                              </Box>
-                                          ))}
-                                      </Box>
-                                  ) : (
-                                      <Typography variant="body1" className="mt-4" sx={{ color: '#999' }}>
-                                          {closeStore ? 'Store is closed today' : 'No Available Slots'}
-                                      </Typography>
-                                  )}
+                          return (
+                            <Box
+                              key={isoDate}
+                              className="singleDate"
+                              sx={{
+                                cursor: isDisabled ? "not-allowed" : "pointer",
+                                opacity: isDisabled ? 0.4 : 1,
+                              }}
+                              onClick={() =>
+                                !isDisabled && handleDateClick(date)
+                              }
+                            >
+                              <Box className="day">
+                                <Typography
+                                  variant="body1"
+                                  sx={{ fontSize: "16px", color: "#333333" }}
+                                  textAlign="center"
+                                >
+                                  {getDayName(date)}
+                                </Typography>
                               </Box>
+                              <Box
+                                className="date mt-2"
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                sx={{
+                                  background: isSelected
+                                    ? "#D8A7B1"
+                                    : "transparent",
+                                  border: "1px solid #E4E4E4",
+                                  borderColor: isSelected ? "white" : "#E4E4E4",
+                                  borderRadius: "50%",
+                                  width: "40px",
+                                  height: "40px",
+                                }}
+                              >
+                                <Typography
+                                  variant="body1"
+                                  sx={{
+                                    fontSize: "16px",
+                                    color: isSelected ? "white" : "#333",
+                                  }}
+                                >
+                                  {getDateNumber(date)}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          );
+                        })}
+                      </Slider>
+
+                      <Box className="timeSlots">
+                        {filteredSlots.length > 0 ? (
+                          <Box
+                            display="flex"
+                            flexWrap="wrap"
+                            gap="15px"
+                            className="mt-4"
+                          >
+                            {filteredSlots.map((slot, index) => (
+                              <Box
+                                key={index}
+                                onClick={() => setSelectedTimeSlot(slot)}
+                                sx={{
+                                  width: "100%",
+                                  padding: "15px 20px",
+                                  borderRadius: "8px",
+                                  border: "1px solid #E0E0E0",
+                                  backgroundColor:
+                                    selectedTimeSlot === slot
+                                      ? "#D8A7B1"
+                                      : "transparent",
+                                  borderColor:
+                                    selectedTimeSlot === slot
+                                      ? "#D8A7B1"
+                                      : "#DADADA",
+                                  color: "black",
+                                  cursor: "pointer",
+                                  transition: "all 0.2s ease",
+                                  textAlign: "left",
+                                  minWidth: "80px",
+                                  fontSize: "18px",
+                                }}
+                              >
+                                {slot}
+                              </Box>
+                            ))}
                           </Box>
+                        ) : (
+                          <Typography
+                            variant="body1"
+                            className="mt-4"
+                            sx={{ color: "#999" }}
+                          >
+                            {closeStore
+                              ? "Store is closed today"
+                              : "No Available Slots"}
+                          </Typography>
+                        )}
                       </Box>
-                  </>
+                    </Box>
+                  </Box>
+                </>
               )}
             </Box>
-            <Box 
-            ref={sideBarRef}
-            sx={{
-              width: {
-                xs: "100%",
-                md: "40%",
-              },
-              position: {
-                xs: "static",
-                md: "sticky",
-              },
-              top: {
-                md: "50px",
-              },
-              right: 0,
-            }}
-            className='booking_details'>
+            <Box
+              ref={sideBarRef}
+              sx={{
+                width: {
+                  xs: "100%",
+                  md: "40%",
+                },
+                position: {
+                  xs: "static",
+                  md: "sticky",
+                },
+                top: {
+                  md: "50px",
+                },
+                right: 0,
+              }}
+              className="booking_details"
+            >
               {storeDetails && (
-                <div 
-                className="rating_filter">
+                <div className="rating_filter">
                   <Box sx={{ padding: "15px" }}>
                     <Box className="store_info_head" display="flex" gap="20px">
                       <Box
@@ -1053,7 +1189,10 @@ const handleLoginSubmit = async (e) => {
                                 variant="body2"
                                 sx={{ fontSize: "16px" }}
                               >
-                                {service.eta} with {!service.worker_id ? 'any professional' : service.worker_name}
+                                {service.eta} with{" "}
+                                {!service.worker_id
+                                  ? "any professional"
+                                  : service.worker_name}
                               </Typography>
                             </Box>
                             <Box>
@@ -1092,7 +1231,7 @@ const handleLoginSubmit = async (e) => {
                         {selectedServices?.length
                           ? selectedServices.reduce(
                               (acc, service) => acc + parseFloat(service.price),
-                              0
+                              0,
                             )
                           : 0}
                       </Typography>
@@ -1110,7 +1249,10 @@ const handleLoginSubmit = async (e) => {
                             borderRadius: "10px",
                           }}
                           variant="contained"
-                          onClick={() => {setStep(step + 1);setIndWorker(false)}}
+                          onClick={() => {
+                            setStep(step + 1);
+                            setIndWorker(false);
+                          }}
                         >
                           Next
                         </Button>
@@ -1139,16 +1281,23 @@ const handleLoginSubmit = async (e) => {
       </Box>
       <Box className="mobile_next_btn">
         <Box className="details_mobile">
-          <Typography variant="h3" sx={{fontSize:'18px'}}>
+          <Typography variant="h3" sx={{ fontSize: "18px" }}>
             PKR{" "}
             {selectedServices?.length
               ? selectedServices.reduce(
                   (acc, service) => acc + parseFloat(service.price),
-                  0
+                  0,
                 )
               : 0}
           </Typography>
-          <Typography variant="body1" sx={{fontSize:'16px',color:'#333333a1'}}>{selectedServices.length} {selectedServices.length > 1 ? 'services' : 'service'} • {getTotalEta(selectedServices)}</Typography>
+          <Typography
+            variant="body1"
+            sx={{ fontSize: "16px", color: "#333333a1" }}
+          >
+            {selectedServices.length}{" "}
+            {selectedServices.length > 1 ? "services" : "service"} •{" "}
+            {getTotalEta(selectedServices)}
+          </Typography>
         </Box>
         <Box className="buttn">
           {step < 3 && (
@@ -1160,7 +1309,10 @@ const handleLoginSubmit = async (e) => {
                 borderRadius: "10px",
               }}
               variant="contained"
-              onClick={() => {setStep(step + 1);setIndWorker(false)}}
+              onClick={() => {
+                setStep(step + 1);
+                setIndWorker(false);
+              }}
             >
               Next
             </Button>
@@ -1187,41 +1339,40 @@ const handleLoginSubmit = async (e) => {
 
 export default BookingPage;
 
-// Custom Prev Arrow
 const PrevArrow = ({ className, style, onClick }) => (
-    <IconButton
-        className={className}
-        onClick={onClick}
-        sx={{
-            ...style,
-            backgroundColor: 'transparent',
-            color: 'black',
-            '&:hover': { color: 'black' },
-            position: 'absolute',
-            left: '90%',
-            top:'-25px',
-            zIndex: 1,
-        }}
-    >
-        <ArrowBackIosIcon />
-    </IconButton>
+  <IconButton
+    className={className}
+    onClick={onClick}
+    sx={{
+      ...style,
+      backgroundColor: "transparent",
+      color: "black",
+      "&:hover": { color: "black" },
+      position: "absolute",
+      left: "90%",
+      top: "-25px",
+      zIndex: 1,
+    }}
+  >
+    <ArrowBackIosIcon />
+  </IconButton>
 );
 
 const NextArrow = ({ className, style, onClick }) => (
-    <IconButton
-        className={className}
-        onClick={onClick}
-        sx={{
-            ...style,
-            backgroundColor: 'transparent',
-            color: 'black',
-            '&:hover': { color: 'black' },
-            position: 'absolute',
-            right: '0',
-            top:'-25px',
-            zIndex: 1,
-        }}
-    >
-        <ArrowForwardIosIcon />
-    </IconButton>
+  <IconButton
+    className={className}
+    onClick={onClick}
+    sx={{
+      ...style,
+      backgroundColor: "transparent",
+      color: "black",
+      "&:hover": { color: "black" },
+      position: "absolute",
+      right: "0",
+      top: "-25px",
+      zIndex: 1,
+    }}
+  >
+    <ArrowForwardIosIcon />
+  </IconButton>
 );

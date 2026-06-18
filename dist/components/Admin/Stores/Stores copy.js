@@ -13,8 +13,6 @@ var _Cards = _interopRequireDefault(require("../Cards/Cards"));
 var _Circle = _interopRequireDefault(require("@mui/icons-material/Circle"));
 var _AccessTime = _interopRequireDefault(require("@mui/icons-material/AccessTime"));
 var _Error = _interopRequireDefault(require("@mui/icons-material/Error"));
-var _Edit = _interopRequireDefault(require("@mui/icons-material/Edit"));
-var _OpenInNew = _interopRequireDefault(require("@mui/icons-material/OpenInNew"));
 var _material = require("@mui/material");
 var _reactRouterDom = require("react-router-dom");
 var _routes = require("../../../routes");
@@ -25,7 +23,6 @@ function Stores() {
   const {
     user
   } = (0, _AuthContext.useAuth)();
-  const navigate = (0, _reactRouterDom.useNavigate)();
   const [loading, setLoading] = (0, _react.useState)(true);
   const [stores, setStores] = (0, _react.useState)([]);
   const location = (0, _reactRouterDom.useLocation)();
@@ -68,11 +65,6 @@ function Stores() {
       showSnackbar(success, "success");
     }
   }, [success]);
-  (0, _react.useEffect)(() => {
-    if (stores && stores.length === 1) {
-      navigate(_routes.ROUTES.getAdminSingleStore(stores[0].id));
-    }
-  }, [stores]);
   return /*#__PURE__*/_react.default.createElement(_Layout.default, null, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement("div", {
     className: "container-fluid dashboard-content"
   }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
@@ -89,163 +81,109 @@ function Stores() {
     style: {
       color: "white"
     }
-  }, "Add Store")), stores && stores.length > 1 ? /*#__PURE__*/_react.default.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-      gap: "16px",
-      paddingTop: "8px"
+  }, "Add Store")), /*#__PURE__*/_react.default.createElement(_material.TableContainer, {
+    component: _material.Paper
+  }, /*#__PURE__*/_react.default.createElement(_material.Table, {
+    "aria-label": "Stores Table"
+  }, /*#__PURE__*/_react.default.createElement(_material.TableHead, null, /*#__PURE__*/_react.default.createElement(_material.TableRow, {
+    sx: {
+      background: "#d8a7b1"
     }
-  }, stores.map(singleStore => /*#__PURE__*/_react.default.createElement("div", {
-    key: singleStore.id,
-    style: {
-      background: "#fff",
-      border: "0.5px solid #e0e0e0",
-      borderRadius: "12px",
-      overflow: "hidden",
-      display: "flex",
-      flexDirection: "column"
+  }, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "left",
+    sx: {
+      color: "white"
     }
+  }, "#"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    sx: {
+      color: "white"
+    }
+  }, "Store Name"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    sx: {
+      color: "white"
+    }
+  }, "Thumbnail"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    sx: {
+      color: "white"
+    }
+  }, "Store Leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    sx: {
+      color: "white"
+    }
+  }, "Whatsapp Leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    sx: {
+      color: "white"
+    }
+  }, "Status"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    sx: {
+      color: "white"
+    }
+  }, "Edit"))), /*#__PURE__*/_react.default.createElement(_material.TableBody, null, stores && stores.length > 0 ? stores.map((singleStore, index) => /*#__PURE__*/_react.default.createElement(_material.TableRow, {
+    key: singleStore.id
+  }, /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "left"
+  }, index + 1), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    scope: "row"
+  }, singleStore.title), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    scope: "row"
   }, singleStore.thumbnail ? /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_IMG_URL).concat(singleStore.thumbnail),
     alt: "Thumbnail",
     style: {
-      width: "100%",
-      height: 140,
-      objectFit: "cover",
-      display: "block"
+      width: 200,
+      borderRadius: "5px"
     }
-  }) : /*#__PURE__*/_react.default.createElement("div", {
+  }) : "No Thumbnail"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    scope: "row"
+  }, singleStore.store_leads_count, " leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    scope: "row"
+  }, singleStore.whatsapp_leads_count, " leads"), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    scope: "row",
+    sx: {
+      textTransform: "capitalize",
+      fontWeight: "700"
+    }
+  }, singleStore.is_active_by_admin != 1 ? /*#__PURE__*/_react.default.createElement("span", {
     style: {
-      width: "100%",
-      height: 140,
-      background: "#f5f5f5",
+      color: "red",
       display: "flex",
       alignItems: "center",
-      justifyContent: "center",
-      color: "#aaa",
-      fontSize: 13
+      gap: "10px"
     }
-  }, "No Thumbnail"), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_Error.default, null), "Store deactive by admin") : singleStore.status != "active" ? /*#__PURE__*/_react.default.createElement("span", {
     style: {
-      padding: "14px 16px",
-      flex: 1,
+      color: "#ffbc00",
       display: "flex",
-      flexDirection: "column",
-      gap: 8
+      alignItems: "center",
+      gap: "10px"
     }
-  }, /*#__PURE__*/_react.default.createElement("p", {
+  }, /*#__PURE__*/_react.default.createElement(_AccessTime.default, null), "(Waiting for approval by admin)") : /*#__PURE__*/_react.default.createElement("span", {
     style: {
-      margin: 0,
-      fontWeight: 500,
-      fontSize: 15
-    }
-  }, singleStore.title), /*#__PURE__*/_react.default.createElement("div", {
-    style: {
+      color: "green",
       display: "flex",
-      gap: 12,
-      fontSize: 12,
-      color: "#666"
-    }
-  }, /*#__PURE__*/_react.default.createElement("span", null, singleStore.store_leads_count, " store leads"), /*#__PURE__*/_react.default.createElement("span", null, singleStore.whatsapp_leads_count, " WhatsApp leads")), singleStore.is_active_by_admin != 1 ? /*#__PURE__*/_react.default.createElement("span", {
-    style: {
-      display: "inline-flex",
       alignItems: "center",
-      gap: 5,
-      fontSize: 11,
-      fontWeight: 500,
-      padding: "3px 8px",
-      borderRadius: 6,
-      background: "#FCEBEB",
-      color: "#A32D2D"
+      gap: "10px"
     }
-  }, /*#__PURE__*/_react.default.createElement(_Error.default, {
-    sx: {
-      fontSize: 13
-    }
-  }), " Deactivated by admin") : singleStore.status != "active" ? /*#__PURE__*/_react.default.createElement("span", {
-    style: {
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 5,
-      fontSize: 11,
-      fontWeight: 500,
-      padding: "3px 8px",
-      borderRadius: 6,
-      background: "#FAEEDA",
-      color: "#854F0B"
-    }
-  }, /*#__PURE__*/_react.default.createElement(_AccessTime.default, {
-    sx: {
-      fontSize: 13
-    }
-  }), " Pending approval") : /*#__PURE__*/_react.default.createElement("span", {
-    style: {
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 5,
-      fontSize: 11,
-      fontWeight: 500,
-      padding: "3px 8px",
-      borderRadius: 6,
-      background: "#EAF3DE",
-      color: "#3B6D11"
-    }
-  }, /*#__PURE__*/_react.default.createElement(_Circle.default, {
-    sx: {
-      fontSize: 10
-    }
-  }), " Active")), /*#__PURE__*/_react.default.createElement("div", {
-    style: {
-      padding: "10px 16px",
-      borderTop: "0.5px solid #e0e0e0"
-    }
+  }, /*#__PURE__*/_react.default.createElement(_Circle.default, null), singleStore.status)), /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    scope: "row"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: _routes.ROUTES.getAdminSingleStore(singleStore.id),
     style: {
-      textDecoration: "none"
+      color: "white"
     }
   }, /*#__PURE__*/_react.default.createElement(_material.Button, {
-    variant: "contained",
-    fullWidth: true,
     sx: {
       background: "#333333"
-    }
-  }, /*#__PURE__*/_react.default.createElement(_Edit.default, {
-    sx: {
-      fontSize: "20px",
-      marginRight: "5px"
-    }
-  }), "Edit")), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: _routes.ROUTES.getStoreFrontPage(singleStore.slug),
-    style: {
-      textDecoration: "none"
     },
-    target: "_blank"
-  }, /*#__PURE__*/_react.default.createElement(_material.Button, {
-    variant: "outlined",
-    fullWidth: true,
-    sx: {
-      border: "1px solid #333333",
-      background: "transparent",
-      marginTop: "10px",
-      color: "#000"
-    }
-  }, /*#__PURE__*/_react.default.createElement(_OpenInNew.default, {
-    sx: {
-      fontSize: "20px",
-      marginRight: "5px"
-    }
-  }), "Preview")))))) : !stores || stores.length === 0 ? /*#__PURE__*/_react.default.createElement("p", {
-    style: {
-      marginTop: 16
-    }
-  }, "No stores yet.", " ", /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
+    variant: "contained"
+  }, "Edit"))))) : /*#__PURE__*/_react.default.createElement(_material.TableCell, {
+    align: "left"
+  }, "No Stores.\xA0", /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     to: _routes.ROUTES.adminStoresAdd,
     style: {
       textDecoration: "underline",
       color: "inherit"
     }
-  }, "Add now")) : null /* single store = redirected via useEffect */));
+  }, "Add Now")))))));
 }
 var _default = exports.default = Stores;

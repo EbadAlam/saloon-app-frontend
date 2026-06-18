@@ -167,31 +167,9 @@ function SearchBar() {
       padding: '16px',
       zIndex: -1,
       overflow: 'hidden',
-      top: '-5px',
-      left: '-5px',
-      right: '-5px',
-      bottom: '-5px',
-      '&::before': {
-        // content: '""',
-        position: 'absolute',
-        top: '0px',
-        left: '0px',
-        right: '0px',
-        bottom: '0px',
-        zIndex: -1,
-        borderRadius: '9999px',
-        background: 'linear-gradient(270deg, #D8A7B1, #ffffff, #D8A7B1)',
-        backgroundSize: '600% 600%',
-        animation: 'gradientMove 8s linear infinite'
-      },
-      '@keyframes gradientMove': {
-        '0%': {
-          backgroundPosition: '0% 50%'
-        },
-        '100%': {
-          backgroundPosition: '100% 50%'
-        }
-      }
+      inset: '-5px',
+      borderRadius: '30px',
+      boxShadow: '1px 1px 10px #0000001a'
     }
   }), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "white-bg"

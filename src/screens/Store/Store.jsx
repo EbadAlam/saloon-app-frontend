@@ -19,6 +19,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import "react-indiana-drag-scroll/dist/style.css";
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import {
   Box,
   CircularProgress,
@@ -37,7 +38,7 @@ import ReviewsSlider from "../../components/ReviewsSlider/ReviewsSlider";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 function StorePage({ initialData }) {
-  const { formatDate, user, token, updateFavorites } = useAuth();
+  const { formatDate, user, token, updateFavorites ,getVisitorId} = useAuth();
   const { slug } = useParams();
   const navigate = useNavigate();
   const [loadingFav, setLoadingFav] = useState(false);
@@ -237,7 +238,17 @@ function StorePage({ initialData }) {
       });
     }
   };
-
+  const captureLead = async (source) => {
+    const payload = {
+      store_id: storeDetails.id,
+      source: source,
+      visitor_id: getVisitorId()
+    }
+    await axiosClient.post('/captureLead',payload);
+  }
+  const handleWhatsappClick = () => {
+    captureLead('whatsapp');
+  };
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 30);
     window.addEventListener("scroll", handleScroll);
@@ -350,6 +361,23 @@ function StorePage({ initialData }) {
             </div>
           )}
           <Box className="storeNew">
+            {storeDetails.whatsapp && (
+              <Box className="whatsapp_div">
+                <div class="card-new">
+                  <div class="bg">
+                    <a
+                    href={`https://wa.me/${storeDetails.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleWhatsappClick}
+                  >
+                      <WhatsAppIcon />
+                    </a>
+                  </div>
+                  <div class="blob"></div>
+                </div>
+              </Box>
+            )}
             <div
               className="container"
               style={{ background: "transparent", paddingBlock: "20px" }}

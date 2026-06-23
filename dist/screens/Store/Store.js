@@ -117,7 +117,7 @@ function StorePage(_ref) {
     }
   }, [storeDetails, user]);
   (0, _react.useEffect)(() => {
-    if (storeDetails !== null && storeDetails !== void 0 && storeDetails.id) (0, _storeRecentlyViewed.saveRecentlyViewedStore)(storeDetails);
+    if (storeDetails !== null && storeDetails !== void 0 && storeDetails.id) (0, _storeRecentlyViewed.saveRecentlyViewedStore)(storeDetails.id);
   }, [storeDetails]);
   (0, _react.useEffect)(() => {
     if (!rightSideRef.current) return;

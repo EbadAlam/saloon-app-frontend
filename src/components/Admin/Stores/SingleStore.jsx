@@ -61,7 +61,6 @@ export default function SingleStore() {
     <AdminLayout>
       <div className="container-fluid dashboard-content">
 
-        {/* Back row */}
         <Box display="flex" alignItems="center" gap={1.5} mb={3.5}>
           <Button
             onClick={() => navigate(-1)}
@@ -75,10 +74,8 @@ export default function SingleStore() {
           </Typography>
         </Box>
 
-        {/* Hero card */}
         <Box sx={{ border: '0.5px solid #e0e0e0', borderRadius: 4, overflow: 'hidden', background: '#fff',maxWidth:"50%" }}>
 
-          {/* Thumbnail */}
           {loading ? (
             <Skeleton variant="rectangular" width="100%" height={240} />
           ) : (

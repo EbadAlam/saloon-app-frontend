@@ -125,7 +125,7 @@ function StorePage({ initialData }) {
   }, [storeDetails, user]);
 
   useEffect(() => {
-    if (storeDetails?.id) saveRecentlyViewedStore(storeDetails);
+    if (storeDetails?.id) saveRecentlyViewedStore(storeDetails.id);
   }, [storeDetails]);
 
 

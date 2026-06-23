@@ -138,7 +138,10 @@ function Stores() {
     style: {
       margin: 0,
       fontWeight: 500,
-      fontSize: 15
+      fontSize: 15,
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis"
     }
   }, singleStore.title), /*#__PURE__*/_react.default.createElement("div", {
     style: {

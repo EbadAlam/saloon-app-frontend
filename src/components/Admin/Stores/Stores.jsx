@@ -139,7 +139,7 @@ function Stores() {
 
         {/* Body */}
         <div style={{ padding: "14px 16px", flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
-          <p style={{ margin: 0, fontWeight: 500, fontSize: 15 }}>{singleStore.title}</p>
+          <p style={{ margin: 0, fontWeight: 500, fontSize: 15, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{singleStore.title}</p>
 
           <div style={{ display: "flex", gap: 12, fontSize: 12, color: "#666" }}>
             <span>{singleStore.store_leads_count} store leads</span>

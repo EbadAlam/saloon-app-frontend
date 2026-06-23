@@ -1,134 +1,249 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
-  Typography,
-  Button,
-  Box,
-  TextField,
-  Stack,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  FormControl,
-  InputLabel,
   Select,
   MenuItem,
-  Alert,
-  InputAdornment
-} from '@mui/material';
-import { useLocation, useParams } from 'react-router-dom';
-import AdminLayout from '../Layout/Layout';
-import Loader from '../../Loader/Loader';
-import axiosClient from '../../../axios-client';
-import ActiveDeactiveSwitch from '../../ActiveDeactiveSwitch/ActiveDeactiveSwitch';
-import BackButton from '../../BackButton/BackButton';
-import DeleteButton from '../../DeleteButton/DeleteButton';
-import { useSnackbar } from '../../../contexts/SnackBarContext';
+  FormControl,
+  InputLabel,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
+import { Link, useLocation, useParams } from "react-router-dom";
+import AdminLayout from "../Layout/Layout";
+import Loader from "../../Loader/Loader";
+import axiosClient from "../../../axios-client";
+import ActiveDeactiveSwitch from "../../ActiveDeactiveSwitch/ActiveDeactiveSwitch";
+import DeleteButton from "../../DeleteButton/DeleteButton";
+import { useSnackbar } from "../../../contexts/SnackBarContext";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ROUTES } from "../../../routes";
+
+const S = {
+  page: { padding: "24px", background: "#f5f4f0", minHeight: "100vh" },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "24px",
+  },
+  nav: { display: "flex", alignItems: "center", gap: "10px" },
+  backBtn: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "6px 14px",
+    border: "1px solid #1a1a2e",
+    borderRadius: "8px",
+    background: "#fff",
+    color: "#1a1a2e",
+    fontSize: "13px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+  sep: { color: "#bbb", fontSize: "13px" },
+  crumb: { fontSize: "14px", color: "#888", textDecoration: "none" },
+  crumbActive: { fontSize: "14px", color: "#1a1a2e", fontWeight: 500 },
+  addBtn: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "8px 18px",
+    borderRadius: "8px",
+    background: "#1a1a2e",
+    color: "#fff",
+    border: "none",
+    fontSize: "13px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+  cancelBtn: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "8px 18px",
+    borderRadius: "8px",
+    background: "#fff",
+    color: "#1a1a2e",
+    border: "1px solid #1a1a2e",
+    fontSize: "13px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+  card: {
+    background: "#fff",
+    borderRadius: "12px",
+    border: "0.5px solid #e0dfd8",
+    overflow: "hidden",
+  },
+  form: {
+    background: "#fff",
+    borderRadius: "12px",
+    border: "0.5px solid #e0dfd8",
+    padding: "20px",
+    marginBottom: "20px",
+  },
+  table: { width: "100%", borderCollapse: "collapse", fontSize: "13px" },
+  th: {
+    padding: "12px 14px",
+    textAlign: "left",
+    color: "#888",
+    fontWeight: 500,
+    fontSize: "12px",
+    textTransform: "uppercase",
+    letterSpacing: "0.04em",
+    borderBottom: "1px solid #f0efe8",
+  },
+  td: {
+    padding: "12px 14px",
+    color: "#1a1a2e",
+    fontSize: "13px",
+    borderBottom: "0.5px solid #f5f4f0",
+  },
+  tdNum: {
+    padding: "12px 14px",
+    color: "#aaa",
+    fontSize: "12px",
+    borderBottom: "0.5px solid #f5f4f0",
+  },
+  badgeActive: {
+    display: "inline-block",
+    padding: "3px 10px",
+    borderRadius: "999px",
+    fontSize: "11px",
+    fontWeight: 500,
+    background: "#eaf3de",
+    color: "#27500a",
+  },
+  badgeDisabled: {
+    display: "inline-block",
+    padding: "3px 10px",
+    borderRadius: "999px",
+    fontSize: "11px",
+    fontWeight: 500,
+    background: "#fcebeb",
+    color: "#791f1f",
+  },
+  editBtn: {
+    padding: "5px 14px",
+    borderRadius: "7px",
+    background: "#1a1a2e",
+    color: "#fff",
+    border: "none",
+    fontSize: "12px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+  saveBtn: {
+    marginTop: "16px",
+    padding: "8px 20px",
+    borderRadius: "8px",
+    background: "#1a1a2e",
+    color: "#fff",
+    border: "none",
+    fontSize: "13px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+};
 
 function Servicespage() {
   const [loading, setLoading] = useState(true);
   const [services, setServices] = useState([]);
+  const [storeName, setStoreName] = useState("");
   const [categories, setCategories] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  
-  const genderOptions = ['male', 'female'];
-  const [title, setTitle] = useState('');
-  const [categoryId, setCategoryId] = useState('');
-  const [price, setPrice] = useState('');
-  const [eta, setEta] = useState('');
-  const [gender, setGender] = useState('');
+  const [title, setTitle] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [price, setPrice] = useState("");
+  const [eta, setEta] = useState("");
+  const [gender, setGender] = useState("");
+  const [currency, setCurrency] = useState("PKR");
+  const [serviceId, setServiceId] = useState("");
   const { showSnackbar } = useSnackbar();
-  const [currency, setCurrency] = useState('PKR');
-  const [serviceId, setServiceId] = useState('');
   const { storeId } = useParams();
-  const { state } = useLocation();
-  const currencyOptions = [
-    { label: 'USD ($)', symbol: '$' },
-    { label: 'AED', symbol: 'AED' },
+  const genderOptions = ["male", "female"];
+  const etaOptions = [
+    "30 minutes",
+    "45 minutes",
+    "1 hour",
+    "1 hour 15 minutes",
+    "1 hour 30 minutes",
+    "1 hour 45 minutes",
+    "2 hours",
   ];
+
   useEffect(() => {
-    const fetchStoreCategories = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axiosClient.get(`/getStoreCategories/${storeId}`);
-        setCategories(data.categories);
-      } catch (error) {
-        console.error('Failed to fetch services:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchServices();
     fetchStoreCategories();
   }, []);
+
+  const fetchStoreCategories = async () => {
+    try {
+      const { data } = await axiosClient.get(`/getStoreCategories/${storeId}`);
+      setCategories(data.categories);
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+    }
+  };
+
   const fetchServices = async () => {
     setLoading(true);
     try {
       const { data } = await axiosClient.get(`/getServices/${storeId}`);
       setServices(data.services);
+      setStoreName(data.storeName);
     } catch (error) {
-      console.error('Failed to fetch services:', error);
+      console.error("Failed to fetch services:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  const resetForm = () => {
+    setTitle("");
+    setCategoryId("");
+    setPrice("");
+    setEta("");
+    setGender("");
+    setServiceId("");
+    setCurrency("PKR");
+  };
+
   const handleToggleForm = () => {
-    setTitle('');
-    setCategoryId('');
-    setPrice('');
-    setEta('');
-    setGender('');
-    setServiceId('');
+    resetForm();
     setShowForm((prev) => !prev);
   };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const payload = {
-      store_id:storeId,
-      title: title,
-      service_category_id: categoryId,
-      price: price,
-      eta: eta,
-      gender: gender,
-      currency: currency,
-      serviceId,
-    }
     try {
-      const { data } = await axiosClient.post(`/addServices`, payload);
+      const { data } = await axiosClient.post(`/addServices`, {
+        store_id: storeId,
+        title,
+        service_category_id: categoryId,
+        price,
+        eta,
+        gender,
+        currency,
+        serviceId,
+      });
       setServices(data.services);
-      showAlert('success',data.message || 'Service added');
+      showSnackbar(data.message || "Service saved", "success");
     } catch (error) {
-      console.error('Failed to fetch categories:', error);
+      console.error("Failed to save service:", error);
+      showSnackbar("Failed to save service", "error");
     } finally {
       setLoading(false);
       setShowForm(false);
+      resetForm();
     }
-    setTitle('');
-    setCategoryId('');
-    setPrice('');
-    setEta('');
-    setGender('');
-    setCurrency('PKR');
   };
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertMessageType, setAlertMessageType] = useState('');
+
   const handleStatusChange = (newStatus) => {
-    showAlert(newStatus.success ? 'success' : 'error',newStatus.message)
+    showSnackbar(newStatus.message, newStatus.success ? "success" : "error");
     fetchServices();
   };
-  const showAlert = (type,message) => {
-    setAlertMessage(message);
-    setAlertMessageType(type);
-    const timer = setTimeout(() => {
-        setAlertMessage('');
-        setAlertMessageType('');
-      }, 3000);
-      return () => clearTimeout(timer);
-  }
+
   const handleToggleEditForm = (service) => {
     setTitle(service.title);
     setCategoryId(service.category.id);
@@ -137,205 +252,232 @@ function Servicespage() {
     setGender(service.gender);
     setServiceId(service.id);
     setShowForm(true);
-  }
-    useEffect(() => {
-        if (alertMessage) {
-          showSnackbar(alertMessage, alertMessageType)
-        }
-      }, [alertMessage]);
-      const etaOptions = [
-        "30 minutes",
-        "45 minutes",
-        "1 hour",
-        "1 hour 15 minutes",
-        "1 hour 30 minutes",
-        "1 hour 45 minutes",
-        "2 hours",
-      ];
+  };
+
+  const isActive = (s) => s.status === "active" && s.is_active_by_admin == 1;
+
   return (
     <AdminLayout>
       {loading && <Loader />}
-      <div className="container-fluid dashboard-content">
-        <Stack className='btn_headss' direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h4">Services</Typography>
-            <Stack direction="row" gap={2}>
-              <BackButton />
-              <Button className='dark-btn' variant="contained" onClick={handleToggleForm}>
-                {showForm ? 'Cancel' : 'Add Services'}
-              </Button>
-            </Stack>
-        </Stack>
+      <div style={S.page}>
+        <div style={S.header}>
+          <div style={S.nav}>
+            <button style={S.backBtn} onClick={() => window.history.back()}>
+              <ArrowBackIcon style={{ fontSize: 14 }} /> Back
+            </button>
+            <span style={S.sep}>›</span>
+            <Link to={ROUTES.adminStores} style={S.crumb}>
+              Stores
+            </Link>
+            <span style={S.sep}>›</span>
+            <Link to={ROUTES.getAdminSingleStore(storeId)} style={S.crumb}>
+              {storeName || "..."}
+            </Link>
+            <span style={S.sep}>›</span>
+            <span style={S.crumbActive}>Services</span>
+          </div>
+          <button
+            style={showForm ? S.cancelBtn : S.addBtn}
+            onClick={handleToggleForm}
+          >
+            {showForm ? "Cancel" : "+ Add Service"}
+          </button>
+        </div>
 
         {showForm && (
-          <Box
-            component="form"
-            onSubmit={handleFormSubmit}
-            sx={{ mb: 3, p: 2, border: '1px solid #ddd', borderRadius: 2 }}
-          >
-            <TextField
-              fullWidth
-              label="Service Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-              margin="normal"
-            />
-
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="category-label">Service Category</InputLabel>
-              <Select
-                labelId="category-label"
-                value={categoryId}
-                label="Service Category"
-                onChange={(e) => setCategoryId(e.target.value)}
-                required
+          <div style={S.form}>
+            <form onSubmit={handleFormSubmit}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "12px",
+                  marginBottom: "12px",
+                }}
               >
-                {categories?.filter(cat => cat.category.status === 'active').map((cat) => (
-                  <MenuItem key={cat.id} value={cat.category.id}>
-                    {cat.category.title}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <TextField
+                  fullWidth
+                  label="Service Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                  size="small"
+                />
 
-            {/* <FormControl sx={{ minWidth: 100, mb: 3 }} margin="normal">
-              <Select
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-                displayEmpty
-              >
-                {currencyOptions.map((opt) => (
-                  <MenuItem key={opt.symbol} value={opt.symbol}>
-                    {opt.label}
-                  </MenuItem>
-                ))}
-              </Select>
-          </FormControl> */}
+                <FormControl fullWidth size="small">
+                  <InputLabel id="cat-label">Service Category</InputLabel>
+                  <Select
+                    labelId="cat-label"
+                    value={categoryId}
+                    label="Service Category"
+                    onChange={(e) => setCategoryId(e.target.value)}
+                    required
+                  >
+                    {categories
+                      ?.filter((c) => c.category.status === "active")
+                      .map((c) => (
+                        <MenuItem key={c.id} value={c.category.id}>
+                          {c.category.title}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
 
-          <TextField
-            fullWidth
-            label="Price"
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-            InputProps={{
-              startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
-            }}
-          />
+                <TextField
+                  fullWidth
+                  label="Price"
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                  size="small"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        {currency}
+                      </InputAdornment>
+                    ),
+                  }}
+                />
 
-            <TextField
-              select
-              fullWidth
-              label="Estimated Time"
-              value={eta}
-              onChange={(e) => setEta(e.target.value)}
-              required
-              margin="normal"
-            >
-              {etaOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
+                <TextField
+                  select
+                  fullWidth
+                  label="Estimated Time"
+                  value={eta}
+                  onChange={(e) => setEta(e.target.value)}
+                  required
+                  size="small"
+                >
+                  {etaOptions.map((o) => (
+                    <MenuItem key={o} value={o}>
+                      {o}
+                    </MenuItem>
+                  ))}
+                </TextField>
 
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="gender-label">Gender</InputLabel>
-              <Select
-                labelId="gender-label"
-                value={gender}
-                label="Gender"
-                onChange={(e) => setGender(e.target.value)}
-              >
-                {genderOptions.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option.charAt(0).toUpperCase() + option.slice(1)}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <FormControl fullWidth size="small">
+                  <InputLabel id="gender-label">Gender</InputLabel>
+                  <Select
+                    labelId="gender-label"
+                    value={gender}
+                    label="Gender"
+                    onChange={(e) => setGender(e.target.value)}
+                  >
+                    {genderOptions.map((o) => (
+                      <MenuItem key={o} value={o}>
+                        {o.charAt(0).toUpperCase() + o.slice(1)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
 
-            <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-              Save Service
-            </Button>
-          </Box>
+              <button type="submit" style={S.saveBtn}>
+                {serviceId ? "Update Service" : "Save Service"}
+              </button>
+            </form>
+          </div>
         )}
-        <TableContainer sx={{ maxWidth: 1300 }} component={Paper}>
-          <Table aria-label="Services Table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">#</TableCell>
-                <TableCell>Title</TableCell>
-                <TableCell align="right">Category</TableCell>
-                <TableCell align="right">ETA</TableCell>
-                <TableCell align="right">Price</TableCell>
-                <TableCell align="right">Gender</TableCell>
-                <TableCell align="right">Status</TableCell>
-                <TableCell align="right">Change Status</TableCell>
-                <TableCell>Edit</TableCell>
-                <TableCell align="right">Delete</TableCell>
-              </TableRow>
-            </TableHead>
-             {services && services.length > 0 ? (
-              services.map((singleSer,index) => (
-                <>
-                  <TableBody>
-                    <TableCell align="left">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {singleSer.title}
-                    </TableCell>
-                    <TableCell align="right">
-                      {singleSer.category.title}
-                    </TableCell>
-                    <TableCell align="right">
-                      {singleSer.eta}
-                    </TableCell>
-                    <TableCell align="right">
-                      {singleSer.currency} {singleSer.price}
-                    </TableCell>
-                    <TableCell align="right">
-                      {singleSer.gender ? singleSer.gender.charAt(0).toUpperCase() + singleSer.gender.slice(1) : '---'}
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{
-                        color: singleSer.status === 'active' && singleSer.is_active_by_admin == 1 ? 'green' : 'red',
-                        fontWeight: 'bold',
-                        textTransform: 'capitalize',
-                      }}
+        <div style={S.card}>
+          <table style={S.table}>
+            <thead>
+              <tr>
+                {[
+                  "#",
+                  "Title",
+                  "Category",
+                  "ETA",
+                  "Price",
+                  "Gender",
+                  "Status",
+                  "Toggle",
+                  "Edit",
+                  "",
+                ].map((h) => (
+                  <th key={h} style={S.th}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {services && services.length > 0 ? (
+                services.map((s, i) => (
+                  <tr
+                    key={s.id}
+                    style={{ background: i % 2 === 0 ? "#fff" : "#fafaf8" }}
+                  >
+                    <td style={S.tdNum}>{i + 1}</td>
+                    <td style={{ ...S.td, fontWeight: 500 }}>{s.title}</td>
+                    <td style={S.td}>{s.category.title}</td>
+                    <td style={S.td}>{s.eta}</td>
+                    <td style={S.td}>
+                      {s.currency} {s.price}
+                    </td>
+                    <td
+                      style={{ ...S.td, color: s.gender ? "#1a1a2e" : "#aaa" }}
                     >
-                      {singleSer.status === 'active' && singleSer.is_active_by_admin == 1 ? 'active' : singleSer.is_active_by_admin != 1 ? 'Disabled by admin' : ""}
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                    >
-                      {singleSer.is_active_by_admin == 1 && (
-                        <ActiveDeactiveSwitch id={singleSer.id} apiUrl='/updateServicesStatus' status={singleSer.status} onStatusChange={handleStatusChange} />
+                      {s.gender
+                        ? s.gender.charAt(0).toUpperCase() + s.gender.slice(1)
+                        : "—"}
+                    </td>
+                    <td style={S.td}>
+                      <span
+                        style={isActive(s) ? S.badgeActive : S.badgeDisabled}
+                      >
+                        {s.status === "active" && s.is_active_by_admin == 1
+                          ? "Active"
+                          : s.is_active_by_admin != 1
+                            ? "Disabled by admin"
+                            : "Inactive"}
+                      </span>
+                    </td>
+                    <td style={S.td}>
+                      {s.is_active_by_admin == 1 && (
+                        <ActiveDeactiveSwitch
+                          id={s.id}
+                          apiUrl="/updateServicesStatus"
+                          status={s.status}
+                          onStatusChange={handleStatusChange}
+                        />
                       )}
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="contained" onClick={() => handleToggleEditForm(singleSer)}>
+                    </td>
+                    <td style={S.td}>
+                      <button
+                        style={S.editBtn}
+                        onClick={() => handleToggleEditForm(s)}
+                      >
                         Edit
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                     <DeleteButton id={singleSer.id} url='/deleteServices' onStatusChange={handleStatusChange} />
-                    </TableCell>
-                  </TableBody>
-                </>
-              ))
-            ) : (
-              <TableBody>
-                <TableCell align="center">
-                  No Services
-                </TableCell>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
+                      </button>
+                    </td>
+                    <td style={S.td}>
+                      <DeleteButton
+                        id={s.id}
+                        url="/deleteServices"
+                        onStatusChange={handleStatusChange}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={10}
+                    style={{
+                      ...S.td,
+                      textAlign: "center",
+                      color: "#aaa",
+                      padding: "32px",
+                    }}
+                  >
+                    No services found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </AdminLayout>
   );

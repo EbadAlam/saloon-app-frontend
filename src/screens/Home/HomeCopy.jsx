@@ -14,9 +14,9 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import StarRating from "../../components/StarRating/StarRating";
 import DummyImage from "../../components/DummyImage/DummyImage";
-import { getRecentlyViewedStores } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
+import { getRecentlyViewedStoreIds } from "../../Utils/storeRecentlyViewed";
 
 const isBrowser = typeof window !== "undefined";
 function Home() {
@@ -34,11 +34,11 @@ function Home() {
     if (!isBrowser) return;
     document.body.classList.remove("search-page");
   }, [location, isBrowser]);
-  useEffect(() => {
-    if (!isBrowser) return;
-    const viewed = getRecentlyViewedStores();
-    setRecentStores(viewed);
-  }, []);
+  // useEffect(() => {
+  //   if (!isBrowser) return;
+  //   const viewed = getRecentlyViewedStoreIds();
+  //   setRecentStores(viewed);
+  // }, []);
   useEffect(() => {
     if (successMessage) {
       const timer = setTimeout(() => {
@@ -53,7 +53,10 @@ function Home() {
     const fetchStores = async () => {
       setLoading(true);
       try {
-        const { data } = await axiosClient.get("/getStores");
+        const viewedStoreIds = getRecentlyViewedStoreIds();
+        const { data } = await axiosClient.post("/getStoresHome", {
+          viewedStoreIds: viewedStoreIds,
+        });
         setStores(data.stores);
         setBookingCount(data.bookingCount);
         setReviews(data.reviews);
@@ -92,7 +95,7 @@ function Home() {
           slidesToShow: 2,
           slidesToScroll: 2,
           arrows: false,
-    autoplay: true,
+          autoplay: true,
         },
       },
       {
@@ -101,7 +104,7 @@ function Home() {
           slidesToShow: 1,
           slidesToScroll: 1,
           arrows: false,
-    autoplay: true,
+          autoplay: true,
         },
       },
     ],
@@ -125,7 +128,10 @@ function Home() {
       ) : (
         <div className="homeNewDesign">
           <div className="container">
-            <Box className="main_banner" sx={{ paddingBlock: "100px", position: "relative" }}>
+            <Box
+              className="main_banner"
+              sx={{ paddingBlock: "100px", position: "relative" }}
+            >
               <Box
                 className="content"
                 sx={{ zIndex: "1", position: "relative" }}
@@ -192,7 +198,7 @@ function Home() {
               <div className="background-gradient"></div>
             </Box>
           </div>
-          {recentStores.length > 0 && (
+          {stores?.recentlyViewedStores?.length > 0 && (
             <Box
               className="recommended"
               sx={{ background: "", zIndex: "3", position: "relative" }}
@@ -207,7 +213,7 @@ function Home() {
                   Recently Viewed
                 </Typography>
                 <Box className="sliders">
-                  <Carousel stores={recentStores} />
+                  <Carousel stores={stores.recentlyViewedStores} />
                 </Box>
               </div>
             </Box>
@@ -387,12 +393,14 @@ function Home() {
                           >
                             {singleRev.reviewer.username}
                           </Typography>
-                          <Typography
-                            variant="body1"
-                            sx={{ fontSize: "14px", fontFamily: "Barlow" }}
-                          >
-                            {singleRev.reviewer.user_info.city}
-                          </Typography>
+                          {singleRev.reviewer.user_info.city && (
+                            <Typography
+                              variant="body1"
+                              sx={{ fontSize: "14px", fontFamily: "Barlow" }}
+                            >
+                              {singleRev.reviewer.user_info.city}
+                            </Typography>
+                          )}
                         </Box>
                       </Box>
                     </Box>

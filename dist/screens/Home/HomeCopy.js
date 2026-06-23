@@ -20,15 +20,15 @@ var _ArrowForwardIos = _interopRequireDefault(require("@mui/icons-material/Arrow
 var _ArrowBackIos = _interopRequireDefault(require("@mui/icons-material/ArrowBackIos"));
 var _StarRating = _interopRequireDefault(require("../../components/StarRating/StarRating"));
 var _DummyImage = _interopRequireDefault(require("../../components/DummyImage/DummyImage"));
-var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
+var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 const isBrowser = typeof window !== "undefined";
 function Home() {
-  var _location$state;
+  var _location$state, _stores$recentlyViewe;
   const location = (0, _reactRouterDom.useLocation)();
   const [successMessage, setSuccessMessage] = (0, _react.useState)(((_location$state = location.state) === null || _location$state === void 0 ? void 0 : _location$state.successMessage) || "");
   const [loading, setLoading] = (0, _react.useState)(true);
@@ -43,11 +43,11 @@ function Home() {
     if (!isBrowser) return;
     document.body.classList.remove("search-page");
   }, [location, isBrowser]);
-  (0, _react.useEffect)(() => {
-    if (!isBrowser) return;
-    const viewed = (0, _storeRecentlyViewed.getRecentlyViewedStores)();
-    setRecentStores(viewed);
-  }, []);
+  // useEffect(() => {
+  //   if (!isBrowser) return;
+  //   const viewed = getRecentlyViewedStoreIds();
+  //   setRecentStores(viewed);
+  // }, []);
   (0, _react.useEffect)(() => {
     if (successMessage) {
       const timer = setTimeout(() => {
@@ -61,9 +61,12 @@ function Home() {
     const fetchStores = async () => {
       setLoading(true);
       try {
+        const viewedStoreIds = (0, _storeRecentlyViewed.getRecentlyViewedStoreIds)();
         const {
           data
-        } = await _axiosClient.default.get("/getStores");
+        } = await _axiosClient.default.post("/getStoresHome", {
+          viewedStoreIds: viewedStoreIds
+        });
         setStores(data.stores);
         setBookingCount(data.bookingCount);
         setReviews(data.reviews);
@@ -162,7 +165,7 @@ function Home() {
     }
   }, bookingCount, " appointments are booked today."))), /*#__PURE__*/_react.default.createElement("div", {
     className: "background-gradient"
-  }))), recentStores.length > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }))), (stores === null || stores === void 0 || (_stores$recentlyViewe = stores.recentlyViewedStores) === null || _stores$recentlyViewe === void 0 ? void 0 : _stores$recentlyViewe.length) > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "recommended",
     sx: {
       background: "",
@@ -182,7 +185,7 @@ function Home() {
   }, "Recently Viewed"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "sliders"
   }, /*#__PURE__*/_react.default.createElement(_Carousel.default, {
-    stores: recentStores
+    stores: stores.recentlyViewedStores
   })))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "sliders"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -305,7 +308,7 @@ function Home() {
       fontWeight: "600",
       fontFamily: "Barlow"
     }
-  }, singleRev.reviewer.username), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }, singleRev.reviewer.username), singleRev.reviewer.user_info.city && /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
       fontSize: "14px",

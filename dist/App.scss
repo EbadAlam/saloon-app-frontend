@@ -3932,3 +3932,38 @@ input::-webkit-inner-spin-button {
     }
   }
 }
+
+
+
+
+
+
+
+
+.fc .fc-daygrid-event {
+  border-radius: 6px !important;
+  border: none !important;
+  padding: 3px 7px !important;
+  font-size: 11px !important;
+}
+.fc .fc-toolbar-title {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+.fc .fc-button {
+  background: #fff !important;
+  color: #1a1a2e !important;
+  border: 0.5px solid #e0dfd8 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  font-size: 13px !important;
+}
+.fc .fc-button:hover { background: #f5f4f0 !important; }
+.fc .fc-button-active { background: #1a1a2e !important; color: #fff !important; }
+.fc th { font-size: 11px !important; font-weight: 500 !important; color: #888 !important; text-transform: uppercase; letter-spacing: 0.05em; }
+.fc .fc-daygrid-day-number { font-size: 12px !important; color: #aaa !important; }
+.fc .fc-day-today { background: #fafaf8 !important; }
+.fc .fc-day-today .fc-daygrid-day-number {
+  background: #1a1a2e; color: #fff; width: 22px; height: 22px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}

@@ -25,7 +25,7 @@ import AdminLayout from "../Layout/Layout";
 import Loader from "../../Loader/Loader";
 import axiosClient from "../../../axios-client";
 import BackButton from "../../BackButton/BackButton";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -33,13 +33,143 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { useSnackbar } from "../../../contexts/SnackBarContext";
 import BookingDetailsModal from "../BookingDetailsModal/BookingDetailsModal";
 import ReloadButton from "../../ReloadButton/ReloadButton";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ROUTES } from "../../../routes";
+const S = {
+  page: { padding: "24px", background: "#f5f4f0", minHeight: "100vh" },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "24px",
+  },
+  nav: { display: "flex", alignItems: "center", gap: "10px" },
+  backBtn: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "6px 14px",
+    border: "1px solid #1a1a2e",
+    borderRadius: "8px",
+    background: "#fff",
+    color: "#1a1a2e",
+    fontSize: "13px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+  sep: { color: "#bbb", fontSize: "13px" },
+  crumb: { fontSize: "14px", color: "#888", textDecoration: "none" },
+  crumbActive: { fontSize: "14px", color: "#1a1a2e", fontWeight: 500 },
+  addBtn: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "8px 18px",
+    borderRadius: "8px",
+    background: "#1a1a2e",
+    color: "#fff",
+    border: "none",
+    fontSize: "13px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+  cancelBtn: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "8px 18px",
+    borderRadius: "8px",
+    background: "#fff",
+    color: "#1a1a2e",
+    border: "1px solid #1a1a2e",
+    fontSize: "13px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+  card: {
+    background: "#fff",
+    borderRadius: "12px",
+    border: "0.5px solid #e0dfd8",
+    overflow: "hidden",
+  },
+  form: {
+    background: "#fff",
+    borderRadius: "12px",
+    border: "0.5px solid #e0dfd8",
+    padding: "20px",
+    marginBottom: "20px",
+  },
+  table: { width: "100%", borderCollapse: "collapse", fontSize: "13px" },
+  th: {
+    padding: "12px 14px",
+    textAlign: "left",
+    color: "#888",
+    fontWeight: 500,
+    fontSize: "12px",
+    textTransform: "uppercase",
+    letterSpacing: "0.04em",
+    borderBottom: "1px solid #f0efe8",
+  },
+  td: {
+    padding: "12px 14px",
+    color: "#1a1a2e",
+    fontSize: "13px",
+    borderBottom: "0.5px solid #f5f4f0",
+  },
+  tdNum: {
+    padding: "12px 14px",
+    color: "#aaa",
+    fontSize: "12px",
+    borderBottom: "0.5px solid #f5f4f0",
+  },
+  badgeActive: {
+    display: "inline-block",
+    padding: "3px 10px",
+    borderRadius: "999px",
+    fontSize: "11px",
+    fontWeight: 500,
+    background: "#eaf3de",
+    color: "#27500a",
+  },
+  badgeDisabled: {
+    display: "inline-block",
+    padding: "3px 10px",
+    borderRadius: "999px",
+    fontSize: "11px",
+    fontWeight: 500,
+    background: "#fcebeb",
+    color: "#791f1f",
+  },
+  editBtn: {
+    padding: "5px 14px",
+    borderRadius: "7px",
+    background: "#1a1a2e",
+    color: "#fff",
+    border: "none",
+    fontSize: "12px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+  saveBtn: {
+    marginTop: "16px",
+    padding: "8px 20px",
+    borderRadius: "8px",
+    background: "#1a1a2e",
+    color: "#fff",
+    border: "none",
+    fontSize: "13px",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+};
 function AdminBookingsPage() {
   const { storeId } = useParams();
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(true);
   const [bookings, setBookings] = useState([]);
+  const [filteredBookings, setFilteredBookings] = useState(bookings);
   const [events, setEvents] = useState([]);
+  const [storeName, setStoreName] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const { showSnackbar } = useSnackbar();
   const [alertMessageType, setAlertMessageType] = useState("");
@@ -68,40 +198,9 @@ function AdminBookingsPage() {
       const { data } = await axiosClient.get(`/getBooking/${storeId}`);
       if (data.success) {
         setBookings(data.bookings);
-        const formatted = data.bookings.map((booking) => {
-          const start = new Date(
-            `${booking.booking_date}T${booking.booking_time}`
-          );
-          let etaMinutes = 0;
-          if (booking.service?.eta) {
-            const etaStr = booking.service.eta.toLowerCase();
-            if (etaStr.includes("hr")) {
-              etaMinutes += parseInt(etaStr) * 60;
-            }
-            if (etaStr.includes("min")) {
-              etaMinutes += parseInt(etaStr);
-            }
-          }
+        setStoreName(data.storeName || "");
 
-          const end = new Date(start.getTime() + etaMinutes * 60000);
-          const color = getRandomLightColor();
-          return {
-            id: booking.id,
-            title: booking.service?.title || "Booking",
-            start,
-            end,
-            allDay: false,
-            color: color,
-            textColor: "#000",
-            extendedProps: {
-              username: booking.user?.username || "Guest",
-              worker: booking.worker?.username || "Not assigned",
-              booking: booking,
-            },
-          };
-        });
-
-        setEvents(formatted);
+        setEvents(mapBookingsToEvents(data.bookings));
         axiosClient.post(`/updateBookingSeen/${storeId}`);
       }
     } catch (error) {
@@ -110,7 +209,40 @@ function AdminBookingsPage() {
       setLoading(false);
     }
   };
+  const mapBookingsToEvents = (bookings) => {
+    return bookings.map((booking) => {
+      const start = new Date(`${booking.booking_date}T${booking.booking_time}`);
 
+      let etaMinutes = 0;
+
+      if (booking.service?.eta) {
+        const etaStr = booking.service.eta.toLowerCase();
+
+        const hrMatch = etaStr.match(/(\d+)\s*hour/);
+        const minMatch = etaStr.match(/(\d+)\s*minutes/);
+
+        if (hrMatch) etaMinutes += parseInt(hrMatch[1]) * 60;
+        if (minMatch) etaMinutes += parseInt(minMatch[1]);
+      }
+
+      const end = new Date(start.getTime() + etaMinutes * 60000);
+
+      return {
+        id: booking.id,
+        title: booking.service?.title || "Booking",
+        start,
+        end,
+        allDay: false,
+        color: getRandomLightColor(),
+        textColor: "#000",
+        extendedProps: {
+          username: booking.user?.username || "Guest",
+          worker: booking.worker?.username || "Not assigned",
+          booking,
+        },
+      };
+    });
+  };
   const handleStatusChange = (newStatus, fetch = true) => {
     setAlertMessage(newStatus.message);
     if (newStatus.success) {
@@ -136,7 +268,7 @@ function AdminBookingsPage() {
       };
       const { data } = await axiosClient.put(
         `/updateBookingStatus/${id}`,
-        payload
+        payload,
       );
       setLoading(false);
       handleStatusChange(data);
@@ -155,99 +287,109 @@ function AdminBookingsPage() {
   };
   const calendarRef = useRef(null);
 
-// add this effect after fetchStoreBookings sets events:
-useEffect(() => {
-  if (!calendarRef.current) return;
+  useEffect(() => {
+    if (!calendarRef.current) return;
 
-  const calendarApi = calendarRef.current.getApi();
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+    const calendarApi = calendarRef.current.getApi();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-  const pendingPast = bookings.filter((b) => {
-    const d = new Date(b.booking_date);
-    return d < today && b.status === "pending";
-  }).length;
+    const pendingPast = bookings.filter((b) => {
+      const d = new Date(b.booking_date);
+      return d < today && b.status === "pending";
+    }).length;
 
-  const pendingFuture = bookings.filter((b) => {
-    const d = new Date(b.booking_date);
-    return d >= today && b.status === "pending";
-  }).length;
+    const pendingFuture = bookings.filter((b) => {
+      const d = new Date(b.booking_date);
+      return d >= today && b.status === "pending";
+    }).length;
 
-  // inject badges into toolbar
-  const toolbar = document.querySelector(".fc-toolbar");
-  if (!toolbar) return;
+    const toolbar = document.querySelector(".fc-toolbar");
+    if (!toolbar) return;
 
-  // remove old badges if re-rendering
-  document.querySelectorAll(".booking-badge").forEach((el) => el.remove());
+    document.querySelectorAll(".booking-badge").forEach((el) => el.remove());
 
-  const prevBtn = document.querySelector(".fc-prev-button");
-  const nextBtn = document.querySelector(".fc-next-button");
+    const prevBtn = document.querySelector(".fc-prev-button");
+    const nextBtn = document.querySelector(".fc-next-button");
 
-  if (prevBtn && pendingPast > 0) {
-    const badge = document.createElement("span");
-    badge.className = "booking-badge past-badge";
-    badge.innerText = pendingPast;
-    prevBtn.style.position = "relative";
-    prevBtn.appendChild(badge);
-  }
+    if (prevBtn && pendingPast > 0) {
+      const badge = document.createElement("span");
+      badge.className = "booking-badge past-badge";
+      badge.innerText = pendingPast;
+      prevBtn.style.position = "relative";
+      prevBtn.appendChild(badge);
+    }
 
-  if (nextBtn && pendingFuture > 0) {
-    const badge = document.createElement("span");
-    badge.className = "booking-badge future-badge";
-    badge.innerText = pendingFuture;
-    nextBtn.style.position = "relative";
-    nextBtn.appendChild(badge);
-  }
-}, [bookings]);
+    if (nextBtn && pendingFuture > 0) {
+      const badge = document.createElement("span");
+      badge.className = "booking-badge future-badge";
+      badge.innerText = pendingFuture;
+      nextBtn.style.position = "relative";
+      nextBtn.appendChild(badge);
+    }
+  }, [bookings]);
+
   const renderEventContent = (eventInfo) => {
+    const booking = eventInfo.event.extendedProps.booking;
+    const statusColor =
+      booking?.status === "pending"
+        ? "#e07b00"
+        : booking?.status === "completed"
+          ? "#27500a"
+          : "#791f1f";
+
     return (
-      <div className="p-1 text-xs">
-        <b>{eventInfo.event.title}</b>
-        <div>
-          {new Date(
-            `1970-01-01T${eventInfo.event.extendedProps.booking?.booking_time}`
-          ).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}
-          {" - "}
-          {new Date(
-            `1970-01-01T${eventInfo.event.extendedProps.booking?.booking_time_end}`
-          ).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}
-        </div>
-        <div>User: {eventInfo.event.extendedProps.username}</div>
-        <div>Worker: {eventInfo.event.extendedProps.worker}</div>
-        <div>
-          Status:{" "}
-          <span
-            style={{
-              color:
-                eventInfo.event.extendedProps.booking?.status === "pending"
-                  ? "#ff7800"
-                  : eventInfo.event.extendedProps.booking?.status ===
-                    "completed"
-                  ? "green"
-                  : "red",
-            }}
-          >
-            {eventInfo.event.extendedProps.booking?.status}
-          </span>
-        </div>
-        <div>
-          {eventInfo.event.extendedProps.booking?.is_seen == "false" && (
-            <span style={{ color: "red" }}>New</span>
+      <div
+        style={{
+          padding: "3px 6px",
+          fontSize: "11px",
+          lineHeight: 1.4,
+          cursor: "pointer",
+        }}
+      >
+        <b style={{ display: "block", fontWeight: 600 }}>
+          {eventInfo.event.title}
+        </b>
+        <span style={{ opacity: 0.6 }}>
+          {new Date(`1970-01-01T${booking?.booking_time}`).toLocaleTimeString(
+            [],
+            { hour: "numeric", minute: "2-digit" },
           )}
-        </div>
+          {" – "}
+          {new Date(
+            `1970-01-01T${booking?.booking_time_end}`,
+          ).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}
+        </span>
+        <span
+          style={{
+            display: "inline-block",
+            marginLeft: "4px",
+            width: "10px",
+            height: "10px",
+            borderRadius: "50%",
+            background: statusColor,
+            verticalAlign: "middle",
+          }}
+        />
       </div>
     );
   };
-  // const [calendarView, setCalendarView] = useState(
-  //   window.innerWidth < 768 ? "listWeek" : "dayGridMonth"
-  // );
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setCalendarView(window.innerWidth < 768 ? "listWeek" : "dayGridMonth");
-  //   };
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
+  const handleBookingFilter = (filter) => {
+    // console.log("Filtering bookings with filter:", filter);
+    let filtered = bookings;
+
+    if (!filter || filter === "all" || filter === "total bookings") {
+      filtered = filtered;
+    } else if (filter === "pending") {
+      filtered = filtered.filter((b) => b.status === "pending");
+    } else if (filter === "completed") {
+      filtered = filtered.filter((b) => b.status === "completed");
+    } else if (filter === "cancelled") {
+      filtered = filtered.filter((b) => b.status === "cancelled");
+    }
+    // console.log("Filtered bookings:", filtered);
+    setEvents(mapBookingsToEvents(filtered));
+  };
   return (
     <>
       <AdminLayout>
@@ -261,34 +403,146 @@ useEffect(() => {
         )}
 
         <div className="container-fluid dashboard-content">
-      {loading && <Loader />}
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={2}
-          >
-            <Typography variant="h4">
-              Bookings <ReloadButton onReload={fetchStoreBookings} />
-            </Typography>
-            <Stack direction="row" gap={2}>
-              <BackButton />
-            </Stack>
-          </Stack>
-          <FullCalendar
-            ref={calendarRef}
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView={"dayGridMonth"}
-            headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "",
+          {loading && <Loader />}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "20px",
             }}
-            eventDisplay="block"
-            events={events}
-            eventContent={renderEventContent}
-            eventClick={handleEventClick}
-          />
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <button style={S.backBtn} onClick={() => window.history.back()}>
+                <ArrowBackIcon style={{ fontSize: 13 }} /> Back
+              </button>
+              <span style={{ color: "#bbb" }}>›</span>
+              <Link to={ROUTES.adminStores} style={S.crumb}>
+                Stores
+              </Link>
+              <span style={{ color: "#bbb" }}>›</span>
+              <Link to={ROUTES.getAdminSingleStore(storeId)} style={S.crumb}>
+                {storeName || "..."}
+              </Link>
+              <span style={{ color: "#bbb" }}>›</span>
+              <span style={S.crumbActive}>Bookings</span>
+              <ReloadButton onReload={fetchStoreBookings} />
+            </div>
+          </div>
+          {(() => {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const pending = bookings.filter(
+              (b) => b.status === "pending",
+            ).length;
+            const completed = bookings.filter(
+              (b) => b.status === "completed",
+            ).length;
+            const cancelled = bookings.filter(
+              (b) => b.status === "cancelled",
+            ).length;
+            return (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4,1fr)",
+                  gap: "12px",
+                  marginBottom: "20px",
+                }}
+              >
+                {[
+                  {
+                    label: "Total bookings",
+                    val: bookings.length,
+                    sub: "This month",
+                    color: "#1a1a2e",
+                  },
+                  {
+                    label: "Pending",
+                    val: pending,
+                    sub: "Awaiting action",
+                    color: "#e07b00",
+                  },
+                  {
+                    label: "Completed",
+                    val: completed,
+                    sub: "This month",
+                    color: "#27500a",
+                  },
+                  {
+                    label: "Cancelled",
+                    val: cancelled,
+                    sub: "This month",
+                    color: "#791f1f",
+                  },
+                ].map((s) => (
+                  <div
+                    key={s.label}
+                    style={{
+                      background: "#fff",
+                      border: "0.5px solid #e0dfd8",
+                      borderRadius: "12px",
+                      padding: "14px 16px",
+                    }}
+                    onClick={() => handleBookingFilter(s.label.toLowerCase())}
+                  >
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        color: "#888",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      {s.label}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "22px",
+                        fontWeight: 600,
+                        color: s.color,
+                      }}
+                    >
+                      {s.val}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        color: "#aaa",
+                        marginTop: "2px",
+                      }}
+                    >
+                      {/* {s.sub} */}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: "14px",
+              border: "0.5px solid #e0dfd8",
+              overflow: "hidden",
+            }}
+          >
+            <FullCalendar
+              ref={calendarRef}
+              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+              initialView={"dayGridMonth"}
+              headerToolbar={{
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay",
+              }}
+              eventDisplay="block"
+              events={events}
+              eventContent={renderEventContent}
+              eventClick={handleEventClick}
+            />
+          </div>
         </div>
       </AdminLayout>
     </>

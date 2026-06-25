@@ -212,7 +212,7 @@ function BookingDetailsModal(_ref2) {
   }, /*#__PURE__*/_react.default.createElement(_material.Select, {
     defaultValue: booking.status,
     onChange: e => handleStatusChangeStatus(booking.id, e.target.value)
-  }, ["pending", "cancelled", "completed"].map(status => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
+  }, ["pending", "confirmed", "no show", "cancelled", "completed"].map(status => /*#__PURE__*/_react.default.createElement(_material.MenuItem, {
     key: status,
     value: status
   }, status.charAt(0).toUpperCase() + status.slice(1)))))));

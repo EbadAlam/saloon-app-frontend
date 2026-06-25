@@ -34,7 +34,6 @@ import { ROUTES } from "../../routes";
 import { saveRecentlyViewedStore } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
-import ReviewsSlider from "../../components/ReviewsSlider/ReviewsSlider";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 function StorePage({ initialData }) {
@@ -699,7 +698,6 @@ function StorePage({ initialData }) {
                     </div>
                   )}
 
-                  {/* <ReviewsSlider reviews={storeDetails.reviews} /> */}
                   <Box>
                     {storeDetails?.reviews &&
                       storeDetails?.reviews?.length > 0 && (

@@ -122,7 +122,7 @@ export default function BookingDetailsModal({
             defaultValue={booking.status}
             onChange={(e) => handleStatusChangeStatus(booking.id, e.target.value)}
           >
-            {["pending", "cancelled", "completed"].map((status) => (
+            {["pending", "confirmed", "no show", "cancelled", "completed"].map((status) => (
               <MenuItem key={status} value={status}>
                 {status.charAt(0).toUpperCase() + status.slice(1)}
               </MenuItem>

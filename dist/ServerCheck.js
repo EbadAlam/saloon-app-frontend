@@ -13,23 +13,27 @@ function AppWrapper(_ref) {
   let {
     children
   } = _ref;
-  const [serverUp, setServerUp] = (0, _react.useState)(true);
-  const [checking, setChecking] = (0, _react.useState)(false);
+  const [serverUp, setServerUp] = (0, _react.useState)(false);
+  const [checking, setChecking] = (0, _react.useState)(true);
   (0, _react.useEffect)(() => {
     const checkServer = async () => {
-      // try {
-      //   const { data } = await axiosClient.get('/health', { timeout: 5000 });
-      //   if (data?.status === "ok") {
-      //     setServerUp(true);
-      //   } else {
-      //     setServerUp(false);
-      //   }
-      // } catch (error) {
-      //   console.error('Error in server: ',error);
-      //   setServerUp(false);
-      // } finally {
-      //   setChecking(false);
-      // }
+      try {
+        const {
+          data
+        } = await _axiosClient.default.get('/health', {
+          timeout: 5000
+        });
+        if ((data === null || data === void 0 ? void 0 : data.status) === "ok") {
+          setServerUp(true);
+        } else {
+          setServerUp(false);
+        }
+      } catch (error) {
+        console.error('Error in server: ', error);
+        setServerUp(false);
+      } finally {
+        setChecking(false);
+      }
     };
     checkServer();
   }, []);

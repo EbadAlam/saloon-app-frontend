@@ -248,7 +248,307 @@ function Home() {
     className: "slider"
   }, /*#__PURE__*/_react.default.createElement(_Carousel.default, {
     stores: stores.trending
-  }))))), reviews && reviews.length > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "how_it_works"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "head"
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "subHeading"
+  }, "simple process"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h3",
+    className: "heading"
+  }, "How it works"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "description"
+  }, "Book your next beauty and wellness appointment in 3 easy steps")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "steps"
+  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "step"
+  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "step_img"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "step_no"
+  }, "1"), /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-search w-9 h-9 text-white"
+  }, /*#__PURE__*/_react.default.createElement("circle", {
+    cx: "11",
+    cy: "11",
+    r: "8"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "m21 21-4.3-4.3"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "step_title"
+  }, "Search Service"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "step_description"
+  }, "Browse or search for the beauty service you need in your area")), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "step"
+  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "step_img"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "step_no"
+  }, "2"), /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-users w-9 h-9 text-white"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+  }), /*#__PURE__*/_react.default.createElement("circle", {
+    cx: "9",
+    cy: "7",
+    r: "4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M22 21v-2a4 4 0 0 0-3-3.87"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 3.13a4 4 0 0 1 0 7.75"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "step_title"
+  }, "Compare Providers"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "step_description"
+  }, "View profiles, portfolios, prices, and reviews to find the perfect match")), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "step"
+  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "step_img"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "step_no"
+  }, "3"), /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-calendar w-9 h-9 text-white"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M8 2v4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 2v4"
+  }), /*#__PURE__*/_react.default.createElement("rect", {
+    width: "18",
+    height: "18",
+    x: "3",
+    y: "4",
+    rx: "2"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M3 10h18"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "step_title"
+  }, "Book Instantly"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "step_description"
+  }, "Select your preferred date and time, then confirm your booking securely"))))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "whyChooseUs"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "head"
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "subHeading"
+  }, "Our Promise"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h3",
+    className: "heading"
+  }, "Why Choose Our Platform?"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "description"
+  }, "The most trusted beauty services marketplace in Pakistan")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cards"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "card_img"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-shield-check w-7 h-7 text-white"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "m9 12 2 2 4-4"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "card_title"
+  }, "Verified Professionals"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "card_description"
+  }, "All providers are verified with background checks and certifications")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "card_img"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-dollar-sign w-7 h-7 text-white"
+  }, /*#__PURE__*/_react.default.createElement("line", {
+    x1: "12",
+    x2: "12",
+    y1: "2",
+    y2: "22"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "card_title"
+  }, "Transparent Pricing"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "card_description"
+  }, "No hidden charges. Compare prices upfront before booking")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "card_img"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-star w-7 h-7 text-white"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "card_title"
+  }, "Real Reviews"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "card_description"
+  }, "Authentic reviews from verified clients to help you decide")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "card_img"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-calendar w-7 h-7 text-white"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M8 2v4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 2v4"
+  }), /*#__PURE__*/_react.default.createElement("rect", {
+    width: "18",
+    height: "18",
+    x: "3",
+    y: "4",
+    rx: "2"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M3 10h18"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "card_title"
+  }, "Easy Booking"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "card_description"
+  }, "Book appointments 24/7 with instant confirmation")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "card_img"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-credit-card w-7 h-7 text-white"
+  }, /*#__PURE__*/_react.default.createElement("rect", {
+    width: "20",
+    height: "14",
+    x: "2",
+    y: "5",
+    rx: "2"
+  }), /*#__PURE__*/_react.default.createElement("line", {
+    x1: "2",
+    x2: "22",
+    y1: "10",
+    y2: "10"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "card_title"
+  }, "Secure Payments"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "card_description"
+  }, "Multiple payment options with bank-grade security")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "card_img"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-tag w-7 h-7 text-white"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
+  }), /*#__PURE__*/_react.default.createElement("circle", {
+    cx: "7.5",
+    cy: "7.5",
+    r: ".5",
+    fill: "currentColor"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "h5",
+    className: "card_title"
+  }, "Best Deals"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body1",
+    className: "card_description"
+  }, "Exclusive discounts and special offers for members"))))), reviews && reviews.length > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "reviews_slider"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "container"

@@ -72,7 +72,7 @@ function FavoritesPage() {
         <Box className="container">
             <Box display='flex'>
                 <UserSidebar />
-                <Box className="content">
+                <Box className="content" sx={{padding:"20px 40px"}}>
                     {loading && <Loader />}
                     <Typography variant='h2'>Favorites</Typography>
                     <Box className="slider" sx={{position:'relative'}}>

@@ -1,1 +1,17 @@
 build me dashboard ka code jata he dist me or src me nai jata 
+
+
+---------------------------
+admin me field add krni he team member me gender ki ta k store page per border color me differentiate ker sken  (completed)
+admin me team member me specific service ka option add krna he  (completed)
+admin me service add form me eta ki field dropdown me shift krni he  (completed)
+
+
+------------------
+any store is inactive or disabled from site, if it is in someones recents view list then it still shows up  (completed)
+back button in vendor dashboard (completed)
+booking cancellation (completed)
+master admin status color update
+portfolio for stores
+member ships program
+marketing setup 

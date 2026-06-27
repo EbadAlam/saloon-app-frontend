@@ -498,7 +498,10 @@ function AppointmentsPage() {
           <div className="content">
             {loading && <Loader />}
 
-            <h2
+            
+
+            <div style={S.wrap}>
+              <h2
               style={{
                 fontSize: "24px",
                 fontWeight: 600,
@@ -507,8 +510,6 @@ function AppointmentsPage() {
             >
               Appointments
             </h2>
-
-            <div style={S.wrap}>
               {/* Tabs */}
               <div style={S.tabsContainer}>
                 {tabs.map((tab) => (

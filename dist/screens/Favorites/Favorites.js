@@ -94,7 +94,10 @@ function FavoritesPage() {
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     display: "flex"
   }, /*#__PURE__*/_react.default.createElement(_UserSidebar.default, null), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "content"
+    className: "content",
+    sx: {
+      padding: "20px 40px"
+    }
   }, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h2"
   }, "Favorites"), /*#__PURE__*/_react.default.createElement(_material.Box, {

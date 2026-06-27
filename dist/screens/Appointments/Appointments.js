@@ -518,15 +518,15 @@ function AppointmentsPage() {
     }
   }, /*#__PURE__*/_react.default.createElement(_UserSidebar.default, null), /*#__PURE__*/_react.default.createElement("div", {
     className: "content"
-  }, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement("h2", {
+  }, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement("div", {
+    style: S.wrap
+  }, /*#__PURE__*/_react.default.createElement("h2", {
     style: {
       fontSize: "24px",
       fontWeight: 600,
       marginBottom: "20px"
     }
   }, "Appointments"), /*#__PURE__*/_react.default.createElement("div", {
-    style: S.wrap
-  }, /*#__PURE__*/_react.default.createElement("div", {
     style: S.tabsContainer
   }, tabs.map(tab => /*#__PURE__*/_react.default.createElement("button", {
     key: tab.key,

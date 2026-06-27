@@ -401,6 +401,8 @@ function ProfilePage() {
       display: "flex"
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
     style: {
       display: "flex",
       flex: 1
@@ -622,6 +624,6 @@ function ProfilePage() {
   }, "Cancel"), /*#__PURE__*/_react.default.createElement("button", {
     type: "submit",
     style: _objectSpread(_objectSpread({}, S.modalBtn), S.modalBtnPrimary)
-  }, "Save Address"))))))));
+  }, "Save Address")))))))));
 }
 var _default = exports.default = ProfilePage;

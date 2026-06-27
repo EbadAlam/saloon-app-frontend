@@ -161,7 +161,8 @@ function ProfilePage() {
 
   return (
     <div className="profile" style={{ display: "flex" }}>
-      <div style={{ display: "flex", flex: 1 }}>
+      <div className="container">
+        <div style={{ display: "flex", flex: 1 }}>
         <UserSidebar />
         <div className="content" style={{ flex: 1 }}>
           {loading && <Loader />}
@@ -322,6 +323,7 @@ function ProfilePage() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

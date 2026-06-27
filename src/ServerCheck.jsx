@@ -4,24 +4,24 @@ import { Box, CircularProgress } from "@mui/material";
 
 
 function AppWrapper({ children }) {
-  const [serverUp, setServerUp] = useState(false);
-  const [checking, setChecking] = useState(true);
+  const [serverUp, setServerUp] = useState(true);
+  const [checking, setChecking] = useState(false);
 
   useEffect(() => {
     const checkServer = async () => {
-      try {
-        const { data } = await axiosClient.get('/health', { timeout: 5000 });
-        if (data?.status === "ok") {
-          setServerUp(true);
-        } else {
-          setServerUp(false);
-        }
-      } catch (error) {
-        console.error('Error in server: ',error);
-        setServerUp(false);
-      } finally {
-        setChecking(false);
-      }
+      // try {
+      //   const { data } = await axiosClient.get('/health', { timeout: 5000 });
+      //   if (data?.status === "ok") {
+      //     setServerUp(true);
+      //   } else {
+      //     setServerUp(false);
+      //   }
+      // } catch (error) {
+      //   console.error('Error in server: ',error);
+      //   setServerUp(false);
+      // } finally {
+      //   setChecking(false);
+      // }
     };
 
     checkServer();

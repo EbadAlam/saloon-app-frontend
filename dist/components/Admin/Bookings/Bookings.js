@@ -211,9 +211,32 @@ function AdminBookingsPage() {
     const b = Math.floor(180 + Math.random() * 75);
     return "#".concat(r.toString(16).padStart(2, "0")).concat(g.toString(16).padStart(2, "0")).concat(b.toString(16).padStart(2, "0"));
   };
+
+  // const mapBookingsToEvents = (list) => list.map((booking) => {
+  //   const start = new Date(`${booking.booking_date}T${booking.booking_time}`);
+  //   let etaMinutes = 0;
+  //   if (booking.service?.eta) {
+  //     const s = booking.service.eta.toLowerCase();
+  //     const hr = s.match(/(\d+)\s*hour/);
+  //     const min = s.match(/(\d+)\s*minutes/);
+  //     if (hr) etaMinutes += parseInt(hr[1]) * 60;
+  //     if (min) etaMinutes += parseInt(min[1]);
+  //   }
+  //   return {
+  //     id: booking.id,
+  //     title: booking.service?.title || "Booking",
+  //     start,
+  //     end: new Date(start.getTime() + etaMinutes * 60000),
+  //     allDay: false,
+  //     color: getRandomLightColor(),
+  //     textColor: "#000",
+  //     extendedProps: { username: booking.user?.username || "Guest", worker: booking.worker?.username || "Not assigned", booking },
+  //   };
+  // });
+
   const mapBookingsToEvents = list => list.map(booking => {
     var _booking$service, _booking$service2, _booking$user, _booking$worker;
-    const start = new Date("".concat(booking.booking_date, "T").concat(booking.booking_time));
+    const start = parseBookingDate(booking.booking_date, booking.booking_time);
     let etaMinutes = 0;
     if ((_booking$service = booking.service) !== null && _booking$service !== void 0 && _booking$service.eta) {
       const s = booking.service.eta.toLowerCase();
@@ -255,6 +278,10 @@ function AdminBookingsPage() {
     } finally {
       setLoading(false);
     }
+  };
+  const parseBookingDate = (dateString, timeString) => {
+    const [year, month, day] = dateString.split("-");
+    return new Date(year, parseInt(month) - 1, parseInt(day), parseInt(timeString.split(":")[0]), parseInt(timeString.split(":")[1]));
   };
   const handleStatusChangeStatus = async (id, newStatus) => {
     setLoading(true);
@@ -306,12 +333,42 @@ function AdminBookingsPage() {
       setEvents(mapBookingsToEvents(filtered));
     }
   };
+
+  // useEffect(() => {
+  //   if (!calendarRef.current) return;
+  //   const today = new Date(); today.setHours(0,0,0,0);
+  //   const pendingPast = bookings.filter(b => new Date(b.booking_date) < today && b.status === "pending").length;
+  //   const pendingFuture = bookings.filter(b => new Date(b.booking_date) >= today && b.status === "pending").length;
+  //   document.querySelectorAll(".booking-badge").forEach(el => el.remove());
+  //   const prevBtn = document.querySelector(".fc-prev-button");
+  //   const nextBtn = document.querySelector(".fc-next-button");
+  //   if (prevBtn && pendingPast > 0) {
+  //     const badge = document.createElement("span");
+  //     badge.className = "booking-badge past-badge";
+  //     badge.innerText = pendingPast;
+  //     prevBtn.style.position = "relative";
+  //     prevBtn.appendChild(badge);
+  //   }
+  //   if (nextBtn && pendingFuture > 0) {
+  //     const badge = document.createElement("span");
+  //     badge.className = "booking-badge future-badge";
+  //     badge.innerText = pendingFuture;
+  //     nextBtn.style.position = "relative";
+  //     nextBtn.appendChild(badge);
+  //   }
+  // }, [bookings]);
   (0, _react.useEffect)(() => {
     if (!calendarRef.current) return;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const pendingPast = bookings.filter(b => new Date(b.booking_date) < today && b.status === "pending").length;
-    const pendingFuture = bookings.filter(b => new Date(b.booking_date) >= today && b.status === "pending").length;
+    const pendingPast = bookings.filter(b => {
+      const bDate = new Date(b.booking_date.split("-")[0], parseInt(b.booking_date.split("-")[1]) - 1, b.booking_date.split("-")[2]);
+      return bDate < today && b.status === "pending";
+    }).length;
+    const pendingFuture = bookings.filter(b => {
+      const bDate = new Date(b.booking_date.split("-")[0], parseInt(b.booking_date.split("-")[1]) - 1, b.booking_date.split("-")[2]);
+      return bDate >= today && b.status === "pending";
+    }).length;
     document.querySelectorAll(".booking-badge").forEach(el => el.remove());
     const prevBtn = document.querySelector(".fc-prev-button");
     const nextBtn = document.querySelector(".fc-next-button");
@@ -568,7 +625,7 @@ function AdminBookingsPage() {
   }, "Price"), /*#__PURE__*/_react.default.createElement("th", {
     style: S.th
   }, "Status"))), /*#__PURE__*/_react.default.createElement("tbody", null, filteredBookings.length > 0 ? filteredBookings.map((b, i) => {
-    var _b$user, _b$user2, _b$user3, _b$service, _b$worker, _b$booking_date, _b$service2, _b$service3, _b$status;
+    var _b$user, _b$user2, _b$user3, _b$service, _b$worker, _b$service2, _b$service3, _b$status;
     return /*#__PURE__*/_react.default.createElement("tr", {
       key: b.id,
       style: {
@@ -601,7 +658,7 @@ function AdminBookingsPage() {
       style: S.td
     }, ((_b$worker = b.worker) === null || _b$worker === void 0 ? void 0 : _b$worker.username) || "Any"), /*#__PURE__*/_react.default.createElement("td", {
       style: S.td
-    }, (_b$booking_date = b.booking_date) === null || _b$booking_date === void 0 ? void 0 : _b$booking_date.split("-").reverse().join("/")), /*#__PURE__*/_react.default.createElement("td", {
+    }, new Date(b.booking_date.split("-")[0], parseInt(b.booking_date.split("-")[1]) - 1, b.booking_date.split("-")[2]).toLocaleDateString("en-GB")), /*#__PURE__*/_react.default.createElement("td", {
       style: S.td
     }, new Date("1970-01-01T".concat(b.booking_time)).toLocaleTimeString([], {
       hour: "numeric",

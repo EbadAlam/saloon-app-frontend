@@ -68,6 +68,7 @@ var _HelpCenter = _interopRequireDefault(require("./screens/HelpCenter/HelpCente
 var _Inqueries = _interopRequireDefault(require("./components/Admin/MasterAdmin/Inqueries/Inqueries"));
 var _CategoryPage = _interopRequireDefault(require("./screens/CategoryPage/CategoryPage"));
 var _HomeCopy = _interopRequireDefault(require("./screens/Home/HomeCopy"));
+var _PortfolioPage = _interopRequireDefault(require("./components/Admin/PortfolioPage/PortfolioPage"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 // import Home from './screens/Home/HomeNew';
 
@@ -190,6 +191,9 @@ function App(_ref) {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.adminBookings,
     element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, null, /*#__PURE__*/_react.default.createElement(_Bookings2.default, null))
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: _routes.ROUTES.adminPortfolio,
+    element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, null, /*#__PURE__*/_react.default.createElement(_PortfolioPage.default, null))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.adminReviews,
     element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, null, /*#__PURE__*/_react.default.createElement(_Reviews2.default, null))

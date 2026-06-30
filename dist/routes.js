@@ -34,6 +34,8 @@ const ROUTES = exports.ROUTES = {
   adminAddTeamMembers: '/vendor/stores/:storeId/team',
   getAdminBookings: storeId => "/vendor/stores/".concat(storeId, "/bookings"),
   adminBookings: '/vendor/stores/:storeId/bookings',
+  getAdminPortfolio: storeId => "/vendor/stores/".concat(storeId, "/portfolio"),
+  adminPortfolio: '/vendor/stores/:storeId/portfolio',
   getAdminReviews: storeId => "/vendor/stores/".concat(storeId, "/reviews"),
   adminReviews: '/vendor/stores/:storeId/reviews',
   getAdminAddCategory: storeId => "/vendor/stores/".concat(storeId, "/category"),

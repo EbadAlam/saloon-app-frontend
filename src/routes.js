@@ -33,6 +33,9 @@ export const ROUTES = {
     getAdminBookings: (storeId) => `/vendor/stores/${storeId}/bookings`,
     adminBookings: '/vendor/stores/:storeId/bookings',
 
+    getAdminPortfolio: (storeId) => `/vendor/stores/${storeId}/portfolio`,
+    adminPortfolio: '/vendor/stores/:storeId/portfolio',
+
     getAdminReviews: (storeId) => `/vendor/stores/${storeId}/reviews`,
     adminReviews: '/vendor/stores/:storeId/reviews',
 

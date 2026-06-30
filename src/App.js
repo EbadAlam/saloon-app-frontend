@@ -63,6 +63,7 @@ import HelpCenter from './screens/HelpCenter/HelpCenter';
 import MasterInqueriesPage from './components/Admin/MasterAdmin/Inqueries/Inqueries';
 import CategoryPage from './screens/CategoryPage/CategoryPage';
 import Home from './screens/Home/HomeCopy';
+import AdminPortfolioPage from './components/Admin/PortfolioPage/PortfolioPage';
 
 function App({initialData}) {
   return (
@@ -192,6 +193,14 @@ function App({initialData}) {
             element={
               <ProtectedRoute>
                 <AdminBookingsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.adminPortfolio}
+            element={
+              <ProtectedRoute>
+                <AdminPortfolioPage />
               </ProtectedRoute>
             }
           />

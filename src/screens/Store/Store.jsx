@@ -35,6 +35,7 @@ import { saveRecentlyViewedStore } from "../../Utils/storeRecentlyViewed";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
 import ScrollContainer from "react-indiana-drag-scroll";
+import PortfolioGallery from "../../components/PortfolioGallery/PortfolioGallery";
 
 function StorePage({ initialData }) {
   const { formatDate, user, token, updateFavorites ,getVisitorId} = useAuth();
@@ -62,26 +63,6 @@ function StorePage({ initialData }) {
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      Promise.all([
-        import("leaflet"),
-        import("react-leaflet"),
-        import("leaflet/dist/leaflet.css"),
-      ]).then(([L, ReactLeaflet]) => {
-        L.Icon.Default.mergeOptions({
-          iconRetinaUrl:
-            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-          iconUrl:
-            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-          shadowUrl:
-            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-        });
-        setMapComponents(ReactLeaflet);
-      });
-    }
-  }, []);
-
-  useEffect(() => {
     if (!storeDetails || slug !== storeDetails.slug) {
       const fetchStoreDetails = async () => {
         setLoading(true);
@@ -102,7 +83,29 @@ function StorePage({ initialData }) {
       };
       fetchStoreDetails();
     }
-  }, [storeDetails, slug]);
+  }, [slug]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      Promise.all([
+        import("leaflet"),
+        import("react-leaflet"),
+        import("leaflet/dist/leaflet.css"),
+      ]).then(([L, ReactLeaflet]) => {
+        L.Icon.Default.mergeOptions({
+          iconRetinaUrl:
+            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+          iconUrl:
+            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+          shadowUrl:
+            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        });
+        setMapComponents(ReactLeaflet);
+      });
+    }
+  }, []);
+
+  
 
   useEffect(() => {
     if (window.__INITIAL_DATA__) {
@@ -298,7 +301,6 @@ function StorePage({ initialData }) {
     );
   }
   const { MapContainer, TileLayer, Marker } = MapComponents;
-
   return (
     <>
       <Helmet>
@@ -697,7 +699,7 @@ function StorePage({ initialData }) {
                       </div>
                     </div>
                   )}
-
+                  <PortfolioGallery portfolioImages={storeDetails?.portfolio_images} />
                   <Box>
                     {storeDetails?.reviews &&
                       storeDetails?.reviews?.length > 0 && (

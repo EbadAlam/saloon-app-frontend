@@ -382,5 +382,9 @@ function SingleStore() {
     to: _routes.ROUTES.getAdminReviews(storeData.id)
   }, /*#__PURE__*/_react.default.createElement(_material.Button, {
     sx: actionBtn
-  }, "Reviews (", (_storeData$reviews$le = (_storeData$reviews = storeData.reviews) === null || _storeData$reviews === void 0 ? void 0 : _storeData$reviews.length) !== null && _storeData$reviews$le !== void 0 ? _storeData$reviews$le : 0, ")"))))))));
+  }, "Reviews (", (_storeData$reviews$le = (_storeData$reviews = storeData.reviews) === null || _storeData$reviews === void 0 ? void 0 : _storeData$reviews.length) !== null && _storeData$reviews$le !== void 0 ? _storeData$reviews$le : 0, ")")), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: _routes.ROUTES.getAdminPortfolio(storeData.id)
+  }, /*#__PURE__*/_react.default.createElement(_material.Button, {
+    sx: actionBtn
+  }, "Portfolio"))))))));
 }

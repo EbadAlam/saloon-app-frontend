@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import { useAuth } from "../../contexts/AuthContext";
 import Loader from "../../components/Loader/Loader";
 import { useSnackbar } from "../../contexts/SnackBarContext";
 import UserSidebar from "../../components/UserSidebar/UserSidebar";
 import StarRating from "../../components/StarRating/StarRating";
+import { ROUTES } from "../../routes";
 
 const S = {
   wrap: { padding: "24px", background: "#f5f4f0", minHeight: "600px" },
@@ -389,9 +390,9 @@ function AppointmentsPage() {
             onError={(e) => (e.target.src = "https://via.placeholder.com/80")}
           />
           <div style={S.cardLeft}>
-            <a style={S.storeName} href={`/store/${booking.store?.slug}`}>
+            <Link style={S.storeName} to={ROUTES.getStoreFrontPage(booking.store?.slug)} initialData={{ storeDetails: booking.store }}>
               {booking.store?.title}
-            </a>
+            </Link>
             <div style={S.ratingRow}>
               <span style={S.stars}>★★★★</span>
               <span>{avgRating}</span>

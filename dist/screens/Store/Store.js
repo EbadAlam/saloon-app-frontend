@@ -32,6 +32,7 @@ var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
 var _reactIndianaDragScroll = _interopRequireDefault(require("react-indiana-drag-scroll"));
+var _PortfolioGallery = _interopRequireDefault(require("../../components/PortfolioGallery/PortfolioGallery"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function StorePage(_ref) {
@@ -70,19 +71,6 @@ function StorePage(_ref) {
   const isMobile = (0, _material.useMediaQuery)(theme.breakpoints.down("sm"));
   const [expanded, setExpanded] = (0, _react.useState)(false);
   (0, _react.useEffect)(() => {
-    if (typeof window !== "undefined") {
-      Promise.all([Promise.resolve().then(() => _interopRequireWildcard(require("leaflet"))), Promise.resolve().then(() => _interopRequireWildcard(require("react-leaflet"))), Promise.resolve().then(() => _interopRequireWildcard(require("leaflet/dist/leaflet.css")))]).then(_ref2 => {
-        let [L, ReactLeaflet] = _ref2;
-        L.Icon.Default.mergeOptions({
-          iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-          iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-          shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png"
-        });
-        setMapComponents(ReactLeaflet);
-      });
-    }
-  }, []);
-  (0, _react.useEffect)(() => {
     if (!storeDetails || slug !== storeDetails.slug) {
       const fetchStoreDetails = async () => {
         setLoading(true);
@@ -103,7 +91,20 @@ function StorePage(_ref) {
       };
       fetchStoreDetails();
     }
-  }, [storeDetails, slug]);
+  }, [slug]);
+  (0, _react.useEffect)(() => {
+    if (typeof window !== "undefined") {
+      Promise.all([Promise.resolve().then(() => _interopRequireWildcard(require("leaflet"))), Promise.resolve().then(() => _interopRequireWildcard(require("react-leaflet"))), Promise.resolve().then(() => _interopRequireWildcard(require("leaflet/dist/leaflet.css")))]).then(_ref2 => {
+        let [L, ReactLeaflet] = _ref2;
+        L.Icon.Default.mergeOptions({
+          iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+          iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+          shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png"
+        });
+        setMapComponents(ReactLeaflet);
+      });
+    }
+  }, []);
   (0, _react.useEffect)(() => {
     if (window.__INITIAL_DATA__) {
       delete window.__INITIAL_DATA__;
@@ -581,7 +582,9 @@ function StorePage(_ref) {
     }, worker.user.username), /*#__PURE__*/_react.default.createElement("p", {
       className: "designation"
     }, worker.user.user_info.designation)));
-  }))), /*#__PURE__*/_react.default.createElement(_material.Box, null, (storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.reviews) && (storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews2 = storeDetails.reviews) === null || _storeDetails$reviews2 === void 0 ? void 0 : _storeDetails$reviews2.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
+  }))), /*#__PURE__*/_react.default.createElement(_PortfolioGallery.default, {
+    portfolioImages: storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.portfolio_images
+  }), /*#__PURE__*/_react.default.createElement(_material.Box, null, (storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.reviews) && (storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews2 = storeDetails.reviews) === null || _storeDetails$reviews2 === void 0 ? void 0 : _storeDetails$reviews2.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
     className: "reviews-div"
   }, /*#__PURE__*/_react.default.createElement("h2", null, "Customer Reviews"), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
     size: "large",

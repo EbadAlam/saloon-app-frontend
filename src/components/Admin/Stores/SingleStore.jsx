@@ -234,6 +234,12 @@ export default function SingleStore() {
                       Reviews ({storeData.reviews?.length ?? 0})
                     </Button>
                   </Link>
+
+                  <Link to={ROUTES.getAdminPortfolio(storeData.id)}>
+                    <Button sx={actionBtn}>
+                      Portfolio
+                    </Button>
+                  </Link>
                 </Stack>
               </>
             )}

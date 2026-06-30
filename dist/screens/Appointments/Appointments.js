@@ -12,6 +12,7 @@ var _Loader = _interopRequireDefault(require("../../components/Loader/Loader"));
 var _SnackBarContext = require("../../contexts/SnackBarContext");
 var _UserSidebar = _interopRequireDefault(require("../../components/UserSidebar/UserSidebar"));
 var _StarRating = _interopRequireDefault(require("../../components/StarRating/StarRating"));
+var _routes = require("../../routes");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -442,9 +443,12 @@ function AppointmentsPage() {
       onError: e => e.target.src = "https://via.placeholder.com/80"
     }), /*#__PURE__*/_react.default.createElement("div", {
       style: S.cardLeft
-    }, /*#__PURE__*/_react.default.createElement("a", {
+    }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
       style: S.storeName,
-      href: "/store/".concat((_booking$store4 = booking.store) === null || _booking$store4 === void 0 ? void 0 : _booking$store4.slug)
+      to: _routes.ROUTES.getStoreFrontPage((_booking$store4 = booking.store) === null || _booking$store4 === void 0 ? void 0 : _booking$store4.slug),
+      initialData: {
+        storeDetails: booking.store
+      }
     }, (_booking$store5 = booking.store) === null || _booking$store5 === void 0 ? void 0 : _booking$store5.title), /*#__PURE__*/_react.default.createElement("div", {
       style: S.ratingRow
     }, /*#__PURE__*/_react.default.createElement("span", {

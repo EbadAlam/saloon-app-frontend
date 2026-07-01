@@ -28,3 +28,4 @@ export const saveRecentlyViewedStore = (storeId) => {
 export const getRecentlyViewedStoreIds = () => {
   return JSON.parse(localStorage.getItem(KEY)) || [];
 };
+export const getRecentlyViewedStores = () => {}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import AdminLayout from '../Layout/Layout';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,9 +7,11 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axiosClient from '../../../axios-client';
 import Loader from '../../Loader/Loader';
 import { useSnackbar } from '../../../contexts/SnackBarContext';
+import { ROUTES } from '../../../routes';
 
 const S = {
   page: { padding: "24px", background: "#f5f4f0", minHeight: "100vh" },
+  nav: { display: "flex", alignItems: "center", gap: "10px",marginBottom: "20px" },
   backBtn: { display: "inline-flex", alignItems: "center", gap: "6px", padding: "6px 14px", border: "1px solid #1a1a2e", borderRadius: "8px", background: "#fff", color: "#1a1a2e", fontSize: "13px", cursor: "pointer", fontWeight: 500 },
   crumb: { fontSize: "14px", color: "#888", textDecoration: "none" },
   crumbActive: { fontSize: "14px", color: "#1a1a2e", fontWeight: 500 },
@@ -186,15 +188,18 @@ function AdminPortfolioPage() {
       <div style={S.page}>
         {loading && <Loader />}
 
-        {/* Header */}
-        <div style={{ marginBottom: "20px" }}>
+        <div style={S.nav}>
           <button style={S.backBtn} onClick={() => window.history.back()}>
             <ArrowBackIcon style={{ fontSize: 13 }} /> Back
           </button>
-          <div style={{ marginTop: "16px" }}>
-            <span style={S.crumb}>Stores</span>
+          <div>
+            <Link to={ROUTES.adminStores} style={S.crumb}>
+              Stores
+            </Link>
             <span style={{ color: "#bbb" }}> › </span>
-            <span style={S.cromb}>{storeName}</span>
+            <Link to={ROUTES.getAdminSingleStore(storeId)} style={S.crumb}>
+              {storeName || "..."}
+            </Link>
             <span style={{ color: "#bbb" }}> › </span>
             <span style={S.crumbActive}>Portfolio</span>
           </div>
@@ -202,8 +207,13 @@ function AdminPortfolioPage() {
 
         <div style={S.header}>
           <h1 style={S.pageTitle}>Portfolio Management</h1>
-          <button 
-            style={{ ...S.backBtn, border: "none", background: "#1a1a2e", color: "#fff" }}
+          <button
+            style={{
+              ...S.backBtn,
+              border: "none",
+              background: "#1a1a2e",
+              color: "#fff",
+            }}
             onClick={() => fileInputRef.current?.click()}
           >
             <CloudUploadIcon style={{ fontSize: 14 }} /> Upload Images
@@ -227,8 +237,12 @@ function AdminPortfolioPage() {
             onClick={() => fileInputRef.current?.click()}
           >
             <div style={S.uploadIcon}>📤</div>
-            <p style={S.uploadText}>Drag and drop images here or click to upload</p>
-            <p style={S.uploadSubtext}>Supports JPG, PNG, WebP up to 5MB each</p>
+            <p style={S.uploadText}>
+              Drag and drop images here or click to upload
+            </p>
+            <p style={S.uploadSubtext}>
+              Supports JPG, PNG, WebP up to 5MB each
+            </p>
           </div>
 
           <input
@@ -240,7 +254,10 @@ function AdminPortfolioPage() {
             onChange={(e) => handleUpload(e.target.files)}
           />
 
-          <p style={S.dragHint}>💡 Drag images to reorder them. Portfolio order affects how they display on your store page.</p>
+          <p style={S.dragHint}>
+            💡 Drag images to reorder them. Portfolio order affects how they
+            display on your store page.
+          </p>
 
           {/* Gallery */}
           {portfolio.length > 0 ? (
@@ -251,7 +268,8 @@ function AdminPortfolioPage() {
                   style={{
                     ...S.galleryItem,
                     opacity: draggedIndex === index ? 0.5 : 1,
-                    border: dragOverIndex === index ? "2px solid #1a1a2e" : "none",
+                    border:
+                      dragOverIndex === index ? "2px solid #1a1a2e" : "none",
                     cursor: draggedIndex !== null ? "grabbing" : "grab",
                   }}
                   draggable
@@ -259,15 +277,24 @@ function AdminPortfolioPage() {
                   onDragOver={(e) => handleDragOver(e, index)}
                   onDragLeave={handleDragLeave}
                   onDrop={() => handleDropReorder(index)}
-                  onMouseEnter={(e) => e.currentTarget.querySelector('[data-delete]').style.opacity = "1"}
-                  onMouseLeave={(e) => e.currentTarget.querySelector('[data-delete]').style.opacity = "0"}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.querySelector(
+                      "[data-delete]",
+                    ).style.opacity = "1")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.querySelector(
+                      "[data-delete]",
+                    ).style.opacity = "0")
+                  }
                 >
                   <img
                     src={`${process.env.REACT_APP_IMG_URL}/${image.image_path}`}
                     alt="Portfolio"
                     style={S.galleryImg}
                     onError={(e) => {
-                      e.target.src = 'https://via.placeholder.com/150?text=Error';
+                      e.target.src =
+                        "https://via.placeholder.com/150?text=Error";
                     }}
                   />
 
@@ -285,8 +312,26 @@ function AdminPortfolioPage() {
                   </button>
 
                   {uploadProgress[image.id] !== undefined && (
-                    <div style={{ position: "absolute", bottom: "8px", left: "8px", right: "8px", background: "rgba(0,0,0,0.5)", height: "4px", borderRadius: "2px", overflow: "hidden" }}>
-                      <div style={{ height: "100%", background: "#1a1a2e", width: `${uploadProgress[image.id]}%`, transition: "width 0.3s" }} />
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "8px",
+                        left: "8px",
+                        right: "8px",
+                        background: "rgba(0,0,0,0.5)",
+                        height: "4px",
+                        borderRadius: "2px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          height: "100%",
+                          background: "#1a1a2e",
+                          width: `${uploadProgress[image.id]}%`,
+                          transition: "width 0.3s",
+                        }}
+                      />
                     </div>
                   )}
                 </div>
@@ -295,12 +340,23 @@ function AdminPortfolioPage() {
           ) : (
             <div style={S.emptyState}>
               <div style={S.emptyTitle}>No portfolio images yet</div>
-              <div style={S.emptyText}>Upload images to showcase your salon's work and portfolio</div>
+              <div style={S.emptyText}>
+                Upload images to showcase your salon's work and portfolio
+              </div>
             </div>
           )}
 
           {portfolio.length > 0 && (
-            <div style={{ marginTop: "20px", padding: "16px", background: "#f5f4f0", borderRadius: "8px", fontSize: "13px", color: "#555" }}>
+            <div
+              style={{
+                marginTop: "20px",
+                padding: "16px",
+                background: "#f5f4f0",
+                borderRadius: "8px",
+                fontSize: "13px",
+                color: "#555",
+              }}
+            >
               📊 Total images: <strong>{portfolio.length}</strong>
             </div>
           )}

@@ -870,7 +870,9 @@ $primaryColor: #ff00f6;
     }
     .whyChooseUs {
         .cards {
-            grid-template-columns: repeat(1, 1fr);
+            .card {
+                width:100%;
+            }
         }
     }
 }

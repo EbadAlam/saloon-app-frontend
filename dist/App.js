@@ -67,7 +67,7 @@ var _Pricing = _interopRequireDefault(require("./screens/Pricing/Pricing"));
 var _HelpCenter = _interopRequireDefault(require("./screens/HelpCenter/HelpCenter"));
 var _Inqueries = _interopRequireDefault(require("./components/Admin/MasterAdmin/Inqueries/Inqueries"));
 var _CategoryPage = _interopRequireDefault(require("./screens/CategoryPage/CategoryPage"));
-var _HomeCopy = _interopRequireDefault(require("./screens/Home/HomeCopy"));
+var _HomeNewDesign = _interopRequireDefault(require("./screens/Home/HomeNewDesign"));
 var _PortfolioPage = _interopRequireDefault(require("./components/Admin/PortfolioPage/PortfolioPage"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 // import Home from './screens/Home/HomeNew';
@@ -83,7 +83,7 @@ function App(_ref) {
     element: /*#__PURE__*/_react.default.createElement(_MainComponent.default, null)
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.home,
-    element: /*#__PURE__*/_react.default.createElement(_HomeCopy.default, null)
+    element: /*#__PURE__*/_react.default.createElement(_HomeNewDesign.default, null)
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.status,
     element: /*#__PURE__*/_react.default.createElement(_StatusPage.default, null)

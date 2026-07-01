@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 
 const PortfolioGallery = ({ portfolioImages = [] }) => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [sortedImages, setSortedImages] = useState([]);
 
-  // Sort images by order when they change
   useEffect(() => {
     if (portfolioImages.length > 0) {
       const sorted = [...portfolioImages].sort((a, b) => a.order - b.order);
@@ -50,7 +50,6 @@ const PortfolioGallery = ({ portfolioImages = [] }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [lightboxOpen, images.length]);
 
-  // Don't render if no images
   if (images.length === 0) return null;
 
   return (
@@ -320,7 +319,6 @@ const PortfolioGallery = ({ portfolioImages = [] }) => {
         }
       `}</style>
 
-      {/* Portfolio Section */}
       <div className="portfolio-section">
         <h2 className="portfolio-title">Portfolio</h2>
         
@@ -339,27 +337,25 @@ const PortfolioGallery = ({ portfolioImages = [] }) => {
                   e.target.src = 'https://via.placeholder.com/200?text=Error';
                 }}
               />
-              <div className="masonry-overlay">🔍</div>
+              <div className="masonry-overlay">
+                <ZoomOutMapIcon />
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Lightbox */}
       {lightboxOpen && (
         <div className="lightbox-backdrop" onClick={closeLightbox}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            {/* Close Button */}
             <button className="lightbox-close" onClick={closeLightbox}>
               <CloseIcon sx={{ fontSize: 20 }} />
             </button>
 
-            {/* Counter */}
             <div className="lightbox-counter">
               {selectedImageIndex + 1} / {images.length}
             </div>
 
-            {/* Previous Button */}
             <button 
               className="lightbox-button lightbox-prev" 
               onClick={goToPrevious}
@@ -368,7 +364,6 @@ const PortfolioGallery = ({ portfolioImages = [] }) => {
               <ChevronLeftIcon />
             </button>
 
-            {/* Image */}
             <img 
               src={`${process.env.REACT_APP_IMG_URL}${images[selectedImageIndex].image_path}`}
               alt="Portfolio"
@@ -378,7 +373,6 @@ const PortfolioGallery = ({ portfolioImages = [] }) => {
               }}
             />
 
-            {/* Next Button */}
             <button 
               className="lightbox-button lightbox-next" 
               onClick={goToNext}
@@ -387,7 +381,6 @@ const PortfolioGallery = ({ portfolioImages = [] }) => {
               <ChevronRightIcon />
             </button>
 
-            {/* Info */}
             <div className="lightbox-info">
               Use arrow keys or buttons to navigate • ESC to close
             </div>

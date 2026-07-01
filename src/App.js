@@ -62,7 +62,7 @@ import Pricing from './screens/Pricing/Pricing';
 import HelpCenter from './screens/HelpCenter/HelpCenter';
 import MasterInqueriesPage from './components/Admin/MasterAdmin/Inqueries/Inqueries';
 import CategoryPage from './screens/CategoryPage/CategoryPage';
-import Home from './screens/Home/HomeCopy';
+import Home from './screens/Home/HomeNewDesign';
 import AdminPortfolioPage from './components/Admin/PortfolioPage/PortfolioPage';
 
 function App({initialData}) {

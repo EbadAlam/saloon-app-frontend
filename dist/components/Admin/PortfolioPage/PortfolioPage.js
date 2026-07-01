@@ -13,6 +13,7 @@ var _CloudUpload = _interopRequireDefault(require("@mui/icons-material/CloudUplo
 var _axiosClient = _interopRequireDefault(require("../../../axios-client"));
 var _Loader = _interopRequireDefault(require("../../Loader/Loader"));
 var _SnackBarContext = require("../../../contexts/SnackBarContext");
+var _routes = require("../../../routes");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -25,6 +26,12 @@ const S = {
     padding: "24px",
     background: "#f5f4f0",
     minHeight: "100vh"
+  },
+  nav: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginBottom: "20px"
   },
   backBtn: {
     display: "inline-flex",
@@ -318,9 +325,7 @@ function AdminPortfolioPage() {
   return /*#__PURE__*/_react.default.createElement(_Layout.default, null, /*#__PURE__*/_react.default.createElement("div", {
     style: S.page
   }, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement("div", {
-    style: {
-      marginBottom: "20px"
-    }
+    style: S.nav
   }, /*#__PURE__*/_react.default.createElement("button", {
     style: S.backBtn,
     onClick: () => window.history.back()
@@ -328,19 +333,17 @@ function AdminPortfolioPage() {
     style: {
       fontSize: 13
     }
-  }), " Back"), /*#__PURE__*/_react.default.createElement("div", {
-    style: {
-      marginTop: "16px"
-    }
-  }, /*#__PURE__*/_react.default.createElement("span", {
+  }), " Back"), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: _routes.ROUTES.adminStores,
     style: S.crumb
   }, "Stores"), /*#__PURE__*/_react.default.createElement("span", {
     style: {
       color: "#bbb"
     }
-  }, " \u203A "), /*#__PURE__*/_react.default.createElement("span", {
-    style: S.cromb
-  }, storeName), /*#__PURE__*/_react.default.createElement("span", {
+  }, " \u203A "), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: _routes.ROUTES.getAdminSingleStore(storeId),
+    style: S.crumb
+  }, storeName || "..."), /*#__PURE__*/_react.default.createElement("span", {
     style: {
       color: "#bbb"
     }
@@ -411,14 +414,14 @@ function AdminPortfolioPage() {
     onDragOver: e => handleDragOver(e, index),
     onDragLeave: handleDragLeave,
     onDrop: () => handleDropReorder(index),
-    onMouseEnter: e => e.currentTarget.querySelector('[data-delete]').style.opacity = "1",
-    onMouseLeave: e => e.currentTarget.querySelector('[data-delete]').style.opacity = "0"
+    onMouseEnter: e => e.currentTarget.querySelector("[data-delete]").style.opacity = "1",
+    onMouseLeave: e => e.currentTarget.querySelector("[data-delete]").style.opacity = "0"
   }, /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(image.image_path),
     alt: "Portfolio",
     style: S.galleryImg,
     onError: e => {
-      e.target.src = 'https://via.placeholder.com/150?text=Error';
+      e.target.src = "https://via.placeholder.com/150?text=Error";
     }
   }), dragOverIndex === index && /*#__PURE__*/_react.default.createElement("div", {
     style: S.dragOverlay

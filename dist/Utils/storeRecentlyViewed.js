@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.saveRecentlyViewedStore = exports.getRecentlyViewedStoreIds = void 0;
+exports.saveRecentlyViewedStore = exports.getRecentlyViewedStores = exports.getRecentlyViewedStoreIds = void 0;
 // export const saveRecentlyViewedStore = (store) => {
 //   const key = 'recentlyViewedStores';
 //   let viewed 
@@ -34,3 +34,5 @@ const getRecentlyViewedStoreIds = () => {
   return JSON.parse(localStorage.getItem(KEY)) || [];
 };
 exports.getRecentlyViewedStoreIds = getRecentlyViewedStoreIds;
+const getRecentlyViewedStores = () => {};
+exports.getRecentlyViewedStores = getRecentlyViewedStores;

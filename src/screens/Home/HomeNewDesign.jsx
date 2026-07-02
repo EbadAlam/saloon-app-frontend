@@ -303,15 +303,9 @@ function Home() {
           <Box className="how_it_works">
             <div className="container">
               <div className="head">
-                <Typography variant="body1" className="sub_heading">
-                  simple process
-                </Typography>
-                <Typography variant="h3" className="heading">
-                  How it works
-                </Typography>
-                <Typography variant="h5" className="desc">
-                  Book your next beauty and wellness appointment in 3 easy steps
-                </Typography>
+                <h4 className="sub_heading">simple process</h4>
+                <h2 className="heading">How it works</h2>
+                <p className="desc">Book your next beauty and wellness appointment in 3 easy steps</p>
               </div>
               <div className="steps">
                 <Box className="step">
@@ -405,15 +399,9 @@ function Home() {
           <div className="whyChooseUs">
             <div className="container">
               <div className="head">
-                <Typography variant="body1" className="sub_heading">
-                  Our Promise
-                </Typography>
-                <Typography variant="h3" className="heading">
-                  Why Choose Our Platform?
-                </Typography>
-                <Typography variant="h5" className="desc">
-                  The most trusted beauty services marketplace in Pakistan
-                </Typography>
+                <h4 className="sub_heading">Our Promise</h4>
+                <h2 className="heading">Why Choose Our Platform?</h2>
+                <p className="desc">The most trusted beauty services marketplace in Pakistan</p>
               </div>
               <div className="cards">
                 <div className="card">

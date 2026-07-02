@@ -241,14 +241,11 @@ function Home() {
     className: "container"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "head"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "body1",
+  }, /*#__PURE__*/_react.default.createElement("h4", {
     className: "sub_heading"
-  }, "simple process"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h3",
+  }, "simple process"), /*#__PURE__*/_react.default.createElement("h2", {
     className: "heading"
-  }, "How it works"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h5",
+  }, "How it works"), /*#__PURE__*/_react.default.createElement("p", {
     className: "desc"
   }, "Book your next beauty and wellness appointment in 3 easy steps")), /*#__PURE__*/_react.default.createElement("div", {
     className: "steps"
@@ -355,14 +352,11 @@ function Home() {
     className: "container"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "head"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "body1",
+  }, /*#__PURE__*/_react.default.createElement("h4", {
     className: "sub_heading"
-  }, "Our Promise"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h3",
+  }, "Our Promise"), /*#__PURE__*/_react.default.createElement("h2", {
     className: "heading"
-  }, "Why Choose Our Platform?"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h5",
+  }, "Why Choose Our Platform?"), /*#__PURE__*/_react.default.createElement("p", {
     className: "desc"
   }, "The most trusted beauty services marketplace in Pakistan")), /*#__PURE__*/_react.default.createElement("div", {
     className: "cards"

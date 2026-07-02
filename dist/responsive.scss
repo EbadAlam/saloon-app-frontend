@@ -1,5 +1,5 @@
 @media (max-width:786px) {
-$primaryColor: #ff00f6;
+    $primaryColor: #ff00f6;
 
     .main_banner .heading h1,
     .download_heading h1,
@@ -22,15 +22,18 @@ $primaryColor: #ff00f6;
 
     .sliders {
         padding-bottom: 0px;
-        .container{
+
+        .container {
             padding-right: 0px !important;
         }
     }
-    .recommended{
-        .container{
+
+    .recommended {
+        .container {
             padding-right: 0px !important;
         }
     }
+
     .singleSlide {
         margin-right: 0px;
     }
@@ -400,7 +403,8 @@ $primaryColor: #ff00f6;
     .MuiInputBase-formControl {
         padding: 0px !important;
     }
-    .blogs_main .blogs{
+
+    .blogs_main .blogs {
         grid-template-columns: repeat(1, 1fr) !important;
     }
 
@@ -672,9 +676,11 @@ $primaryColor: #ff00f6;
     .homeNewDesign {
         position: relative;
         overflow: hidden;
-        .background-gradient{
+
+        .background-gradient {
             height: 130vh !important;
         }
+
         .searchBarDiv {
             flex-direction: column;
             gap: 10px;
@@ -728,6 +734,7 @@ $primaryColor: #ff00f6;
         position: relative;
         background: white;
         box-shadow: 1px 0px 15px 0 #000000;
+
         .store_info {
             .address {
                 display: none;
@@ -785,11 +792,12 @@ $primaryColor: #ff00f6;
 
             .storeAbout {
                 margin-top: 15px;
+
                 .about_wrapper {
                     position: relative;
 
                     p {
-                        max-height: 120px; 
+                        max-height: 120px;
                         overflow: hidden;
                         line-height: 24px;
                         transition: max-height 0.3s ease;
@@ -825,7 +833,7 @@ $primaryColor: #ff00f6;
 
                 p {
                     font-size: 18px;
-                    margin:0px;
+                    margin: 0px;
                 }
             }
 
@@ -841,38 +849,208 @@ $primaryColor: #ff00f6;
                 }
             }
         }
-        .about-desktop{
-            .store_about,h2{
+
+        .about-desktop {
+
+            .store_about,
+            h2 {
                 display: none;
             }
+
             .store_map {
                 height: 200px;
             }
         }
-        .right_side{
-            display:none;
+
+        .right_side {
+            display: none;
         }
     }
-    
-    .all-reviews-container{
-        max-width:90%;
-        .rating_filter{
-            border:none;
-            box-shadow:none;
-            padding:0px;
+
+    .all-reviews-container {
+        max-width: 90%;
+
+        .rating_filter {
+            border: none;
+            box-shadow: none;
+            padding: 0px;
         }
     }
-    .how_it_works {
+
+    .heading {
+        font-size: 36px !important;
+        line-height: 40px !important;
+    }
+
+    .sub_heading {
+        font-size: 12px !important;
+    }
+
+    .homeNewDesignUpdated {
+        .main_banner {
+            .banner_content {
+                width: 100% !important;
+
+                .banner_badge {
+                    font-size: 14px !important;
+                    width: 100% !important;
+                    justify-content: center;
+                }
+
+                .banner_heading {
+                    h2 {
+                        font-size: 36px !important;
+                        line-height: 50px !important;
+                    }
+                }
+
+                .banner_text {
+                    p {
+                        font-size: 18px !important;
+                    }
+                }
+
+                .banner_btns {
+                    button {
+                        font-size: 16px !important;
+                    }
+                }
+
+                .banner_meta {
+                    .meta_box {
+                        .count {
+                            font-size: 24px !important;
+                        }
+
+                        .text {
+                            font-size: 14px !important;
+                        }
+                    }
+                }
+            }
+
+            .banner_image {
+                width: 100% !important;
+                margin-top: 50px;
+
+                .image {
+                    height: 250px !important;
+                }
+            }
+        }
+        .how_it_works {
         .steps {
-            grid-template-columns: repeat(1, 1fr);
-            gap:80px;
-        }
-    }
-    .whyChooseUs {
-        .cards {
-            .card {
-                width:100%;
+            grid-template-columns: repeat(1, 1fr) !important;
+            gap: 50px !important;
+            margin-top: 50px !important;
+            .step {
+                .step_img {
+                    width:60px !important;
+                    height:60px !important;
+                    .step_no {
+                        width:20px !important;
+                        height:20px !important;
+                        top:-5px !important;
+                        right:-5px !important;
+                    }
+                    svg {
+                        width:30px !important;
+                        height:30px !important;
+                    }
+                }
             }
         }
     }
+
+    .whyChooseUs {
+        .cards {
+            .card {
+                width: 100% !important;
+                .card_img {
+                    width:60px !important;
+                    height:60px !important;
+                    svg {
+                            height: 30px !important;
+    width: 30px !important;
+                    }
+                }
+                h5 {
+                    font-size: 22px !important;
+                }
+            }
+        }
+    }
+    .grow-section {
+        .grow-content {
+            width:100% !important;
+            .badge {
+                height:40px !important;
+                p {
+                    font-size: 16px !important;
+                }
+            }
+            .grow-boxes {
+                .grow-box {
+                    .count-number {
+                        font-size: 24px !important;
+                        margin-bottom:8px !important;
+                    }
+                    .text {
+                        font-size: 14px !important;
+                    }
+                }
+            }
+            .grow_btns {
+                button {
+                    font-size: 14px !important;
+                }
+            }
+        }
+        .grow-cards{
+            width:100% !important;
+            grid-template-columns: repeat(1,1fr) !important;
+            margin-top: 30px;
+            .grow-card {
+                gap:10px !important;
+                .icon {
+                    padding:10px !important;
+                    svg {
+                        width:25px !important;
+                        height:25px !important;
+                    }
+                }
+            }
+        }
+    }
+    .pricing-section {
+        .pricing-plans {
+            grid-template-columns: repeat(1, 1fr) !important;
+        }
+    }
+    .cta-section {
+        .container {
+            position: relative;
+        }
+        .sub-container {
+            max-width: 100% !important;
+            .badge {
+                height:40px !important;
+                p {
+                    font-size: 18px !important;
+                }
+            }
+            .cta-actions {
+                button {
+                    font-size: 16px !important;
+                }
+            }
+            .cta-footer {
+
+            grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+    }
+    }
+
+    
 }

@@ -4099,6 +4099,8 @@ $backgroundColor : #FFF8F5; // warm ivory
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      position: relative;
 
       .banner_content {
         width: 46%;
@@ -4601,8 +4603,9 @@ $backgroundColor : #FFF8F5; // warm ivory
 
         .step_description {
           font-size: 16px;
-          color: #666;
+          color: $mutedText;
           margin-top: 5px;
+          font-family: 'fredoka' !important;
         }
       }
     }
@@ -4672,6 +4675,9 @@ $backgroundColor : #FFF8F5; // warm ivory
             height: 40px;
             width: 40px;
           }
+        }
+        p{
+          font-family: 'fredoka' !important;
         }
       }
     }
@@ -4755,8 +4761,9 @@ $backgroundColor : #FFF8F5; // warm ivory
   .grow-section {
     padding-block: 100px;
     background: $darkText;
-    position:relative;
-    .blob-1{
+    position: relative;
+
+    .blob-1 {
       position: absolute;
       width: 300px;
       height: 400px;
@@ -4767,7 +4774,8 @@ $backgroundColor : #FFF8F5; // warm ivory
       bottom: 0px;
       opacity: .3;
     }
-    .blob-2{
+
+    .blob-2 {
       position: absolute;
       width: 200px;
       height: 200px;
@@ -4779,7 +4787,8 @@ $backgroundColor : #FFF8F5; // warm ivory
       top: 40px;
       z-index: 0;
     }
-    .blob-3{
+
+    .blob-3 {
       position: absolute;
       width: 300px;
       height: 400px;
@@ -4788,15 +4797,16 @@ $backgroundColor : #FFF8F5; // warm ivory
       background: #f7cad08a;
       left: 50%;
       transform: translateX(-50%);
-      top:90px;
+      top: 90px;
       opacity: .3;
     }
+
     .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 20px;
-
+      flex-wrap:wrap;
       .grow-content {
         width: 46%;
         display: flex;
@@ -4892,32 +4902,35 @@ $backgroundColor : #FFF8F5; // warm ivory
           border: 1px solid #d4a3733d;
           border-radius: 20px;
           padding: 30px;
-          display:flex;
+          display: flex;
           flex-direction: column;
           gap: 15px;
-          background:#ffffff12;
+          background: #ffffff12;
+
           .icon {
             background: #d4a3733d;
             border-radius: 15px;
             width: fit-content;
-            padding:15px;
+            padding: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
+
             svg {
               color: $primaryColor;
-              width:30px;
-              height:30px;
+              width: 30px;
+              height: 30px;
             }
           }
 
           .card-title {
-            margin:0px;
+            margin: 0px;
+
             h5 {
               color: white !important;
               font-family: 'playfair display' !important;
               font-size: 18px;
-              margin:0px;
+              margin: 0px;
             }
           }
 
@@ -4932,114 +4945,133 @@ $backgroundColor : #FFF8F5; // warm ivory
       }
     }
   }
-  
+
   .pricing-section {
-    padding-block:100px;
-      .headings {
-        text-align:center;
-      }
-    .pricing-plans{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:20px;
-      max-width:90%;
-      margin:0 auto;
-      margin-top:30px;
+    padding-block: 100px;
+
+    .headings {
+      text-align: center;
+    }
+
+    .pricing-plans {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 90%;
+      margin: 0 auto;
+      margin-top: 30px;
+
       .plan {
-        padding:35px;
-        border-radius:20px;
-        border:1px solid #d4a3733d;
-        display:flex;
-        flex-direction:column;
-        margin-top:20px;
-        gap:20px;
-        height:fit-content;
+        padding: 35px;
+        border-radius: 20px;
+        border: 1px solid #d4a3733d;
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        gap: 20px;
+        height: fit-content;
         position: relative;
         transition: all .3s ease;
+
         &:hover {
           box-shadow: 1px 1px 20px #0000003d;
         }
+
         .badge {
-          display:flex;
-          align-items:center;
-          gap:10px;
-          position:absolute;
-          top:-18px;
-          background:linear-gradient(to right, $primaryColor, $secondaryColor);
-          left:50%;
-          transform:translateX(-50%);
-          border-radius:20px;
-          padding:8px 25px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          position: absolute;
+          top: -18px;
+          background: linear-gradient(to right, $primaryColor, $secondaryColor);
+          left: 50%;
+          transform: translateX(-50%);
+          border-radius: 20px;
+          padding: 8px 25px;
+
           svg {
-            color:white;
-            width:20px;
-            height:20px;
+            color: white;
+            width: 20px;
+            height: 20px;
           }
+
           p {
-            margin:0px;
-            color:white;
+            margin: 0px;
+            color: white;
             font-family: 'fredoka' !important;
             font-size: 14px;
             text-transform: capitalize;
             font-weight: 500 !important;
           }
         }
+
         .plan-header {
           .plan-title {
             font-family: 'playfair display' !important;
             font-size: 22px;
             color: $darkText;
           }
+
           .plan-desc {
             font-family: 'fredoka' !important;
             font-size: 16px;
             color: $mutedText;
           }
         }
+
         .plan-body {
-          display:flex;
-          flex-direction:column;
-          gap:10px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
           .plan-price {
-            .price{
+            .price {
               font-family: 'playfair display' !important;
               font-size: 40px;
               color: $primaryColor !important;
-              margin:0px;
+              margin: 0px;
             }
+
             .billing-cycle {
-              color:$mutedText;
+              color: $mutedText;
               font-size: 16px;
               font-weight: 300 !important;
-              margin-top:10px;
+              margin-top: 10px;
             }
           }
+
           .divider {
-            margin:0px;
+            margin: 0px;
           }
+
           .plan-features {
-            margin-top:10px;
+            margin-top: 10px;
+
             .features-list {
-              list-style:none;
-              padding:0px;
+              list-style: none;
+              padding: 0px;
+
               li {
-                display:flex;
-                align-items:center;
-                gap:10px;
-                margin-bottom:12px;
-                .icon{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 12px;
+
+                .icon {
                   background: linear-gradient(to right, $primaryColor, $secondaryColor);
-                  padding:3px;
-                  border-radius:50%;
-                  display:flex;
-                  justify-content:center;
-                  align-items:center;
+                  padding: 3px;
+                  border-radius: 50%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+
                   svg {
-                    color:white;
-                    width:15px;
-                    height:15px;
+                    color: white;
+                    width: 15px;
+                    height: 15px;
                   }
                 }
+
                 p {
                   font-family: 'fredoka' !important;
                   font-size: 16px;
@@ -5047,58 +5079,70 @@ $backgroundColor : #FFF8F5; // warm ivory
               }
             }
           }
+
           .get-started {
-            background:#fff8f5;
-            border:1px solid $secondaryColor;
-            border-radius:15px;
-            padding:10px 30px;
+            background: #fff8f5;
+            border: 1px solid $secondaryColor;
+            border-radius: 15px;
+            padding: 10px 30px;
             font-family: 'fredoka' !important;
             font-size: 18px;
-            color:$secondaryColor;
+            color: $secondaryColor;
             transition: all .3s ease;
+
             &:hover {
-              background:#f7cad069;
+              background: #f7cad069;
             }
           }
         }
+
         &.popular {
-          margin-top:0px;
-          background:$darkText;
+          margin-top: 0px;
+          background: $darkText;
           box-shadow: 1px 1px 20px #0000008f;
-          .plan-header{
+
+          .plan-header {
             margin-top: 15px;
+
             .plan-title {
-              color:white !important;
+              color: white !important;
               font-size: 26px !important;
             }
+
             .plan-desc {
-              color:#ffffffd9;
+              color: #ffffffd9;
             }
           }
+
           .plan-body {
             .plan-price {
               .price {
-                font-size:44px !important;
+                font-size: 44px !important;
               }
             }
+
             .billing-cycle {
-              color:#ffffffd9 !important;
+              color: #ffffffd9 !important;
             }
+
             li {
               p {
-                color:#ffffffd9;
-                font-size:18px !important;
+                color: #ffffffd9;
+                font-size: 18px !important;
               }
             }
+
             .divider {
-              border-color:#ffffff3d;
+              border-color: #ffffff3d;
             }
+
             .get-started {
-              background:linear-gradient(to right, $primaryColor, $secondaryColor);
-              color:white;
-              border:none;
+              background: linear-gradient(to right, $primaryColor, $secondaryColor);
+              color: white;
+              border: none;
+
               &:hover {
-                background:linear-gradient(to right, $secondaryColor, $primaryColor);
+                background: linear-gradient(to right, $secondaryColor, $primaryColor);
               }
             }
           }
@@ -5107,11 +5151,12 @@ $backgroundColor : #FFF8F5; // warm ivory
     }
   }
 
-  .cta-section{
-    background:linear-gradient(160deg, $softPink, $primaryColor);
-    padding-block:120px;
-    position:relative;
-    .blob-1{
+  .cta-section {
+    background: linear-gradient(160deg, $softPink, $primaryColor);
+    padding-block: 120px;
+    position: relative;
+
+    .blob-1 {
       position: absolute;
       left: 42px;
       top: 60px;
@@ -5120,8 +5165,10 @@ $backgroundColor : #FFF8F5; // warm ivory
       border: 1px solid #ffffffa3;
       border-radius: 20px;
       transform: rotate(29deg);
+      z-index: 0;
     }
-    .blob-2{
+
+    .blob-2 {
       position: absolute;
       right: 42px;
       bottom: 60px;
@@ -5129,90 +5176,107 @@ $backgroundColor : #FFF8F5; // warm ivory
       height: 100px;
       border: 1px solid #ffffffa3;
       border-radius: 50%;
+      z-index: 0;
     }
+
     .sub-container {
-      max-width:70%;
-      margin:0 auto;
+      max-width: 70%;
+      margin: 0 auto;
       text-align: center;
-      display:flex;
+      display: flex;
       flex-direction: column;
-      gap:25px;
+      gap: 25px;
+
       .badge {
-        border-radius:25px;
-        background:#ffffff40;
-        display:flex;
+        border-radius: 25px;
+        background: #ffffff40;
+        display: flex;
         align-items: center;
-        gap:10px;
-        padding:5px 20px;
-        width:fit-content;
-        margin:0 auto;
-        height:45px;
+        gap: 10px;
+        padding: 5px 20px;
+        width: fit-content;
+        margin: 0 auto;
+        height: 45px;
+
         svg {
-          color:white;
-          width:20px;
-          height:20px;
+          color: white;
+          width: 20px;
+          height: 20px;
         }
-        p{
-          color:white;
-          font-size:20px;
+
+        p {
+          color: white;
+          font-size: 20px;
         }
       }
+
       .heading {
         line-height: 80px;
-        color:white !important;
-        margin:0px;
+        color: white !important;
+        margin: 0px;
+
         span {
-          font-style:italic;
+          font-style: italic;
         }
       }
+
       .desc {
-        color:#ffffffd9 !important;
+        color: #ffffffd9 !important;
         font-size: 20px;
         max-width: 73%;
         margin: 0 auto;
       }
+
       .cta-actions {
-        display:flex;
-        gap:20px;
+        display: flex;
+        gap: 20px;
         justify-content: center;
+
         button {
-          padding:10px 15px;
+          padding: 10px 15px;
           border-radius: 10px;
           font-size: 22px;
-          border:2px solid;
-          &.book-now{
+          border: 2px solid;
+
+          &.book-now {
             background-color: $darkText;
-            border-color:$darkText;
-            color:white;
+            border-color: $darkText;
+            color: white;
           }
+
           &.become-prof {
-            background:transparent;
+            background: transparent;
             border-color: white;
-            color:$darkText;
+            color: $darkText;
           }
         }
       }
+
       .divider {
-        border-color:#ffffff69;
-        margin:0px;
+        border-color: #ffffff69;
+        margin: 0px;
       }
-      .cta-footer{
-        display:grid;
-        grid-template-columns:repeat(4,1fr);
-        gap:20px;
-        margin:0 auto;
+
+      .cta-footer {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 0 auto;
+
         .cta-card {
-          width:150px;
+          width: 150px;
+
           .count {
-            p{
-              color:white !important;
+            p {
+              color: white !important;
               font-family: 'playfair display' !important;
               font-size: 24px;
             }
           }
+
           .text {
-            p{
-              color:#ffffffd9;
+            p {
+              color: #ffffffd9;
               font-size: 14px;
             }
           }

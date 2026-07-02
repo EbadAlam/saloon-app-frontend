@@ -197,7 +197,7 @@ function Home() {
                 <div className="bg-border"></div>
                 <div className="image">
                   <img
-                    src={`${process.env.REACT_APP_BASE_URL}/blog_img.png`}
+                    src={`${process.env.REACT_APP_BASE_URL}/new-home-banner-img.jpg`}
                     alt="Banner Image"
                   />
                 </div>
@@ -219,17 +219,17 @@ function Home() {
                 </p>
               </div>
               <div className="categories_cards">
-                {/* {categories && categories.length > 0 && (
-                  categories.slice(0,10).map((singleCat) => (
+                {categories && categories.length > 0 && (
+                  categories.slice(0,5).map((singleCat) => (
                     <div className="category_card">
-                      <img src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`} alt={singleCat.title} />
+                      {/* <img src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`} alt={singleCat.title} /> */}
                       <div className="category_info">
                         <h6>{singleCat.title}</h6>
                         <p>420 services</p>
                       </div>
                     </div>
                   ))
-                )} */}
+                )}
               </div>
             </div>
           </div>

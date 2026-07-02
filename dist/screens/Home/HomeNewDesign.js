@@ -201,7 +201,7 @@ function Home() {
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "image"
   }, /*#__PURE__*/_react.default.createElement("img", {
-    src: "".concat(process.env.REACT_APP_BASE_URL, "/blog_img.png"),
+    src: "".concat(process.env.REACT_APP_BASE_URL, "/new-home-banner-img.jpg"),
     alt: "Banner Image"
   }))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "categories"
@@ -217,7 +217,11 @@ function Home() {
     className: "desc"
   }, "Discover trusted professionals across all beauty services")), /*#__PURE__*/_react.default.createElement("div", {
     className: "categories_cards"
-  }))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, categories && categories.length > 0 && categories.slice(0, 5).map(singleCat => /*#__PURE__*/_react.default.createElement("div", {
+    className: "category_card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "category_info"
+  }, /*#__PURE__*/_react.default.createElement("h6", null, singleCat.title), /*#__PURE__*/_react.default.createElement("p", null, "420 services"))))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "sliders"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "recommended"

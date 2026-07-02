@@ -938,6 +938,11 @@
                 }
             }
         }
+        .categories {
+            .categories_cards {
+                grid-template-columns: repeat(1, 1fr) !important;
+            }
+        }
         .how_it_works {
         .steps {
             grid-template-columns: repeat(1, 1fr) !important;

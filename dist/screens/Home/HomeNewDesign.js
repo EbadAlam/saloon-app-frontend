@@ -9,7 +9,7 @@ var _material = require("@mui/material");
 var _reactRouterDom = require("react-router-dom");
 var _QrCode = _interopRequireDefault(require("@mui/icons-material/QrCode"));
 var _routes = require("../../routes");
-var _Carousel = _interopRequireDefault(require("../../components/Carousel/Carousel"));
+var _CarouselNew = _interopRequireDefault(require("../../components/Carousel/CarouselNew"));
 var _axiosClient = _interopRequireDefault(require("../../axios-client"));
 var _SkeletonHome = _interopRequireDefault(require("../../components/Loader/SkeletonHome"));
 var _SearchBar = _interopRequireDefault(require("../../components/SearchBar/SearchBar"));
@@ -19,6 +19,7 @@ var _reactSlick = _interopRequireDefault(require("react-slick"));
 var _ArrowForwardIos = _interopRequireDefault(require("@mui/icons-material/ArrowForwardIos"));
 var _ArrowBackIos = _interopRequireDefault(require("@mui/icons-material/ArrowBackIos"));
 var _StarRating = _interopRequireDefault(require("../../components/StarRating/StarRating"));
+var _DoneOutlined = _interopRequireDefault(require("@mui/icons-material/DoneOutlined"));
 var _DummyImage = _interopRequireDefault(require("../../components/DummyImage/DummyImage"));
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
@@ -28,7 +29,7 @@ function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 const isBrowser = typeof window !== "undefined";
 function Home() {
-  var _location$state, _stores$recentlyViewe;
+  var _location$state;
   const location = (0, _reactRouterDom.useLocation)();
   const [successMessage, setSuccessMessage] = (0, _react.useState)(((_location$state = location.state) === null || _location$state === void 0 ? void 0 : _location$state.successMessage) || "");
   const [loading, setLoading] = (0, _react.useState)(true);
@@ -84,8 +85,8 @@ function Home() {
     dots: true,
     infinite: false,
     speed: 800,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 3,
+    slidesToScroll: 3,
     arrows: true,
     autoplay: false,
     autoplaySpeed: 3000,
@@ -200,7 +201,7 @@ function Home() {
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "image"
   }, /*#__PURE__*/_react.default.createElement("img", {
-    src: "".concat(process.env.REACT_APP_BASE_URL, "/home_new_banner-2.jpg"),
+    src: "".concat(process.env.REACT_APP_BASE_URL, "/blog_img.png"),
     alt: "Banner Image"
   }))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "categories"
@@ -216,96 +217,24 @@ function Home() {
     className: "desc"
   }, "Discover trusted professionals across all beauty services")), /*#__PURE__*/_react.default.createElement("div", {
     className: "categories_cards"
-  }, categories && categories.length > 0 && categories.slice(0, 10).map(singleCat => /*#__PURE__*/_react.default.createElement("div", {
-    className: "category_card"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleCat.thumbnail),
-    alt: singleCat.title
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "category_info"
-  }, /*#__PURE__*/_react.default.createElement("h6", null, singleCat.title), /*#__PURE__*/_react.default.createElement("p", null, "420 services"))))))), (stores === null || stores === void 0 || (_stores$recentlyViewe = stores.recentlyViewedStores) === null || _stores$recentlyViewe === void 0 ? void 0 : _stores$recentlyViewe.length) > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "recommended",
-    sx: {
-      background: "",
-      zIndex: "3",
-      position: "relative"
-    }
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "container",
-    style: {
-      paddingTop: "40px"
-    }
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h3",
-    sx: {
-      fontSize: "32px"
-    }
-  }, "Recently Viewed"), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "sliders"
-  }, /*#__PURE__*/_react.default.createElement(_Carousel.default, {
-    stores: stores.recentlyViewedStores
-  })))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "sliders"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "recommended",
-    sx: {
-      background: "",
-      zIndex: "3"
-    }
+    className: "recommended"
   }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "container",
-    style: {
-      paddingTop: "40px"
-    }
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h3",
-    sx: {
-      fontSize: "32px"
-    }
-  }, "Recommended"), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "headings"
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "sub_heading"
+  }, "Top Rated"), /*#__PURE__*/_react.default.createElement("h2", {
+    className: "heading"
+  }, "Featured Professionals"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "desc"
+  }, "Top-rated beauty experts trusted by thousands")), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "slider"
-  }, /*#__PURE__*/_react.default.createElement(_Carousel.default, {
+  }, /*#__PURE__*/_react.default.createElement(_CarouselNew.default, {
     stores: stores.new
-  })))), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "new_to_site",
-    sx: {
-      background: "",
-      zIndex: "3"
-    }
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "container",
-    style: {
-      paddingTop: "40px"
-    }
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h3",
-    sx: {
-      fontSize: "32px"
-    }
-  }, "New to BeautyTrafic"), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "slider"
-  }, /*#__PURE__*/_react.default.createElement(_Carousel.default, {
-    stores: stores.new
-  })))), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "trending",
-    sx: {
-      background: "",
-      zIndex: "3"
-    }
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "container",
-    style: {
-      paddingTop: "40px"
-    }
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h3",
-    sx: {
-      fontSize: "32px"
-    }
-  }, "Trending"), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "slider"
-  }, /*#__PURE__*/_react.default.createElement(_Carousel.default, {
-    stores: stores.trending
   }))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "how_it_works"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -320,7 +249,7 @@ function Home() {
     className: "heading"
   }, "How it works"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h5",
-    className: "description"
+    className: "desc"
   }, "Book your next beauty and wellness appointment in 3 easy steps")), /*#__PURE__*/_react.default.createElement("div", {
     className: "steps"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -434,7 +363,7 @@ function Home() {
     className: "heading"
   }, "Why Choose Our Platform?"), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h5",
-    className: "description"
+    className: "desc"
   }, "The most trusted beauty services marketplace in Pakistan")), /*#__PURE__*/_react.default.createElement("div", {
     className: "cards"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -578,19 +507,36 @@ function Home() {
     className: "reviews_slider"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "container"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h3",
-    sx: {
-      fontSize: "30px",
-      fontFamily: "Barlow",
-      fontWeight: "700",
-      textTransform: "capitalize"
-    }
-  }, "What client says"), /*#__PURE__*/_react.default.createElement(_reactSlick.default, _extends({}, reivewsSliderSettings, {
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "headings"
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "sub_heading"
+  }, "Testimonials"), /*#__PURE__*/_react.default.createElement("h2", {
+    className: "heading"
+  }, "What Our Clients Say"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "desc"
+  }, "Real experiences from thousands of satisfied customers")), /*#__PURE__*/_react.default.createElement(_reactSlick.default, _extends({}, reivewsSliderSettings, {
     className: "mt-5"
   }), reviews.map(singleRev => /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "singleReview"
-  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "testimonial_icon"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-quote w-5 h-5 text-white"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+  }))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "rating"
   }, /*#__PURE__*/_react.default.createElement(_StarRating.default, {
     rating: singleRev.rating,
@@ -598,21 +544,10 @@ function Home() {
     color: "gold"
   })), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "review"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "body1",
-    sx: {
-      fontSize: "22px",
-      fontWeight: "600",
-      fontFamily: "Barlow",
-      textTransform: "capitalize"
-    }
-  }, singleRev.title), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    className: "review_content",
-    variant: "body1",
-    sx: {
-      fontSize: "18px",
-      fontFamily: "Barlow"
-    }
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "review_tagline"
+  }, singleRev.title), /*#__PURE__*/_react.default.createElement("p", {
+    className: "review_text"
   }, singleRev.review)), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "userInfo"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -640,7 +575,385 @@ function Home() {
       fontSize: "14px",
       fontFamily: "Barlow"
     }
-  }, singleRev.reviewer.user_info.city))))))))));
+  }, singleRev.reviewer.user_info.city)))))))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-section"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "blob-1"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "blob-2"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "blob-3"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-content"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "badge"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "For Beauty Professionals")), /*#__PURE__*/_react.default.createElement("h2", {
+    className: "heading"
+  }, "Grow Your Beauty Business ", /*#__PURE__*/_react.default.createElement("br", null), " ", /*#__PURE__*/_react.default.createElement("span", null, "With Us")), /*#__PURE__*/_react.default.createElement("p", {
+    className: "desc"
+  }, "Join Pakistan's largest beauty services marketplace and take your business to the next level. Get access to thousands of clients looking for your services."), /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-boxes"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-box"
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "count-number"
+  }, "2,500+"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "text"
+  }, "Active Providers")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-box"
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "count-number"
+  }, "50,000+"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "text"
+  }, "Monthly Bookings"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow_btns"
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    className: "register"
+  }, "Register your business"), /*#__PURE__*/_react.default.createElement("button", {
+    className: "learn-more"
+  }, "Learn more"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-cards"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-users w-6 h-6 text-[#D4A373]"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+  }), /*#__PURE__*/_react.default.createElement("circle", {
+    cx: "9",
+    cy: "7",
+    r: "4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M22 21v-2a4 4 0 0 0-3-3.87"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 3.13a4 4 0 0 1 0 7.75"
+  }))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card-title"
+  }, /*#__PURE__*/_react.default.createElement("h5", null, "Reach More Clients")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card-text"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Connect with thousands of potential customers actively searching for beauty services"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-users w-6 h-6 text-[#D4A373]"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+  }), /*#__PURE__*/_react.default.createElement("circle", {
+    cx: "9",
+    cy: "7",
+    r: "4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M22 21v-2a4 4 0 0 0-3-3.87"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 3.13a4 4 0 0 1 0 7.75"
+  }))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card-title"
+  }, /*#__PURE__*/_react.default.createElement("h5", null, "Reach More Clients")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card-text"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Connect with thousands of potential customers actively searching for beauty services"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-users w-6 h-6 text-[#D4A373]"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+  }), /*#__PURE__*/_react.default.createElement("circle", {
+    cx: "9",
+    cy: "7",
+    r: "4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M22 21v-2a4 4 0 0 0-3-3.87"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 3.13a4 4 0 0 1 0 7.75"
+  }))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card-title"
+  }, /*#__PURE__*/_react.default.createElement("h5", null, "Reach More Clients")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card-text"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Connect with thousands of potential customers actively searching for beauty services"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "grow-card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-users w-6 h-6 text-[#D4A373]"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+  }), /*#__PURE__*/_react.default.createElement("circle", {
+    cx: "9",
+    cy: "7",
+    r: "4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M22 21v-2a4 4 0 0 0-3-3.87"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M16 3.13a4 4 0 0 1 0 7.75"
+  }))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card-title"
+  }, /*#__PURE__*/_react.default.createElement("h5", null, "Reach More Clients")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "card-text"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Connect with thousands of potential customers actively searching for beauty services")))))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "pricing-section"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "headings"
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "sub_heading"
+  }, "Plans"), /*#__PURE__*/_react.default.createElement("h2", {
+    className: "heading"
+  }, "Simple, Transparent Pricing"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "desc"
+  }, "Choose the perfect plan to grow your beauty business")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "pricing-plans"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-header"
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "plan-title"
+  }, "Starter"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "plan-desc"
+  }, "Perfect for individual professionals starting out")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-body"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-price"
+  }, /*#__PURE__*/_react.default.createElement("h3", {
+    className: "price"
+  }, "Free"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "billing-cycle"
+  }, "forever")), /*#__PURE__*/_react.default.createElement("hr", {
+    className: "divider"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-features"
+  }, /*#__PURE__*/_react.default.createElement("ul", {
+    className: "features-list"
+  }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Basic profile listing")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Up to 5 portfolio images")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Receive bookings")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Basic analytics")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Email support")))), /*#__PURE__*/_react.default.createElement("button", {
+    className: "get-started"
+  }, "Get started"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan popular"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "badge"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-sparkles w-3.5 h-3.5"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M20 3v4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M22 5h-4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M4 17v2"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M5 18H3"
+  })), /*#__PURE__*/_react.default.createElement("p", null, "most popular")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-header"
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "plan-title"
+  }, "Professional"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "plan-desc"
+  }, "Most popular choice for growing businesses")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-body"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-price"
+  }, /*#__PURE__*/_react.default.createElement("h3", {
+    className: "price"
+  }, "PKR 2,999"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "billing-cycle"
+  }, "per month")), /*#__PURE__*/_react.default.createElement("hr", {
+    className: "divider"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-features"
+  }, /*#__PURE__*/_react.default.createElement("ul", {
+    className: "features-list"
+  }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Premium profile placement")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Unlimited portfolio images")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Priority bookings")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Advanced analytics & insights")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Priority support")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Featured in search results")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Custom booking page")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Promotional tools")))), /*#__PURE__*/_react.default.createElement("button", {
+    className: "get-started"
+  }, "Get started"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-header"
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "plan-title"
+  }, "Premium"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "plan-desc"
+  }, "For established businesses that want it all")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-body"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-price"
+  }, /*#__PURE__*/_react.default.createElement("h3", {
+    className: "price"
+  }, "PKR 4,999"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "billing-cycle"
+  }, "per month")), /*#__PURE__*/_react.default.createElement("hr", {
+    className: "divider"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "plan-features"
+  }, /*#__PURE__*/_react.default.createElement("ul", {
+    className: "features-list"
+  }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Everything in Professional")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Top placement guarantee")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Verified badge")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Social media integration")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Dedicated account manager")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Marketing campaigns")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "API access")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "icon"
+  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "White-label options")))), /*#__PURE__*/_react.default.createElement("button", {
+    className: "get-started"
+  }, "Get started")))))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cta-section"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "blob-1"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "blob-2"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "sub-container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "badge"
+  }, /*#__PURE__*/_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    class: "lucide lucide-sparkles w-3.5 h-3.5"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    d: "M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M20 3v4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M22 5h-4"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M4 17v2"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    d: "M5 18H3"
+  })), /*#__PURE__*/_react.default.createElement("p", null, "Join 50,000+ Happy Customers")), /*#__PURE__*/_react.default.createElement("h2", {
+    className: "heading"
+  }, "Ready to Find Your Perfect ", /*#__PURE__*/_react.default.createElement("span", null, "Beauty Professional?")), /*#__PURE__*/_react.default.createElement("p", {
+    className: "desc"
+  }, "Start your beauty journey today. Book trusted professionals, compare prices, and transform your look with confidence."), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cta-actions"
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    className: "book-now"
+  }, "Book now"), /*#__PURE__*/_react.default.createElement("button", {
+    className: "become-prof"
+  }, "Become a professional")), /*#__PURE__*/_react.default.createElement("hr", {
+    className: "divider"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cta-footer"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "cta-card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "count"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "2,500+")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "text"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Verified Providers"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cta-card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "count"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "2,500+")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "text"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Verified Providers"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cta-card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "count"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "2,500+")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "text"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Verified Providers"))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "cta-card"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "count"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "2,500+")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "text"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Verified Providers")))))))));
 }
 var _default = exports.default = Home;
 const PrevArrow = _ref => {
@@ -650,26 +963,8 @@ const PrevArrow = _ref => {
     onClick
   } = _ref;
   return /*#__PURE__*/_react.default.createElement(_material.IconButton, {
-    className: "arrow-prev-custom",
-    onClick: onClick,
-    sx: {
-      backgroundColor: "white",
-      color: "black",
-      transition: "all 0.3s ease",
-      "&:hover": {
-        color: "black",
-        backgroundColor: "#ffc0cb87"
-      },
-      position: "absolute",
-      left: "-40px",
-      rotate: "180deg",
-      top: "40%",
-      zIndex: 1,
-      borderRadius: "20px",
-      border: "1px solid #ffc0cb87",
-      width: "40px",
-      height: "40px"
-    }
+    className: "arrow-prev-custom custom-arrow",
+    onClick: onClick
   }, /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, null));
 };
 const NextArrow = _ref2 => {
@@ -680,23 +975,6 @@ const NextArrow = _ref2 => {
   } = _ref2;
   return /*#__PURE__*/_react.default.createElement(_material.IconButton, {
     onClick: onClick,
-    className: "arrow-next-custom",
-    sx: {
-      backgroundColor: "white",
-      color: "black",
-      transition: "all 0.3s ease",
-      "&:hover": {
-        color: "black",
-        backgroundColor: "#ffc0cb87"
-      },
-      position: "absolute",
-      right: "-40px",
-      top: "40%",
-      zIndex: 1,
-      borderRadius: "20px",
-      border: "1px solid #ffc0cb87",
-      width: "40px",
-      height: "40px"
-    }
+    className: "arrow-next-custom custom-arrow"
   }, /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, null));
 };

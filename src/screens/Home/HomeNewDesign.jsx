@@ -3,7 +3,7 @@ import { Alert, Box, Button, IconButton, Typography } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import { ROUTES } from "../../routes";
-import Carousel from "../../components/Carousel/Carousel";
+import Carousel from "../../components/Carousel/CarouselNew";
 import axiosClient from "../../axios-client";
 import SkeletonHome from "../../components/Loader/SkeletonHome";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -13,6 +13,7 @@ import Slider from "react-slick";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import StarRating from "../../components/StarRating/StarRating";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import DummyImage from "../../components/DummyImage/DummyImage";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
@@ -75,8 +76,8 @@ function Home() {
     dots: true,
     infinite: false,
     speed: 800,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 3,
+    slidesToScroll: 3,
     arrows: true,
     autoplay: false,
     autoplaySpeed: 3000,
@@ -130,9 +131,9 @@ function Home() {
       ) : (
         <div className="homeNewDesign homeNewDesignUpdated">
           <Box className="main_banner">
-              <div className="banner_blob_1"></div>
-              <div className="banner_blob_2"></div>
-              <div className="banner_blob_3"></div>
+            <div className="banner_blob_1"></div>
+            <div className="banner_blob_2"></div>
+            <div className="banner_blob_3"></div>
             <div className="container">
               <div className="banner_content">
                 <div className="banner_badge">
@@ -196,7 +197,7 @@ function Home() {
                 <div className="bg-border"></div>
                 <div className="image">
                   <img
-                    src={`${process.env.REACT_APP_BASE_URL}/home_new_banner-2.jpg`}
+                    src={`${process.env.REACT_APP_BASE_URL}/blog_img.png`}
                     alt="Banner Image"
                   />
                 </div>
@@ -208,32 +209,31 @@ function Home() {
               </div>
             </div>
           </Box>
-            <div className="categories">
-              <div className="container">
-                <div className="headings">
+          <div className="categories">
+            <div className="container">
+              <div className="headings">
                 <h4 className="sub_heading">explore</h4>
                 <h2 className="heading">Browse Beauty Categories</h2>
-                <p className="desc">Discover trusted professionals across all beauty services</p>
+                <p className="desc">
+                  Discover trusted professionals across all beauty services
+                </p>
               </div>
               <div className="categories_cards">
-                {categories && categories.length > 0 && (
+                {/* {categories && categories.length > 0 && (
                   categories.slice(0,10).map((singleCat) => (
                     <div className="category_card">
                       <img src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`} alt={singleCat.title} />
-                      {/* <img src="https://gardencitykhi.com/new-site/backend/storage/app/public/portfolio/lmlZ520gKYsd8jVgVmXwph1SAA3JCNDpob5L9ZdY.jpg" alt={singleCat.title} /> */}
                       <div className="category_info">
                         <h6>{singleCat.title}</h6>
                         <p>420 services</p>
                       </div>
                     </div>
                   ))
-                )}
-                
-                
-              </div>
+                )} */}
               </div>
             </div>
-          {stores?.recentlyViewedStores?.length > 0 && (
+          </div>
+          {/* {stores?.recentlyViewedStores?.length > 0 && (
             <Box
               className="recommended"
               sx={{ background: "", zIndex: "3", position: "relative" }}
@@ -252,24 +252,23 @@ function Home() {
                 </Box>
               </div>
             </Box>
-          )}
+          )} */}
           <Box className="sliders">
-            <Box className="recommended" sx={{ background: "", zIndex: "3" }}>
-              <div className="container" style={{ paddingTop: "40px" }}>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    fontSize: "32px",
-                  }}
-                >
-                  Recommended
-                </Typography>
+            <Box className="recommended">
+              <div className="container">
+                <div className="headings">
+                  <h4 className="sub_heading">Top Rated</h4>
+                  <h2 className="heading">Featured Professionals</h2>
+                  <p className="desc">
+                    Top-rated beauty experts trusted by thousands
+                  </p>
+                </div>
                 <Box className="slider">
                   <Carousel stores={stores.new} />
                 </Box>
               </div>
             </Box>
-            <Box className="new_to_site" sx={{ background: "", zIndex: "3" }}>
+            {/* <Box className="new_to_site" sx={{ background: "", zIndex: "3" }}>
               <div className="container" style={{ paddingTop: "40px" }}>
                 <Typography
                   variant="h3"
@@ -298,7 +297,7 @@ function Home() {
                   <Carousel stores={stores.trending} />
                 </Box>
               </div>
-            </Box>
+            </Box>  */}
           </Box>
 
           <Box className="how_it_works">
@@ -310,7 +309,7 @@ function Home() {
                 <Typography variant="h3" className="heading">
                   How it works
                 </Typography>
-                <Typography variant="h5" className="description">
+                <Typography variant="h5" className="desc">
                   Book your next beauty and wellness appointment in 3 easy steps
                 </Typography>
               </div>
@@ -412,7 +411,7 @@ function Home() {
                 <Typography variant="h3" className="heading">
                   Why Choose Our Platform?
                 </Typography>
-                <Typography variant="h5" className="description">
+                <Typography variant="h5" className="desc">
                   The most trusted beauty services marketplace in Pakistan
                 </Typography>
               </div>
@@ -580,47 +579,43 @@ function Home() {
           {reviews && reviews.length > 0 && (
             <Box className="reviews_slider">
               <Box className="container">
-                <Typography
-                  variant="h3"
-                  sx={{
-                    fontSize: "30px",
-                    fontFamily: "Barlow",
-                    fontWeight: "700",
-                    textTransform: "capitalize",
-                  }}
-                >
-                  What client says
-                </Typography>
+                <div className="headings">
+                  <h4 className="sub_heading">Testimonials</h4>
+                  <h2 className="heading">What Our Clients Say</h2>
+                  <p className="desc">
+                    Real experiences from thousands of satisfied customers
+                  </p>
+                </div>
                 <Slider {...reivewsSliderSettings} className="mt-5">
                   {reviews.map((singleRev) => (
                     <Box className="singleReview">
+                      <div className="testimonial_icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-quote w-5 h-5 text-white"
+                        >
+                          <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path>
+                          <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path>
+                        </svg>
+                      </div>
                       <Box className="rating">
                         <StarRating
                           rating={singleRev.rating}
                           size="large"
                           color="gold"
                         />
-                        {/* <Typography variant="body1" sx={{fontSize:'16px',fontWeight:'600',fontFamily:'Barlow'}}>{singleRev.rating}</Typography> */}
                       </Box>
                       <Box className="review">
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            fontSize: "22px",
-                            fontWeight: "600",
-                            fontFamily: "Barlow",
-                            textTransform: "capitalize",
-                          }}
-                        >
-                          {singleRev.title}
-                        </Typography>
-                        <Typography
-                          className="review_content"
-                          variant="body1"
-                          sx={{ fontSize: "18px", fontFamily: "Barlow" }}
-                        >
-                          {singleRev.review}
-                        </Typography>
+                        <h4 className="review_tagline">{singleRev.title}</h4>
+                        <p className="review_text">{singleRev.review}</p>
                       </Box>
                       <Box className="userInfo">
                         <Box className="profileImg">
@@ -670,6 +665,452 @@ function Home() {
               </Box>
             </Box>
           )}
+          <div className="grow-section">
+            <div className="blob-1"></div>
+            <div className="blob-2"></div>
+            <div className="blob-3"></div>
+            <div className="container">
+              <div className="grow-content">
+                <div className="badge">
+                  <p>For Beauty Professionals</p>
+                </div>
+                <h2 className="heading">
+                  Grow Your Beauty Business <br /> <span>With Us</span>
+                </h2>
+                <p className="desc">
+                  Join Pakistan's largest beauty services marketplace and take
+                  your business to the next level. Get access to thousands of
+                  clients looking for your services.
+                </p>
+                <div className="grow-boxes">
+                  <div className="grow-box">
+                    <h4 className="count-number">2,500+</h4>
+                    <p className="text">Active Providers</p>
+                  </div>
+                  <div className="grow-box">
+                    <h4 className="count-number">50,000+</h4>
+                    <p className="text">Monthly Bookings</p>
+                  </div>
+                </div>
+                <div className="grow_btns">
+                  <button className="register">Register your business</button>
+                  <button className="learn-more">Learn more</button>
+                </div>
+              </div>
+              <div className="grow-cards">
+                <div className="grow-card">
+                  <div className="icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-users w-6 h-6 text-[#D4A373]"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                  </div>
+                  <div className="card-title">
+                    <h5>Reach More Clients</h5>
+                  </div>
+                  <div className="card-text">
+                    <p>
+                      Connect with thousands of potential customers actively
+                      searching for beauty services
+                    </p>
+                  </div>
+                </div>
+                <div className="grow-card">
+                  <div className="icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-users w-6 h-6 text-[#D4A373]"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                  </div>
+                  <div className="card-title">
+                    <h5>Reach More Clients</h5>
+                  </div>
+                  <div className="card-text">
+                    <p>
+                      Connect with thousands of potential customers actively
+                      searching for beauty services
+                    </p>
+                  </div>
+                </div>
+                <div className="grow-card">
+                  <div className="icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-users w-6 h-6 text-[#D4A373]"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                  </div>
+                  <div className="card-title">
+                    <h5>Reach More Clients</h5>
+                  </div>
+                  <div className="card-text">
+                    <p>
+                      Connect with thousands of potential customers actively
+                      searching for beauty services
+                    </p>
+                  </div>
+                </div>
+                <div className="grow-card">
+                  <div className="icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-users w-6 h-6 text-[#D4A373]"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                  </div>
+                  <div className="card-title">
+                    <h5>Reach More Clients</h5>
+                  </div>
+                  <div className="card-text">
+                    <p>
+                      Connect with thousands of potential customers actively
+                      searching for beauty services
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="pricing-section">
+            <div className="container">
+              <div className="headings">
+                <h4 className="sub_heading">Plans</h4>
+                <h2 className="heading">Simple, Transparent Pricing</h2>
+                <p className="desc">
+                  Choose the perfect plan to grow your beauty business
+                </p>
+              </div>
+              <div className="pricing-plans">
+                <div className="plan">
+                  <div className="plan-header">
+                    <h4 className="plan-title">Starter</h4>
+                    <p className="plan-desc">
+                      Perfect for individual professionals starting out
+                    </p>
+                  </div>
+                  <div className="plan-body">
+                    <div className="plan-price">
+                      <h3 className="price">Free</h3>
+                      <p className="billing-cycle">forever</p>
+                    </div>
+                    <hr className="divider" />
+                    <div className="plan-features">
+                      <ul className="features-list">
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Basic profile listing</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Up to 5 portfolio images</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Receive bookings</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Basic analytics</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Email support</p>
+                        </li>
+                      </ul>
+                    </div>
+                    <button className="get-started">Get started</button>
+                  </div>
+                </div>
+                <div className="plan popular">
+                  <div className="badge">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-sparkles w-3.5 h-3.5"
+                    >
+                      <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                      <path d="M20 3v4"></path>
+                      <path d="M22 5h-4"></path>
+                      <path d="M4 17v2"></path>
+                      <path d="M5 18H3"></path>
+                    </svg>
+                    <p>most popular</p>
+                  </div>
+                  <div className="plan-header">
+                    <h4 className="plan-title">Professional</h4>
+                    <p className="plan-desc">
+                      Most popular choice for growing businesses
+                    </p>
+                  </div>
+                  <div className="plan-body">
+                    <div className="plan-price">
+                      <h3 className="price">PKR 2,999</h3>
+                      <p className="billing-cycle">per month</p>
+                    </div>
+                    <hr className="divider" />
+                    <div className="plan-features">
+                      <ul className="features-list">
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Premium profile placement</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Unlimited portfolio images</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Priority bookings</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Advanced analytics & insights</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Priority support</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Featured in search results</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Custom booking page</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Promotional tools</p>
+                        </li>
+                      </ul>
+                    </div>
+                    <button className="get-started">Get started</button>
+                  </div>
+                </div>
+                <div className="plan">
+                  <div className="plan-header">
+                    <h4 className="plan-title">Premium</h4>
+                    <p className="plan-desc">
+                      For established businesses that want it all
+                    </p>
+                  </div>
+                  <div className="plan-body">
+                    <div className="plan-price">
+                      <h3 className="price">PKR 4,999</h3>
+                      <p className="billing-cycle">per month</p>
+                    </div>
+                    <hr className="divider" />
+                    <div className="plan-features">
+                      <ul className="features-list">
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Everything in Professional</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Top placement guarantee</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Verified badge</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Social media integration</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Dedicated account manager</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>Marketing campaigns</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>API access</p>
+                        </li>
+                        <li>
+                          <div className="icon">
+                            <DoneOutlinedIcon />
+                          </div>
+                          <p>White-label options</p>
+                        </li>
+                      </ul>
+                    </div>
+                    <button className="get-started">Get started</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="cta-section">
+            <div className="blob-1"></div>
+            <div className="blob-2"></div>
+            <div className="container">
+              <div className="sub-container">
+                <div className="badge">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-sparkles w-3.5 h-3.5"
+                >
+                  <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                  <path d="M20 3v4"></path>
+                  <path d="M22 5h-4"></path>
+                  <path d="M4 17v2"></path>
+                  <path d="M5 18H3"></path>
+                </svg>
+                <p>Join 50,000+ Happy Customers</p>
+              </div>
+              <h2 className="heading">Ready to Find Your Perfect <span>Beauty Professional?</span></h2>
+              <p className="desc">Start your beauty journey today. Book trusted professionals, compare prices, and transform your look with confidence.</p>
+              <div className="cta-actions">
+                <button className="book-now">Book now</button>
+                <button className="become-prof">Become a professional</button>
+              </div>
+              <hr className="divider" />
+              <div className="cta-footer">
+                <div className="cta-card">
+                  <div className="count">
+                    <p>2,500+</p>
+                  </div>
+                  <div className="text">
+                    <p>Verified Providers</p>
+                  </div>
+                </div>
+                <div className="cta-card">
+                  <div className="count">
+                    <p>2,500+</p>
+                  </div>
+                  <div className="text">
+                    <p>Verified Providers</p>
+                  </div>
+                </div>
+                <div className="cta-card">
+                  <div className="count">
+                    <p>2,500+</p>
+                  </div>
+                  <div className="text">
+                    <p>Verified Providers</p>
+                  </div>
+                </div>
+                <div className="cta-card">
+                  <div className="count">
+                    <p>2,500+</p>
+                  </div>
+                  <div className="text">
+                    <p>Verified Providers</p>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </>
@@ -679,48 +1120,13 @@ function Home() {
 export default Home;
 
 const PrevArrow = ({ className, style, onClick }) => (
-  <IconButton
-    className="arrow-prev-custom"
-    onClick={onClick}
-    sx={{
-      backgroundColor: "white",
-      color: "black",
-      transition: "all 0.3s ease",
-      "&:hover": { color: "black", backgroundColor: "#ffc0cb87" },
-      position: "absolute",
-      left: "-40px",
-      rotate: "180deg",
-      top: "40%",
-      zIndex: 1,
-      borderRadius: "20px",
-      border: "1px solid #ffc0cb87",
-      width: "40px",
-      height: "40px",
-    }}
-  >
+  <IconButton className="arrow-prev-custom custom-arrow" onClick={onClick}>
     <ArrowForwardIosIcon />
   </IconButton>
 );
 
 const NextArrow = ({ className, style, onClick }) => (
-  <IconButton
-    onClick={onClick}
-    className="arrow-next-custom"
-    sx={{
-      backgroundColor: "white",
-      color: "black",
-      transition: "all 0.3s ease",
-      "&:hover": { color: "black", backgroundColor: "#ffc0cb87" },
-      position: "absolute",
-      right: "-40px",
-      top: "40%",
-      zIndex: 1,
-      borderRadius: "20px",
-      border: "1px solid #ffc0cb87",
-      width: "40px",
-      height: "40px",
-    }}
-  >
+  <IconButton onClick={onClick} className="arrow-next-custom custom-arrow">
     <ArrowForwardIosIcon />
   </IconButton>
 );

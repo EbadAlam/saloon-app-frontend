@@ -222,7 +222,7 @@ function Home() {
                 {categories && categories.length > 0 && (
                   categories.slice(0,5).map((singleCat) => (
                     <div className="category_card">
-                      {/* <img src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`} alt={singleCat.title} /> */}
+                      <img src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`} alt={singleCat.title} />
                       <div className="category_info">
                         <h6>{singleCat.title}</h6>
                         <p>420 services</p>

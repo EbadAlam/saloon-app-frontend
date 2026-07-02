@@ -219,7 +219,10 @@ function Home() {
     className: "categories_cards"
   }, categories && categories.length > 0 && categories.slice(0, 5).map(singleCat => /*#__PURE__*/_react.default.createElement("div", {
     className: "category_card"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleCat.thumbnail),
+    alt: singleCat.title
+  }), /*#__PURE__*/_react.default.createElement("div", {
     className: "category_info"
   }, /*#__PURE__*/_react.default.createElement("h6", null, singleCat.title), /*#__PURE__*/_react.default.createElement("p", null, "420 services"))))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "sliders"

@@ -6,18 +6,14 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
 var _reactRouterDom = require("react-router-dom");
-var _Header = _interopRequireDefault(require("../Header/Header"));
+var _HeaderNew = _interopRequireDefault(require("../Header/HeaderNew"));
 var _Footer = _interopRequireDefault(require("../Header/Footer/Footer"));
 var _routes = require("../../routes");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function MainLayout() {
   const location = (0, _reactRouterDom.useLocation)();
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Header.default, null), /*#__PURE__*/_react.default.createElement("main", {
-    style: {
-      background: 'white',
-      minHeight: '50vh',
-      paddingTop: '100px'
-    }
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_HeaderNew.default, null), /*#__PURE__*/_react.default.createElement("main", {
+    className: "main-layout"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Outlet, null)), /*#__PURE__*/_react.default.createElement(_Footer.default, null));
 }
 var _default = exports.default = MainLayout;

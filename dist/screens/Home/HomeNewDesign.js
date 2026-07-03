@@ -20,6 +20,7 @@ var _ArrowForwardIos = _interopRequireDefault(require("@mui/icons-material/Arrow
 var _ArrowBackIos = _interopRequireDefault(require("@mui/icons-material/ArrowBackIos"));
 var _StarRating = _interopRequireDefault(require("../../components/StarRating/StarRating"));
 var _DoneOutlined = _interopRequireDefault(require("@mui/icons-material/DoneOutlined"));
+var _ArrowForward = _interopRequireDefault(require("@mui/icons-material/ArrowForward"));
 var _DummyImage = _interopRequireDefault(require("../../components/DummyImage/DummyImage"));
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
@@ -924,7 +925,7 @@ function Home() {
     className: "cta-actions"
   }, /*#__PURE__*/_react.default.createElement("button", {
     className: "book-now"
-  }, "Book now"), /*#__PURE__*/_react.default.createElement("button", {
+  }, "Book now", /*#__PURE__*/_react.default.createElement(_ArrowForward.default, null)), /*#__PURE__*/_react.default.createElement("button", {
     className: "become-prof"
   }, "Become a professional")), /*#__PURE__*/_react.default.createElement("hr", {
     className: "divider"

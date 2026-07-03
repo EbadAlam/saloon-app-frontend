@@ -14,6 +14,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import StarRating from "../../components/StarRating/StarRating";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DummyImage from "../../components/DummyImage/DummyImage";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
@@ -1058,7 +1059,10 @@ function Home() {
               <h2 className="heading">Ready to Find Your Perfect <span>Beauty Professional?</span></h2>
               <p className="desc">Start your beauty journey today. Book trusted professionals, compare prices, and transform your look with confidence.</p>
               <div className="cta-actions">
-                <button className="book-now">Book now</button>
+                <button className="book-now">
+                  Book now
+                  <ArrowForwardIcon />
+                </button>
                 <button className="become-prof">Become a professional</button>
               </div>
               <hr className="divider" />

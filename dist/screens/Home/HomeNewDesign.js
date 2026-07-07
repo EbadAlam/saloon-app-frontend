@@ -72,6 +72,7 @@ function Home() {
         });
         setStores(data.stores);
         setCategories(data.categories);
+        console.log('categories: ', data.categories);
         setBookingCount(data.bookingCount);
         setReviews(data.reviews);
       } catch (err) {
@@ -218,14 +219,17 @@ function Home() {
     className: "desc"
   }, "Discover trusted professionals across all beauty services")), /*#__PURE__*/_react.default.createElement("div", {
     className: "categories_cards"
-  }, categories && categories.length > 0 && categories.slice(0, 5).map(singleCat => /*#__PURE__*/_react.default.createElement("div", {
-    className: "category_card"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleCat.thumbnail),
-    alt: singleCat.title
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "category_info"
-  }, /*#__PURE__*/_react.default.createElement("h6", null, singleCat.title), /*#__PURE__*/_react.default.createElement("p", null, "420 services"))))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, categories && categories.length > 0 && categories.sort((a, b) => a.order - b.order).slice(0, 5).map(singleCat => {
+    var _singleCat$services_c;
+    return /*#__PURE__*/_react.default.createElement("div", {
+      className: "category_card"
+    }, /*#__PURE__*/_react.default.createElement("img", {
+      src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleCat.thumbnail),
+      alt: singleCat.title
+    }), /*#__PURE__*/_react.default.createElement("div", {
+      className: "category_info"
+    }, /*#__PURE__*/_react.default.createElement("h6", null, singleCat.title), /*#__PURE__*/_react.default.createElement("p", null, (_singleCat$services_c = singleCat.services_count) !== null && _singleCat$services_c !== void 0 ? _singleCat$services_c : 0, " ", singleCat.services_count <= 1 ? 'service' : 'services')));
+  })))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "sliders"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "recommended"

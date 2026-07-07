@@ -26,6 +26,8 @@ var _ArrowForwardIos = _interopRequireDefault(require("@mui/icons-material/Arrow
 var _IosShare = _interopRequireDefault(require("@mui/icons-material/IosShare"));
 require("react-indiana-drag-scroll/dist/style.css");
 var _WhatsApp = _interopRequireDefault(require("@mui/icons-material/WhatsApp"));
+var _NorthEast = _interopRequireDefault(require("@mui/icons-material/NorthEast"));
+var _AcUnit = _interopRequireDefault(require("@mui/icons-material/AcUnit"));
 var _material = require("@mui/material");
 var _routes = require("../../routes");
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
@@ -352,20 +354,7 @@ function StorePage(_ref) {
     thumbnail: storeDetails.thumbnail
   })), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "storeNew"
-  }, storeDetails.whatsapp && /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "whatsapp_div"
   }, /*#__PURE__*/_react.default.createElement("div", {
-    class: "card-new"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    class: "bg"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    href: "https://wa.me/".concat(storeDetails.whatsapp),
-    target: "_blank",
-    rel: "noopener noreferrer",
-    onClick: handleWhatsappClick
-  }, /*#__PURE__*/_react.default.createElement(_WhatsApp.default, null))), /*#__PURE__*/_react.default.createElement("div", {
-    class: "blob"
-  }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "container",
     style: {
       background: "transparent",
@@ -373,11 +362,8 @@ function StorePage(_ref) {
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "store_title"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h2",
-    sx: {
-      fontSize: "32px"
-    }
+  }, /*#__PURE__*/_react.default.createElement("h2", {
+    className: "heading"
   }, storeDetails.title)), /*#__PURE__*/_react.default.createElement("div", {
     className: "store_data_mobile"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -394,13 +380,8 @@ function StorePage(_ref) {
     className: "address"
   }, /*#__PURE__*/_react.default.createElement("p", null, storeDetails.address)), /*#__PURE__*/_react.default.createElement("div", {
     className: "storeAbout"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "body1",
-    sx: {
-      color: "#333333",
-      fontSize: "18px",
-      fontWeight: "600"
-    }
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "heading"
   }, "About"), /*#__PURE__*/_react.default.createElement("div", {
     className: "about_wrapper ".concat(expanded ? "expanded" : "")
   }, /*#__PURE__*/_react.default.createElement("p", null, storeDetails.about), /*#__PURE__*/_react.default.createElement("span", {
@@ -425,7 +406,7 @@ function StorePage(_ref) {
     href: "https://www.google.com/maps/dir/?api=1&destination=".concat(storeDetails.lat, ",").concat(storeDetails.lng),
     target: "_blank",
     rel: "noopener noreferrer"
-  }, "Get Directions"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Get Directions", /*#__PURE__*/_react.default.createElement(_NorthEast.default, null)))), /*#__PURE__*/_react.default.createElement("div", {
     className: "save_share"
   }, user && token && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, loadingFav && /*#__PURE__*/_react.default.createElement(_material.CircularProgress, {
     size: "20px"
@@ -436,12 +417,7 @@ function StorePage(_ref) {
     title: "Remove from favourites"
   }, /*#__PURE__*/_react.default.createElement(_FavoriteOutlined.default, null)) : /*#__PURE__*/_react.default.createElement(_material.Tooltip, {
     title: "Add to favourites"
-  }, /*#__PURE__*/_react.default.createElement(_FavoriteBorderOutlined.default, null)))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "share",
-    onClick: handleCopy
-  }, /*#__PURE__*/_react.default.createElement(_material.Tooltip, {
-    title: "Share"
-  }, /*#__PURE__*/_react.default.createElement(_ReplyAllOutlined.default, null)))))), !isMobile && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement(_FavoriteBorderOutlined.default, null))))))), !isMobile && /*#__PURE__*/_react.default.createElement("div", {
     className: "gallery"
   }, /*#__PURE__*/_react.default.createElement(_CustomGallery.default, {
     images: storeDetails.gallery,
@@ -453,12 +429,8 @@ function StorePage(_ref) {
     className: "two_sections"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "left_side"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h2",
-    sx: {
-      fontWeight: "400",
-      fontSize: "30px"
-    }
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "heading"
   }, "Services"), /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
       position: "relative",
@@ -515,7 +487,9 @@ function StorePage(_ref) {
     }
   }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "services"
-  }, (storeDetails === null || storeDetails === void 0 || (_storeDetails$service2 = storeDetails.services) === null || _storeDetails$service2 === void 0 ? void 0 : _storeDetails$service2.length) > 0 && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, storeDetails.services.filter(service => {
+  }, (storeDetails === null || storeDetails === void 0 || (_storeDetails$service2 = storeDetails.services) === null || _storeDetails$service2 === void 0 ? void 0 : _storeDetails$service2.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
+    className: "grid"
+  }, storeDetails.services.filter(service => {
     var _service$category;
     return selectedCategory ? service.service_category_id === selectedCategory : true && ((_service$category = service.category) === null || _service$category === void 0 ? void 0 : _service$category.status) === "active";
   }).slice(0, 8).filter(service => service.status === "active" && service.is_active_by_admin == 1).map(singleSer => /*#__PURE__*/_react.default.createElement("div", {
@@ -525,35 +499,37 @@ function StorePage(_ref) {
     className: "info"
   }, /*#__PURE__*/_react.default.createElement("h4", {
     className: "title"
-  }, singleSer.title), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, singleSer.title), /*#__PURE__*/_react.default.createElement("p", {
+    className: "price"
+  }, singleSer.currency, " ", singleSer.price)), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "service_meta",
     display: "flex",
     alignItems: "center",
     gap: "15px"
   }, /*#__PURE__*/_react.default.createElement("p", {
     className: "eta"
-  }, /*#__PURE__*/_react.default.createElement(_AccessTime.default, null), " ", singleSer.eta), /*#__PURE__*/_react.default.createElement("p", {
+  }, /*#__PURE__*/_react.default.createElement(_AccessTime.default, null), " ", singleSer.eta), singleSer.gender && /*#__PURE__*/_react.default.createElement("p", {
     className: "gender ".concat(singleSer.gender)
-  }, singleSer.gender && "Only for ".concat(singleSer.gender)))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Only for ".concat(singleSer.gender))), /*#__PURE__*/_react.default.createElement("div", {
     className: "book_btn"
-  }, /*#__PURE__*/_react.default.createElement("p", {
-    className: "price"
-  }, singleSer.currency, " ", singleSer.price), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: _routes.ROUTES.getBookingPage(storeDetails.slug),
     state: {
       storeDetails: storeDetails,
       service: singleSer
     }
-  }, /*#__PURE__*/_react.default.createElement("button", null, "Book"))))), storeDetails.services.filter(service => selectedCategory ? service.category_id === selectedCategory : true).length > 4 && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Book")))))), storeDetails.services.filter(service => selectedCategory ? service.category_id === selectedCategory : true).length > 4 && /*#__PURE__*/_react.default.createElement("div", {
     className: "see-all-btn"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: _routes.ROUTES.getBookingPage(storeDetails.slug),
     state: {
       storeDetails: storeDetails
     }
-  }, /*#__PURE__*/_react.default.createElement("button", null, "See All"))))), storeDetails.workers && ((_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("button", null, "See All")))), storeDetails.workers && ((_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
     className: "teams_div_new"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "Team"), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "heading"
+  }, "Team"), /*#__PURE__*/_react.default.createElement("div", {
     className: "team_members new"
   }, storeDetails.workers.filter(worker => {
     var _worker$user;
@@ -586,16 +562,14 @@ function StorePage(_ref) {
     portfolioImages: storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.portfolio_images
   }), /*#__PURE__*/_react.default.createElement(_material.Box, null, (storeDetails === null || storeDetails === void 0 ? void 0 : storeDetails.reviews) && (storeDetails === null || storeDetails === void 0 || (_storeDetails$reviews2 = storeDetails.reviews) === null || _storeDetails$reviews2 === void 0 ? void 0 : _storeDetails$reviews2.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
     className: "reviews-div"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "Customer Reviews"), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "heading"
+  }, "Customer Reviews"), /*#__PURE__*/_react.default.createElement(_StarRating.default, {
     size: "large",
     color: "gold",
     rating: averageRatingStore
-  }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "body1",
-    sx: {
-      marginBottom: "20px",
-      fontSize: "18px"
-    }
+  }), /*#__PURE__*/_react.default.createElement("p", {
+    className: "desc"
   }, averageRatingStore, " out of 5 based on", " ", reviews.length, " reviews"), /*#__PURE__*/_react.default.createElement("div", {
     className: "reviews mt-3"
   }, (_storeDetails$reviews3 = storeDetails.reviews) === null || _storeDetails$reviews3 === void 0 ? void 0 : _storeDetails$reviews3.slice(0, 6).filter(review => review.status === "active").map(singleReview => /*#__PURE__*/_react.default.createElement("div", {
@@ -642,7 +616,9 @@ function StorePage(_ref) {
     storeUsers: storeDetails.workers
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "about about-desktop mt-5"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "About"), /*#__PURE__*/_react.default.createElement("p", {
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "heading"
+  }, "About"), /*#__PURE__*/_react.default.createElement("p", {
     className: "store_about"
   }, storeDetails.about), /*#__PURE__*/_react.default.createElement("div", {
     className: "map"
@@ -662,20 +638,11 @@ function StorePage(_ref) {
     details: storeDetails
   }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "opening-hours mt-5"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "Business Hours"), /*#__PURE__*/_react.default.createElement("ul", null, (storeDetails === null || storeDetails === void 0 || (_storeDetails$working = storeDetails.working_hours) === null || _storeDetails$working === void 0 ? void 0 : _storeDetails$working.length) > 0 && storeDetails.working_hours.map(singleHour => /*#__PURE__*/_react.default.createElement("li", {
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "heading"
+  }, "Business Hours"), /*#__PURE__*/_react.default.createElement("ul", null, (storeDetails === null || storeDetails === void 0 || (_storeDetails$working = storeDetails.working_hours) === null || _storeDetails$working === void 0 ? void 0 : _storeDetails$working.length) > 0 && storeDetails.working_hours.map(singleHour => /*#__PURE__*/_react.default.createElement("li", {
     key: singleHour.id
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "15",
-    height: "16",
-    viewBox: "0 0 15 16",
-    fill: "none"
-  }, /*#__PURE__*/_react.default.createElement("circle", {
-    cx: "7.5",
-    cy: "8",
-    r: "7.5",
-    fill: "#D8A7B1"
-  })), /*#__PURE__*/_react.default.createElement("p", null, singleHour.day)), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("p", null, singleHour.start_time_formatted, " \u2013", " ", singleHour.end_time_formatted, " ", singleHour.is_closed !== "active" ? /*#__PURE__*/_react.default.createElement("strong", {
+  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_AcUnit.default, null), /*#__PURE__*/_react.default.createElement("p", null, singleHour.day)), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("p", null, singleHour.start_time_formatted, " \u2013", " ", singleHour.end_time_formatted, " ", singleHour.is_closed !== "active" ? /*#__PURE__*/_react.default.createElement("strong", {
     style: {
       color: "red"
     }
@@ -717,6 +684,8 @@ function StorePage(_ref) {
       right: 0
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "blob-1"
+  }), /*#__PURE__*/_react.default.createElement("div", {
     className: "padding"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "store-info ".concat(isScrolled ? "visible" : "")

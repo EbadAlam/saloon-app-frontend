@@ -286,7 +286,7 @@ $primaryColor: #ff00f6;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
   flex-wrap: wrap;
 }
 
@@ -633,7 +633,7 @@ $primaryColor: #ff00f6;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   font-size: 18px;
 }
 
@@ -3679,21 +3679,6 @@ input::-webkit-inner-spin-button {
     }
   }
 
-  .review .review-text p {
-    font-size: 18px;
-    max-width: 300px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .review p {
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
 
   .reviewFormDiv {
     width: fit-content;
@@ -4099,11 +4084,10 @@ $backgroundColor : #FFF8F5; // warm ivory
 //         }
 //       }
 //     }
-    
+
 //   }
-  
+
 // }
-// ============ HEADER STYLING ============
 .new-header {
   padding-block: 30px;
   position: fixed;
@@ -4114,6 +4098,7 @@ $backgroundColor : #FFF8F5; // warm ivory
   transition: all 0.3s ease;
   box-shadow: 1px 1px 10px #00000033;
   background-color: $backgroundColor;
+
   &.scrolled {
     // padding-block: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -4132,7 +4117,6 @@ $backgroundColor : #FFF8F5; // warm ivory
     align-items: center;
     gap: 20px;
 
-    // ========== LOGO ==========
     .logo-div {
       flex: 0 0 auto;
       width: auto;
@@ -4153,13 +4137,11 @@ $backgroundColor : #FFF8F5; // warm ivory
         }
 
         .icon {
-          background: linear-gradient(
-            125deg,
-            #d8a7b1 0%,
-            #d8a7b1 40%,
-            #c98aa3 80%,
-            #a87a8f 100%
-          );
+          background: linear-gradient(125deg,
+              #d8a7b1 0%,
+              #d8a7b1 40%,
+              #c98aa3 80%,
+              #a87a8f 100%);
           padding: 8px;
           display: flex;
           justify-content: center;
@@ -4186,7 +4168,6 @@ $backgroundColor : #FFF8F5; // warm ivory
       }
     }
 
-    // ========== DESKTOP MENU ==========
     .menu-div {
       flex: 1;
       display: flex;
@@ -4238,7 +4219,6 @@ $backgroundColor : #FFF8F5; // warm ivory
       }
     }
 
-    // ========== DESKTOP ACTIONS ==========
     .accounts-div {
       flex: 0 0 auto;
       display: flex;
@@ -4295,7 +4275,6 @@ $backgroundColor : #FFF8F5; // warm ivory
       }
     }
 
-    // ========== MOBILE HAMBURGER ==========
     .mobile-toggle {
       display: none;
       flex: 0 0 auto;
@@ -4316,7 +4295,6 @@ $backgroundColor : #FFF8F5; // warm ivory
   }
 }
 
-// ============ MOBILE DRAWER ==========
 .mobile-drawer {
   .drawer-paper {
     width: 100% !important;
@@ -4336,7 +4314,6 @@ $backgroundColor : #FFF8F5; // warm ivory
     padding: 0;
     overflow-y: auto;
 
-    // ========== DRAWER HEADER ==========
     .drawer-header {
       display: flex;
       justify-content: space-between;
@@ -4356,13 +4333,11 @@ $backgroundColor : #FFF8F5; // warm ivory
         gap: 8px;
 
         .icon {
-          background: linear-gradient(
-            125deg,
-            #d8a7b1 0%,
-            #d8a7b1 40%,
-            #c98aa3 80%,
-            #a87a8f 100%
-          );
+          background: linear-gradient(125deg,
+              #d8a7b1 0%,
+              #d8a7b1 40%,
+              #c98aa3 80%,
+              #a87a8f 100%);
           padding: 6px;
           display: flex;
           justify-content: center;
@@ -4393,7 +4368,6 @@ $backgroundColor : #FFF8F5; // warm ivory
       }
     }
 
-    // ========== MOBILE MENU ==========
     .mobile-menu {
       list-style: none;
       padding: 0;
@@ -4431,7 +4405,6 @@ $backgroundColor : #FFF8F5; // warm ivory
       }
     }
 
-    // ========== MOBILE ACTIONS ==========
     .mobile-actions {
       display: flex;
       flex-direction: column;
@@ -4481,19 +4454,18 @@ $backgroundColor : #FFF8F5; // warm ivory
   }
 }
 
-// ============ ANIMATIONS ============
 @keyframes slideInRight {
   from {
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
   }
 }
 
-// ============ RESPONSIVE BREAKPOINTS ============
 @media (max-width: 1024px) {
   .new-header {
     padding-block: 16px;
@@ -4505,9 +4477,11 @@ $backgroundColor : #FFF8F5; // warm ivory
     }
   }
 }
+
 .main-layout {
-  padding-top:100px;
+  padding-top: 100px;
 }
+
 .sub_heading {
   text-transform: uppercase;
   color: $secondaryColor !important;
@@ -4520,6 +4494,10 @@ $backgroundColor : #FFF8F5; // warm ivory
   font-size: 52px;
   color: black;
   text-transform: capitalize;
+}
+
+h4.heading {
+  font-size: 36px;
 }
 
 .desc {
@@ -4698,7 +4676,7 @@ $backgroundColor : #FFF8F5; // warm ivory
           content: "";
           width: 100%;
           height: 100%;
-          border: 2px solid $luxuryGold;
+          border: 2px solid #e9c46a66;
           top: -30px;
           right: -30px;
           border-radius: 20px;
@@ -5151,7 +5129,8 @@ $backgroundColor : #FFF8F5; // warm ivory
             width: 40px;
           }
         }
-        p{
+
+        p {
           font-family: 'fredoka' !important;
         }
       }
@@ -5281,7 +5260,8 @@ $backgroundColor : #FFF8F5; // warm ivory
       justify-content: space-between;
       align-items: center;
       gap: 20px;
-      flex-wrap:wrap;
+      flex-wrap: wrap;
+
       .grow-content {
         width: 46%;
         display: flex;
@@ -5717,12 +5697,13 @@ $backgroundColor : #FFF8F5; // warm ivory
             background-color: $darkText;
             border-color: $darkText;
             color: white;
-            display:flex;
-            align-items:center;
-            gap:5px;
-             svg {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            svg {
               transition: all .3s ease;
-             }
+            }
           }
 
           &.become-prof {
@@ -5730,6 +5711,7 @@ $backgroundColor : #FFF8F5; // warm ivory
             border-color: white;
             color: $darkText;
           }
+
           &:hover {
             &.book-now {
               svg {
@@ -5768,6 +5750,272 @@ $backgroundColor : #FFF8F5; // warm ivory
               font-size: 14px;
             }
           }
+        }
+      }
+    }
+  }
+}
+
+.storeNew {
+  padding-block: 30px;
+  background-color: $backgroundColor;
+  .get-dir-btn {
+    a {
+      color: $secondaryColor;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      svg {
+        color: $secondaryColor;
+        transition: all .3s ease;
+      }
+
+      &:hover {
+        svg {
+          translate: 5px -5px;
+        }
+      }
+    }
+  }
+
+  .store_info {
+    width: 96%;
+    gap: 20px;
+  }
+
+  .right_side {
+    background-color: $darkText;
+    position: relative;
+
+    .blob-1 {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      filter: blur(80px);
+      background: rgba(247, 202, 208, 0.568627451);
+      right: 30px;
+      top: 30px;
+    }
+
+    .get-dir-btn {
+      a {
+        color: $primaryColor;
+      }
+    }
+
+    .store-info {
+      h2 {
+        color: white;
+        font-family: 'playfair display';
+        font-size: 30px;
+      }
+
+      .rating {
+        color: white;
+
+        span {
+          color: $primaryColor;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .book_now_btn {
+      a {
+        button {
+          background: linear-gradient(150deg, $primaryColor, $secondaryColor);
+          font-family: 'fredoka';
+          border: none;
+          transition: all .3s ease;
+
+          &:hover {
+            background: linear-gradient(250deg, $primaryColor, $secondaryColor);
+          }
+        }
+      }
+    }
+
+    .padding {
+      position: relative;
+      z-index: 2;
+    }
+
+    .seperator {
+      border-color: #ffffff3d !important;
+    }
+
+    .time {
+      color: #ffffffd9;
+      font-family: 'fredoka' !important;
+      font-size: 18px;
+    }
+
+    .location {
+      color: #ffffffd9;
+      font-family: 'fredoka' !important;
+      font-size: 18px;
+    }
+  }
+
+  .services_categories_scroll {
+    .category {
+      border-color: $softPink;
+      color: black;
+      font-family: 'fredoka';
+
+      &:hover {
+        background-color: #d8a7b11a !important;
+      }
+
+      &.active {
+        color: white !important;
+        border-color: black !important;
+        background-color: black !important;
+      }
+    }
+  }
+
+  .services {
+    .service {
+      border-color: $softPink !important;
+      // background: $darkText;
+      font-family: 'fredoka' !important;
+      padding: 20px;
+
+      .title {
+        font-family: 'fredoka' !important;
+        color:$darkText;
+      }
+
+      .service_meta {
+        justify-content: space-between !important;
+        p {
+          color:$darkText !important;
+        }
+      }
+      .gender {
+        border-color:$secondaryColor;
+        color:$secondaryColor;
+        background-color: $backgroundColor;
+      }
+      .book_btn {
+        .price {
+          color: $darkText;
+        }
+
+        button {
+          background-color: $darkText !important;
+          border: none !important;
+          color: white !important;
+        }
+      }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+
+      .service {
+        border-color: $softPink;
+        font-family: 'fredoka' !important;
+        padding: 15px;
+        flex-direction: column;
+        align-items: start;
+        gap: 10px;
+
+        .info {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: row;
+          width: 100%;
+          .price {
+            color: $darkText;
+            font-size: 18px;
+            font-family: 'Playfair Display';
+          }
+          .title {
+          font-family: 'fredoka' !important;
+        }
+        }
+
+        
+
+        .service_meta {
+          color: $darkText;
+          width: 100%;
+        }
+
+        .book_btn {
+
+          button {
+            background-color: black;
+            color: white;
+            padding: 5px 30px;
+            border-radius: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  .reviews-div {
+    .desc {
+      color:$darkText;
+    }
+    .reviews {
+      gap:20px 40px;
+      .review {
+        .username {
+          color:$darkText;
+          font-family: 'playfair display';
+          font-weight: 800;
+        }
+        .time {
+          color:$darkText;
+          font-family: 'fredoka';
+        }
+        .review-text {
+          p{
+            color:$darkText;
+            font-family: 'fredoka';
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            width:100%;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+    .see_all_reviews_btn_div {
+      a {
+        color: $secondaryColor;
+      }
+    }
+  }
+  .team_members.new {
+    .profile_img {
+      background: $primaryColor;
+      .dummy_img {
+        margin:0px;
+      }
+    }
+  }
+  .about {
+    .store_about {
+      font-family: 'fredoka';
+      color:$darkText;
+    }
+  }
+  .opening-hours {
+    ul {
+      li {
+        svg {
+          color: $secondaryColor;
         }
       }
     }

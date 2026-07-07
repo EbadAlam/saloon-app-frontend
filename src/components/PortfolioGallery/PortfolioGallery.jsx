@@ -81,12 +81,12 @@ const PortfolioGallery = ({ portfolioImages = [] }) => {
           border-radius: 12px;
           cursor: pointer;
           background: #f0efe8;
-          aspect-ratio: auto;
+          aspect-ratio: 1;
         }
 
         .masonry-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-        .masonry-item:nth-child(6) { grid-column: span 2; }
-        .masonry-item:nth-child(9) { grid-column: span 2; grid-row: span 2; }
+        .masonry-item:nth-child(6) { grid-column: span 1; }
+        .masonry-item:nth-child(9) { grid-column: span 1; grid-row: span 1; }
 
         .masonry-item img {
           width: 100%;
@@ -256,9 +256,7 @@ const PortfolioGallery = ({ portfolioImages = [] }) => {
             gap: 8px;
           }
 
-          .masonry-item:nth-child(1) { grid-column: span 1; grid-row: span 1; }
-          .masonry-item:nth-child(6) { grid-column: span 1; }
-          .masonry-item:nth-child(9) { grid-column: span 1; grid-row: span 1; }
+          .masonry-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
 
           .lightbox-backdrop {
             padding: 0;
@@ -320,7 +318,7 @@ const PortfolioGallery = ({ portfolioImages = [] }) => {
       `}</style>
 
       <div className="portfolio-section">
-        <h2 className="portfolio-title">Portfolio</h2>
+        <h4 className="heading">Portfolio</h4>
         
         <div className="masonry-grid">
           {images.map((image, index) => (

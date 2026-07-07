@@ -20,6 +20,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import "react-indiana-drag-scroll/dist/style.css";
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import NorthEastIcon from '@mui/icons-material/NorthEast';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 import {
   Box,
   CircularProgress,
@@ -362,7 +364,7 @@ function StorePage({ initialData }) {
             </div>
           )}
           <Box className="storeNew">
-            {storeDetails.whatsapp && (
+            {/* {storeDetails.whatsapp && (
               <Box className="whatsapp_div">
                 <div class="card-new">
                   <div class="bg">
@@ -378,20 +380,13 @@ function StorePage({ initialData }) {
                   <div class="blob"></div>
                 </div>
               </Box>
-            )}
+            )} */}
             <div
               className="container"
               style={{ background: "transparent", paddingBlock: "20px" }}
             >
               <div className="store_title">
-                <Typography
-                  variant="h2"
-                  sx={{
-                    fontSize: "32px",
-                  }}
-                >
-                  {storeDetails.title}
-                </Typography>
+                <h2 className="heading">{storeDetails.title}</h2>
               </div>
               <div className="store_data_mobile">
                 <div className="storeMeta">
@@ -415,16 +410,7 @@ function StorePage({ initialData }) {
                   <p>{storeDetails.address}</p>
                 </div>
                 <div className="storeAbout">
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: "#333333",
-                      fontSize: "18px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    About
-                  </Typography>
+                  <h4 className="heading">About</h4>
                   <div
                     className={`about_wrapper ${expanded ? "expanded" : ""}`}
                   >
@@ -460,6 +446,7 @@ function StorePage({ initialData }) {
                       rel="noopener noreferrer"
                     >
                       Get Directions
+                      <NorthEastIcon />
                     </a>
                   </div>
                 </div>
@@ -480,11 +467,9 @@ function StorePage({ initialData }) {
                       </div>
                     </>
                   )}
-                  <div className="share" onClick={handleCopy}>
-                    <Tooltip title="Share">
-                      <ReplyAllOutlinedIcon />
-                    </Tooltip>
-                  </div>
+                  {/* <div className="share" onClick={handleShareToFriend}>
+                    <IosShareIcon />
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -503,13 +488,7 @@ function StorePage({ initialData }) {
               <div className="two_sections">
                 {/* LEFT SIDE */}
                 <div className="left_side">
-                  <Typography
-                    variant="h2"
-                    sx={{ fontWeight: "400", fontSize: "30px" }}
-                  >
-                    Services
-                  </Typography>
-                  {/* Categories scroll with arrows */}
+                  <h4 className="heading">Services</h4>
                   <Box
                     sx={{
                       position: "relative",
@@ -569,7 +548,7 @@ function StorePage({ initialData }) {
                     </IconButton>
                   </Box>
 
-                  <div className="services">
+                  {/* <div className="services">
                     {storeDetails?.services?.length > 0 && (
                       <>
                         {storeDetails.services
@@ -636,12 +615,81 @@ function StorePage({ initialData }) {
                         )}
                       </>
                     )}
+                  </div> */}
+                  <div className="services">
+                    {storeDetails?.services?.length > 0 && (
+                      <div className="grid">
+                        {storeDetails.services
+                          .filter((service) =>
+                            selectedCategory
+                              ? service.service_category_id === selectedCategory
+                              : true && service.category?.status === "active",
+                          )
+                          .slice(0, 8)
+                          .filter(
+                            (service) =>
+                              service.status === "active" &&
+                              service.is_active_by_admin == 1,
+                          )
+                          .map((singleSer) => (
+                            <div className="service" key={singleSer.id}>
+                              <div className="info">
+                                <h4 className="title">{singleSer.title}</h4>
+                                <p className="price">
+                                  {singleSer.currency} {singleSer.price}
+                                </p>
+                              </div>
+                              <Box
+                                  className="service_meta"
+                                  display="flex"
+                                  alignItems="center"
+                                  gap="15px"
+                                >
+                                  <p className="eta">
+                                    <AccessTimeIcon /> {singleSer.eta}
+                                  </p>
+                                  {singleSer.gender && (
+                                    <p className={`gender ${singleSer.gender}`}>
+                                      {`Only for ${singleSer.gender}`}
+                                    </p>
+                                  )}
+                                </Box>
+                              <div className="book_btn">
+                                <Link
+                                  to={ROUTES.getBookingPage(storeDetails.slug)}
+                                  state={{
+                                    storeDetails: storeDetails,
+                                    service: singleSer,
+                                  }}
+                                >
+                                  <button>Book</button>
+                                </Link>
+                              </div>
+                            </div>
+                          ))}
+
+                      </div>
+                    )}
+                    {storeDetails.services.filter((service) =>
+                          selectedCategory
+                            ? service.category_id === selectedCategory
+                            : true,
+                        ).length > 4 && (
+                          <div className="see-all-btn">
+                            <Link
+                              to={ROUTES.getBookingPage(storeDetails.slug)}
+                              state={{ storeDetails: storeDetails }}
+                            >
+                              <button>See All</button>
+                            </Link>
+                          </div>
+                        )}
                   </div>
 
                   {/* Team section */}
                   {storeDetails.workers && storeDetails.workers?.length > 0 && (
                     <div className="teams_div_new">
-                      <h2>Team</h2>
+                      <h4 className="heading">Team</h4>
                       <div className="team_members new">
                         {storeDetails.workers
                           .filter(
@@ -704,19 +752,16 @@ function StorePage({ initialData }) {
                     {storeDetails?.reviews &&
                       storeDetails?.reviews?.length > 0 && (
                         <div className="reviews-div">
-                          <h2>Customer Reviews</h2>
+                          <h4 className="heading">Customer Reviews</h4>
                           <StarRating
                             size="large"
                             color="gold"
                             rating={averageRatingStore}
                           />
-                          <Typography
-                            variant="body1"
-                            sx={{ marginBottom: "20px", fontSize: "18px" }}
-                          >
+                          <p className="desc">
                             {averageRatingStore} out of 5 based on{" "}
                             {reviews.length} reviews
-                          </Typography>
+                          </p>
                           <div className="reviews mt-3">
                             {storeDetails.reviews
                               ?.slice(0, 6)
@@ -793,7 +838,7 @@ function StorePage({ initialData }) {
 
                   {/* About */}
                   <div className="about about-desktop mt-5">
-                    <h2>About</h2>
+                    <h4 className="heading">About</h4>
                     <p className="store_about">{storeDetails.about}</p>
                     <div className="map">
                       {storeDetails.lat &&
@@ -820,13 +865,13 @@ function StorePage({ initialData }) {
 
                   {/* Opening Hours */}
                   <div className="opening-hours mt-5">
-                    <h2>Business Hours</h2>
+                    <h4 className="heading">Business Hours</h4>
                     <ul>
                       {storeDetails?.working_hours?.length > 0 &&
                         storeDetails.working_hours.map((singleHour) => (
                           <li key={singleHour.id}>
                             <div>
-                              <svg
+                              {/* <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="15"
                                 height="16"
@@ -839,7 +884,8 @@ function StorePage({ initialData }) {
                                   r="7.5"
                                   fill="#D8A7B1"
                                 />
-                              </svg>
+                              </svg> */}
+                              <AcUnitIcon />
                               <p>{singleHour.day}</p>
                             </div>
                             <div>
@@ -901,6 +947,7 @@ function StorePage({ initialData }) {
                     right: 0,
                   }}
                 >
+                  <div className="blob-1"></div>
                   <div className="padding">
                     <div
                       className={`store-info ${isScrolled ? "visible" : ""}`}

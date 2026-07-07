@@ -1,5 +1,11 @@
 @media (max-width:786px) {
-    $primaryColor: #ff00f6;
+    $primaryColor : #D4A373; // rose gold
+    $secondaryColor : #B8845A; // Deep rose gold
+    $softPink : #F7CAD0; // Soft pink
+    $luxuryGold : #E9C46A; // rose gold
+    $darkText : #2B2D42; // rose gold
+    $mutedText : #aea6af; // warm mauve-grey
+    $backgroundColor : #FFF8F5; // warm ivory
 
     .main_banner .heading h1,
     .download_heading h1,
@@ -732,7 +738,6 @@
         margin-top: 200px;
         z-index: 1111;
         position: relative;
-        background: white;
         box-shadow: 1px 0px 15px 0 #000000;
 
         .store_info {
@@ -797,6 +802,8 @@
                     position: relative;
 
                     p {
+                        color:$darkText;
+                        font-family: 'fredoka';
                         max-height: 120px;
                         overflow: hidden;
                         line-height: 24px;
@@ -838,14 +845,15 @@
             }
 
             .address {
-                background: #ededed;
+                background: #b8845a1a;
+                border:1px solid $secondaryColor;
                 padding: 5px 10px;
                 border-radius: 10px;
                 margin-top: 10px;
 
                 p {
                     font-size: 16px;
-                    color: black;
+                    color: $darkText;
                 }
             }
         }
@@ -865,6 +873,11 @@
         .right_side {
             display: none;
         }
+        .services {
+            .grid {
+                grid-template-columns: repeat(1, 1fr) !important;
+            }
+        }
     }
 
     .all-reviews-container {
@@ -881,13 +894,16 @@
         font-size: 36px !important;
         line-height: 40px !important;
     }
-
+    h4.heading {
+        font-size: 28px !important;
+        line-height: 40px !important;
+    }
     .sub_heading {
         font-size: 12px !important;
     }
 
     .main-layout {
-        padding-block: 50px;
+        padding-top: 50px;
     }
 
     .new-header {

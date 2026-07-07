@@ -1,4 +1,5 @@
 import React from 'react'
+import NorthEastIcon from '@mui/icons-material/NorthEast';
 
 function Address({details}) {
   return (
@@ -10,6 +11,8 @@ function Address({details}) {
             rel="noopener noreferrer"
         >
             Get Directions
+          <NorthEastIcon />
+            
         </a>
     </div>
   )

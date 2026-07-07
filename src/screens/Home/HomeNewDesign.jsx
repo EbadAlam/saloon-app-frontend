@@ -62,6 +62,7 @@ function Home() {
         });
         setStores(data.stores);
         setCategories(data.categories);
+        console.log('categories: ',data.categories)
         setBookingCount(data.bookingCount);
         setReviews(data.reviews);
       } catch (err) {
@@ -221,12 +222,12 @@ function Home() {
               </div>
               <div className="categories_cards">
                 {categories && categories.length > 0 && (
-                  categories.slice(0,5).map((singleCat) => (
+                  categories.sort((a, b) => a.order - b.order).slice(0,5).map((singleCat) => (
                     <div className="category_card">
                       <img src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`} alt={singleCat.title} />
                       <div className="category_info">
                         <h6>{singleCat.title}</h6>
-                        <p>420 services</p>
+                        <p>{singleCat.services_count ?? 0} {singleCat.services_count <= 1 ? 'service' : 'services'}</p>
                       </div>
                     </div>
                   ))

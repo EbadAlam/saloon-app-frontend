@@ -96,7 +96,7 @@ function Header() {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "actions"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: _routes.ROUTES.login
+    to: _routes.ROUTES.loginSignup
   }, /*#__PURE__*/_react.default.createElement(_material.Button, {
     className: "sign-in"
   }, "Sign In")), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
@@ -163,7 +163,7 @@ function Header() {
   }, item.label)))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "mobile-actions"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: _routes.ROUTES.login,
+    to: _routes.ROUTES.loginSignup,
     onClick: () => setMobileMenuOpen(false),
     style: {
       width: "100%"

@@ -77,7 +77,7 @@ function Header() {
 
           <div className="accounts-div">
             <div className="actions">
-              <Link to={ROUTES.login}>
+              <Link to={ROUTES.loginSignup}>
                 <Button className="sign-in">Sign In</Button>
               </Link>
               <Link to={ROUTES.forBusiness}>
@@ -157,7 +157,7 @@ function Header() {
 
           <Box className="mobile-actions">
             <Link
-              to={ROUTES.login}
+              to={ROUTES.loginSignup}
               onClick={() => setMobileMenuOpen(false)}
               style={{ width: "100%" }}
             >

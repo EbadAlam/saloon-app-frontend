@@ -603,7 +603,7 @@ function BookingPage() {
     }
   }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "services"
-  }, storeDetails === null || storeDetails === void 0 || (_storeDetails$service2 = storeDetails.services_categories) === null || _storeDetails$service2 === void 0 ? void 0 : _storeDetails$service2.map(cat => {
+  }, storeDetails === null || storeDetails === void 0 || (_storeDetails$service2 = storeDetails.services_categories) === null || _storeDetails$service2 === void 0 ? void 0 : _storeDetails$service2.filter(c => c.status == 'active').map(cat => {
     const servicesInCategory = storeDetails.services.filter(s => s.service_category_id === cat.id);
     if (servicesInCategory.length === 0) return null;
     return /*#__PURE__*/_react.default.createElement("div", {

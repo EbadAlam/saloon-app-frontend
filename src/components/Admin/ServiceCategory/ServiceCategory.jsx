@@ -150,10 +150,10 @@ function ServiceCategoriesPage() {
               </thead>
               <tbody>
                 {serviceCategories.length > 0 ? (
-                  serviceCategories.map((cat, i) => (
+                  serviceCategories.filter((c) => c.category.status == 'active').map((cat, i) => (
                     <tr key={cat.category_id}>
                       <td style={S.tdNum}>{i + 1}</td>
-                      <td style={S.td}>{cat.category?.title}</td>
+                      <td style={S.td}>{cat.category?.title} </td>
                       <td style={S.tdRight}>
                         <input
                           type="checkbox"

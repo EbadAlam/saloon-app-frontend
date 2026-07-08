@@ -7,17 +7,11 @@ exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 var _material = require("@mui/material");
 var _reactRouterDom = require("react-router-dom");
-var _QrCode = _interopRequireDefault(require("@mui/icons-material/QrCode"));
-var _routes = require("../../routes");
 var _CarouselNew = _interopRequireDefault(require("../../components/Carousel/CarouselNew"));
 var _axiosClient = _interopRequireDefault(require("../../axios-client"));
 var _SkeletonHome = _interopRequireDefault(require("../../components/Loader/SkeletonHome"));
-var _SearchBar = _interopRequireDefault(require("../../components/SearchBar/SearchBar"));
-var _Google = _interopRequireDefault(require("@mui/icons-material/Google"));
-var _Apple = _interopRequireDefault(require("@mui/icons-material/Apple"));
 var _reactSlick = _interopRequireDefault(require("react-slick"));
 var _ArrowForwardIos = _interopRequireDefault(require("@mui/icons-material/ArrowForwardIos"));
-var _ArrowBackIos = _interopRequireDefault(require("@mui/icons-material/ArrowBackIos"));
 var _StarRating = _interopRequireDefault(require("../../components/StarRating/StarRating"));
 var _DoneOutlined = _interopRequireDefault(require("@mui/icons-material/DoneOutlined"));
 var _ArrowForward = _interopRequireDefault(require("@mui/icons-material/ArrowForward"));
@@ -36,7 +30,6 @@ function Home() {
   const [loading, setLoading] = (0, _react.useState)(true);
   const [stores, setStores] = (0, _react.useState)({});
   const [categories, setCategories] = (0, _react.useState)([]);
-  const [bookingCount, setBookingCount] = (0, _react.useState)(0);
   const [reviews, setReviews] = (0, _react.useState)({});
   const [recentStores, setRecentStores] = (0, _react.useState)([]);
   const {
@@ -46,11 +39,6 @@ function Home() {
     if (!isBrowser) return;
     document.body.classList.remove("search-page");
   }, [location, isBrowser]);
-  // useEffect(() => {
-  //   if (!isBrowser) return;
-  //   const viewed = getRecentlyViewedStoreIds();
-  //   setRecentStores(viewed);
-  // }, []);
   (0, _react.useEffect)(() => {
     if (successMessage) {
       const timer = setTimeout(() => {
@@ -72,8 +60,7 @@ function Home() {
         });
         setStores(data.stores);
         setCategories(data.categories);
-        console.log('categories: ', data.categories);
-        setBookingCount(data.bookingCount);
+        console.log("categories: ", data.categories);
         setReviews(data.reviews);
       } catch (err) {
         console.error("error fetching stores ", err);
@@ -166,7 +153,9 @@ function Home() {
     d: "M5 18H3"
   })), "Pakistan's Premier Beauty Marketplace"), /*#__PURE__*/_react.default.createElement("div", {
     className: "banner_heading"
-  }, /*#__PURE__*/_react.default.createElement("h2", null, "Find & Book ", /*#__PURE__*/_react.default.createElement("span", null, "Trusted Beauty"), " Professionals")), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("h2", null, "Find & Book", " ", /*#__PURE__*/_react.default.createElement("span", {
+    className: "animated-text"
+  }, "Trusted Beauty"), " ", "Professionals")), /*#__PURE__*/_react.default.createElement("div", {
     className: "banner_text"
   }, /*#__PURE__*/_react.default.createElement("p", null, "Compare prices, read reviews, explore portfolios, check availability, and book beauty services instantly \u2014 all in one place.")), /*#__PURE__*/_react.default.createElement("div", {
     className: "banner_btns"
@@ -204,7 +193,7 @@ function Home() {
     className: "image"
   }, /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_BASE_URL, "/new-home-banner-img.jpg"),
-    alt: "Banner Image"
+    alt: "Banner"
   }))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "categories"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -228,7 +217,7 @@ function Home() {
       alt: singleCat.title
     }), /*#__PURE__*/_react.default.createElement("div", {
       className: "category_info"
-    }, /*#__PURE__*/_react.default.createElement("h6", null, singleCat.title), /*#__PURE__*/_react.default.createElement("p", null, (_singleCat$services_c = singleCat.services_count) !== null && _singleCat$services_c !== void 0 ? _singleCat$services_c : 0, " ", singleCat.services_count <= 1 ? 'service' : 'services')));
+    }, /*#__PURE__*/_react.default.createElement("h6", null, singleCat.title), /*#__PURE__*/_react.default.createElement("p", null, (_singleCat$services_c = singleCat.services_count) !== null && _singleCat$services_c !== void 0 ? _singleCat$services_c : 0, " ", singleCat.services_count <= 1 ? "service" : "services")));
   })))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "sliders"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -248,7 +237,7 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_CarouselNew.default, {
     stores: stores.new
   }))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "how_it_works"
+    className: "how_it_works new"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "container"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -266,6 +255,8 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "step_img"
   }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "anim-border"
+  }), /*#__PURE__*/_react.default.createElement("div", {
     className: "step_no"
   }, "1"), /*#__PURE__*/_react.default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -295,6 +286,8 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "step_img"
   }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "anim-border"
+  }), /*#__PURE__*/_react.default.createElement("div", {
     className: "step_no"
   }, "2"), /*#__PURE__*/_react.default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -328,6 +321,8 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "step_img"
   }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "anim-border"
+  }), /*#__PURE__*/_react.default.createElement("div", {
     className: "step_no"
   }, "3"), /*#__PURE__*/_react.default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -558,7 +553,7 @@ function Home() {
     className: "userInfo"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "profileImg"
-  }, singleRev.reviewer.user_info.profile_image ? singleRev.reviewer.user_info.signup_platform == "manual" ? /*#__PURE__*/_react.default.createElement("img", {
+  }, singleRev.reviewer.user_info.profile_image ? singleRev.reviewer.user_info.signup_platform === "manual" ? /*#__PURE__*/_react.default.createElement("img", {
     src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleRev.reviewer.user_info.profile_image),
     alt: ""
   }) : /*#__PURE__*/_react.default.createElement("img", {
@@ -889,16 +884,18 @@ function Home() {
   }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "White-label options")))), /*#__PURE__*/_react.default.createElement("button", {
     className: "get-started"
   }, "Get started")))))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cta-section"
+    className: "cta-section new"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "sub-container"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "blob-1"
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "blob-2"
   }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "container"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "sub-container"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "blob-3"
+  }), /*#__PURE__*/_react.default.createElement("div", {
     className: "badge"
   }, /*#__PURE__*/_react.default.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -923,43 +920,15 @@ function Home() {
     d: "M5 18H3"
   })), /*#__PURE__*/_react.default.createElement("p", null, "Join 50,000+ Happy Customers")), /*#__PURE__*/_react.default.createElement("h2", {
     className: "heading"
-  }, "Ready to Find Your Perfect ", /*#__PURE__*/_react.default.createElement("span", null, "Beauty Professional?")), /*#__PURE__*/_react.default.createElement("p", {
+  }, "Your Glow-Up Starts Today"), /*#__PURE__*/_react.default.createElement("p", {
     className: "desc"
-  }, "Start your beauty journey today. Book trusted professionals, compare prices, and transform your look with confidence."), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Book your first beauty service in under 60 seconds. No account needed to browse."), /*#__PURE__*/_react.default.createElement("div", {
     className: "cta-actions"
   }, /*#__PURE__*/_react.default.createElement("button", {
     className: "book-now"
   }, "Book now", /*#__PURE__*/_react.default.createElement(_ArrowForward.default, null)), /*#__PURE__*/_react.default.createElement("button", {
     className: "become-prof"
-  }, "Become a professional")), /*#__PURE__*/_react.default.createElement("hr", {
-    className: "divider"
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cta-footer"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "cta-card"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "count"
-  }, /*#__PURE__*/_react.default.createElement("p", null, "2,500+")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "text"
-  }, /*#__PURE__*/_react.default.createElement("p", null, "Verified Providers"))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cta-card"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "count"
-  }, /*#__PURE__*/_react.default.createElement("p", null, "2,500+")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "text"
-  }, /*#__PURE__*/_react.default.createElement("p", null, "Verified Providers"))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cta-card"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "count"
-  }, /*#__PURE__*/_react.default.createElement("p", null, "2,500+")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "text"
-  }, /*#__PURE__*/_react.default.createElement("p", null, "Verified Providers"))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cta-card"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "count"
-  }, /*#__PURE__*/_react.default.createElement("p", null, "2,500+")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "text"
-  }, /*#__PURE__*/_react.default.createElement("p", null, "Verified Providers")))))))));
+  }, "Become a professional")))))));
 }
 var _default = exports.default = Home;
 const PrevArrow = _ref => {

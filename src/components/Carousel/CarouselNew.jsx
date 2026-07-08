@@ -77,10 +77,7 @@ function Carousel({ stores = [] }) {
             .map((singleStore) => {
               const averageRating = calculateAverageRating(singleStore.reviews);
               return (
-                <Link
-                  style={{ display: "block" }}
-                  to={ROUTES.getStoreFrontPage(singleStore.slug)}
-                >
+               
                   <div className="store-card">
                     <div className="store-img">
                        {!loadedImages[singleStore.id] && (
@@ -96,9 +93,14 @@ function Carousel({ stores = [] }) {
                       />
                     </div>
                     <div className="store-info">
+                       <Link
+                  style={{ display: "block" }}
+                  to={ROUTES.getStoreFrontPage(singleStore.slug)}
+                >
                       <div className="store-title">
                         <h3>{singleStore.title}</h3>
                       </div>
+                      </Link>
                       <div className="store-address">
                         <LocationOnOutlinedIcon />
                         <p>{singleStore.address}</p>
@@ -128,7 +130,6 @@ function Carousel({ stores = [] }) {
                       </div>
                     </div>
                   </div>
-                </Link>
               );
             })}
       </Slider>

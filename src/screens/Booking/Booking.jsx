@@ -672,7 +672,7 @@ function BookingPage() {
                     </IconButton>
                   </Box>
                   <div className="services">
-                    {storeDetails?.services_categories?.map((cat) => {
+                    {storeDetails?.services_categories?.filter((c) => c.status == 'active').map((cat) => {
                       const servicesInCategory = storeDetails.services.filter(
                         (s) => s.service_category_id === cat.id,
                       );

@@ -265,7 +265,7 @@ function ServiceCategoriesPage() {
     style: S.th
   }, "Title"), /*#__PURE__*/_react.default.createElement("th", {
     style: S.thRight
-  }, "Remove"))), /*#__PURE__*/_react.default.createElement("tbody", null, serviceCategories.length > 0 ? serviceCategories.map((cat, i) => {
+  }, "Remove"))), /*#__PURE__*/_react.default.createElement("tbody", null, serviceCategories.length > 0 ? serviceCategories.filter(c => c.category.status == 'active').map((cat, i) => {
     var _cat$category;
     return /*#__PURE__*/_react.default.createElement("tr", {
       key: cat.category_id
@@ -273,7 +273,7 @@ function ServiceCategoriesPage() {
       style: S.tdNum
     }, i + 1), /*#__PURE__*/_react.default.createElement("td", {
       style: S.td
-    }, (_cat$category = cat.category) === null || _cat$category === void 0 ? void 0 : _cat$category.title), /*#__PURE__*/_react.default.createElement("td", {
+    }, (_cat$category = cat.category) === null || _cat$category === void 0 ? void 0 : _cat$category.title, " "), /*#__PURE__*/_react.default.createElement("td", {
       style: S.tdRight
     }, /*#__PURE__*/_react.default.createElement("input", {
       type: "checkbox",

@@ -5,6 +5,7 @@ import { Box, Button, IconButton, Drawer } from "@mui/material";
 import { useAuth } from "../../contexts/AuthContext";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import MenuButton from "../Menu/Menu";
 
 function Header() {
   const { user, token } = useAuth();
@@ -76,14 +77,17 @@ function Header() {
           </div>
 
           <div className="accounts-div">
-            <div className="actions">
-              <Link to={ROUTES.loginSignup}>
-                <Button className="sign-in">Sign In</Button>
-              </Link>
-              <Link to={ROUTES.forBusiness}>
-                <Button className="join-prof">Join as Professional</Button>
-              </Link>
-            </div>
+            {user && token ? <MenuButton /> : (
+              <div className="actions">
+                <Link to={ROUTES.loginSignup}>
+                  <Button className="sign-in">Sign In</Button>
+                </Link>
+                <Link to={ROUTES.forBusiness}>
+                  <Button className="join-prof">Join as Professional</Button>
+                </Link>
+              </div>
+            )}
+            
           </div>
 
           <div className="mobile-toggle">

@@ -802,7 +802,7 @@
                     position: relative;
 
                     p {
-                        color:$darkText;
+                        color: $darkText;
                         font-family: 'fredoka';
                         max-height: 120px;
                         overflow: hidden;
@@ -846,7 +846,7 @@
 
             .address {
                 background: #b8845a1a;
-                border:1px solid $secondaryColor;
+                border: 1px solid $secondaryColor;
                 padding: 5px 10px;
                 border-radius: 10px;
                 margin-top: 10px;
@@ -873,6 +873,7 @@
         .right_side {
             display: none;
         }
+
         .services {
             .grid {
                 grid-template-columns: repeat(1, 1fr) !important;
@@ -894,10 +895,12 @@
         font-size: 36px !important;
         line-height: 40px !important;
     }
+
     h4.heading {
         font-size: 28px !important;
         line-height: 40px !important;
     }
+
     .sub_heading {
         font-size: 12px !important;
     }
@@ -1120,13 +1123,20 @@
 
         .cta-section {
             .blob-1 {
-                left: 0px !important;
-                top: -10px !important;
+                left: -30px !important;
+                top: -70px !important;
+                width: 150px;
+                height: 150px;
             }
 
             .blob-2 {
                 right: -5px !important;
                 bottom: -35px !important;
+            }
+
+            .blob-3 {
+                right: 30px;
+                top: 30px;
             }
 
             .container {
@@ -1145,8 +1155,11 @@
                 }
 
                 .cta-actions {
+                    gap: 10px !important;
+
                     button {
                         font-size: 16px !important;
+                        padding: 5px 10px !important;
                     }
                 }
 

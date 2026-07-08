@@ -79,12 +79,7 @@ function Carousel(_ref) {
     className: stores.length <= 2 ? "slider-start" : ""
   }), stores && stores.filter(store => store.status === "active" && store.is_active_by_admin == 1).map(singleStore => {
     const averageRating = calculateAverageRating(singleStore.reviews);
-    return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-      style: {
-        display: "block"
-      },
-      to: _routes.ROUTES.getStoreFrontPage(singleStore.slug)
-    }, /*#__PURE__*/_react.default.createElement("div", {
+    return /*#__PURE__*/_react.default.createElement("div", {
       className: "store-card"
     }, /*#__PURE__*/_react.default.createElement("div", {
       className: "store-img"
@@ -99,9 +94,14 @@ function Carousel(_ref) {
       onError: () => handleImageLoad(singleStore.id)
     })), /*#__PURE__*/_react.default.createElement("div", {
       className: "store-info"
+    }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+      style: {
+        display: "block"
+      },
+      to: _routes.ROUTES.getStoreFrontPage(singleStore.slug)
     }, /*#__PURE__*/_react.default.createElement("div", {
       className: "store-title"
-    }, /*#__PURE__*/_react.default.createElement("h3", null, singleStore.title)), /*#__PURE__*/_react.default.createElement("div", {
+    }, /*#__PURE__*/_react.default.createElement("h3", null, singleStore.title))), /*#__PURE__*/_react.default.createElement("div", {
       className: "store-address"
     }, /*#__PURE__*/_react.default.createElement(_LocationOnOutlined.default, null), /*#__PURE__*/_react.default.createElement("p", null, singleStore.address)), /*#__PURE__*/_react.default.createElement("div", {
       className: "rating-reviews"
@@ -119,7 +119,7 @@ function Carousel(_ref) {
       className: "book-now"
     }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
       to: _routes.ROUTES.getBookingPage(singleStore.slug)
-    }, /*#__PURE__*/_react.default.createElement("button", null, "Book Now")))))));
+    }, /*#__PURE__*/_react.default.createElement("button", null, "Book Now"))))));
   })));
 }
 var _default = exports.default = Carousel;

@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Box, Button, IconButton, Typography } from "@mui/material";
+import {  Box, IconButton, Typography } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import QrCodeIcon from "@mui/icons-material/QrCode";
-import { ROUTES } from "../../routes";
 import Carousel from "../../components/Carousel/CarouselNew";
 import axiosClient from "../../axios-client";
 import SkeletonHome from "../../components/Loader/SkeletonHome";
-import SearchBar from "../../components/SearchBar/SearchBar";
-import GoogleIcon from "@mui/icons-material/Google";
-import AppleIcon from "@mui/icons-material/Apple";
 import Slider from "react-slick";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import StarRating from "../../components/StarRating/StarRating";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DummyImage from "../../components/DummyImage/DummyImage";
 import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
@@ -29,7 +23,6 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [stores, setStores] = useState({});
   const [categories, setCategories] = useState([]);
-  const [bookingCount, setBookingCount] = useState(0);
   const [reviews, setReviews] = useState({});
   const [recentStores, setRecentStores] = useState([]);
   const { showSnackbar } = useSnackbar();
@@ -37,11 +30,6 @@ function Home() {
     if (!isBrowser) return;
     document.body.classList.remove("search-page");
   }, [location, isBrowser]);
-  // useEffect(() => {
-  //   if (!isBrowser) return;
-  //   const viewed = getRecentlyViewedStoreIds();
-  //   setRecentStores(viewed);
-  // }, []);
   useEffect(() => {
     if (successMessage) {
       const timer = setTimeout(() => {
@@ -62,8 +50,7 @@ function Home() {
         });
         setStores(data.stores);
         setCategories(data.categories);
-        console.log('categories: ',data.categories)
-        setBookingCount(data.bookingCount);
+        console.log("categories: ", data.categories);
         setReviews(data.reviews);
       } catch (err) {
         console.error("error fetching stores ", err);
@@ -114,6 +101,7 @@ function Home() {
       },
     ],
   };
+
   useEffect(() => {
     if (successMessage) {
       showSnackbar(successMessage, "success");
@@ -161,7 +149,9 @@ function Home() {
                 </div>
                 <div className="banner_heading">
                   <h2>
-                    Find & Book <span>Trusted Beauty</span> Professionals
+                    Find & Book{" "}
+                    <span className="animated-text">Trusted Beauty</span>{" "}
+                    Professionals
                   </h2>
                 </div>
                 <div className="banner_text">
@@ -195,19 +185,15 @@ function Home() {
                   </div>
                 </div>
               </div>
+
               <div className="banner_image">
                 <div className="bg-border"></div>
                 <div className="image">
                   <img
                     src={`${process.env.REACT_APP_BASE_URL}/new-home-banner-img.jpg`}
-                    alt="Banner Image"
+                    alt="Banner"
                   />
                 </div>
-                {/* <div className="reviews_overview">
-                  <div className="avg_rating">
-                    <p>4.9</p>
-                  </div>
-                </div> */}
               </div>
             </div>
           </Box>
@@ -221,17 +207,28 @@ function Home() {
                 </p>
               </div>
               <div className="categories_cards">
-                {categories && categories.length > 0 && (
-                  categories.sort((a, b) => a.order - b.order).slice(0,5).map((singleCat) => (
-                    <div className="category_card">
-                      <img src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`} alt={singleCat.title} />
-                      <div className="category_info">
-                        <h6>{singleCat.title}</h6>
-                        <p>{singleCat.services_count ?? 0} {singleCat.services_count <= 1 ? 'service' : 'services'}</p>
+                {categories &&
+                  categories.length > 0 &&
+                  categories
+                    .sort((a, b) => a.order - b.order)
+                    .slice(0, 5)
+                    .map((singleCat) => (
+                      <div className="category_card">
+                        <img
+                          src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`}
+                          alt={singleCat.title}
+                        />
+                        <div className="category_info">
+                          <h6>{singleCat.title}</h6>
+                          <p>
+                            {singleCat.services_count ?? 0}{" "}
+                            {singleCat.services_count <= 1
+                              ? "service"
+                              : "services"}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))
-                )}
+                    ))}
               </div>
             </div>
           </div>
@@ -302,7 +299,7 @@ function Home() {
             </Box>  */}
           </Box>
 
-          <Box className="how_it_works">
+          {/* <Box className="how_it_works">
             <div className="container">
               <div className="head">
                 <h4 className="sub_heading">simple process</h4>
@@ -397,13 +394,116 @@ function Home() {
                 </Box>
               </div>
             </div>
+          </Box> */}
+          <Box className="how_it_works new">
+            <div className="container">
+              <div className="head">
+                <h4 className="sub_heading">simple process</h4>
+                <h2 className="heading">How it works</h2>
+                <p className="desc">
+                  Book your next beauty and wellness appointment in 3 easy steps
+                </p>
+              </div>
+              <div className="steps">
+                <Box className="step">
+                  <Box className="step_img">
+                    <div className="anim-border"></div>
+                    <div className="step_no">1</div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-search w-9 h-9 text-white"
+                    >
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                  </Box>
+                  <Typography variant="h5" className="step_title">
+                    Search Service
+                  </Typography>
+                  <Typography variant="body1" className="step_description">
+                    Browse or search for the beauty service you need in your
+                    area
+                  </Typography>
+                </Box>
+                <Box className="step">
+                  <Box className="step_img">
+                    <div className="anim-border"></div>
+                    <div className="step_no">2</div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-users w-9 h-9 text-white"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                  </Box>
+                  <Typography variant="h5" className="step_title">
+                    Compare Providers
+                  </Typography>
+                  <Typography variant="body1" className="step_description">
+                    View profiles, portfolios, prices, and reviews to find the
+                    perfect match
+                  </Typography>
+                </Box>
+                <Box className="step">
+                  <Box className="step_img">
+                    <div className="anim-border"></div>
+                    <div className="step_no">3</div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-calendar w-9 h-9 text-white"
+                    >
+                      <path d="M8 2v4"></path>
+                      <path d="M16 2v4"></path>
+                      <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                      <path d="M3 10h18"></path>
+                    </svg>
+                  </Box>
+                  <Typography variant="h5" className="step_title">
+                    Book Instantly
+                  </Typography>
+                  <Typography variant="body1" className="step_description">
+                    Select your preferred date and time, then confirm your
+                    booking securely
+                  </Typography>
+                </Box>
+              </div>
+            </div>
           </Box>
           <div className="whyChooseUs">
             <div className="container">
               <div className="head">
                 <h4 className="sub_heading">Our Promise</h4>
                 <h2 className="heading">Why Choose Our Platform?</h2>
-                <p className="desc">The most trusted beauty services marketplace in Pakistan</p>
+                <p className="desc">
+                  The most trusted beauty services marketplace in Pakistan
+                </p>
               </div>
               <div className="cards">
                 <div className="card">
@@ -610,7 +710,7 @@ function Home() {
                       <Box className="userInfo">
                         <Box className="profileImg">
                           {singleRev.reviewer.user_info.profile_image ? (
-                            singleRev.reviewer.user_info.signup_platform ==
+                            singleRev.reviewer.user_info.signup_platform ===
                             "manual" ? (
                               <img
                                 src={`${process.env.REACT_APP_IMG_URL}/${singleRev.reviewer.user_info.profile_image}`}
@@ -1031,7 +1131,7 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="cta-section">
+          {/* <div className="cta-section">
             <div className="blob-1"></div>
             <div className="blob-2"></div>
             <div className="container">
@@ -1101,6 +1201,48 @@ function Home() {
                   </div>
                 </div>
               </div>
+              </div>
+            </div>
+          </div> */}
+          <div className="cta-section new">
+            <div className="container">
+              <div className="sub-container">
+                <div className="blob-1"></div>
+                <div className="blob-2"></div>
+                <div className="blob-3"></div>
+                <div className="badge">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-sparkles w-3.5 h-3.5"
+                  >
+                    <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                    <path d="M20 3v4"></path>
+                    <path d="M22 5h-4"></path>
+                    <path d="M4 17v2"></path>
+                    <path d="M5 18H3"></path>
+                  </svg>
+                  <p>Join 50,000+ Happy Customers</p>
+                </div>
+                <h2 className="heading">Your Glow-Up Starts Today</h2>
+                <p className="desc">
+                  Book your first beauty service in under 60 seconds. No account
+                  needed to browse.
+                </p>
+                <div className="cta-actions">
+                  <button className="book-now">
+                    Book now
+                    <ArrowForwardIcon />
+                  </button>
+                  <button className="become-prof">Become a professional</button>
+                </div>
               </div>
             </div>
           </div>

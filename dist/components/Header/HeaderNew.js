@@ -11,6 +11,7 @@ var _material = require("@mui/material");
 var _AuthContext = require("../../contexts/AuthContext");
 var _Menu = _interopRequireDefault(require("@mui/icons-material/Menu"));
 var _Close = _interopRequireDefault(require("@mui/icons-material/Close"));
+var _Menu2 = _interopRequireDefault(require("../Menu/Menu"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function Header() {
@@ -93,7 +94,7 @@ function Header() {
     to: item.href
   }, item.label))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "accounts-div"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, user && token ? /*#__PURE__*/_react.default.createElement(_Menu2.default, null) : /*#__PURE__*/_react.default.createElement("div", {
     className: "actions"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: _routes.ROUTES.loginSignup

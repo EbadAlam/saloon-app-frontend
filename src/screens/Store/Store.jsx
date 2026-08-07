@@ -19,9 +19,9 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import "react-indiana-drag-scroll/dist/style.css";
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import NorthEastIcon from '@mui/icons-material/NorthEast';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import NorthEastIcon from "@mui/icons-material/NorthEast";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
 import {
   Box,
   CircularProgress,
@@ -40,7 +40,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import PortfolioGallery from "../../components/PortfolioGallery/PortfolioGallery";
 
 function StorePage({ initialData }) {
-  const { formatDate, user, token, updateFavorites ,getVisitorId} = useAuth();
+  const { formatDate, user, token, updateFavorites, getVisitorId } = useAuth();
   const { slug } = useParams();
   const navigate = useNavigate();
   const [loadingFav, setLoadingFav] = useState(false);
@@ -107,8 +107,6 @@ function StorePage({ initialData }) {
     }
   }, []);
 
-  
-
   useEffect(() => {
     if (window.__INITIAL_DATA__) {
       delete window.__INITIAL_DATA__;
@@ -131,7 +129,6 @@ function StorePage({ initialData }) {
   useEffect(() => {
     if (storeDetails?.id) saveRecentlyViewedStore(storeDetails.id);
   }, [storeDetails]);
-
 
   useEffect(() => {
     if (!rightSideRef.current) return;
@@ -246,12 +243,12 @@ function StorePage({ initialData }) {
     const payload = {
       store_id: storeDetails.id,
       source: source,
-      visitor_id: getVisitorId()
-    }
-    await axiosClient.post('/captureLead',payload);
-  }
+      visitor_id: getVisitorId(),
+    };
+    await axiosClient.post("/captureLead", payload);
+  };
   const handleWhatsappClick = () => {
-    captureLead('whatsapp');
+    captureLead("whatsapp");
   };
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 30);
@@ -640,20 +637,20 @@ function StorePage({ initialData }) {
                                 </p>
                               </div>
                               <Box
-                                  className="service_meta"
-                                  display="flex"
-                                  alignItems="center"
-                                  gap="15px"
-                                >
-                                  <p className="eta">
-                                    <AccessTimeIcon /> {singleSer.eta}
+                                className="service_meta"
+                                display="flex"
+                                alignItems="center"
+                                gap="15px"
+                              >
+                                <p className="eta">
+                                  <AccessTimeIcon /> {singleSer.eta}
+                                </p>
+                                {singleSer.gender && (
+                                  <p className={`gender ${singleSer.gender}`}>
+                                    {`Only for ${singleSer.gender}`}
                                   </p>
-                                  {singleSer.gender && (
-                                    <p className={`gender ${singleSer.gender}`}>
-                                      {`Only for ${singleSer.gender}`}
-                                    </p>
-                                  )}
-                                </Box>
+                                )}
+                              </Box>
                               <div className="book_btn">
                                 <Link
                                   to={ROUTES.getBookingPage(storeDetails.slug)}
@@ -667,25 +664,102 @@ function StorePage({ initialData }) {
                               </div>
                             </div>
                           ))}
-
                       </div>
                     )}
                     {storeDetails.services.filter((service) =>
-                          selectedCategory
-                            ? service.category_id === selectedCategory
-                            : true,
-                        ).length > 4 && (
-                          <div className="see-all-btn">
-                            <Link
-                              to={ROUTES.getBookingPage(storeDetails.slug)}
-                              state={{ storeDetails: storeDetails }}
-                            >
-                              <button>See All</button>
-                            </Link>
-                          </div>
-                        )}
+                      selectedCategory
+                        ? service.category_id === selectedCategory
+                        : true,
+                    ).length > 4 && (
+                      <div className="see-all-btn">
+                        <Link
+                          to={ROUTES.getBookingPage(storeDetails.slug)}
+                          state={{ storeDetails: storeDetails }}
+                        >
+                          <button>See All</button>
+                        </Link>
+                      </div>
+                    )}
                   </div>
+                  {/* Bundles section */}
+                  {storeDetails?.bundles
+                    ?.filter((bundle) => bundle.is_active_by_admin == 1)
+                    .filter((bundle) => bundle.status === "active").length >
+                    0 && (
+                    <div
+                      className="bundles_div_new"
+                      style={{ marginTop: "30px" }}
+                    >
+                      <h4 className="heading">Bundles</h4>
+                      <div className="services">
+                        <div className="grid">
+                          {storeDetails.bundles
+                            .filter((bundle) => bundle.is_active_by_admin == 1)
+                            .filter((bundle) => bundle.status === "active")
+                            .map((singleBundle) => (
+                              <div className="service" key={singleBundle.id}>
+                                <div className="info">
+                                  <h4 className="title">
+                                    {singleBundle.title}
+                                  </h4>
+                                  <p className="price">
+                                    {singleBundle.currency || "PKR"}{" "}
+                                    {singleBundle.price}
+                                    {singleBundle.original_price >
+                                      singleBundle.price && (
+                                      <span
+                                        style={{
+                                          textDecoration: "line-through",
+                                          color: "#999",
+                                          fontSize: "13px",
+                                          marginLeft: "8px",
+                                        }}
+                                      >
+                                        {singleBundle.currency || "PKR"}{" "}
+                                        {singleBundle.original_price}
+                                      </span>
+                                    )}
+                                  </p>
+                                </div>
 
+                                {singleBundle.services?.length > 0 && (
+                                  <Box
+                                    className="service_meta"
+                                    display="flex"
+                                    alignItems="center"
+                                    flexWrap="wrap"
+                                    gap="8px"
+                                  >
+                                    {singleBundle.services.map((s) => (
+                                      <span
+                                        key={s.id}
+                                        className="bundle_service_pill"
+                                      >
+                                        {s.title}
+                                      </span>
+                                    ))}
+                                  </Box>
+                                )}
+
+                                <div className="book_btn">
+                                  <Link
+                                    to={ROUTES.getBookingPage(
+                                      storeDetails.slug,
+                                    )}
+                                    state={{
+                                      storeDetails: storeDetails,
+                                      bundle: singleBundle,
+                                    }}
+                                  >
+                                    <button>Book</button>
+                                  </Link>
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   {/* Team section */}
                   {storeDetails.workers && storeDetails.workers?.length > 0 && (
                     <div className="teams_div_new">
@@ -747,7 +821,9 @@ function StorePage({ initialData }) {
                       </div>
                     </div>
                   )}
-                  <PortfolioGallery portfolioImages={storeDetails?.portfolio_images} />
+                  <PortfolioGallery
+                    portfolioImages={storeDetails?.portfolio_images}
+                  />
                   <Box>
                     {storeDetails?.reviews &&
                       storeDetails?.reviews?.length > 0 && (

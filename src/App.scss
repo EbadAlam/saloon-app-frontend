@@ -320,7 +320,7 @@ $primaryColor: #ff00f6;
   }
 
   .address {
-    width: 47%;
+    width: 46%;
 
     p {
       overflow: hidden;
@@ -587,6 +587,7 @@ $primaryColor: #ff00f6;
   height: 500px;
   width: 100%;
   border-radius: 20px;
+z-index:0;
 }
 
 .leaflet-control-attribution.leaflet-control {
@@ -605,7 +606,7 @@ $primaryColor: #ff00f6;
   }
 
   a {
-    color: $primaryColor;
+    color: var(--primary-color);
     font-size: 18px;
   }
 }
@@ -614,7 +615,7 @@ $primaryColor: #ff00f6;
 .opening-hours {
   svg {
     circle {
-      fill: $primaryColor;
+      fill: var(--primary-color);
     }
   }
 
@@ -747,7 +748,7 @@ $primaryColor: #ff00f6;
 }
 
 .see_all_reviews_btn_div a {
-  color: $primaryColor;
+  color: var(--primary-color);
   font-size: 18px;
 }
 
@@ -1339,7 +1340,7 @@ $primaryColor: #ff00f6;
 .sidebar {
   width: 20%;
   border-right: 1px solid #dadada;
-  padding: 20px 20px 20px 0px;
+  padding: 40px 20px 20px 0px;
 }
 
 .sidebar h2 {
@@ -1369,11 +1370,11 @@ $primaryColor: #ff00f6;
 }
 
 .sidebar .items .item.active {
-  background: #ff00f636;
+  background: var(--soft-pink);
 }
 
 .sidebar .items .item:not(.active):hover {
-  background: #ff00f60a;
+  background: var(--soft-pink);
 }
 
 .sidebar .items .item .title {
@@ -1381,7 +1382,9 @@ $primaryColor: #ff00f6;
   font-weight: 600;
   font-family: 'Barlow';
 }
-
+.profile {
+  background: var(--background-color)
+}
 .profile h2 {
   font-size: 32px;
 }
@@ -1536,9 +1539,10 @@ input::-webkit-inner-spin-button {
   -moz-appearance: textfield;
 } */
 .profile .slider {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 40px;
+  margin-top: 20px;
 }
 
 .linkTOStoresFav {
@@ -2738,9 +2742,8 @@ input::-webkit-inner-spin-button {
   }
 
   .stores {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 25px;
 
     .store {
@@ -2915,9 +2918,8 @@ input::-webkit-inner-spin-button {
 }
 
 .category_page {
-  // background: linear-gradient(90deg, #ffc0cb47, #ebe0ff);
   position: relative;
-
+  background: var(--background-color);
   .pagination_box {
     padding-block: 30px;
 
@@ -3985,14 +3987,15 @@ input::-webkit-inner-spin-button {
   justify-content: center;
 }
 
-$primaryColor : #D4A373; // rose gold
-$secondaryColor : #B8845A; // Deep rose gold
-$softPink : #F7CAD0; // Soft pink
-$luxuryGold : #E9C46A; // rose gold
-$darkText : #2B2D42; // rose gold
-$mutedText : #aea6af; // warm mauve-grey
-$backgroundColor : #FFF8F5; // warm ivory
-
+:root {
+  --primary-color: #D4A373;
+  --secondary-color: #B8845A;
+  --soft-pink: #F7CAD0;
+  --luxury-gold: #E9C46A;
+  --dark-text: #2B2D42;
+  --muted-text: #aea6af;
+  --background-color: #FFF8F5;
+}
 // .new-header {
 //   padding-block:30px;
 //   position: fixed;
@@ -4001,7 +4004,7 @@ $backgroundColor : #FFF8F5; // warm ivory
 //   right: 0;
 //   box-shadow: 1px 1px 10px #00000033;
 //   z-index: 99;
-//   background-color: $backgroundColor;
+//   background-color: var(--background-color);
 //   .header-desktop {
 //     display:flex;
 //     justify-content: space-between;
@@ -4014,10 +4017,10 @@ $backgroundColor : #FFF8F5; // warm ivory
 //         gap:10px;
 //         .icon {
 //             background: linear-gradient(125deg,
-//                 $softPink 0%,
-//                 $softPink 40%,
-//                 mix($softPink, $secondaryColor, 50%) 80%,
-//                 $secondaryColor 100%);
+//                 var(--soft-pink) 0%,
+//                 var(--soft-pink) 40%,
+//                 mix(var(--soft-pink), var(--secondary-color), 50%) 80%,
+//                 var(--secondary-color) 100%);
 //           padding:8px;
 //           display:flex;
 //           justify-content: center;
@@ -4028,7 +4031,7 @@ $backgroundColor : #FFF8F5; // warm ivory
 //           margin:0px;
 //           font-family: 'playfair display' !important;
 //           font-size: 18px;
-//           color:$primaryColor;
+//           color:var(--primary-color);
 //         }
 //       }
 //     }
@@ -4043,13 +4046,13 @@ $backgroundColor : #FFF8F5; // warm ivory
 //         margin:0px;
 //         .menu-item {
 //           a {
-//             color: $mutedText;
+//             color: var(--muted-text);
 //             font-size: 18px;
 //             font-family: 'fredoka' !important;
 //             transition: all .3s ease;
 //             text-transform: capitalize;
 //             &:hover {
-//               color:$darkText;
+//               color:var(--dark-text);
 //             }
 //           }
 //         }
@@ -4067,11 +4070,11 @@ $backgroundColor : #FFF8F5; // warm ivory
 //           transition: all .3s ease;
 //             text-transform: capitalize;
 //           &.sign-in {
-//             color:$primaryColor;
+//             color:var(--primary-color);
 //           }
 //           &.join-prof{
 //             color:white;
-//             background:$primaryColor;
+//             background:var(--primary-color);
 //           }
 //           &:hover {
 //             &.sign-in {
@@ -4097,7 +4100,7 @@ $backgroundColor : #FFF8F5; // warm ivory
   z-index: 99;
   transition: all 0.3s ease;
   box-shadow: 1px 1px 10px #00000033;
-  background-color: $backgroundColor;
+  background-color: var(--background-color);
 
   &.scrolled {
     // padding-block: 16px;
@@ -4479,12 +4482,12 @@ $backgroundColor : #FFF8F5; // warm ivory
 }
 
 .main-layout {
-  padding-top: 100px;
+  padding-top: 110px;
 }
 
 .sub_heading {
   text-transform: uppercase;
-  color: $secondaryColor !important;
+  color: var(--secondary-color) !important;
   font-size: 14px;
   letter-spacing: 4px;
 }
@@ -4502,7 +4505,7 @@ h4.heading {
 
 .desc {
   font-family: 'fredoka' !important;
-  color: $mutedText;
+  color: var(--muted-text);
   font-size: 18px;
   font-weight: 300 !important;
 }
@@ -4524,9 +4527,10 @@ h4.heading {
       background-position: 200% center;
   }
 }
+
 .homeNewDesignUpdated {
   .main_banner {
-    background-color: $backgroundColor;
+    background-color: var(--background-color);
     position: relative;
     padding-block: 80px 170px;
     overflow: hidden;
@@ -4537,7 +4541,7 @@ h4.heading {
       height: 400px;
       border-radius: 50%;
       filter: blur(130px);
-      background: $softPink;
+      background: var(--soft-pink);
       left: -73px;
       top: -32px;
     }
@@ -4548,7 +4552,7 @@ h4.heading {
       height: 400px;
       border-radius: 50%;
       filter: blur(200px);
-      background: $luxuryGold;
+      background: var(--luxury-gold);
       right: -73px;
       bottom: -32px;
       opacity: .8;
@@ -4560,7 +4564,7 @@ h4.heading {
       height: 100px;
       border-radius: 50%;
       filter: blur(40px);
-      background: $softPink;
+      background: var(--soft-pink);
       left: 82%;
       top: 0;
     }
@@ -4592,17 +4596,17 @@ h4.heading {
           font-weight: 300;
           font-family: 'Fredoka';
           // color:#2b2d42cc;
-          color: $mutedText;
+          color: var(--muted-text);
 
           svg {
-            color: $secondaryColor;
+            color: var(--secondary-color);
             width: 20px;
           }
         }
 
         .banner_heading {
           h2 {
-            color: $darkText;
+            color: var(--dark-text);
             font-size: 65px;
             line-height: 70px;
             font-family: 'Playfair Display' !important;
@@ -4617,7 +4621,7 @@ h4.heading {
             font-size: 22px;
             font-weight: 300 !important;
             word-spacing: 4px;
-            color: $mutedText;
+            color: var(--muted-text);
           }
         }
 
@@ -4629,7 +4633,7 @@ h4.heading {
           button {
             padding: 8px 20px;
             border-radius: 15px;
-            border: 3px solid $primaryColor;
+            border: 3px solid var(--primary-color);
             font-size: 20px;
             font-family: 'Fredoka';
             font-weight: 400 !important;
@@ -4637,18 +4641,18 @@ h4.heading {
             transition: all .3s ease;
 
             &.find_service {
-              background-color: $primaryColor;
+              background-color: var(--primary-color);
               color: white;
             }
 
             &.join_prof {
               background-color: transparent;
-              color: $primaryColor;
+              color: var(--primary-color);
             }
 
             &:hover {
               &.join_prof {
-                background-color: $softPink;
+                background-color: var(--soft-pink);
                 color: black;
               }
             }
@@ -4667,14 +4671,14 @@ h4.heading {
           .meta_box {
             .count {
               font-family: 'playfair display' !important;
-              color: $primaryColor;
+              color: var(--primary-color);
               font-size: 40px;
               margin: 0px;
             }
 
             .text {
               font-family: 'fredoka' !important;
-              color: $mutedText;
+              color: var(--muted-text);
               font-size: 16px;
             }
           }
@@ -4750,7 +4754,7 @@ h4.heading {
         }
 
         &:hover {
-          border-color: $secondaryColor;
+          border-color: var(--secondary-color);
           transform: translateY(-10px);
 
           img {
@@ -4790,7 +4794,7 @@ h4.heading {
 
   .sliders {
     .recommended {
-      background-color: $backgroundColor;
+      background-color: var(--background-color);
       padding-block: 120px;
     }
   }
@@ -4815,7 +4819,7 @@ h4.heading {
       transition: all 0.3s ease;
 
       svg {
-        color: $secondaryColor;
+        color: var(--secondary-color);
         transition: all 0.3s ease;
         display: flex;
         justify-content: center;
@@ -4825,11 +4829,11 @@ h4.heading {
       }
 
       &:hover {
-        background-color: $secondaryColor;
-        border-color: $backgroundColor;
+        background-color: var(--secondary-color);
+        border-color: var(--background-color);
 
         svg {
-          color: $backgroundColor;
+          color: var(--background-color);
         }
       }
 
@@ -4838,7 +4842,7 @@ h4.heading {
       z-index: 1;
       border-radius: 20px;
       rotate: 180deg;
-      border: 1px solid $secondaryColor;
+      border: 1px solid var(--secondary-color);
       width: 40px;
       height: 40px;
 
@@ -4851,163 +4855,11 @@ h4.heading {
         transform: rotate(180deg);
       }
     }
-
-    .store-card {
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 1px 1px 10px #0000000d;
-      transition: all .3s ease;
-
-      &:hover {
-
-        // box-shadow: 1px 1px 40px 5px #0000003b;
-        img {
-          transform: scale(1.1);
-        }
-      }
-
-      .store-img {
-        height: 250px;
-        overflow: hidden;
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: all .3s ease;
-        }
-      }
-
-      .store-info {
-        padding: 30px 20px 15px 20px;
-        background: white;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        .store-title {
-          h3 {
-            font-family: 'playfair display' !important;
-            font-size: 22px;
-            margin: 0px;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-          }
-        }
-
-        .store-address {
-          display: flex;
-          align-items: center;
-
-          svg {
-            color: $luxuryGold;
-          }
-
-          p {
-            color: $mutedText;
-            font-size: 16px;
-            font-family: 'fredoka' !important;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-          }
-        }
-
-        .rating-reviews {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-
-          .rating {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background-color: #f7cad066;
-            padding: 5px 10px;
-            border-radius: 20px;
-
-            svg {
-              color: $luxuryGold;
-            }
-
-            span {
-              margin: 0px;
-              font-size: 16px;
-              font-family: 'fredoka' !important;
-              font-weight: 600;
-              color: black;
-            }
-          }
-
-          .reviews {
-            p {
-              margin: 0px;
-              font-size: 16px;
-              color: $mutedText;
-              font-family: 'fredoka' !important;
-            }
-          }
-        }
-
-        .divider {
-          margin: 0px;
-          border-color: $backgroundColor;
-        }
-
-        .card-footer {
-          background-color: white;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          border: none;
-          padding: 0px;
-
-          .start-from {
-            p {
-              margin: 0px;
-              font-size: 16px;
-              color: $mutedText;
-              padding-inline: 0px;
-              font-family: 'fredoka' !important;
-              text-transform: capitalize;
-
-              span {
-                color: $secondaryColor;
-                font-family: 'playfair display' !important;
-                font-size: 18px;
-              }
-            }
-          }
-
-          .book-now {
-            button {
-              background-color: $secondaryColor;
-              color: white;
-              padding: 8px 20px;
-              border-radius: 15px;
-              font-family: 'fredoka' !important;
-              font-size: 16px;
-              border: none;
-              transition: all .3s ease;
-              cursor: pointer;
-
-              &:hover {
-                background-color: $primaryColor;
-              }
-            }
-          }
-        }
-      }
-    }
   }
 
   .how_it_works {
     background: white;
     padding-block: 100px;
-    margin-top: 50px;
     .head {
       text-align: center;
     }
@@ -5029,7 +4881,7 @@ h4.heading {
             top: -10px;
             right: -10px;
             background: white;
-            color: $primaryColor;
+            color: var(--primary-color);
             font-size: 16px;
             font-weight: 600;
             width: 30px;
@@ -5038,10 +4890,10 @@ h4.heading {
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid $secondaryColor;
+            border: 1px solid var(--secondary-color);
           }
 
-          background-color: $primaryColor;
+          background-color: var(--primary-color);
           width: 80px;
           height: 80px;
           border-radius: 20px;
@@ -5069,14 +4921,14 @@ h4.heading {
 
         .step_description {
           font-size: 16px;
-          color: $mutedText;
+          color: var(--muted-text);
           margin-top: 5px;
           font-family: 'fredoka' !important;
         }
       }
     }
     &.new {
-      background-color: $darkText;
+      background-color: var(--dark-text);
       .heading {
         color:white;
       }
@@ -5087,7 +4939,7 @@ h4.heading {
         position: relative;
         .anim-border {
           position: absolute;
-          border:2px solid $primaryColor;
+          border:2px solid var(--primary-color);
           inset:0px;
           border-radius: 20px;
           animation: 2.5s ease-out 0s infinite normal none running pulse-ring;
@@ -5106,7 +4958,7 @@ h4.heading {
     }
   }
   .whyChooseUs {
-    background: $backgroundColor;
+    background: var(--background-color);
     padding-block: 100px;
 
     .head {
@@ -5145,7 +4997,7 @@ h4.heading {
           position: absolute;
           content: '';
           height: 2px;
-          background: $primaryColor;
+          background: var(--primary-color);
           left: 30px;
           bottom: 25px;
           right: 100%;
@@ -5156,7 +5008,7 @@ h4.heading {
           width: 70px;
           height: 70px;
           border-radius: 20px;
-          background: $primaryColor;
+          background: var(--primary-color);
           transition: all .3s ease;
           display: flex;
           justify-content: center;
@@ -5179,7 +5031,7 @@ h4.heading {
   }
 
   .reviews_slider {
-    background: $backgroundColor;
+    background: var(--background-color);
 
     .headings {
       text-align: center;
@@ -5189,7 +5041,7 @@ h4.heading {
       background: white;
 
       .testimonial_icon {
-        background: $softPink;
+        background: var(--soft-pink);
         border-radius: 50%;
         width: 50px;
         height: 50px;
@@ -5206,7 +5058,7 @@ h4.heading {
       .review_text {
         font-size: 18px;
         font-family: 'fredoka' !important;
-        color: $mutedText;
+        color: var(--muted-text);
       }
     }
 
@@ -5215,7 +5067,7 @@ h4.heading {
       transition: all 0.3s ease;
 
       svg {
-        color: $secondaryColor;
+        color: var(--secondary-color);
         transition: all 0.3s ease;
         display: flex;
         justify-content: center;
@@ -5225,11 +5077,11 @@ h4.heading {
       }
 
       &:hover {
-        background-color: $secondaryColor;
-        border-color: $backgroundColor;
+        background-color: var(--secondary-color);
+        border-color: var(--background-color);
 
         svg {
-          color: $backgroundColor;
+          color: var(--background-color);
         }
       }
 
@@ -5238,7 +5090,7 @@ h4.heading {
       z-index: 1;
       border-radius: 20px;
       rotate: 180deg;
-      border: 1px solid $secondaryColor;
+      border: 1px solid var(--secondary-color);
       width: 40px;
       height: 40px;
 
@@ -5255,7 +5107,7 @@ h4.heading {
 
   .grow-section {
     padding-block: 100px;
-    background: $darkText;
+    background: var(--dark-text);
     position: relative;
 
     .blob-1 {
@@ -5310,7 +5162,7 @@ h4.heading {
         gap: 20px;
 
         .badge {
-          border: 1px solid $luxuryGold;
+          border: 1px solid var(--luxury-gold);
           background: #d4a37333;
           border-radius: 20px;
           padding: 5px 30px;
@@ -5320,7 +5172,7 @@ h4.heading {
           align-items: center;
 
           p {
-            color: $luxuryGold;
+            color: var(--luxury-gold);
             font-size: 18px;
             font-family: 'fredoka' !important;
           }
@@ -5331,7 +5183,7 @@ h4.heading {
           color: white !important;
 
           span {
-            color: $primaryColor;
+            color: var(--primary-color);
             font-style: italic;
           }
         }
@@ -5350,11 +5202,11 @@ h4.heading {
             .count-number {
               font-family: 'playfair display' !important;
               font-size: 26px;
-              color: $primaryColor !important;
+              color: var(--primary-color) !important;
             }
 
             .text {
-              color: $mutedText;
+              color: var(--muted-text);
               font-family: 'fredoka' !important;
               font-size: 16px;
               font-weight: 600 !important;
@@ -5374,15 +5226,15 @@ h4.heading {
             font-family: 'fredoka' !important;
 
             &.register {
-              background: linear-gradient(to right, $primaryColor, $secondaryColor);
+              background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
               color: white;
-              border: 1px solid $primaryColor;
+              border: 1px solid var(--primary-color);
             }
 
             &.learn-more {
               background: transparent;
-              color: $primaryColor;
-              border: 1px solid $primaryColor;
+              color: var(--primary-color);
+              border: 1px solid var(--primary-color);
             }
           }
         }
@@ -5413,7 +5265,7 @@ h4.heading {
             align-items: center;
 
             svg {
-              color: $primaryColor;
+              color: var(--primary-color);
               width: 30px;
               height: 30px;
             }
@@ -5432,7 +5284,7 @@ h4.heading {
 
           .card-text {
             p {
-              color: $mutedText;
+              color: var(--muted-text);
               font-family: 'fredoka' !important;
               font-size: 16px;
             }
@@ -5442,213 +5294,8 @@ h4.heading {
     }
   }
 
-  .pricing-section {
-    padding-block: 100px;
-
-    .headings {
-      text-align: center;
-    }
-
-    .pricing-plans {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      max-width: 90%;
-      margin: 0 auto;
-      margin-top: 30px;
-
-      .plan {
-        padding: 35px;
-        border-radius: 20px;
-        border: 1px solid #d4a3733d;
-        display: flex;
-        flex-direction: column;
-        margin-top: 20px;
-        gap: 20px;
-        height: fit-content;
-        position: relative;
-        transition: all .3s ease;
-
-        &:hover {
-          box-shadow: 1px 1px 20px #0000003d;
-        }
-
-        .badge {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          position: absolute;
-          top: -18px;
-          background: linear-gradient(to right, $primaryColor, $secondaryColor);
-          left: 50%;
-          transform: translateX(-50%);
-          border-radius: 20px;
-          padding: 8px 25px;
-
-          svg {
-            color: white;
-            width: 20px;
-            height: 20px;
-          }
-
-          p {
-            margin: 0px;
-            color: white;
-            font-family: 'fredoka' !important;
-            font-size: 14px;
-            text-transform: capitalize;
-            font-weight: 500 !important;
-          }
-        }
-
-        .plan-header {
-          .plan-title {
-            font-family: 'playfair display' !important;
-            font-size: 22px;
-            color: $darkText;
-          }
-
-          .plan-desc {
-            font-family: 'fredoka' !important;
-            font-size: 16px;
-            color: $mutedText;
-          }
-        }
-
-        .plan-body {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-
-          .plan-price {
-            .price {
-              font-family: 'playfair display' !important;
-              font-size: 40px;
-              color: $primaryColor !important;
-              margin: 0px;
-            }
-
-            .billing-cycle {
-              color: $mutedText;
-              font-size: 16px;
-              font-weight: 300 !important;
-              margin-top: 10px;
-            }
-          }
-
-          .divider {
-            margin: 0px;
-          }
-
-          .plan-features {
-            margin-top: 10px;
-
-            .features-list {
-              list-style: none;
-              padding: 0px;
-
-              li {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                margin-bottom: 12px;
-
-                .icon {
-                  background: linear-gradient(to right, $primaryColor, $secondaryColor);
-                  padding: 3px;
-                  border-radius: 50%;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-
-                  svg {
-                    color: white;
-                    width: 15px;
-                    height: 15px;
-                  }
-                }
-
-                p {
-                  font-family: 'fredoka' !important;
-                  font-size: 16px;
-                }
-              }
-            }
-          }
-
-          .get-started {
-            background: #fff8f5;
-            border: 1px solid $secondaryColor;
-            border-radius: 15px;
-            padding: 10px 30px;
-            font-family: 'fredoka' !important;
-            font-size: 18px;
-            color: $secondaryColor;
-            transition: all .3s ease;
-
-            &:hover {
-              background: #f7cad069;
-            }
-          }
-        }
-
-        &.popular {
-          margin-top: 0px;
-          background: $darkText;
-          box-shadow: 1px 1px 20px #0000008f;
-
-          .plan-header {
-            margin-top: 15px;
-
-            .plan-title {
-              color: white !important;
-              font-size: 26px !important;
-            }
-
-            .plan-desc {
-              color: #ffffffd9;
-            }
-          }
-
-          .plan-body {
-            .plan-price {
-              .price {
-                font-size: 44px !important;
-              }
-            }
-
-            .billing-cycle {
-              color: #ffffffd9 !important;
-            }
-
-            li {
-              p {
-                color: #ffffffd9;
-                font-size: 18px !important;
-              }
-            }
-
-            .divider {
-              border-color: #ffffff3d;
-            }
-
-            .get-started {
-              background: linear-gradient(to right, $primaryColor, $secondaryColor);
-              color: white;
-              border: none;
-
-              &:hover {
-                background: linear-gradient(to right, $secondaryColor, $primaryColor);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
   .cta-section {
-    background: linear-gradient(160deg, $softPink, $primaryColor);
+    background: linear-gradient(160deg, var(--soft-pink), var(--primary-color));
     padding-block: 120px;
     position: relative;
 
@@ -5735,8 +5382,8 @@ h4.heading {
           border: 2px solid;
 
           &.book-now {
-            background-color: $darkText;
-            border-color: $darkText;
+            background-color: var(--dark-text);
+            border-color: var(--dark-text);
             color: white;
             display: flex;
             align-items: center;
@@ -5750,7 +5397,7 @@ h4.heading {
           &.become-prof {
             background: transparent;
             border-color: white;
-            color: $darkText;
+            color: var(--dark-text);
           }
 
           &:hover {
@@ -5848,17 +5495,17 @@ h4.heading {
 
 .storeNew {
   padding-block: 30px;
-  background-color: $backgroundColor;
+  background-color: var(--background-color);
 
   .get-dir-btn {
     a {
-      color: $secondaryColor;
+      color: var(--secondary-color);
       display: flex;
       align-items: center;
       gap: 5px;
 
       svg {
-        color: $secondaryColor;
+        color: var(--secondary-color);
         transition: all .3s ease;
       }
 
@@ -5876,7 +5523,7 @@ h4.heading {
   }
 
   .right_side {
-    background-color: $darkText;
+    background-color: var(--dark-text);
     position: relative;
 
     .blob-1 {
@@ -5892,7 +5539,7 @@ h4.heading {
 
     .get-dir-btn {
       a {
-        color: $primaryColor;
+        color: var(--primary-color);
       }
     }
 
@@ -5907,7 +5554,7 @@ h4.heading {
         color: white;
 
         span {
-          color: $primaryColor;
+          color: var(--primary-color);
           font-size: 16px;
         }
       }
@@ -5916,13 +5563,13 @@ h4.heading {
     .book_now_btn {
       a {
         button {
-          background: linear-gradient(150deg, $primaryColor, $secondaryColor);
+          background: linear-gradient(150deg, var(--primary-color), var(--secondary-color));
           font-family: 'fredoka';
           border: none;
           transition: all .3s ease;
 
           &:hover {
-            background: linear-gradient(250deg, $primaryColor, $secondaryColor);
+            background: linear-gradient(250deg, var(--primary-color), var(--secondary-color));
           }
         }
       }
@@ -5952,7 +5599,7 @@ h4.heading {
 
   .services_categories_scroll {
     .category {
-      border-color: $softPink;
+      border-color: var(--soft-pink);
       color: black;
       font-family: 'fredoka';
 
@@ -5970,37 +5617,37 @@ h4.heading {
 
   .services {
     .service {
-      border-color: $softPink !important;
-      // background: $darkText;
+      border-color: var(--soft-pink) !important;
+      // background: var(--dark-text);
       font-family: 'fredoka' !important;
       padding: 20px;
 
       .title {
         font-family: 'fredoka' !important;
-        color: $darkText;
+        color: var(--dark-text);
       }
 
       .service_meta {
         justify-content: space-between !important;
 
         p {
-          color: $darkText !important;
+          color: var(--dark-text) !important;
         }
       }
 
       .gender {
-        border-color: $secondaryColor;
-        color: $secondaryColor;
-        background-color: $backgroundColor;
+        border-color: var(--secondary-color);
+        color: var(--secondary-color);
+        background-color: var(--background-color);
       }
 
       .book_btn {
         .price {
-          color: $darkText;
+          color: var(--dark-text);
         }
 
         button {
-          background-color: $darkText !important;
+          background-color: var(--dark-text) !important;
           border: none !important;
           color: white !important;
         }
@@ -6013,7 +5660,7 @@ h4.heading {
       gap: 15px;
 
       .service {
-        border-color: $softPink;
+        border-color: var(--soft-pink);
         font-family: 'fredoka' !important;
         padding: 15px;
         flex-direction: column;
@@ -6027,7 +5674,7 @@ h4.heading {
           width: 100%;
 
           .price {
-            color: $darkText;
+            color: var(--dark-text);
             font-size: 18px;
             font-family: 'Playfair Display';
           }
@@ -6040,7 +5687,7 @@ h4.heading {
 
 
         .service_meta {
-          color: $darkText;
+          color: var(--dark-text);
           width: 100%;
         }
 
@@ -6059,7 +5706,7 @@ h4.heading {
 
   .reviews-div {
     .desc {
-      color: $darkText;
+      color: var(--dark-text);
     }
 
     .reviews {
@@ -6067,20 +5714,20 @@ h4.heading {
 
       .review {
         .username {
-          color: $darkText;
+          color: var(--dark-text);
           font-family: 'playfair display';
           font-weight: 800;
           margin: 0px;
         }
 
         .time {
-          color: $darkText;
+          color: var(--dark-text);
           font-family: 'fredoka';
         }
 
         .review-text {
           p {
-            color: $darkText;
+            color: var(--dark-text);
             font-family: 'fredoka';
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -6095,14 +5742,14 @@ h4.heading {
 
     .see_all_reviews_btn_div {
       a {
-        color: $secondaryColor;
+        color: var(--secondary-color);
       }
     }
   }
 
   .team_members.new {
     .profile_img {
-      background: $primaryColor;
+      background: var(--primary-color);
 
       .dummy_img {
         margin: 0px;
@@ -6113,7 +5760,7 @@ h4.heading {
   .about {
     .store_about {
       font-family: 'fredoka';
-      color: $darkText;
+      color: var(--dark-text);
     }
   }
 
@@ -6121,7 +5768,7 @@ h4.heading {
     ul {
       li {
         svg {
-          color: $secondaryColor;
+          color: var(--secondary-color);
         }
       }
     }

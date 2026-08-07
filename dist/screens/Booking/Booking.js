@@ -44,6 +44,10 @@ function BookingPage() {
     login
   } = (0, _AuthContext.useAuth)();
   const scrollRef = (0, _react.useRef)(null);
+
+  // ── Bundle vs Service booking mode ──────────────────────────────────────
+  const isBundleBooking = !!(state !== null && state !== void 0 && state.bundle);
+  const bundleData = (state === null || state === void 0 ? void 0 : state.bundle) || null;
   const [storeDetails, setStoreDetails] = (0, _react.useState)((state === null || state === void 0 ? void 0 : state.storeDetails) || null);
   const [loading, setLoading] = (0, _react.useState)(!(state !== null && state !== void 0 && state.storeDetails));
   const [loginLoading, setLoginLoading] = (0, _react.useState)(false);
@@ -61,6 +65,13 @@ function BookingPage() {
   const [timeSlots, setTimeSlots] = (0, _react.useState)([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = (0, _react.useState)("");
   const [selectedServices, setSelectedServices] = (0, _react.useState)(() => {
+    if (state !== null && state !== void 0 && state.bundle) {
+      return (state.bundle.services || []).map(s => _objectSpread(_objectSpread({}, s), {}, {
+        worker_id: "",
+        worker_name: "",
+        bundle_id: state.bundle.id
+      }));
+    }
     if (state !== null && state !== void 0 && state.service) {
       return [_objectSpread(_objectSpread({}, state.service), {}, {
         worker_id: "",
@@ -114,7 +125,10 @@ function BookingPage() {
   const navigate = (0, _reactRouterDom.useNavigate)();
   const handleClick = () => {
     if (step > 1) {
-      setStep(step - 1);
+      // Bundles skip the Professionals step (step 2), so going back from
+      // Time (step 3) should return to Services (step 1), not step 2.
+      const prevStep = step === 3 && isBundleBooking ? 1 : step - 1;
+      setStep(prevStep);
       setIndWorker(false);
     } else {
       if (window.history.length > 1) {
@@ -130,6 +144,12 @@ function BookingPage() {
     } else {
       navigate(_routes.ROUTES.getStoreFrontPage(storeDetails.slug));
     }
+  };
+  const goToNextStep = () => {
+    // Bundles skip the Professionals step entirely.
+    const nextStep = step === 1 && isBundleBooking ? 3 : step + 1;
+    setStep(nextStep);
+    setIndWorker(false);
   };
   const updateWorkerId = (serviceId, workerId, workerName) => {
     setSelectedServices(prevServices => prevServices.map(service => service.id === serviceId ? _objectSpread(_objectSpread({}, service), {}, {
@@ -307,10 +327,15 @@ function BookingPage() {
   (0, _react.useEffect)(() => {
     handleDateClick(new Date());
   }, [storeDetails]);
+
+  // ── Pricing (bundle uses its own fixed price; services sum individually) ──
+  const subtotalPrice = isBundleBooking ? Number((bundleData === null || bundleData === void 0 ? void 0 : bundleData.price) || 0) : selectedServices.reduce((acc, service) => acc + parseFloat(service.price || 0), 0);
+  const displayCurrency = isBundleBooking ? (bundleData === null || bundleData === void 0 ? void 0 : bundleData.currency) || "PKR" : "PKR";
   const bookingSubmitHandle = async () => {
     setLoading(true);
     const payload = {
       services: selectedServices,
+      bundle_id: isBundleBooking ? bundleData.id : null,
       time: selectedTimeSlot,
       date: selectedDate,
       user_id: user.id,
@@ -487,11 +512,11 @@ function BookingPage() {
         setIndWorker(false);
       }
     }
-  }, "Services"), /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, {
+  }, isBundleBooking ? "Bundle" : "Services"), /*#__PURE__*/_react.default.createElement(_ArrowForwardIos.default, {
     sx: {
       fontSize: "18px"
     }
-  }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }), !isBundleBooking && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     className: step === 2 ? "active" : step >= 2 ? "prev-active" : "",
     onClick: () => {
@@ -504,7 +529,7 @@ function BookingPage() {
     sx: {
       fontSize: "18px"
     }
-  }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  })), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     className: step === 3 ? "active" : step >= 3 ? "prev-active" : "",
     onClick: () => {
@@ -535,7 +560,24 @@ function BookingPage() {
         md: 5
       }
     }
-  }, "Services"), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, isBundleBooking ? bundleData.title : "Services"), isBundleBooking ? /*#__PURE__*/_react.default.createElement("div", {
+    className: "services"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "service-category-section"
+  }, /*#__PURE__*/_react.default.createElement("h3", {
+    className: "category-title"
+  }, "Included in this bundle"), selectedServices.map(singleSer => /*#__PURE__*/_react.default.createElement("div", {
+    className: "service mt-3",
+    key: singleSer.id
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "info"
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "title"
+  }, singleSer.title), /*#__PURE__*/_react.default.createElement("p", {
+    className: "eta"
+  }, singleSer.eta), /*#__PURE__*/_react.default.createElement("p", {
+    className: "price"
+  }, singleSer.currency, " ", singleSer.price)))))) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
       position: "relative",
       display: "flex",
@@ -639,7 +681,7 @@ function BookingPage() {
         }
       }
     })))));
-  }))), step === 2 && !indWorker && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  })))), step === 2 && !indWorker && !isBundleBooking && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h4",
     className: "mt-5"
   }, "Select Professional"), /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -758,7 +800,7 @@ function BookingPage() {
         color: "#333333"
       }
     }, singlePro.user.user_info.designation)));
-  }))), indWorker && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }))), indWorker && !isBundleBooking && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h4",
     className: "mt-5"
   }, "Select Professional"), /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -970,7 +1012,19 @@ function BookingPage() {
       width: "100%"
     },
     className: "mt-4"
-  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, isBundleBooking && /*#__PURE__*/_react.default.createElement(_material.Box, {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "start",
+    className: "mt-2"
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    display: "block",
+    variant: "body1",
+    sx: {
+      fontSize: "18px",
+      fontWeight: 600
+    }
+  }, bundleData.title, " (Bundle)")), /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
       width: "100%"
     },
@@ -993,7 +1047,7 @@ function BookingPage() {
     sx: {
       fontSize: "16px"
     }
-  }, service.eta, " with", " ", !service.worker_id ? "any professional" : service.worker_name)), /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }, service.eta, !isBundleBooking && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, " ", "with", " ", !service.worker_id ? "any professional" : service.worker_name))), !isBundleBooking && /*#__PURE__*/_react.default.createElement(_material.Box, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
       fontSize: "18px"
@@ -1018,7 +1072,7 @@ function BookingPage() {
     sx: {
       fontSize: "18px"
     }
-  }, "PKR", " ", selectedServices !== null && selectedServices !== void 0 && selectedServices.length ? selectedServices.reduce((acc, service) => acc + parseFloat(service.price), 0) : 0))), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, displayCurrency, " ", subtotalPrice))), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_material.Box, {
     sx: {
       padding: "15px",
       paddingTop: "0px"
@@ -1034,10 +1088,7 @@ function BookingPage() {
       borderRadius: "10px"
     },
     variant: "contained",
-    onClick: () => {
-      setStep(step + 1);
-      setIndWorker(false);
-    }
+    onClick: goToNextStep
   }, "Next"), step === 3 && /*#__PURE__*/_react.default.createElement(_material.Button, {
     sx: {
       background: "#333333",
@@ -1056,13 +1107,13 @@ function BookingPage() {
     sx: {
       fontSize: "18px"
     }
-  }, "PKR", " ", selectedServices !== null && selectedServices !== void 0 && selectedServices.length ? selectedServices.reduce((acc, service) => acc + parseFloat(service.price), 0) : 0), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }, displayCurrency, " ", subtotalPrice), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "body1",
     sx: {
       fontSize: "16px",
       color: "#333333a1"
     }
-  }, selectedServices.length, " ", selectedServices.length > 1 ? "services" : "service", " \u2022", " ", getTotalEta(selectedServices))), /*#__PURE__*/_react.default.createElement(_material.Box, {
+  }, isBundleBooking ? bundleData.title : "".concat(selectedServices.length, " ").concat(selectedServices.length > 1 ? "services" : "service"), " ", "\u2022 ", getTotalEta(selectedServices))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "buttn"
   }, step < 3 && /*#__PURE__*/_react.default.createElement(_material.Button, {
     sx: {
@@ -1072,10 +1123,7 @@ function BookingPage() {
       borderRadius: "10px"
     },
     variant: "contained",
-    onClick: () => {
-      setStep(step + 1);
-      setIndWorker(false);
-    }
+    onClick: goToNextStep
   }, "Next"), step === 3 && /*#__PURE__*/_react.default.createElement(_material.Button, {
     sx: {
       background: "#333333",

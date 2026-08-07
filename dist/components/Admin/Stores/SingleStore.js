@@ -16,6 +16,7 @@ var _Edit = _interopRequireDefault(require("@mui/icons-material/Edit"));
 var _Layout = _interopRequireDefault(require("../Layout/Layout"));
 var _axiosClient = _interopRequireDefault(require("../../../axios-client"));
 var _routes = require("../../../routes");
+var _reactHelmetAsync = require("react-helmet-async");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -92,7 +93,7 @@ const sectionLabel = {
   mb: 1
 };
 function SingleStore() {
-  var _storeData$bookings$f, _storeData$bookings, _storeData$services_c, _storeData$services_c2, _storeData$services$l, _storeData$services, _storeData$working_ho, _storeData$working_ho2, _storeData$title, _storeData$about, _storeData$store_lead, _storeData$whatsapp_l, _storeData$services_c3, _storeData$services_c4, _storeData$services$l2, _storeData$services2, _storeData$working_ho3, _storeData$working_ho4, _storeData$workers$le, _storeData$workers, _storeData$bookings$l, _storeData$bookings2, _storeData$reviews$le, _storeData$reviews;
+  var _storeData$bookings$f, _storeData$bookings, _storeData$services_c, _storeData$services_c2, _storeData$services$l, _storeData$services, _storeData$working_ho, _storeData$working_ho2, _storeData$title, _storeData$about, _storeData$store_lead, _storeData$whatsapp_l, _storeData$services_c3, _storeData$services_c4, _storeData$services$l2, _storeData$services2, _storeData$bundles, _storeData$bundles$le, _storeData$bundles2, _storeData$working_ho3, _storeData$working_ho4, _storeData$workers$le, _storeData$workers, _storeData$bookings$l, _storeData$bookings2, _storeData$reviews$le, _storeData$reviews;
   const {
     storeId
   } = (0, _reactRouterDom.useParams)();
@@ -105,7 +106,6 @@ function SingleStore() {
         data
       } = _ref;
       setStoreData(data.storeDetails);
-      console.log('Store details:', data.storeDetails);
       setLoading(false);
     }).catch(err => console.error('Error fetching store details:', err));
   }, [storeId]);
@@ -114,7 +114,10 @@ function SingleStore() {
   const hasServices = ((_storeData$services$l = storeData === null || storeData === void 0 || (_storeData$services = storeData.services) === null || _storeData$services === void 0 ? void 0 : _storeData$services.length) !== null && _storeData$services$l !== void 0 ? _storeData$services$l : 0) > 0;
   const hasHours = ((_storeData$working_ho = storeData === null || storeData === void 0 || (_storeData$working_ho2 = storeData.working_hours) === null || _storeData$working_ho2 === void 0 ? void 0 : _storeData$working_ho2.length) !== null && _storeData$working_ho !== void 0 ? _storeData$working_ho : 0) > 0;
   const status = storeData ? statusConfig(storeData) : null;
-  return /*#__PURE__*/_react.default.createElement(_Layout.default, null, /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement(_Layout.default, null, /*#__PURE__*/_react.default.createElement(_reactHelmetAsync.Helmet, null, /*#__PURE__*/_react.default.createElement("title", null, "Vendor Stores Page - Beauty Traffic"), /*#__PURE__*/_react.default.createElement("meta", {
+    name: "description",
+    content: "Vendor stores page for managing and viewing store details"
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "container-fluid dashboard-content"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
     display: "flex",
@@ -364,6 +367,13 @@ function SingleStore() {
   }, /*#__PURE__*/_react.default.createElement(_material.Button, {
     sx: actionBtn
   }, "Services (", (_storeData$services$l2 = (_storeData$services2 = storeData.services) === null || _storeData$services2 === void 0 ? void 0 : _storeData$services2.length) !== null && _storeData$services$l2 !== void 0 ? _storeData$services$l2 : 0, ")")), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: _routes.ROUTES.getAdminBundles(storeData.id),
+    state: {
+      servicesCategories: (_storeData$bundles = storeData.bundles) !== null && _storeData$bundles !== void 0 ? _storeData$bundles : []
+    }
+  }, /*#__PURE__*/_react.default.createElement(_material.Button, {
+    sx: actionBtn
+  }, "Bundles (", (_storeData$bundles$le = (_storeData$bundles2 = storeData.bundles) === null || _storeData$bundles2 === void 0 ? void 0 : _storeData$bundles2.length) !== null && _storeData$bundles$le !== void 0 ? _storeData$bundles$le : 0, ")")), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: _routes.ROUTES.getAdminAddWorkingHours(storeData.id)
   }, /*#__PURE__*/_react.default.createElement(_material.Button, {
     sx: actionBtn

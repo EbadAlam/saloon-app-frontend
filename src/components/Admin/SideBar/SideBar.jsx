@@ -124,6 +124,17 @@ function SideBar() {
                             className={({ isActive }) =>
                               `nav-link ${isActive ? "active" : ""}`
                             }
+                            to={ROUTES.getAdminBundles(storeId)}
+                          >
+                            <i className="fa fa-fw fa-th"></i>{" "}
+                            <span>Bundles</span>
+                          </NavLink>
+                        </li>
+                        <li className="nav-item child-nav-vendor">
+                          <NavLink
+                            className={({ isActive }) =>
+                              `nav-link ${isActive ? "active" : ""}`
+                            }
                             to={ROUTES.getAdminBookings(storeId)}
                           >
                             <i className="fa fa-fw fa-calendar-alt"></i>{" "}
@@ -254,6 +265,16 @@ function SideBar() {
                         to={ROUTES.masterAdminServices}
                       >
                         <i className="fa fa-fw fa-th"></i> <span>Services</span>
+                      </NavLink>
+                    </li>
+                    <li className="nav-item ">
+                      <NavLink
+                        className={({ isActive }) =>
+                          `nav-link ${isActive ? "active" : ""}`
+                        }
+                        to={ROUTES.masterAdminBundles}
+                      >
+                        <i className="fa fa-fw fa-th"></i> <span>Bundles</span>
                       </NavLink>
                     </li>
                     <li className="nav-item ">

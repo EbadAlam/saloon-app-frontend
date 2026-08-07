@@ -41,7 +41,7 @@ function Header() {
     href: _routes.ROUTES.pricing
   }, {
     label: "For Professionals",
-    href: _routes.ROUTES.forBusiness
+    href: _routes.ROUTES.ownerLogin
   }, {
     label: "Blogs",
     href: _routes.ROUTES.blogs

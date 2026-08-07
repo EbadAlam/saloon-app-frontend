@@ -16,6 +16,7 @@ var _AuthContext = require("../../contexts/AuthContext");
 var _FavoriteBorderOutlined = _interopRequireDefault(require("@mui/icons-material/FavoriteBorderOutlined"));
 var _Favorite = _interopRequireDefault(require("@mui/icons-material/Favorite"));
 var _SnackBarContext = require("../../contexts/SnackBarContext");
+var _StoreCard = _interopRequireDefault(require("../../components/StoreCard/StoreCard"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -44,6 +45,7 @@ function FavoritesPage() {
           isFav: true
         }));
         setFavouriteStore(storesWithFlag);
+        // console.log(storesWithFlag);
       } catch (error) {
         console.error('Error fetching user fav stores ', error);
       } finally {
@@ -96,7 +98,7 @@ function FavoritesPage() {
   }, /*#__PURE__*/_react.default.createElement(_UserSidebar.default, null), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "content",
     sx: {
-      padding: "20px 40px"
+      padding: "40px"
     }
   }, loading && /*#__PURE__*/_react.default.createElement(_Loader.default, null), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h2"
@@ -105,100 +107,54 @@ function FavoritesPage() {
     sx: {
       position: 'relative'
     }
-  }, favouriteStores && favouriteStores.length > 0 ? favouriteStores.map(singleStore => /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    className: "linkTOStoresFav",
-    to: _routes.ROUTES.getStoreFrontPage(singleStore.slug)
-  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "singleSlide"
-  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "lsideImg",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    sx: {
-      overflow: 'hidden',
-      height: '330px',
-      borderRadius: '10px 10px 0px 0px'
-    }
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    src: "".concat(process.env.REACT_APP_IMG_URL).concat(singleStore.thumbnail),
-    alt: ""
-  })), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-    className: "slideInfo",
-    sx: {
-      background: 'white',
-      borderRadius: '0px 0px 10px 10px',
-      padding: '15px 10px'
-    }
-  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "titleRating",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between"
-  }, /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "title"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "h4",
-    sx: {
-      fontSize: '18px',
-      fontFamily: 'Barlow',
-      fontWeight: '600'
-    }
-  }, singleStore.title)), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "remove_fav"
-  }, loadingFavId === singleStore.id ? /*#__PURE__*/_react.default.createElement(_material.CircularProgress, {
-    size: "20px"
-  }) : /*#__PURE__*/_react.default.createElement("div", {
-    className: "save",
-    onClick: e => {
-      e.preventDefault();
-      e.stopPropagation();
-      handleAddToFav(singleStore);
-    }
-  }, singleStore.isFav ? /*#__PURE__*/_react.default.createElement(_material.Tooltip, {
-    title: "Remove from favourites"
-  }, /*#__PURE__*/_react.default.createElement(_Favorite.default, null)) : /*#__PURE__*/_react.default.createElement(_material.Tooltip, {
-    title: "Add to favourites"
-  }, /*#__PURE__*/_react.default.createElement(_FavoriteBorderOutlined.default, null))))), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "address",
-    display: "flex",
-    alignItems: "center"
-  }, /*#__PURE__*/_react.default.createElement(_RoomOutlined.default, {
-    sx: {
-      color: '#333333'
-    }
-  }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "body1",
-    sx: {
-      fontSize: '14px',
-      fontFamily: 'Barlow',
-      color: '#333333',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      overflow: 'hidden'
-    }
-  }, singleStore.address)), /*#__PURE__*/_react.default.createElement(_material.Box, {
-    className: "storeType",
-    sx: {
-      border: '1px solid #D7D7D7',
-      borderRadius: '10px',
-      width: '50%',
-      margin: '0 auto',
-      padding: '8px'
-    },
-    textAlign: "center"
-  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
-    variant: "body1",
-    sx: {
-      fontSize: '18px',
-      fontFamily: 'Barlow',
-      fontWeight: '600',
-      color: '#333333'
-    }
-  }, singleStore.type || 'Saloon')))))) : /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }, favouriteStores && favouriteStores.length > 0 ? favouriteStores.map(singleStore =>
+  /*#__PURE__*/
+  // <Link className='linkTOStoresFav' to={ROUTES.getStoreFrontPage(singleStore.slug)}>
+  //     <Box className="singleSlide">
+  //         <Box className="lsideImg" display='flex' alignItems='center' justifyContent='center' sx={{overflow:'hidden', height:'330px',borderRadius:'10px 10px 0px 0px'}}>
+  //             <img src={`${process.env.REACT_APP_IMG_URL}${singleStore.thumbnail}`} alt="" />
+  //         </Box>
+  //         <Box display='flex' flexDirection='column' gap="20px" className="slideInfo" sx={{background:'white',borderRadius:'0px 0px 10px 10px', padding:'15px 10px'}}>
+  //             <Box className="titleRating" display='flex' alignItems='center' justifyContent='space-between'>
+  //                 <Box className="title">
+  //                     <Typography variant='h4' sx={{fontSize:'18px',fontFamily:'Barlow',fontWeight:'600'}}>{singleStore.title}</Typography>
+  //                 </Box>
+  //                 <Box className="remove_fav">
+  //                     {loadingFavId === singleStore.id ? <CircularProgress size="20px"/> : 
+  //                         <div
+  //                             className="save"
+  //                             onClick={(e) => {
+  //                                 e.preventDefault();
+  //                                 e.stopPropagation();
+  //                                 handleAddToFav(singleStore);
+  //                             }}
+  //                             >
+  //                             {singleStore.isFav ? (
+  //                                 <Tooltip title="Remove from favourites">
+  //                                     <FavoriteIcon />
+  //                                 </Tooltip>
+  //                             ) : (
+  //                                 <Tooltip title="Add to favourites">
+  //                                 <FavoriteBorderOutlinedIcon />
+  //                                 </Tooltip>
+  //                             )}
+  //                         </div>
+  //                     }
+  //                 </Box>
+  //             </Box>
+  //             <Box className="address" display='flex' alignItems='center'>
+  //                 <RoomOutlinedIcon sx={{color:'#333333'}} />
+  //                 <Typography variant='body1' sx={{fontSize:'14px',fontFamily:'Barlow',color:'#333333',whiteSpace:'nowrap',textOverflow:'ellipsis',overflow:'hidden'}}>{singleStore.address}</Typography>
+  //             </Box>
+  //             <Box className="storeType" sx={{border:'1px solid #D7D7D7', borderRadius:'10px',width:'50%',margin:'0 auto',padding:'8px'}} textAlign='center'>
+  //                 <Typography variant='body1' sx={{fontSize:'18px',fontFamily:'Barlow',fontWeight:'600',color:'#333333'}}>{singleStore.type || 'Saloon'}</Typography>
+  //             </Box>
+  //         </Box>
+  //     </Box>
+  // </Link>
+  _react.default.createElement(_StoreCard.default, {
+    storeDetails: singleStore
+  })) : /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "h6"
   }, "No favorites store yet"))))));
 }

@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  Button,
-  Box,
-  TextField,
-  Stack,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  Alert,
-  Pagination
-} from '@mui/material';
+import { Pagination } from '@mui/material';
+import { Link } from 'react-router-dom';
 import axiosClient from '../../../../axios-client';
 import AdminLayout from '../../Layout/Layout';
 import Loader from '../../../Loader/Loader';
 import BackButton from '../../../BackButton/BackButton';
-import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../../routes';
+
+const S = {
+  page: { padding: '24px', background: '#f5f4f0', minHeight: '100vh' },
+  header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' },
+  title: { fontSize: '20px', fontWeight: 600, color: '#1a1a2e', margin: 0 },
+  headerActions: { display: 'flex', alignItems: 'center', gap: '10px' },
+  card: { background: '#fff', borderRadius: '12px', border: '0.5px solid #e0dfd8', overflow: 'hidden', overflowX: 'auto' },
+  table: { width: '100%', borderCollapse: 'collapse', fontSize: '13px', minWidth: '1150px' },
+  th: {
+    padding: '12px 14px', textAlign: 'left', color: '#888', fontWeight: 500, fontSize: '12px',
+    textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #f0efe8', whiteSpace: 'nowrap',
+  },
+  td: {
+    padding: '12px 14px', color: '#1a1a2e', fontSize: '13px', borderBottom: '0.5px solid #f5f4f0', verticalAlign: 'middle',
+  },
+  tdNum: { padding: '12px 14px', color: '#aaa', fontSize: '12px', borderBottom: '0.5px solid #f5f4f0' },
+  linkText: { color: '#1a1a2e', fontSize: '13px', fontWeight: 500, textDecoration: 'underline' },
+  statusText: { fontWeight: 600, fontSize: '12px', textTransform: 'capitalize' },
+  typeBadge: {
+    display: 'inline-block', padding: '3px 10px', borderRadius: '999px',
+    fontSize: '11px', fontWeight: 500, textTransform: 'capitalize',
+  },
+};
 
 function MasterBookingsPage() {
   const [loading, setLoading] = useState(true);
@@ -30,9 +38,11 @@ function MasterBookingsPage() {
     last_page: 1,
     total: 0,
   });
+
   useEffect(() => {
     fetchBookings();
   }, []);
+
   const fetchBookings = async (page = 1) => {
     setLoading(true);
     try {
@@ -49,117 +59,149 @@ function MasterBookingsPage() {
       setLoading(false);
     }
   };
+
   const handlePageChange = (e, page) => {
     fetchBookings(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   return (
     <AdminLayout>
       {loading && <Loader />}
-      <div className="container-fluid dashboard-content">
-        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h4">Bookings</Typography>
-            <Stack direction="row" gap={2}>
-              <BackButton />
-            </Stack>
-        </Stack>
-        <TableContainer component={Paper}>
-          <Table aria-label="Reviews Table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">#</TableCell>
-                <TableCell>Store name</TableCell>
-                <TableCell>Username</TableCell>
-                <TableCell>Service name</TableCell>
-                <TableCell>Service Category</TableCell>
-                <TableCell>ETA</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Time</TableCell>
-                <TableCell>Worker</TableCell>
-                <TableCell>Status</TableCell>
-              </TableRow>
-            </TableHead>
-             {bookings && bookings.length > 0 ? (
-              bookings.map((booking,index) => (
-                <>
-                  <TableBody key={index+1}>
-                    <TableCell align="left">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      <Link 
-                        to={ROUTES.getStoreFrontPage(booking.store?.slug)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {booking.store?.title}
-                      </Link>
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      <Link
-                        to={ROUTES.masterAdminUsers}
-                        state={{ highlightId: booking.user?.id }}
-                      >
-                        {booking.user?.username}
-                      </Link>
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      <Link
-                        to={ROUTES.masterAdminServices}
-                        state={{ highlightId: booking.service?.id }}
-                      >
-                        {booking.service?.title}
-                      </Link>
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      <Link
-                        to={ROUTES.masterAdminServicesCategories}
-                        state={{ highlightId: booking.service?.category?.id }}
-                      >
-                        {booking.service?.category?.title}
-                      </Link>
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {booking.service?.eta}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {booking.booking_date}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {booking.booking_time}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {booking.worker?.username ?
+      <div style={S.page}>
+        <div style={S.header}>
+          <h5 style={S.title}>Bookings</h5>
+          <div style={S.headerActions}>
+            <BackButton />
+          </div>
+        </div>
+
+        <div style={S.card}>
+          <table style={S.table}>
+            <thead>
+              <tr>
+                <th style={S.th}>#</th>
+                <th style={S.th}>Store name</th>
+                <th style={S.th}>Username</th>
+                <th style={S.th}>Type</th>
+                <th style={S.th}>Service / Bundle name</th>
+                <th style={S.th}>Service Category</th>
+                <th style={S.th}>ETA</th>
+                <th style={S.th}>Date</th>
+                <th style={S.th}>Time</th>
+                <th style={S.th}>Worker</th>
+                <th style={S.th}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookings && bookings.length > 0 ? (
+                bookings.map((booking, index) => {
+                  const isBundle = !!booking.bundle;
+                  const bookedItem = isBundle ? booking.bundle : booking.service;
+                  return (
+                    <tr key={index + 1} style={{ background: index % 2 === 0 ? '#fff' : '#fafaf8' }}>
+                      <td style={S.tdNum}>{index + 1}</td>
+                      <td style={S.td}>
+                        <Link
+                          to={ROUTES.getStoreFrontPage(booking.store?.slug)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={S.linkText}
+                        >
+                          {booking.store?.title}
+                        </Link>
+                      </td>
+                      <td style={S.td}>
                         <Link
                           to={ROUTES.masterAdminUsers}
-                          state={{ highlightId: booking.worker?.id }}
+                          state={{ highlightId: booking.user?.id }}
+                          style={S.linkText}
                         >
-                          {booking.worker?.username}
+                          {booking.user?.username}
                         </Link>
-                      : '-'}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        color: booking.status === 'pending' ? 'chocolate' : booking.status == 'completed' ? 'green' : 'red',
-                        fontWeight: 'bold',
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {booking.status}
-                    </TableCell>
-                  </TableBody>
-                </>
-              ))
-            ) : (
-              <TableBody>
-                <TableCell align="center">
-                  No Bookings
-                </TableCell>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
-        <Box sx={{marginTop:'10px'}}>
+                      </td>
+                      <td style={S.td}>
+                        <span
+                          style={{
+                            ...S.typeBadge,
+                            background: isBundle ? '#efe6f7' : '#f0efe8',
+                            color: isBundle ? '#5b2c8a' : '#555',
+                          }}
+                        >
+                          {isBundle ? 'Bundle' : 'Service'}
+                        </span>
+                      </td>
+                      <td style={S.td}>
+                        {isBundle ? (
+                          <Link
+                            to={ROUTES.masterAdminBundles}
+                            state={{ highlightId: booking.bundle?.id }}
+                            style={S.linkText}
+                          >
+                            {booking.bundle?.title}
+                          </Link>
+                        ) : (
+                          <Link
+                            to={ROUTES.masterAdminServices}
+                            state={{ highlightId: booking.service?.id }}
+                            style={S.linkText}
+                          >
+                            {booking.service?.title}
+                          </Link>
+                        )}
+                      </td>
+                      <td style={S.td}>
+                        {isBundle ? (
+                          '-'
+                        ) : (
+                          <Link
+                            to={ROUTES.masterAdminServicesCategories}
+                            state={{ highlightId: booking.service?.category?.id }}
+                            style={S.linkText}
+                          >
+                            {booking.service?.category?.title}
+                          </Link>
+                        )}
+                      </td>
+                      <td style={S.td}>{bookedItem?.eta ?? '-'}</td>
+                      <td style={S.td}>{booking.booking_date}</td>
+                      <td style={S.td}>{booking.booking_time}</td>
+                      <td style={S.td}>
+                        {booking.worker?.username ? (
+                          <Link
+                            to={ROUTES.masterAdminUsers}
+                            state={{ highlightId: booking.worker?.id }}
+                            style={S.linkText}
+                          >
+                            {booking.worker?.username}
+                          </Link>
+                        ) : '-'}
+                      </td>
+                      <td style={S.td}>
+                        <span
+                          style={{
+                            ...S.statusText,
+                            color: booking.status === 'pending' ? '#a15c00' : booking.status == 'completed' ? '#27500a' : '#791f1f',
+                          }}
+                        >
+                          {booking.status}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={11} style={{ ...S.td, textAlign: 'center', color: '#aaa', padding: '32px' }}>
+                    No Bookings
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div style={{ marginTop: '16px' }}>
           <Pagination
             count={pagination.last_page}
             page={pagination.current_page}
@@ -167,7 +209,7 @@ function MasterBookingsPage() {
             color="primary"
             shape="rounded"
           />
-        </Box>
+        </div>
       </div>
     </AdminLayout>
   );

@@ -30,7 +30,7 @@ function Header() {
   const menuItems = [
     { label: "Stores", href: ROUTES.getCategoryPage('all') },
     { label: "Pricing", href: ROUTES.pricing },
-    { label: "For Professionals", href: ROUTES.forBusiness },
+    { label: "For Professionals", href: ROUTES.ownerLogin },
     { label: "Blogs", href: ROUTES.blogs },
     { label: "Contact Us", href: ROUTES.contact },
   ];

@@ -21,7 +21,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 const S = {
   wrap: {
     padding: "24px",
-    background: "#f5f4f0",
     minHeight: "100vh"
   },
   header: {

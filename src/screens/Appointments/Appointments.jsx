@@ -9,7 +9,7 @@ import StarRating from "../../components/StarRating/StarRating";
 import { ROUTES } from "../../routes";
 
 const S = {
-  wrap: { padding: "24px", background: "#f5f4f0", minHeight: "600px" },
+  wrap: { padding: "24px", minHeight: "600px" },
   tabsContainer: {
     display: "flex",
     gap: "0",
@@ -111,6 +111,31 @@ const S = {
     marginTop: "10px",
   },
   serviceName: { fontSize: "13px", fontWeight: 600, color: "#1a1a2e", flex: 1 },
+  bundleBadge: {
+    display: "inline-block",
+    padding: "2px 8px",
+    borderRadius: "999px",
+    fontSize: "10px",
+    fontWeight: 600,
+    textTransform: "uppercase",
+    letterSpacing: "0.03em",
+    background: "#E6F1FB",
+    color: "#0C447C",
+    whiteSpace: "nowrap",
+  },
+  bundleServicesList: {
+    background: "#f9f9f9",
+    borderRadius: "8px",
+    padding: "8px 10px",
+    marginBottom: "8px",
+  },
+  bundleServiceRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    fontSize: "12px",
+    color: "#555",
+    padding: "3px 0",
+  },
   statusBadge: (status) => ({
     display: "inline-block",
     padding: "2px 10px",
@@ -233,6 +258,31 @@ const S = {
   modalActions: { display: "flex", gap: "8px", marginTop: "16px" },
 };
 
+const getBookingTitle = (booking) =>
+  booking?.bundle?.title || booking?.service?.title || "Booking";
+
+const getBookingCurrency = (booking) =>
+  booking?.bundle?.currency || booking?.service?.currency || "";
+
+const getBookingPrice = (booking) =>
+  booking?.bundle ? booking.bundle.price : booking?.service?.price;
+
+const getBookingEta = (booking) => {
+  if (booking?.bundle) {
+    if (!booking.booking_time || !booking.booking_time_end) return "";
+    const [sh, sm] = booking.booking_time.split(":").map(Number);
+    const [eh, em] = booking.booking_time_end.split(":").map(Number);
+    const totalMinutes = eh * 60 + em - (sh * 60 + sm);
+    if (totalMinutes <= 0) return "";
+    const hrs = Math.floor(totalMinutes / 60);
+    const mins = totalMinutes % 60;
+    if (hrs > 0 && mins > 0) return `${hrs}h ${mins}min`;
+    if (hrs > 0) return `${hrs}h`;
+    return `${mins}min`;
+  }
+  return booking?.service?.eta || "";
+};
+
 function AppointmentsPage() {
   const location = useLocation();
   const { user } = useAuth();
@@ -261,6 +311,7 @@ function AppointmentsPage() {
     try {
       const { data } = await axiosClient.get(`/getUserBookings/${user.id}`);
       setBookings(data.bookings);
+      // console.log(data.bookings);
     } catch (error) {
       console.error("Error fetching bookings:", error);
       showSnackbar("Failed to load appointments", "error");
@@ -269,7 +320,6 @@ function AppointmentsPage() {
     }
   };
   const parseBookingDate = (dateString, timeString) => {
-    // Parse as local date, not UTC
     const [year, month, day] = dateString.split("-");
     return new Date(
       year,
@@ -374,6 +424,8 @@ function AppointmentsPage() {
         ).toFixed(1)
       : "N/A";
 
+    const isBundleBooking = !!booking.bundle;
+
     return (
       <div
         style={S.card}
@@ -413,20 +465,34 @@ function AppointmentsPage() {
 
         <div style={S.cardContent}>
           <div style={S.serviceHeader}>
-            <span style={S.serviceName}>{booking.service?.title}</span>
+            <span style={S.serviceName}>{getBookingTitle(booking)}</span>
+            {isBundleBooking && <span style={S.bundleBadge}>Bundle</span>}
             <span style={S.statusBadge(booking.status)}>
               {booking.status?.replace(/_/g, " ")}
             </span>
           </div>
 
+          {isBundleBooking && booking.bundle?.services?.length > 0 && (
+            <div style={S.bundleServicesList}>
+              {booking.bundle.services.map((s) => (
+                <div style={S.bundleServiceRow} key={s.id}>
+                  <span>{s.title}</span>
+                  <span>
+                    {s.currency} {s.price}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
           <div style={S.serviceMeta}>
-            <span style={S.metaItem}>{booking.service?.eta}</span>
+            <span style={S.metaItem}>{booking.service?.eta ?? booking.bundle?.eta}</span>
             <span style={{ color: "#ddd" }}>·</span>
             <span style={S.metaItem}>
               with {booking.worker?.username || "any professional"}
             </span>
             <span style={{ marginLeft: "auto", ...S.metaPrice }}>
-              {booking.service?.currency} {booking.service?.price}
+              {getBookingCurrency(booking)} {getBookingPrice(booking)}
             </span>
           </div>
 
@@ -583,7 +649,7 @@ function AppointmentsPage() {
                       marginBottom: "12px",
                     }}
                   >
-                    <strong>{cancelModal.booking?.service?.title}</strong> on{" "}
+                    <strong>{getBookingTitle(cancelModal.booking)}</strong> on{" "}
                     {new Date(
                       cancelModal.booking?.booking_date,
                     ).toLocaleDateString()}{" "}

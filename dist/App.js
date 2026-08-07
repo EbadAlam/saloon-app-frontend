@@ -29,7 +29,6 @@ var _Reviews = _interopRequireDefault(require("./components/Worker/Reviews/Revie
 var _Page = _interopRequireDefault(require("./screens/404Page/404Page"));
 var _AllReviews = _interopRequireDefault(require("./screens/AllReviews/AllReviews"));
 var _Bookings = _interopRequireDefault(require("./components/Worker/Bookings/Bookings"));
-var _LoginSignup = _interopRequireDefault(require("./screens/LoginSignup/LoginSignup"));
 var _CustomerLogin = _interopRequireDefault(require("./screens/Login/CustomerLogin"));
 var _ProfessionalLogin = _interopRequireDefault(require("./screens/Login/ProfessionalLogin"));
 var _Booking = _interopRequireDefault(require("./screens/Booking/Booking"));
@@ -69,6 +68,9 @@ var _Inqueries = _interopRequireDefault(require("./components/Admin/MasterAdmin/
 var _CategoryPage = _interopRequireDefault(require("./screens/CategoryPage/CategoryPage"));
 var _HomeNewDesign = _interopRequireDefault(require("./screens/Home/HomeNewDesign"));
 var _PortfolioPage = _interopRequireDefault(require("./components/Admin/PortfolioPage/PortfolioPage"));
+var _Bundles = _interopRequireDefault(require("./components/Admin/Bundles/Bundles"));
+var _Bundles2 = _interopRequireDefault(require("./components/Admin/MasterAdmin/Bundles/Bundles"));
+var _LoginSignup = _interopRequireDefault(require("./screens/Login/LoginSignup"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 // import Home from './screens/Home/HomeNew';
 
@@ -108,9 +110,6 @@ function App(_ref) {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.categoryPage,
     element: /*#__PURE__*/_react.default.createElement(_CategoryPage.default, null)
-  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: _routes.ROUTES.login,
-    element: /*#__PURE__*/_react.default.createElement(_Login.default, null)
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.signup,
     element: /*#__PURE__*/_react.default.createElement(_Signup.default, null)
@@ -186,6 +185,9 @@ function App(_ref) {
     path: _routes.ROUTES.adminAddServices,
     element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, null, /*#__PURE__*/_react.default.createElement(_Services.default, null))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: _routes.ROUTES.adminBundles,
+    element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, null, /*#__PURE__*/_react.default.createElement(_Bundles.default, null))
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.adminAddTeamMembers,
     element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, null, /*#__PURE__*/_react.default.createElement(_Team.default, null))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
@@ -232,6 +234,11 @@ function App(_ref) {
     element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, {
       admin: true
     }, /*#__PURE__*/_react.default.createElement(_Services2.default, null))
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: _routes.ROUTES.masterAdminBundles,
+    element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, {
+      admin: true
+    }, /*#__PURE__*/_react.default.createElement(_Bundles2.default, null))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: _routes.ROUTES.masterAdminStores,
     element: /*#__PURE__*/_react.default.createElement(_ProtectedRoute.default, {

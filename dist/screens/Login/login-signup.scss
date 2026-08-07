@@ -1,0 +1,275 @@
+// Scoped design tokens — safe to drop in alongside your existing global styles,
+// nothing here reaches outside .bt-auth
+
+.bt-auth {
+  --bt-cream: #FFF8F0;
+  --bt-paper: #FFFFFF;
+  --bt-ink: #2B2320;
+  --bt-ink-soft: rgba(43, 35, 32, 0.56);
+  --bt-plum: #4E2E45;
+  --bt-plum-soft: rgba(78, 46, 69, 0.08);
+  --bt-rose: #C97B84;
+  --bt-rose-soft: rgba(201, 123, 132, 0.14);
+  --bt-line: #E7DACB;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 24px 64px;
+  background: var(--bt-cream);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--bt-ink);
+
+  &__back {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--bt-line);
+    background: var(--bt-paper);
+    color: var(--bt-ink);
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+
+    &:hover {
+      background: var(--bt-plum-soft);
+      border-color: var(--bt-plum);
+      transform: translateX(-2px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--bt-plum);
+      outline-offset: 2px;
+    }
+  }
+
+  &__content {
+    width: 100%;
+    max-width: 480px;
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bt-rose);
+    margin-bottom: 14px;
+  }
+
+  &__title {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(32px, 5vw, 44px);
+    line-height: 1.12;
+    margin: 0 0 12px;
+    color: var(--bt-plum);
+
+    span {
+      font-style: italic;
+      color: var(--bt-ink);
+    }
+  }
+
+  &__subtitle {
+    font-size: 15px;
+    color: var(--bt-ink-soft);
+    margin: 0 0 40px;
+  }
+
+  &__options {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.bt-auth-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 22px 20px;
+  background: var(--bt-paper);
+  border: 1px solid var(--bt-line);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--bt-plum);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -16px rgba(43, 35, 32, 0.35);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--bt-plum);
+    outline-offset: 3px;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--bt-plum-soft);
+    color: var(--bt-plum);
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--bt-ink);
+  }
+
+  &__subtitle {
+    font-size: 13.5px;
+    color: var(--bt-ink-soft);
+  }
+
+  // ticket-stub perforation
+  &__divider {
+    position: relative;
+    align-self: stretch;
+    width: 0;
+    border-left: 1.5px dashed var(--bt-line);
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--bt-cream);
+      transform: translateX(-50%);
+    }
+
+    &::before {
+      top: -5px;
+    }
+    &::after {
+      bottom: -5px;
+    }
+  }
+
+  &__stub {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--bt-plum);
+    transition: transform 0.2s ease;
+  }
+
+  &:hover &__stub {
+    transform: translateX(4px);
+  }
+
+  &--pro &__icon {
+    background: var(--bt-rose-soft);
+    color: var(--bt-rose);
+  }
+
+  &--pro:hover,
+  &--pro:focus-visible {
+    border-color: var(--bt-rose);
+  }
+}
+
+@media (max-width: 600px) {
+  .bt-auth {
+    padding: 32px 18px 48px;
+
+    &__content {
+      margin-top: 40px;
+    }
+  }
+
+  .bt-auth-card {
+    padding: 18px 16px;
+    gap: 12px;
+
+    &__icon {
+      width: 38px;
+      height: 38px;
+    }
+  }
+}
+.bt-auth-social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 18px;
+  border: 1px solid var(--bt-line);
+  border-radius: 12px;
+  background: var(--bt-paper);
+  text-decoration: none;
+  color: var(--bt-ink);
+  font-size: 15px;
+  font-weight: 500;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--bt-plum);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px -16px rgba(43, 35, 32, 0.35);
+  }
+
+  &__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    svg {
+      display: block;
+    }
+  }
+}
+
+.bt-auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--bt-ink-soft);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 4px 0;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--bt-line);
+  }
+}

@@ -13,9 +13,41 @@ var _axiosClient = _interopRequireDefault(require("../../axios-client"));
 var _Loader = _interopRequireDefault(require("../../components/Loader/Loader"));
 var _Close = _interopRequireDefault(require("@mui/icons-material/Close"));
 var _AuthContext = require("../../contexts/AuthContext");
-var _FacebookAuthButton = _interopRequireDefault(require("./FacebookAuthButton"));
 var _RoleRedirector = _interopRequireDefault(require("../../components/RoleRedirector/RoleRedirector"));
+require("./login-signup.scss");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+const textFieldSx = {
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '10px',
+    background: '#FFFFFF',
+    '& fieldset': {
+      borderColor: '#E7DACB'
+    },
+    '&:hover fieldset': {
+      borderColor: '#4E2E45'
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#4E2E45'
+    }
+  },
+  '& .MuiInputLabel-root.Mui-focused': {
+    color: '#4E2E45'
+  }
+};
+const primaryButtonSx = {
+  mt: 2,
+  background: '#4E2E45',
+  borderRadius: '10px',
+  padding: '13px',
+  fontWeight: 600,
+  textTransform: 'none',
+  fontSize: '15px',
+  boxShadow: 'none',
+  '&:hover': {
+    background: '#3c2337',
+    boxShadow: 'none'
+  }
+};
 function CustomerLoginPage() {
   const location = (0, _reactRouterDom.useLocation)();
   const navigate = (0, _reactRouterDom.useNavigate)();
@@ -26,7 +58,6 @@ function CustomerLoginPage() {
   } = (0, _AuthContext.useAuth)();
   const searchParams = new URLSearchParams(location.search);
   const redirectTo = searchParams.get("redirectTo");
-  console.log('Redirect to: ', redirectTo);
   const handleClick = () => {
     if (showForm != 'basic') {
       setShowForm('basic');
@@ -185,28 +216,22 @@ function CustomerLoginPage() {
     });
   }
   return /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    sx: {
-      background: '#FFF8F0'
-    }
-  }, /*#__PURE__*/React.createElement(_material.Box, {
-    className: "login-signup-div",
-    sx: {
-      width: '55%',
-      padding: '40px'
-    }
-  }, loading && /*#__PURE__*/React.createElement(_Loader.default, null), /*#__PURE__*/React.createElement("div", {
-    className: "back-div"
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: handleClick
-  }, /*#__PURE__*/React.createElement(_ArrowBack.default, null))), showAlert && /*#__PURE__*/React.createElement(_material.Alert, {
+    className: "bt-auth"
+  }, loading && /*#__PURE__*/React.createElement(_Loader.default, null), /*#__PURE__*/React.createElement("button", {
+    className: "bt-auth__back",
+    onClick: handleClick,
+    "aria-label": "Go back"
+  }, /*#__PURE__*/React.createElement(_ArrowBack.default, {
+    fontSize: "small"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "bt-auth__content bt-auth__content--center"
+  }, showAlert && /*#__PURE__*/React.createElement(_material.Alert, {
+    className: "bt-auth-alert",
     action: /*#__PURE__*/React.createElement(_material.IconButton, {
       "aria-label": "close",
       color: "inherit",
       size: "small",
-      onClick: () => {
-        setShowAlert(false);
-      }
+      onClick: () => setShowAlert(false)
     }, /*#__PURE__*/React.createElement(_Close.default, {
       fontSize: "inherit"
     })),
@@ -215,6 +240,7 @@ function CustomerLoginPage() {
     },
     severity: alertType
   }, alertMessage), errors.length > 0 && /*#__PURE__*/React.createElement(_material.Alert, {
+    className: "bt-auth-alert",
     severity: "error",
     sx: {
       mb: 2
@@ -222,57 +248,28 @@ function CustomerLoginPage() {
   }, /*#__PURE__*/React.createElement("ul", {
     style: {
       margin: 0,
-      paddingLeft: '1.2em'
+      paddingLeft: '1.2em',
+      textAlign: 'left'
     }
   }, errors.map((err, i) => /*#__PURE__*/React.createElement("li", {
     key: i
-  }, err)))), /*#__PURE__*/React.createElement(_material.Box, {
-    className: "buttons",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    gap: "50px",
-    sx: {
-      marginTop: '50px',
-      position: 'relative'
-    }
-  }, showForm === 'basic' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    flexDirection: "column",
-    textAlign: "center"
-  }, /*#__PURE__*/React.createElement(_material.Typography, {
-    variant: "h4",
-    sx: {
-      fontSize: '32px'
-    }
-  }, "Beauty Trafic for Customers"), /*#__PURE__*/React.createElement(_material.Typography, {
-    variant: "h5",
-    sx: {
-      fontSize: '18px'
-    }
-  }, "Create an account or log in to book and manage your applications.")), /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    flexDirection: "column",
-    gap: "30px",
-    className: "login-signup-sub-div",
-    sx: {
-      width: '60%'
-    }
+  }, err)))), showForm === 'basic' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    className: "bt-auth__eyebrow"
+  }, "Customers"), /*#__PURE__*/React.createElement("h1", {
+    className: "bt-auth__title"
+  }, "Welcome to ", /*#__PURE__*/React.createElement("span", null, "BeautyTrafic")), /*#__PURE__*/React.createElement("p", {
+    className: "bt-auth__subtitle"
+  }, "Create an account or log in to book and manage your appointments."), /*#__PURE__*/React.createElement("div", {
+    className: "bt-auth-form"
   }, /*#__PURE__*/React.createElement(_reactRouterDom.Link, {
-    to: _routes.ROUTES.customerLogin
-  }, /*#__PURE__*/React.createElement(_FacebookAuthButton.default, null)), /*#__PURE__*/React.createElement(_reactRouterDom.Link, {
+    className: "bt-auth-social",
     to: "".concat(process.env.REACT_APP_LARAVEL_BASE_URL, "/auth/google/redirect?login_type=customer")
-  }, /*#__PURE__*/React.createElement(_material.Box, {
-    className: "loginSignupButton",
-    display: "flex",
-    justifyContent: "start",
-    gap: "10px",
-    alignItems: "center"
-  }, /*#__PURE__*/React.createElement(_material.Box, null, /*#__PURE__*/React.createElement("svg", {
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "bt-auth-social__icon"
+  }, /*#__PURE__*/React.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: "33",
-    height: "32",
+    width: "20",
+    height: "20",
     viewBox: "0 0 33 32",
     fill: "none"
   }, /*#__PURE__*/React.createElement("path", {
@@ -290,51 +287,13 @@ function CustomerLoginPage() {
   }), /*#__PURE__*/React.createElement("path", {
     d: "M2.6875 23.1001C4.41583 21.7667 6.14333 20.4267 7.87 19.0801C8.53802 21.0406 9.80851 22.7398 11.5 23.9351C12.555 24.6807 13.7538 25.1984 15.02 25.4551C16.2676 25.6871 17.5474 25.6871 18.795 25.4551C20.039 25.2445 21.2252 24.7762 22.2775 24.0801C23.95 25.3851 25.63 26.6801 27.3025 27.9851C25.4722 29.6494 23.241 30.8098 20.8275 31.3526C18.1635 31.9788 15.3873 31.9488 12.7375 31.2651C10.6418 30.7055 8.68419 29.7191 6.9875 28.3676C5.19165 26.9418 3.72489 25.145 2.6875 23.1001Z",
     fill: "#319F43"
-  }))), /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px"
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#333333',
-      fontSize: '18px',
-      margin: '0'
-    }
-  }, "Continue with Google")))), /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    alignItems: "center"
-  }, /*#__PURE__*/React.createElement(_material.Box, {
-    sx: {
-      width: '45%'
-    }
-  }, /*#__PURE__*/React.createElement("hr", null)), /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px"
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#333333',
-      fontSize: '18px',
-      margin: '0'
-    }
-  }, "OR")), /*#__PURE__*/React.createElement(_material.Box, {
-    sx: {
-      width: '45%'
-    }
-  }, /*#__PURE__*/React.createElement("hr", null))), /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    alignItems: "center"
-  }, /*#__PURE__*/React.createElement("form", {
-    style: {
-      width: '100%'
-    },
+  }))), /*#__PURE__*/React.createElement("span", null, "Continue with Google")), /*#__PURE__*/React.createElement("div", {
+    className: "bt-auth-divider"
+  }, /*#__PURE__*/React.createElement("span", null, "or")), /*#__PURE__*/React.createElement("form", {
+    className: "bt-auth-fields",
     onSubmit: handleEmailCheck
   }, /*#__PURE__*/React.createElement(_material.TextField, {
-    label: "Enter email address",
+    label: "Email address",
     variant: "outlined",
     fullWidth: true,
     margin: "normal",
@@ -342,80 +301,29 @@ function CustomerLoginPage() {
     value: email,
     onChange: e => setEmail(e.target.value),
     required: true,
-    disabled: loading
+    disabled: loading,
+    sx: textFieldSx
   }), /*#__PURE__*/React.createElement(_material.Button, {
     type: "submit",
     variant: "contained",
-    color: "primary",
     fullWidth: true,
-    sx: {
-      mt: 2,
-      background: '#333333',
-      borderRadius: '10px',
-      padding: '15px'
-    },
+    sx: primaryButtonSx,
     disabled: loading
-  }, "Continue"))), /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    gap: "5px",
-    alignItems: "center"
-  }, /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px"
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#333333',
-      fontSize: '18px',
-      margin: '0'
-    }
-  }, "Have a business account?")), /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px"
-  }, /*#__PURE__*/React.createElement(_reactRouterDom.Link, {
-    to: _routes.ROUTES.ownerLogin
-  }, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: '#D08998',
-      fontSize: '18px',
-      margin: '0'
-    }
-  }, "Sign in as professional")))))) : showForm === 'password' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    gap: "10px",
-    alignItems: "center"
-  }, /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px",
-    textAlign: "center"
-  }, /*#__PURE__*/React.createElement(_material.Typography, {
-    variant: "h4",
-    sx: {
-      fontSize: '32px'
-    }
-  }, "Welcome back"), /*#__PURE__*/React.createElement(_material.Typography, {
-    variant: "h5",
-    sx: {
-      fontSize: '18px'
-    }
-  }, "Enter your password and login as ", email)), /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    alignItems: "center",
-    sx: {
-      width: '100%'
-    }
+  }, "Continue")), /*#__PURE__*/React.createElement("p", {
+    className: "bt-auth-switch"
+  }, "Have a business account?", /*#__PURE__*/React.createElement(_reactRouterDom.Link, {
+    to: _routes.ROUTES.ownerLogin,
+    className: "bt-auth-switch__link"
+  }, "Sign in as professional")))), showForm === 'password' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    className: "bt-auth__eyebrow"
+  }, "Customers"), /*#__PURE__*/React.createElement("h1", {
+    className: "bt-auth__title"
+  }, "Welcome ", /*#__PURE__*/React.createElement("span", null, "back")), /*#__PURE__*/React.createElement("p", {
+    className: "bt-auth__subtitle"
+  }, "Enter your password to log in as ", email), /*#__PURE__*/React.createElement("div", {
+    className: "bt-auth-form"
   }, /*#__PURE__*/React.createElement("form", {
-    style: {
-      width: '100%'
-    },
+    className: "bt-auth-fields",
     onSubmit: handleLogin
   }, /*#__PURE__*/React.createElement(_material.TextField, {
     label: "Password",
@@ -426,64 +334,29 @@ function CustomerLoginPage() {
     value: password,
     onChange: e => setPassword(e.target.value),
     required: true,
-    disabled: loading
+    disabled: loading,
+    sx: textFieldSx
   }), /*#__PURE__*/React.createElement(_material.Button, {
     type: "submit",
     variant: "contained",
-    color: "primary",
     fullWidth: true,
-    sx: {
-      mt: 2,
-      background: '#333333',
-      borderRadius: '10px',
-      padding: '15px'
-    },
+    sx: primaryButtonSx,
     disabled: loading
-  }, "Login"))), /*#__PURE__*/React.createElement(_material.Typography, {
-    variant: "body2",
-    align: "center",
-    sx: {
-      mt: 2
-    }
-  }, "Forgot Password? Click ", /*#__PURE__*/React.createElement("span", {
-    onClick: forgotPasswordHandle,
-    style: {
-      color: "#1976d2",
-      cursor: "pointer",
-      fontWeight: 500
-    }
-  }, "here"), " to reset."))) : showForm === 'completeForm' ? /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    gap: "10px",
-    alignItems: "center"
-  }, /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    flexDirection: "column",
-    textAlign: "center"
-  }, /*#__PURE__*/React.createElement(_material.Typography, {
-    variant: "h4",
-    sx: {
-      fontSize: '32px'
-    }
-  }, "Create account"), /*#__PURE__*/React.createElement(_material.Typography, {
-    variant: "h5",
-    sx: {
-      fontSize: '18px'
-    }
-  }, "You're almost there! Create your new account for ", email, " by completing these details")), /*#__PURE__*/React.createElement(_material.Box, {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    alignItems: "center",
-    sx: {
-      width: '100%'
-    }
+  }, "Login")), /*#__PURE__*/React.createElement("p", {
+    className: "bt-auth-note"
+  }, "Forgot password?", ' ', /*#__PURE__*/React.createElement("span", {
+    className: "bt-auth-note__action",
+    onClick: forgotPasswordHandle
+  }, "Click here to reset.")))), showForm === 'completeForm' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    className: "bt-auth__eyebrow"
+  }, "Customers"), /*#__PURE__*/React.createElement("h1", {
+    className: "bt-auth__title"
+  }, "Create ", /*#__PURE__*/React.createElement("span", null, "account")), /*#__PURE__*/React.createElement("p", {
+    className: "bt-auth__subtitle"
+  }, "You're almost there! Complete these details for ", email), /*#__PURE__*/React.createElement("div", {
+    className: "bt-auth-form"
   }, /*#__PURE__*/React.createElement("form", {
-    style: {
-      width: '100%'
-    },
+    className: "bt-auth-fields",
     onSubmit: handleSignup
   }, /*#__PURE__*/React.createElement(_material.TextField, {
     label: "Name",
@@ -494,9 +367,10 @@ function CustomerLoginPage() {
     value: username,
     onChange: e => setUsername(e.target.value),
     required: true,
-    disabled: loading
+    disabled: loading,
+    sx: textFieldSx
   }), /*#__PURE__*/React.createElement(_material.TextField, {
-    label: "Phone Number",
+    label: "Phone number",
     variant: "outlined",
     fullWidth: true,
     margin: "normal",
@@ -504,7 +378,8 @@ function CustomerLoginPage() {
     value: phoneNumber,
     onChange: e => setPhoneNumber(e.target.value),
     required: true,
-    disabled: loading
+    disabled: loading,
+    sx: textFieldSx
   }), /*#__PURE__*/React.createElement(_material.TextField, {
     label: "Password",
     variant: "outlined",
@@ -514,27 +389,28 @@ function CustomerLoginPage() {
     value: password,
     onChange: e => setPassword(e.target.value),
     required: true,
-    disabled: loading
+    disabled: loading,
+    sx: textFieldSx
   }), /*#__PURE__*/React.createElement(_material.TextField, {
-    label: "Confirm Password",
+    label: "Confirm password",
     variant: "outlined",
     fullWidth: true,
     margin: "normal",
     type: "password",
-    value: passwordConfirm
-    // password_confirmation
-    ,
+    value: passwordConfirm,
     onChange: e => setPasswordConfirm(e.target.value),
     required: true,
-    disabled: loading
+    disabled: loading,
+    sx: textFieldSx
   }), /*#__PURE__*/React.createElement(_material.Button, {
     variant: "outlined",
     component: "label",
     fullWidth: true,
+    className: "bt-auth-upload",
     sx: {
       mt: 2
     }
-  }, "Upload Profile Image", /*#__PURE__*/React.createElement("input", {
+  }, "Upload profile image", /*#__PURE__*/React.createElement("input", {
     type: "file",
     accept: "image/*",
     hidden: true,
@@ -542,13 +418,20 @@ function CustomerLoginPage() {
   })), profileImage && /*#__PURE__*/React.createElement(_material.Typography, {
     variant: "body2",
     sx: {
-      mt: 1
+      mt: 1,
+      color: 'var(--bt-ink-soft)'
     }
   }, "Selected: ", profileImage.name), /*#__PURE__*/React.createElement(_material.FormControlLabel, {
     control: /*#__PURE__*/React.createElement(_material.Checkbox, {
       checked: acceptedTerms,
       onChange: e => setAcceptedTerms(e.target.checked),
-      disabled: loading
+      disabled: loading,
+      sx: {
+        color: '#4E2E45',
+        '&.Mui-checked': {
+          color: '#4E2E45'
+        }
+      }
     }),
     label: /*#__PURE__*/React.createElement(_material.Typography, {
       variant: "body2"
@@ -559,26 +442,9 @@ function CustomerLoginPage() {
   }), /*#__PURE__*/React.createElement(_material.Button, {
     type: "submit",
     variant: "contained",
-    color: "primary",
     fullWidth: true,
-    sx: {
-      mt: 2,
-      background: '#333333',
-      borderRadius: '10px',
-      padding: '15px'
-    },
+    sx: primaryButtonSx,
     disabled: loading || !acceptedTerms
-  }, "Signup")))) : '')), /*#__PURE__*/React.createElement(_material.Box, {
-    className: "banner_img",
-    sx: {
-      width: '45%'
-    }
-  }, /*#__PURE__*/React.createElement("img", {
-    src: "".concat(process.env.REACT_APP_BASE_URL, "/customer-login-page-img.png"),
-    alt: "Banner Img",
-    style: {
-      width: '100%'
-    }
-  })));
+  }, "Sign up"))))));
 }
 var _default = exports.default = CustomerLoginPage;

@@ -38,7 +38,7 @@ var _PortfolioGallery = _interopRequireDefault(require("../../components/Portfol
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function StorePage(_ref) {
-  var _storeDetails$reviews, _storeDetails$service, _storeDetails$service2, _storeDetails$workers, _storeDetails$reviews2, _storeDetails$reviews3, _storeDetails$reviews4, _storeDetails$workers2, _storeDetails$working, _storeDetails$reviews5;
+  var _storeDetails$reviews, _storeDetails$service, _storeDetails$service2, _storeDetails$bundles, _storeDetails$workers, _storeDetails$reviews2, _storeDetails$reviews3, _storeDetails$reviews4, _storeDetails$workers2, _storeDetails$working, _storeDetails$reviews5;
   let {
     initialData
   } = _ref;
@@ -232,10 +232,10 @@ function StorePage(_ref) {
       source: source,
       visitor_id: getVisitorId()
     };
-    await _axiosClient.default.post('/captureLead', payload);
+    await _axiosClient.default.post("/captureLead", payload);
   };
   const handleWhatsappClick = () => {
-    captureLead('whatsapp');
+    captureLead("whatsapp");
   };
   (0, _react.useEffect)(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 30);
@@ -525,7 +525,54 @@ function StorePage(_ref) {
     state: {
       storeDetails: storeDetails
     }
-  }, /*#__PURE__*/_react.default.createElement("button", null, "See All")))), storeDetails.workers && ((_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("button", null, "See All")))), (storeDetails === null || storeDetails === void 0 || (_storeDetails$bundles = storeDetails.bundles) === null || _storeDetails$bundles === void 0 ? void 0 : _storeDetails$bundles.filter(bundle => bundle.is_active_by_admin == 1).filter(bundle => bundle.status === "active").length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
+    className: "bundles_div_new",
+    style: {
+      marginTop: "30px"
+    }
+  }, /*#__PURE__*/_react.default.createElement("h4", {
+    className: "heading"
+  }, "Bundles"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "services"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "grid"
+  }, storeDetails.bundles.filter(bundle => bundle.is_active_by_admin == 1).filter(bundle => bundle.status === "active").map(singleBundle => {
+    var _singleBundle$service;
+    return /*#__PURE__*/_react.default.createElement("div", {
+      className: "service",
+      key: singleBundle.id
+    }, /*#__PURE__*/_react.default.createElement("div", {
+      className: "info"
+    }, /*#__PURE__*/_react.default.createElement("h4", {
+      className: "title"
+    }, singleBundle.title), /*#__PURE__*/_react.default.createElement("p", {
+      className: "price"
+    }, singleBundle.currency || "PKR", " ", singleBundle.price, singleBundle.original_price > singleBundle.price && /*#__PURE__*/_react.default.createElement("span", {
+      style: {
+        textDecoration: "line-through",
+        color: "#999",
+        fontSize: "13px",
+        marginLeft: "8px"
+      }
+    }, singleBundle.currency || "PKR", " ", singleBundle.original_price))), ((_singleBundle$service = singleBundle.services) === null || _singleBundle$service === void 0 ? void 0 : _singleBundle$service.length) > 0 && /*#__PURE__*/_react.default.createElement(_material.Box, {
+      className: "service_meta",
+      display: "flex",
+      alignItems: "center",
+      flexWrap: "wrap",
+      gap: "8px"
+    }, singleBundle.services.map(s => /*#__PURE__*/_react.default.createElement("span", {
+      key: s.id,
+      className: "bundle_service_pill"
+    }, s.title))), /*#__PURE__*/_react.default.createElement("div", {
+      className: "book_btn"
+    }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+      to: _routes.ROUTES.getBookingPage(storeDetails.slug),
+      state: {
+        storeDetails: storeDetails,
+        bundle: singleBundle
+      }
+    }, /*#__PURE__*/_react.default.createElement("button", null, "Book"))));
+  })))), storeDetails.workers && ((_storeDetails$workers = storeDetails.workers) === null || _storeDetails$workers === void 0 ? void 0 : _storeDetails$workers.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
     className: "teams_div_new"
   }, /*#__PURE__*/_react.default.createElement("h4", {
     className: "heading"

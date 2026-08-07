@@ -132,10 +132,10 @@ function SideBar() {
       } = _ref5;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.getAdminBookings(storeId)
+    to: _routes.ROUTES.getAdminBundles(storeId)
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-calendar-alt"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Bookings"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-th"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Bundles"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item child-nav-vendor"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref6 => {
@@ -144,10 +144,10 @@ function SideBar() {
       } = _ref6;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.getAdminPortfolio(storeId)
+    to: _routes.ROUTES.getAdminBookings(storeId)
   }, /*#__PURE__*/_react.default.createElement("i", {
     className: "fa fa-fw fa-calendar-alt"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Portfolio"))), /*#__PURE__*/_react.default.createElement("li", {
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Bookings"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item child-nav-vendor"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref7 => {
@@ -156,10 +156,10 @@ function SideBar() {
       } = _ref7;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.getAdminAddWorkingHours(storeId)
+    to: _routes.ROUTES.getAdminPortfolio(storeId)
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-hourglass-half"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Working Hours"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-calendar-alt"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Portfolio"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item child-nav-vendor"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref8 => {
@@ -168,10 +168,10 @@ function SideBar() {
       } = _ref8;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.getAdminAddTeamMembers(storeId)
+    to: _routes.ROUTES.getAdminAddWorkingHours(storeId)
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-users"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Team Members"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-hourglass-half"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Working Hours"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item child-nav-vendor"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref9 => {
@@ -180,11 +180,11 @@ function SideBar() {
       } = _ref9;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.getAdminReviews(storeId)
+    to: _routes.ROUTES.getAdminAddTeamMembers(storeId)
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-gem"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Reviews"))))) : user.user_info.role === "worker" ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("li", {
-    className: "nav-item "
+    className: "fa fa-users"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Team Members"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "nav-item child-nav-vendor"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref0 => {
       let {
@@ -192,10 +192,10 @@ function SideBar() {
       } = _ref0;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.workerDashboard
+    to: _routes.ROUTES.getAdminReviews(storeId)
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-database"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Dashboard"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-gem"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Reviews"))))) : user.user_info.role === "worker" ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref1 => {
@@ -204,10 +204,10 @@ function SideBar() {
       } = _ref1;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.workerBookings
+    to: _routes.ROUTES.workerDashboard
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-calendar-alt"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Bookings"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-database"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Dashboard"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref10 => {
@@ -216,10 +216,10 @@ function SideBar() {
       } = _ref10;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.workerReviews
+    to: _routes.ROUTES.workerBookings
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-gem"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Your Reviews")))) : user.user_info.role === "master-admin" ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-calendar-alt"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Bookings"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref11 => {
@@ -228,10 +228,10 @@ function SideBar() {
       } = _ref11;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.masterAdminDashboard
+    to: _routes.ROUTES.workerReviews
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-database"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Dashboard"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-gem"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Your Reviews")))) : user.user_info.role === "master-admin" ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref12 => {
@@ -240,10 +240,10 @@ function SideBar() {
       } = _ref12;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.masterAdminUsers
+    to: _routes.ROUTES.masterAdminDashboard
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-users"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Users"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-database"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Dashboard"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref13 => {
@@ -252,10 +252,10 @@ function SideBar() {
       } = _ref13;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.masterAdminServicesCategories
+    to: _routes.ROUTES.masterAdminUsers
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-bars"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Categories"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-users"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Users"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref14 => {
@@ -264,10 +264,10 @@ function SideBar() {
       } = _ref14;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.masterAdminServices
+    to: _routes.ROUTES.masterAdminServicesCategories
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-th"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Services"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-bars"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Categories"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref15 => {
@@ -276,10 +276,10 @@ function SideBar() {
       } = _ref15;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.masterAdminStores
+    to: _routes.ROUTES.masterAdminServices
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-building"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Stores"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-th"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Services"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref16 => {
@@ -288,10 +288,10 @@ function SideBar() {
       } = _ref16;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.masterAdminBookings
+    to: _routes.ROUTES.masterAdminBundles
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-calendar-alt"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Bookings"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-th"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Bundles"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref17 => {
@@ -300,10 +300,10 @@ function SideBar() {
       } = _ref17;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.masterAdminReviews
+    to: _routes.ROUTES.masterAdminStores
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-gem"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Reviews"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-building"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Stores"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref18 => {
@@ -312,16 +312,40 @@ function SideBar() {
       } = _ref18;
       return "nav-link ".concat(isActive ? "active" : "");
     },
-    to: _routes.ROUTES.masterAdminBlogs
+    to: _routes.ROUTES.masterAdminBookings
   }, /*#__PURE__*/_react.default.createElement("i", {
-    className: "fa fa-fw fa-gem"
-  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Blogs"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "fa fa-fw fa-calendar-alt"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Bookings"))), /*#__PURE__*/_react.default.createElement("li", {
     className: "nav-item "
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
     className: _ref19 => {
       let {
         isActive
       } = _ref19;
+      return "nav-link ".concat(isActive ? "active" : "");
+    },
+    to: _routes.ROUTES.masterAdminReviews
+  }, /*#__PURE__*/_react.default.createElement("i", {
+    className: "fa fa-fw fa-gem"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Reviews"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "nav-item "
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
+    className: _ref20 => {
+      let {
+        isActive
+      } = _ref20;
+      return "nav-link ".concat(isActive ? "active" : "");
+    },
+    to: _routes.ROUTES.masterAdminBlogs
+  }, /*#__PURE__*/_react.default.createElement("i", {
+    className: "fa fa-fw fa-gem"
+  }), " ", /*#__PURE__*/_react.default.createElement("span", null, "Blogs"))), /*#__PURE__*/_react.default.createElement("li", {
+    className: "nav-item "
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.NavLink, {
+    className: _ref21 => {
+      let {
+        isActive
+      } = _ref21;
       return "nav-link ".concat(isActive ? "active" : "");
     },
     to: _routes.ROUTES.masterAdminInqueries

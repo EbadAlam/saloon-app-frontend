@@ -33,6 +33,11 @@ function BookingPage() {
   const { slug } = useParams();
   const { user, token, login } = useAuth();
   const scrollRef = useRef(null);
+
+  // ── Bundle vs Service booking mode ──────────────────────────────────────
+  const isBundleBooking = !!state?.bundle;
+  const bundleData = state?.bundle || null;
+
   const [storeDetails, setStoreDetails] = useState(state?.storeDetails || null);
   const [loading, setLoading] = useState(!state?.storeDetails);
   const [loginLoading, setLoginLoading] = useState(false);
@@ -48,6 +53,14 @@ function BookingPage() {
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   const [selectedServices, setSelectedServices] = useState(() => {
+    if (state?.bundle) {
+      return (state.bundle.services || []).map((s) => ({
+        ...s,
+        worker_id: "",
+        worker_name: "",
+        bundle_id: state.bundle.id,
+      }));
+    }
     if (state?.service) {
       return [
         {
@@ -110,7 +123,10 @@ function BookingPage() {
   const navigate = useNavigate();
   const handleClick = () => {
     if (step > 1) {
-      setStep(step - 1);
+      // Bundles skip the Professionals step (step 2), so going back from
+      // Time (step 3) should return to Services (step 1), not step 2.
+      const prevStep = step === 3 && isBundleBooking ? 1 : step - 1;
+      setStep(prevStep);
       setIndWorker(false);
     } else {
       if (window.history.length > 1) {
@@ -126,6 +142,12 @@ function BookingPage() {
     } else {
       navigate(ROUTES.getStoreFrontPage(storeDetails.slug));
     }
+  };
+  const goToNextStep = () => {
+    // Bundles skip the Professionals step entirely.
+    const nextStep = step === 1 && isBundleBooking ? 3 : step + 1;
+    setStep(nextStep);
+    setIndWorker(false);
   };
   const updateWorkerId = (serviceId, workerId, workerName) => {
     setSelectedServices((prevServices) =>
@@ -350,10 +372,23 @@ function BookingPage() {
   useEffect(() => {
     handleDateClick(new Date());
   }, [storeDetails]);
+
+  // ── Pricing (bundle uses its own fixed price; services sum individually) ──
+  const subtotalPrice = isBundleBooking
+    ? Number(bundleData?.price || 0)
+    : selectedServices.reduce(
+        (acc, service) => acc + parseFloat(service.price || 0),
+        0,
+      );
+  const displayCurrency = isBundleBooking
+    ? bundleData?.currency || "PKR"
+    : "PKR";
+
   const bookingSubmitHandle = async () => {
     setLoading(true);
     const payload = {
       services: selectedServices,
+      bundle_id: isBundleBooking ? bundleData.id : null,
       time: selectedTimeSlot,
       date: selectedDate,
       user_id: user.id,
@@ -544,25 +579,29 @@ function BookingPage() {
                     }
                   }}
                 >
-                  Services
+                  {isBundleBooking ? "Bundle" : "Services"}
                 </Typography>
                 <ArrowForwardIosIcon sx={{ fontSize: "18px" }} />
 
-                <Typography
-                  variant="body1"
-                  className={
-                    step === 2 ? "active" : step >= 2 ? "prev-active" : ""
-                  }
-                  onClick={() => {
-                    if (step >= 2) {
-                      setStep(2);
-                      setIndWorker(false);
-                    }
-                  }}
-                >
-                  Professionals
-                </Typography>
-                <ArrowForwardIosIcon sx={{ fontSize: "18px" }} />
+                {!isBundleBooking && (
+                  <>
+                    <Typography
+                      variant="body1"
+                      className={
+                        step === 2 ? "active" : step >= 2 ? "prev-active" : ""
+                      }
+                      onClick={() => {
+                        if (step >= 2) {
+                          setStep(2);
+                          setIndWorker(false);
+                        }
+                      }}
+                    >
+                      Professionals
+                    </Typography>
+                    <ArrowForwardIosIcon sx={{ fontSize: "18px" }} />
+                  </>
+                )}
 
                 <Typography
                   variant="body1"
@@ -596,145 +635,168 @@ function BookingPage() {
               {step === 1 && !indWorker && (
                 <>
                   <Typography variant="h4" className="mb-4" sx={{mt:{xs:3, md:5}}}>
-                    Services
+                    {isBundleBooking ? bundleData.title : "Services"}
                   </Typography>
 
-                  <Box
-                    sx={{
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px",
-                    }}
-                  >
-                    <IconButton
-                      size="small"
-                      onClick={() => scrollCategories("left")}
-                      sx={{
-                        flexShrink: 0,
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "50%",
-                        width: 30,
-                        height: 30,
-                        background: "#fff",
-                        "&:hover": { background: "#f5f5f5" },
-                      }}
-                    >
-                      <ArrowBackIosNewIcon sx={{ fontSize: 14 }} />
-                    </IconButton>
-
-                    <ScrollContainer
-                      ref={scrollRef}
-                      className="services_categories_scroll services_categories"
-                      style={{ flex: 1, overflow: "hidden" }}
-                    >
-                      {storeDetails?.services_categories
-                        ?.filter((singleCat) => singleCat.status === "active")
-                        .map((singleCat, index) => (
-                          <div
-                            key={index}
-                            className={`category ${
-                              selectedCategory === singleCat.id ? "active" : ""
-                            }`}
-                            onClick={() => {
-                              setSelectedCategory(singleCat.id);
-                              const section = document.getElementById(
-                                `cat-${singleCat.id}`,
-                              );
-                              if (section) {
-                                section.scrollIntoView({
-                                  behavior: "smooth",
-                                  block: "start",
-                                });
-                              }
-                            }}
-                            style={{ cursor: "pointer" }}
-                          >
-                            {singleCat.title}
+                  {isBundleBooking ? (
+                    <div className="services">
+                      <div className="service-category-section">
+                        <h3 className="category-title">
+                          Included in this bundle
+                        </h3>
+                        {selectedServices.map((singleSer) => (
+                          <div className="service mt-3" key={singleSer.id}>
+                            <div className="info">
+                              <h4 className="title">{singleSer.title}</h4>
+                              <p className="eta">{singleSer.eta}</p>
+                              <p className="price">
+                                {singleSer.currency} {singleSer.price}
+                              </p>
+                            </div>
                           </div>
                         ))}
-                    </ScrollContainer>
-
-                    <IconButton
-                      size="small"
-                      onClick={() => scrollCategories("right")}
-                      sx={{
-                        flexShrink: 0,
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "50%",
-                        width: 30,
-                        height: 30,
-                        background: "#fff",
-                        "&:hover": { background: "#f5f5f5" },
-                      }}
-                    >
-                      <ArrowForwardIosIcon sx={{ fontSize: 14 }} />
-                    </IconButton>
-                  </Box>
-                  <div className="services">
-                    {storeDetails?.services_categories?.filter((c) => c.status == 'active').map((cat) => {
-                      const servicesInCategory = storeDetails.services.filter(
-                        (s) => s.service_category_id === cat.id,
-                      );
-                      if (servicesInCategory.length === 0) return null;
-
-                      return (
-                        <div
-                          key={cat.id}
-                          id={`cat-${cat.id}`}
-                          className="service-category-section"
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <Box
+                        sx={{
+                          position: "relative",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
+                      >
+                        <IconButton
+                          size="small"
+                          onClick={() => scrollCategories("left")}
+                          sx={{
+                            flexShrink: 0,
+                            border: "1px solid #e0e0e0",
+                            borderRadius: "50%",
+                            width: 30,
+                            height: 30,
+                            background: "#fff",
+                            "&:hover": { background: "#f5f5f5" },
+                          }}
                         >
-                          <h3 className="category-title">{cat.title}</h3>
-                          {servicesInCategory
-                            .filter((s) => s.status == "active")
-                            .map((singleSer, index) => (
-                              <label
-                                htmlFor={`book_checkbox_${singleSer.id}`}
-                                className="service mt-3"
-                                key={singleSer.id}
+                          <ArrowBackIosNewIcon sx={{ fontSize: 14 }} />
+                        </IconButton>
+
+                        <ScrollContainer
+                          ref={scrollRef}
+                          className="services_categories_scroll services_categories"
+                          style={{ flex: 1, overflow: "hidden" }}
+                        >
+                          {storeDetails?.services_categories
+                            ?.filter((singleCat) => singleCat.status === "active")
+                            .map((singleCat, index) => (
+                              <div
+                                key={index}
+                                className={`category ${
+                                  selectedCategory === singleCat.id ? "active" : ""
+                                }`}
+                                onClick={() => {
+                                  setSelectedCategory(singleCat.id);
+                                  const section = document.getElementById(
+                                    `cat-${singleCat.id}`,
+                                  );
+                                  if (section) {
+                                    section.scrollIntoView({
+                                      behavior: "smooth",
+                                      block: "start",
+                                    });
+                                  }
+                                }}
+                                style={{ cursor: "pointer" }}
                               >
-                                <div className="info">
-                                  <h4 className="title">{singleSer.title}</h4>
-                                  <p className="eta">{singleSer.eta}</p>
-                                  <p className="price">
-                                    {singleSer.currency} {singleSer.price}
-                                  </p>
-                                  <p className="gender">
-                                    {singleSer.gender &&
-                                      `Only for ${singleSer.gender}`}
-                                  </p>
-                                </div>
-                                <div className="book_btn">
-                                  <Checkbox
-                                    id={`book_checkbox_${singleSer.id}`}
-                                    checked={selectedServices.some(
-                                      (s) => s.id === singleSer.id,
-                                    )}
-                                    onChange={(e) => {
-                                      if (e.target.checked) {
-                                        setSelectedServices((prev) => [
-                                          ...prev,
-                                          singleSer,
-                                        ]);
-                                      } else {
-                                        setSelectedServices((prev) =>
-                                          prev.filter(
-                                            (s) => s.id !== singleSer.id,
-                                          ),
-                                        );
-                                      }
-                                    }}
-                                  />
-                                </div>
-                              </label>
+                                {singleCat.title}
+                              </div>
                             ))}
-                        </div>
-                      );
-                    })}
-                  </div>
+                        </ScrollContainer>
+
+                        <IconButton
+                          size="small"
+                          onClick={() => scrollCategories("right")}
+                          sx={{
+                            flexShrink: 0,
+                            border: "1px solid #e0e0e0",
+                            borderRadius: "50%",
+                            width: 30,
+                            height: 30,
+                            background: "#fff",
+                            "&:hover": { background: "#f5f5f5" },
+                          }}
+                        >
+                          <ArrowForwardIosIcon sx={{ fontSize: 14 }} />
+                        </IconButton>
+                      </Box>
+                      <div className="services">
+                        {storeDetails?.services_categories?.filter((c) => c.status == 'active').map((cat) => {
+                          const servicesInCategory = storeDetails.services.filter(
+                            (s) => s.service_category_id === cat.id,
+                          );
+                          if (servicesInCategory.length === 0) return null;
+
+                          return (
+                            <div
+                              key={cat.id}
+                              id={`cat-${cat.id}`}
+                              className="service-category-section"
+                            >
+                              <h3 className="category-title">{cat.title}</h3>
+                              {servicesInCategory
+                                .filter((s) => s.status == "active")
+                                .map((singleSer, index) => (
+                                  <label
+                                    htmlFor={`book_checkbox_${singleSer.id}`}
+                                    className="service mt-3"
+                                    key={singleSer.id}
+                                  >
+                                    <div className="info">
+                                      <h4 className="title">{singleSer.title}</h4>
+                                      <p className="eta">{singleSer.eta}</p>
+                                      <p className="price">
+                                        {singleSer.currency} {singleSer.price}
+                                      </p>
+                                      <p className="gender">
+                                        {singleSer.gender &&
+                                          `Only for ${singleSer.gender}`}
+                                      </p>
+                                    </div>
+                                    <div className="book_btn">
+                                      <Checkbox
+                                        id={`book_checkbox_${singleSer.id}`}
+                                        checked={selectedServices.some(
+                                          (s) => s.id === singleSer.id,
+                                        )}
+                                        onChange={(e) => {
+                                          if (e.target.checked) {
+                                            setSelectedServices((prev) => [
+                                              ...prev,
+                                              singleSer,
+                                            ]);
+                                          } else {
+                                            setSelectedServices((prev) =>
+                                              prev.filter(
+                                                (s) => s.id !== singleSer.id,
+                                              ),
+                                            );
+                                          }
+                                        }}
+                                      />
+                                    </div>
+                                  </label>
+                                ))}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
                 </>
               )}
-              {step === 2 && !indWorker && (
+              {step === 2 && !indWorker && !isBundleBooking && (
                 <>
                   <Typography variant="h4" className="mt-5">
                     Select Professional
@@ -911,7 +973,7 @@ function BookingPage() {
                   </Box>
                 </>
               )}
-              {indWorker && (
+              {indWorker && !isBundleBooking && (
                 <>
                   <Typography variant="h4" className="mt-5">
                     Select Professional
@@ -1167,6 +1229,22 @@ function BookingPage() {
                       </Box>
                     </Box>
                     <Box sx={{ width: "100%" }} className="mt-4">
+                      {isBundleBooking && (
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="start"
+                          className="mt-2"
+                        >
+                          <Typography
+                            display="block"
+                            variant="body1"
+                            sx={{ fontSize: "18px", fontWeight: 600 }}
+                          >
+                            {bundleData.title} (Bundle)
+                          </Typography>
+                        </Box>
+                      )}
                       <Box sx={{ width: "100%" }} className="mt-4">
                         {selectedServices.map((service) => (
                           <Box
@@ -1189,20 +1267,28 @@ function BookingPage() {
                                 variant="body2"
                                 sx={{ fontSize: "16px" }}
                               >
-                                {service.eta} with{" "}
-                                {!service.worker_id
-                                  ? "any professional"
-                                  : service.worker_name}
+                                {service.eta}
+                                {!isBundleBooking && (
+                                  <>
+                                    {" "}
+                                    with{" "}
+                                    {!service.worker_id
+                                      ? "any professional"
+                                      : service.worker_name}
+                                  </>
+                                )}
                               </Typography>
                             </Box>
-                            <Box>
-                              <Typography
-                                variant="body1"
-                                sx={{ fontSize: "18px" }}
-                              >
-                                {service.currency} {service.price}
-                              </Typography>
-                            </Box>
+                            {!isBundleBooking && (
+                              <Box>
+                                <Typography
+                                  variant="body1"
+                                  sx={{ fontSize: "18px" }}
+                                >
+                                  {service.currency} {service.price}
+                                </Typography>
+                              </Box>
+                            )}
                           </Box>
                         ))}
                       </Box>
@@ -1227,13 +1313,7 @@ function BookingPage() {
                         variant="body1"
                         sx={{ fontSize: "18px" }}
                       >
-                        PKR{" "}
-                        {selectedServices?.length
-                          ? selectedServices.reduce(
-                              (acc, service) => acc + parseFloat(service.price),
-                              0,
-                            )
-                          : 0}
+                        {displayCurrency} {subtotalPrice}
                       </Typography>
                     </Box>
                   </Box>
@@ -1249,10 +1329,7 @@ function BookingPage() {
                             borderRadius: "10px",
                           }}
                           variant="contained"
-                          onClick={() => {
-                            setStep(step + 1);
-                            setIndWorker(false);
-                          }}
+                          onClick={goToNextStep}
                         >
                           Next
                         </Button>
@@ -1282,21 +1359,18 @@ function BookingPage() {
       <Box className="mobile_next_btn">
         <Box className="details_mobile">
           <Typography variant="h3" sx={{ fontSize: "18px" }}>
-            PKR{" "}
-            {selectedServices?.length
-              ? selectedServices.reduce(
-                  (acc, service) => acc + parseFloat(service.price),
-                  0,
-                )
-              : 0}
+            {displayCurrency} {subtotalPrice}
           </Typography>
           <Typography
             variant="body1"
             sx={{ fontSize: "16px", color: "#333333a1" }}
           >
-            {selectedServices.length}{" "}
-            {selectedServices.length > 1 ? "services" : "service"} •{" "}
-            {getTotalEta(selectedServices)}
+            {isBundleBooking
+              ? bundleData.title
+              : `${selectedServices.length} ${
+                  selectedServices.length > 1 ? "services" : "service"
+                }`}{" "}
+            • {getTotalEta(selectedServices)}
           </Typography>
         </Box>
         <Box className="buttn">
@@ -1309,10 +1383,7 @@ function BookingPage() {
                 borderRadius: "10px",
               }}
               variant="contained"
-              onClick={() => {
-                setStep(step + 1);
-                setIndWorker(false);
-              }}
+              onClick={goToNextStep}
             >
               Next
             </Button>

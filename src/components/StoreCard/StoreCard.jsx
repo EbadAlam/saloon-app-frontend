@@ -4,74 +4,76 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "../../routes";
 import StarRating from "../StarRating/StarRating";
 import LocationPinIcon from "@mui/icons-material/LocationPin";
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from "@mui/icons-material/Star";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import "./StoreCard.scss";
 function StoreCard({ storeDetails }) {
   const calculateAverageRating = (reviews = []) => {
     const total = reviews.reduce(
       (sum, r) => sum + parseFloat(r.rating || 0),
-      0
+      0,
     );
-    return reviews.length > 0 ? (total / reviews.length).toFixed(1) : "";
+    return reviews.length > 0 ? (total / reviews.length).toFixed(1) : "0";
   };
-  const rating = calculateAverageRating(storeDetails.reviews);
+  const averageRating = calculateAverageRating(storeDetails.reviews);
+  // console.log('averageRating: ',storeDetails.title,averageRating);
   return (
-    <Link
-      to={ROUTES.getStoreFrontPage(storeDetails.slug)}
-      className="store"
-      key={storeDetails.id}
-    >
-      <Box className="store_image">
-        {storeDetails.thumbnail ? (
+    <div className="store-card">
+      <Link
+        style={{ display: "block" }}
+        to={ROUTES.getStoreFrontPage(storeDetails.slug)}
+      >
+        <div className="store-img">
           <img
-            src={`${process.env.REACT_APP_IMG_URL}/${storeDetails.thumbnail}`}
+            src={`${process.env.REACT_APP_IMG_URL}${storeDetails.thumbnail}`}
             alt=""
           />
-        ) : (
-          <img
-            src={`${process.env.REACT_APP_BASE_URL}/store-dummy-img.png`}
-            alt=""
-          />
-        )}
-        {/* <Box className="hover_content">
-          <Button>Explore now</Button>
-        </Box>
-        <Box className="overlay"></Box> */}
-      </Box>
-      <Box className="store_content">
-        <Box display='flex' justifyContent='space-between'>
-          <Typography variant="h3">{storeDetails.title}</Typography>
-          {/* <StarRating
-            rating={calculateAverageRating(storeDetails.reviews)}
-            color="#ffc800"
-          /> */}
-          {rating ? (
-            <Box display='flex' gap="5px" alignItems="center">
-              <StarIcon style={{ color:'#ffc800' }} />
-              <Typography variant="body1" style={{fontWeight:'700'}}>{rating}</Typography>
-              <Typography variant="body1" style={{color:'grey'}}>({storeDetails.reviews.length})</Typography>
-            </Box>
-          ) : ''}
-        </Box>
-        {/* <Typography variant="body1" sx={{ display: '-webkit-box', WebkitLineClamp: 1,WebkitBoxOrient: 'vertical', overflow: 'hidden', textOverflow: 'ellipsis', }}>{storeDetails.about}</Typography> */}
-        <Box display="flex" sx={{ marginTop: "5px" }}>
-          {/* <LocationPinIcon /> */}
-          <Typography
-            variant="body1"
-            sx={{
-              display: "-webkit-box",
-              WebkitLineClamp: 1,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              marginTop: "2px !important",
-            }}
-          >
-            {storeDetails.address}
-          </Typography>
-        </Box>
-        <Typography variant="h4">{storeDetails.type}</Typography>
-      </Box>
-    </Link>
+        </div>
+      </Link>
+      <div className="store-info">
+        <Link
+          style={{ display: "block" }}
+          to={ROUTES.getStoreFrontPage(storeDetails.slug)}
+        >
+          <div className="store-title">
+            <h3>{storeDetails.title}</h3>
+          </div>
+        </Link>
+        <div className="store-address">
+          <LocationOnOutlinedIcon />
+          <p>{storeDetails.address}</p>
+        </div>
+        <div className="rating-reviews">
+          <div className="rating">
+            <StarIcon />
+            <span>{averageRating}</span>
+          </div>
+          <div className="reviews">
+            <p>
+              (
+              {storeDetails.reviews.length == 1
+                ? `${storeDetails.reviews.length} Review`
+                : `${storeDetails.reviews.length} Reviews`}
+              )
+            </p>
+          </div>
+        </div>
+        <hr className="divider" />
+        <div className="card-footer">
+          <div className="start-from">
+            <p>
+              starting from <br />
+              <span>PKR 50</span>
+            </p>
+          </div>
+          <div className="book-now">
+            <Link to={ROUTES.getBookingPage(storeDetails.slug)}>
+              <button>Book Now</button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

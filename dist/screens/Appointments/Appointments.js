@@ -23,7 +23,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 const S = {
   wrap: {
     padding: "24px",
-    background: "#f5f4f0",
     minHeight: "600px"
   },
   tabsContainer: {
@@ -150,6 +149,31 @@ const S = {
     fontWeight: 600,
     color: "#1a1a2e",
     flex: 1
+  },
+  bundleBadge: {
+    display: "inline-block",
+    padding: "2px 8px",
+    borderRadius: "999px",
+    fontSize: "10px",
+    fontWeight: 600,
+    textTransform: "uppercase",
+    letterSpacing: "0.03em",
+    background: "#E6F1FB",
+    color: "#0C447C",
+    whiteSpace: "nowrap"
+  },
+  bundleServicesList: {
+    background: "#f9f9f9",
+    borderRadius: "8px",
+    padding: "8px 10px",
+    marginBottom: "8px"
+  },
+  bundleServiceRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    fontSize: "12px",
+    color: "#555",
+    padding: "3px 0"
   },
   statusBadge: status => _objectSpread({
     display: "inline-block",
@@ -301,8 +325,36 @@ const S = {
     marginTop: "16px"
   }
 };
+const getBookingTitle = booking => {
+  var _booking$bundle, _booking$service;
+  return (booking === null || booking === void 0 || (_booking$bundle = booking.bundle) === null || _booking$bundle === void 0 ? void 0 : _booking$bundle.title) || (booking === null || booking === void 0 || (_booking$service = booking.service) === null || _booking$service === void 0 ? void 0 : _booking$service.title) || "Booking";
+};
+const getBookingCurrency = booking => {
+  var _booking$bundle2, _booking$service2;
+  return (booking === null || booking === void 0 || (_booking$bundle2 = booking.bundle) === null || _booking$bundle2 === void 0 ? void 0 : _booking$bundle2.currency) || (booking === null || booking === void 0 || (_booking$service2 = booking.service) === null || _booking$service2 === void 0 ? void 0 : _booking$service2.currency) || "";
+};
+const getBookingPrice = booking => {
+  var _booking$service3;
+  return booking !== null && booking !== void 0 && booking.bundle ? booking.bundle.price : booking === null || booking === void 0 || (_booking$service3 = booking.service) === null || _booking$service3 === void 0 ? void 0 : _booking$service3.price;
+};
+const getBookingEta = booking => {
+  var _booking$service4;
+  if (booking !== null && booking !== void 0 && booking.bundle) {
+    if (!booking.booking_time || !booking.booking_time_end) return "";
+    const [sh, sm] = booking.booking_time.split(":").map(Number);
+    const [eh, em] = booking.booking_time_end.split(":").map(Number);
+    const totalMinutes = eh * 60 + em - (sh * 60 + sm);
+    if (totalMinutes <= 0) return "";
+    const hrs = Math.floor(totalMinutes / 60);
+    const mins = totalMinutes % 60;
+    if (hrs > 0 && mins > 0) return "".concat(hrs, "h ").concat(mins, "min");
+    if (hrs > 0) return "".concat(hrs, "h");
+    return "".concat(mins, "min");
+  }
+  return (booking === null || booking === void 0 || (_booking$service4 = booking.service) === null || _booking$service4 === void 0 ? void 0 : _booking$service4.eta) || "";
+};
 function AppointmentsPage() {
-  var _location$state2, _cancelModal$booking, _cancelModal$booking2, _cancelModal$booking3, _cancelModal$booking4;
+  var _location$state2, _cancelModal$booking, _cancelModal$booking2, _cancelModal$booking3;
   const location = (0, _reactRouterDom.useLocation)();
   const {
     user
@@ -334,6 +386,7 @@ function AppointmentsPage() {
         data
       } = await _axiosClient.default.get("/getUserBookings/".concat(user.id));
       setBookings(data.bookings);
+      // console.log(data.bookings);
     } catch (error) {
       console.error("Error fetching bookings:", error);
       showSnackbar("Failed to load appointments", "error");
@@ -342,7 +395,6 @@ function AppointmentsPage() {
     }
   };
   const parseBookingDate = (dateString, timeString) => {
-    // Parse as local date, not UTC
     const [year, month, day] = dateString.split("-");
     return new Date(year, parseInt(month) - 1, parseInt(day), parseInt(timeString.split(":")[0]), parseInt(timeString.split(":")[1]));
   };
@@ -424,12 +476,13 @@ function AppointmentsPage() {
     label: "⊘ No Show"
   }];
   const BookingCard = _ref => {
-    var _booking$store, _booking$store2, _booking$store3, _booking$store4, _booking$store5, _booking$store6, _booking$store7, _booking$worker, _booking$worker2, _booking$service, _booking$status, _booking$service2, _booking$worker3, _booking$service3, _booking$service4;
+    var _booking$store, _booking$store2, _booking$store3, _booking$store4, _booking$store5, _booking$store6, _booking$store7, _booking$worker, _booking$worker2, _booking$status, _booking$bundle3, _booking$service$eta, _booking$service5, _booking$bundle4, _booking$worker3;
     let {
       booking,
       showCancel = true
     } = _ref;
     const avgRating = (_booking$store = booking.store) !== null && _booking$store !== void 0 && (_booking$store = _booking$store.reviews) !== null && _booking$store !== void 0 && _booking$store.length ? (booking.store.reviews.reduce((sum, r) => sum + parseFloat(r.rating || 0), 0) / booking.store.reviews.length).toFixed(1) : "N/A";
+    const isBundleBooking = !!booking.bundle;
     return /*#__PURE__*/_react.default.createElement("div", {
       style: S.card,
       onMouseEnter: e => e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)",
@@ -471,13 +524,20 @@ function AppointmentsPage() {
       style: S.serviceHeader
     }, /*#__PURE__*/_react.default.createElement("span", {
       style: S.serviceName
-    }, (_booking$service = booking.service) === null || _booking$service === void 0 ? void 0 : _booking$service.title), /*#__PURE__*/_react.default.createElement("span", {
+    }, getBookingTitle(booking)), isBundleBooking && /*#__PURE__*/_react.default.createElement("span", {
+      style: S.bundleBadge
+    }, "Bundle"), /*#__PURE__*/_react.default.createElement("span", {
       style: S.statusBadge(booking.status)
-    }, (_booking$status = booking.status) === null || _booking$status === void 0 ? void 0 : _booking$status.replace(/_/g, " "))), /*#__PURE__*/_react.default.createElement("div", {
+    }, (_booking$status = booking.status) === null || _booking$status === void 0 ? void 0 : _booking$status.replace(/_/g, " "))), isBundleBooking && ((_booking$bundle3 = booking.bundle) === null || _booking$bundle3 === void 0 || (_booking$bundle3 = _booking$bundle3.services) === null || _booking$bundle3 === void 0 ? void 0 : _booking$bundle3.length) > 0 && /*#__PURE__*/_react.default.createElement("div", {
+      style: S.bundleServicesList
+    }, booking.bundle.services.map(s => /*#__PURE__*/_react.default.createElement("div", {
+      style: S.bundleServiceRow,
+      key: s.id
+    }, /*#__PURE__*/_react.default.createElement("span", null, s.title), /*#__PURE__*/_react.default.createElement("span", null, s.currency, " ", s.price)))), /*#__PURE__*/_react.default.createElement("div", {
       style: S.serviceMeta
     }, /*#__PURE__*/_react.default.createElement("span", {
       style: S.metaItem
-    }, (_booking$service2 = booking.service) === null || _booking$service2 === void 0 ? void 0 : _booking$service2.eta), /*#__PURE__*/_react.default.createElement("span", {
+    }, (_booking$service$eta = (_booking$service5 = booking.service) === null || _booking$service5 === void 0 ? void 0 : _booking$service5.eta) !== null && _booking$service$eta !== void 0 ? _booking$service$eta : (_booking$bundle4 = booking.bundle) === null || _booking$bundle4 === void 0 ? void 0 : _booking$bundle4.eta), /*#__PURE__*/_react.default.createElement("span", {
       style: {
         color: "#ddd"
       }
@@ -487,7 +547,7 @@ function AppointmentsPage() {
       style: _objectSpread({
         marginLeft: "auto"
       }, S.metaPrice)
-    }, (_booking$service3 = booking.service) === null || _booking$service3 === void 0 ? void 0 : _booking$service3.currency, " ", (_booking$service4 = booking.service) === null || _booking$service4 === void 0 ? void 0 : _booking$service4.price)), /*#__PURE__*/_react.default.createElement("div", {
+    }, getBookingCurrency(booking), " ", getBookingPrice(booking))), /*#__PURE__*/_react.default.createElement("div", {
       style: S.cardFooter
     }, /*#__PURE__*/_react.default.createElement("div", {
       style: S.timeInfo
@@ -565,10 +625,10 @@ function AppointmentsPage() {
       color: "#555",
       marginBottom: "12px"
     }
-  }, /*#__PURE__*/_react.default.createElement("strong", null, (_cancelModal$booking = cancelModal.booking) === null || _cancelModal$booking === void 0 || (_cancelModal$booking = _cancelModal$booking.service) === null || _cancelModal$booking === void 0 ? void 0 : _cancelModal$booking.title), " on", " ", new Date((_cancelModal$booking2 = cancelModal.booking) === null || _cancelModal$booking2 === void 0 ? void 0 : _cancelModal$booking2.booking_date).toLocaleDateString(), " ", "at", " ", new Date("1970-01-01T".concat((_cancelModal$booking3 = cancelModal.booking) === null || _cancelModal$booking3 === void 0 ? void 0 : _cancelModal$booking3.booking_time)).toLocaleTimeString([], {
+  }, /*#__PURE__*/_react.default.createElement("strong", null, getBookingTitle(cancelModal.booking)), " on", " ", new Date((_cancelModal$booking = cancelModal.booking) === null || _cancelModal$booking === void 0 ? void 0 : _cancelModal$booking.booking_date).toLocaleDateString(), " ", "at", " ", new Date("1970-01-01T".concat((_cancelModal$booking2 = cancelModal.booking) === null || _cancelModal$booking2 === void 0 ? void 0 : _cancelModal$booking2.booking_time)).toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit"
-  }), " ", "with ", (_cancelModal$booking4 = cancelModal.booking) === null || _cancelModal$booking4 === void 0 || (_cancelModal$booking4 = _cancelModal$booking4.worker) === null || _cancelModal$booking4 === void 0 ? void 0 : _cancelModal$booking4.username), /*#__PURE__*/_react.default.createElement("div", {
+  }), " ", "with ", (_cancelModal$booking3 = cancelModal.booking) === null || _cancelModal$booking3 === void 0 || (_cancelModal$booking3 = _cancelModal$booking3.worker) === null || _cancelModal$booking3 === void 0 ? void 0 : _cancelModal$booking3.username), /*#__PURE__*/_react.default.createElement("div", {
     style: S.modalActions
   }, /*#__PURE__*/_react.default.createElement("button", {
     style: _objectSpread(_objectSpread({}, S.actionBtn("secondary")), {}, {

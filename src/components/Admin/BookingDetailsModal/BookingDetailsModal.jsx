@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Modal, Box, Typography, IconButton, Divider, Grid,
-  FormControl, Select, MenuItem
+  FormControl, Select, MenuItem, Chip
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -36,6 +36,8 @@ export default function BookingDetailsModal({
 }) {
   if (!booking) return null;
 
+  const isBundleBooking = !!booking.bundle;
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style} className='booking_detail_modal'>
@@ -48,22 +50,105 @@ export default function BookingDetailsModal({
         </Box>
         <Divider sx={{ mb: 3 }} />
 
-        {/* Service Info */}
-        <Typography variant="subtitle2" fontWeight="600" gutterBottom>Service Information</Typography>
-        <Grid container spacing={2} className='details_box'>
-          <Grid item xs={12} md={6}>
-            <InfoBox label="Service Name" value={booking.service?.title} />
+        {/* Service / Bundle Info */}
+        <Box display="flex" alignItems="center" gap={1} mb={1}>
+          <Typography variant="subtitle2" fontWeight="600">
+            {isBundleBooking ? "Bundle Information" : "Service Information"}
+          </Typography>
+          {isBundleBooking && (
+            <Chip
+              label="Bundle"
+              size="small"
+              sx={{
+                height: "20px",
+                fontSize: "10px",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.03em",
+                bgcolor: "#E6F1FB",
+                color: "#0C447C",
+              }}
+            />
+          )}
+        </Box>
+
+        {isBundleBooking ? (
+          <>
+            <Grid container spacing={2} className='details_box'>
+              <Grid item xs={12} md={6}>
+                <InfoBox label="Bundle Name" value={booking.bundle?.title} />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <InfoBox
+                  label="Bundle Price"
+                  value={`${booking.bundle?.currency ?? ""} ${booking.bundle?.price ?? "-"}`}
+                />
+              </Grid>
+              {booking.bundle?.original_price > booking.bundle?.price && (
+                <Grid item xs={12} md={6}>
+                  <InfoBox
+                    label="Original Price (before bundle discount)"
+                    value={`${booking.bundle?.currency ?? ""} ${booking.bundle?.original_price}`}
+                  />
+                </Grid>
+              )}
+            </Grid>
+
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 2, mb: 1 }}>
+              Services included in this bundle
+            </Typography>
+            <Box
+              sx={{
+                bgcolor: "#f9f9f9",
+                borderRadius: "6px",
+                p: 1.5,
+              }}
+            >
+              {booking.bundle?.services?.length > 0 ? (
+                booking.bundle.services.map((s) => (
+                  <Box
+                    key={s.id}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    sx={{
+                      py: 1,
+                      borderBottom: "0.5px solid #e5e5e5",
+                      "&:last-of-type": { borderBottom: "none" },
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                      {s.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {s.eta ? `${s.eta} • ` : ""}
+                      {s.currency} {s.price}
+                    </Typography>
+                  </Box>
+                ))
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  No services found for this bundle.
+                </Typography>
+              )}
+            </Box>
+          </>
+        ) : (
+          <Grid container spacing={2} className='details_box'>
+            <Grid item xs={12} md={6}>
+              <InfoBox label="Service Name" value={booking.service?.title} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InfoBox label="Service Price" value={`${booking.service?.currency} ${booking.service?.price}`} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InfoBox label="Estimated Time" value={booking.service?.eta} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InfoBox label="Gender" value={booking.service?.gender ?? "-"} />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <InfoBox label="Service Price" value={`${booking.service?.currency} ${booking.service?.price}`} />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <InfoBox label="Estimated Time" value={booking.service?.eta} />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <InfoBox label="Gender" value={booking.service?.gender ?? "-"} />
-          </Grid>
-        </Grid>
+        )}
 
         <Divider sx={{ my: 3 }} />
 
@@ -81,6 +166,8 @@ export default function BookingDetailsModal({
         <Divider sx={{ my: 3 }} />
 
         {/* Worker Info (added) */}
+        {!isBundleBooking && (
+            <>
         <Typography variant="subtitle2" fontWeight="600" gutterBottom>Worker Information</Typography>
         <Grid container spacing={2} className='details_box'>
           <Grid item xs={12} md={6}>
@@ -93,9 +180,9 @@ export default function BookingDetailsModal({
             <InfoBox label="Email" value={booking.worker?.email} />
           </Grid>
         </Grid>
-
         <Divider sx={{ my: 3 }} />
-
+            </>
+        )}
         {/* Schedule */}
         <Typography variant="subtitle2" fontWeight="600" gutterBottom>Schedule</Typography>
         <Grid container spacing={2} className='details_box'>

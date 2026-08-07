@@ -42,6 +42,8 @@ export const ROUTES = {
     getAdminAddCategory: (storeId) => `/vendor/stores/${storeId}/category`,
     adminAddServices: '/vendor/stores/:storeId/services',
     getAdminAddServices: (storeId) => `/vendor/stores/${storeId}/Services`,
+    adminBundles: '/vendor/stores/:storeId/bundles',
+    getAdminBundles: (storeId) => `/vendor/stores/${storeId}/bundles`,
     storePage: '/stores/:slug',
     getStoreFrontPage: (slug) => `/stores/${slug}`,
 
@@ -74,6 +76,7 @@ export const ROUTES = {
     masterAdminDashboard: '/admin/dashboard',
     masterAdminServicesCategories: '/admin/categories',
     masterAdminServices: '/admin/services',
+    masterAdminBundles: '/admin/bundles',
     masterAdminStores: '/admin/stores',
     masterAdminBookings: '/admin/bookings',
     masterAdminReviews: '/admin/reviews',

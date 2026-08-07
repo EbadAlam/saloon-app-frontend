@@ -140,6 +140,18 @@ const getStatusDot = (status) =>
     cancelled: "#E24B4A",
   })[status] || "#888780";
 
+// A booking is either tied to a single service or to a bundle (a group of
+// services booked as one). These helpers centralize the "which one do I
+// show" fallback so every render spot stays in sync.
+const getBookingTitle = (booking) =>
+  booking?.bundle?.title || booking?.service?.title || "Booking";
+
+const getBookingCurrency = (booking) =>
+  booking?.bundle?.currency || booking?.service?.currency || "";
+
+const getBookingPrice = (booking) =>
+  booking?.bundle ? booking.bundle.price : booking?.service?.price;
+
 function AdminBookingsPage() {
   const { storeId } = useParams();
   const [loading, setLoading] = useState(true);
@@ -166,28 +178,6 @@ function AdminBookingsPage() {
     return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
   };
 
-  // const mapBookingsToEvents = (list) => list.map((booking) => {
-  //   const start = new Date(`${booking.booking_date}T${booking.booking_time}`);
-  //   let etaMinutes = 0;
-  //   if (booking.service?.eta) {
-  //     const s = booking.service.eta.toLowerCase();
-  //     const hr = s.match(/(\d+)\s*hour/);
-  //     const min = s.match(/(\d+)\s*minutes/);
-  //     if (hr) etaMinutes += parseInt(hr[1]) * 60;
-  //     if (min) etaMinutes += parseInt(min[1]);
-  //   }
-  //   return {
-  //     id: booking.id,
-  //     title: booking.service?.title || "Booking",
-  //     start,
-  //     end: new Date(start.getTime() + etaMinutes * 60000),
-  //     allDay: false,
-  //     color: getRandomLightColor(),
-  //     textColor: "#000",
-  //     extendedProps: { username: booking.user?.username || "Guest", worker: booking.worker?.username || "Not assigned", booking },
-  //   };
-  // });
-
   const mapBookingsToEvents = (list) =>
     list.map((booking) => {
       const start = parseBookingDate(
@@ -201,10 +191,18 @@ function AdminBookingsPage() {
         const min = s.match(/(\d+)\s*minutes/);
         if (hr) etaMinutes += parseInt(hr[1]) * 60;
         if (min) etaMinutes += parseInt(min[1]);
+      } else if (booking.booking_time_end) {
+        // Bundles don't carry a single service.eta, so fall back to the
+        // actual stored end time to compute the event's duration.
+        const end = parseBookingDate(
+          booking.booking_date,
+          booking.booking_time_end,
+        );
+        etaMinutes = Math.max(0, (end - start) / 60000);
       }
       return {
         id: booking.id,
-        title: booking.service?.title || "Booking",
+        title: getBookingTitle(booking),
         start,
         end: new Date(start.getTime() + etaMinutes * 60000),
         allDay: false,
@@ -307,29 +305,6 @@ function AdminBookingsPage() {
     }
   };
 
-  // useEffect(() => {
-  //   if (!calendarRef.current) return;
-  //   const today = new Date(); today.setHours(0,0,0,0);
-  //   const pendingPast = bookings.filter(b => new Date(b.booking_date) < today && b.status === "pending").length;
-  //   const pendingFuture = bookings.filter(b => new Date(b.booking_date) >= today && b.status === "pending").length;
-  //   document.querySelectorAll(".booking-badge").forEach(el => el.remove());
-  //   const prevBtn = document.querySelector(".fc-prev-button");
-  //   const nextBtn = document.querySelector(".fc-next-button");
-  //   if (prevBtn && pendingPast > 0) {
-  //     const badge = document.createElement("span");
-  //     badge.className = "booking-badge past-badge";
-  //     badge.innerText = pendingPast;
-  //     prevBtn.style.position = "relative";
-  //     prevBtn.appendChild(badge);
-  //   }
-  //   if (nextBtn && pendingFuture > 0) {
-  //     const badge = document.createElement("span");
-  //     badge.className = "booking-badge future-badge";
-  //     badge.innerText = pendingFuture;
-  //     nextBtn.style.position = "relative";
-  //     nextBtn.appendChild(badge);
-  //   }
-  // }, [bookings]);
   useEffect(() => {
     if (!calendarRef.current) return;
     const today = new Date();
@@ -630,7 +605,24 @@ function AdminBookingsPage() {
                         {b.user?.no_show_count || "0"}
                       </td>
                       <td style={{ ...S.td, fontWeight: 500 }}>
-                        {b.service?.title}
+                        {getBookingTitle(b)}
+                        {b.bundle && (
+                          <span
+                            style={{
+                              marginLeft: "6px",
+                              fontSize: "10px",
+                              fontWeight: 600,
+                              color: "#0C447C",
+                              background: "#E6F1FB",
+                              padding: "2px 6px",
+                              borderRadius: "999px",
+                              textTransform: "uppercase",
+                              letterSpacing: "0.03em",
+                            }}
+                          >
+                            Bundle
+                          </span>
+                        )}
                       </td>
                       <td style={S.td}>{b.worker?.username || "Any"}</td>
                       <td style={S.td}>
@@ -656,7 +648,7 @@ function AdminBookingsPage() {
                         })}
                       </td>
                       <td style={S.td}>
-                        {b.service?.currency} {b.service?.price}
+                        {getBookingCurrency(b)} {getBookingPrice(b)}
                       </td>
                       <td style={S.td}>
                         <span

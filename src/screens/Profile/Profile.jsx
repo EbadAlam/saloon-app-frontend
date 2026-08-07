@@ -7,7 +7,7 @@ import DummyImage from '../../components/DummyImage/DummyImage';
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const S = {
-  wrap: { padding: "24px", background: "#f5f4f0", minHeight: "100vh" },
+  wrap: { padding: "24px", minHeight: "100vh" },
   header: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "32px" },
   pageTitle: { fontSize: "24px", fontWeight: 600, color: "#1a1a2e" },
   editBtn: { padding: "8px 16px", borderRadius: "8px", background: "#1a1a2e", color: "#fff", border: "none", fontSize: "13px", cursor: "pointer", fontWeight: 500 },

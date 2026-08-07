@@ -1,0 +1,205 @@
+ .pricing-section {
+    padding-block: 100px;
+
+    .headings {
+      text-align: center;
+    }
+
+    .pricing-plans {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 90%;
+      margin: 0 auto;
+      margin-top: 30px;
+
+      .plan {
+        padding: 35px;
+        border-radius: 20px;
+        border: 1px solid #d4a3733d;
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        gap: 20px;
+        height: fit-content;
+        position: relative;
+        transition: all .3s ease;
+
+        &:hover {
+          box-shadow: 1px 1px 20px #0000003d;
+        }
+
+        .badge {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          position: absolute;
+          top: -18px;
+          background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+          left: 50%;
+          transform: translateX(-50%);
+          border-radius: 20px;
+          padding: 8px 25px;
+
+          svg {
+            color: white;
+            width: 20px;
+            height: 20px;
+          }
+
+          p {
+            margin: 0px;
+            color: white;
+            font-family: 'fredoka' !important;
+            font-size: 14px;
+            text-transform: capitalize;
+            font-weight: 500 !important;
+          }
+        }
+
+        .plan-header {
+          .plan-title {
+            font-family: 'playfair display' !important;
+            font-size: 22px;
+            color: var(--dark-text);
+          }
+
+          .plan-desc {
+            font-family: 'fredoka' !important;
+            font-size: 16px;
+            color: var(--muted-text);
+          }
+        }
+
+        .plan-body {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          .plan-price {
+            .price {
+              font-family: 'playfair display' !important;
+              font-size: 40px;
+              color: var(--primary-color) !important;
+              margin: 0px;
+            }
+
+            .billing-cycle {
+              color: var(--muted-text);
+              font-size: 16px;
+              font-weight: 300 !important;
+              margin-top: 10px;
+            }
+          }
+
+          .divider {
+            margin: 0px;
+          }
+
+          .plan-features {
+            margin-top: 10px;
+
+            .features-list {
+              list-style: none;
+              padding: 0px;
+
+              li {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 12px;
+
+                .icon {
+                  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+                  padding: 3px;
+                  border-radius: 50%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+
+                  svg {
+                    color: white;
+                    width: 15px;
+                    height: 15px;
+                  }
+                }
+
+                p {
+                  font-family: 'fredoka' !important;
+                  font-size: 16px;
+                }
+              }
+            }
+          }
+
+          .get-started {
+            background: #fff8f5;
+            border: 1px solid var(--secondary-color);
+            border-radius: 15px;
+            padding: 10px 30px;
+            font-family: 'fredoka' !important;
+            font-size: 18px;
+            color: var(--secondary-color);
+            text-align:center;
+            transition: all .3s ease;
+
+            &:hover {
+              background: #f7cad069;
+            }
+          }
+        }
+
+        &.popular {
+          margin-top: 0px;
+          background: var(--dark-text);
+          box-shadow: 1px 1px 20px #0000008f;
+
+          .plan-header {
+            margin-top: 15px;
+
+            .plan-title {
+              color: white !important;
+              font-size: 26px !important;
+            }
+
+            .plan-desc {
+              color: #ffffffd9;
+            }
+          }
+
+          .plan-body {
+            .plan-price {
+              .price {
+                font-size: 44px !important;
+              }
+            }
+
+            .billing-cycle {
+              color: #ffffffd9 !important;
+            }
+
+            li {
+              p {
+                color: #ffffffd9;
+                font-size: 18px !important;
+              }
+            }
+
+            .divider {
+              border-color: #ffffff3d;
+            }
+
+            .get-started {
+              background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+              color: white;
+              border: none;
+
+              &:hover {
+                background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+              }
+            }
+          }
+        }
+      }
+    }
+  }

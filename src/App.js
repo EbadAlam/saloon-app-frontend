@@ -24,7 +24,6 @@ import ReviewsPage from './components/Worker/Reviews/Reviews';
 import PageNotFouond from './screens/404Page/404Page';
 import AllReviewsPage from './screens/AllReviews/AllReviews';
 import WorkersBookingsPage from './components/Worker/Bookings/Bookings';
-import LoginSignupPage from './screens/LoginSignup/LoginSignup';
 import CustomerLogin from './screens/Login/CustomerLogin';
 import ProfessionalLoginPage from './screens/Login/ProfessionalLogin';
 import BookingPage from './screens/Booking/Booking';
@@ -64,6 +63,9 @@ import MasterInqueriesPage from './components/Admin/MasterAdmin/Inqueries/Inquer
 import CategoryPage from './screens/CategoryPage/CategoryPage';
 import Home from './screens/Home/HomeNewDesign';
 import AdminPortfolioPage from './components/Admin/PortfolioPage/PortfolioPage';
+import Bundlespage from './components/Admin/Bundles/Bundles';
+import MasterBundlesPage from './components/Admin/MasterAdmin/Bundles/Bundles';
+import LoginSignupPage from './screens/Login/LoginSignup';
 
 function App({initialData}) {
   return (
@@ -82,7 +84,7 @@ function App({initialData}) {
             <Route path={ROUTES.blogs} element={<Blogs />} />
             <Route path={ROUTES.blogPage} element={<BlogDetails />} />
             <Route path={ROUTES.categoryPage} element={<CategoryPage />} />
-            <Route path={ROUTES.login} element={<Login />} />
+            {/* <Route path={ROUTES.login} element={<Login />} /> */}
             <Route path={ROUTES.signup} element={<Signup />} />
             <Route path="/verify-email/:id/:token" element={<VerifyEmail />} />
             <Route path="/forgot-password/:email/:reset_token" element={<PasswordReset />} />
@@ -181,6 +183,14 @@ function App({initialData}) {
             }
           />
           <Route
+            path={ROUTES.adminBundles}
+            element={
+              <ProtectedRoute>
+                <Bundlespage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path={ROUTES.adminAddTeamMembers}
             element={
               <ProtectedRoute>
@@ -269,6 +279,14 @@ function App({initialData}) {
             element={
               <ProtectedRoute admin>
                 <MasterServicesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.masterAdminBundles}
+            element={
+              <ProtectedRoute admin>
+                <MasterBundlesPage />
               </ProtectedRoute>
             }
           />

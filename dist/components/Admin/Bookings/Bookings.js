@@ -184,6 +184,22 @@ const getStatusDot = status => ({
   no_show: "#888780",
   cancelled: "#E24B4A"
 })[status] || "#888780";
+
+// A booking is either tied to a single service or to a bundle (a group of
+// services booked as one). These helpers centralize the "which one do I
+// show" fallback so every render spot stays in sync.
+const getBookingTitle = booking => {
+  var _booking$bundle, _booking$service;
+  return (booking === null || booking === void 0 || (_booking$bundle = booking.bundle) === null || _booking$bundle === void 0 ? void 0 : _booking$bundle.title) || (booking === null || booking === void 0 || (_booking$service = booking.service) === null || _booking$service === void 0 ? void 0 : _booking$service.title) || "Booking";
+};
+const getBookingCurrency = booking => {
+  var _booking$bundle2, _booking$service2;
+  return (booking === null || booking === void 0 || (_booking$bundle2 = booking.bundle) === null || _booking$bundle2 === void 0 ? void 0 : _booking$bundle2.currency) || (booking === null || booking === void 0 || (_booking$service2 = booking.service) === null || _booking$service2 === void 0 ? void 0 : _booking$service2.currency) || "";
+};
+const getBookingPrice = booking => {
+  var _booking$service3;
+  return booking !== null && booking !== void 0 && booking.bundle ? booking.bundle.price : booking === null || booking === void 0 || (_booking$service3 = booking.service) === null || _booking$service3 === void 0 ? void 0 : _booking$service3.price;
+};
 function AdminBookingsPage() {
   const {
     storeId
@@ -211,43 +227,25 @@ function AdminBookingsPage() {
     const b = Math.floor(180 + Math.random() * 75);
     return "#".concat(r.toString(16).padStart(2, "0")).concat(g.toString(16).padStart(2, "0")).concat(b.toString(16).padStart(2, "0"));
   };
-
-  // const mapBookingsToEvents = (list) => list.map((booking) => {
-  //   const start = new Date(`${booking.booking_date}T${booking.booking_time}`);
-  //   let etaMinutes = 0;
-  //   if (booking.service?.eta) {
-  //     const s = booking.service.eta.toLowerCase();
-  //     const hr = s.match(/(\d+)\s*hour/);
-  //     const min = s.match(/(\d+)\s*minutes/);
-  //     if (hr) etaMinutes += parseInt(hr[1]) * 60;
-  //     if (min) etaMinutes += parseInt(min[1]);
-  //   }
-  //   return {
-  //     id: booking.id,
-  //     title: booking.service?.title || "Booking",
-  //     start,
-  //     end: new Date(start.getTime() + etaMinutes * 60000),
-  //     allDay: false,
-  //     color: getRandomLightColor(),
-  //     textColor: "#000",
-  //     extendedProps: { username: booking.user?.username || "Guest", worker: booking.worker?.username || "Not assigned", booking },
-  //   };
-  // });
-
   const mapBookingsToEvents = list => list.map(booking => {
-    var _booking$service, _booking$service2, _booking$user, _booking$worker;
+    var _booking$service4, _booking$user, _booking$worker;
     const start = parseBookingDate(booking.booking_date, booking.booking_time);
     let etaMinutes = 0;
-    if ((_booking$service = booking.service) !== null && _booking$service !== void 0 && _booking$service.eta) {
+    if ((_booking$service4 = booking.service) !== null && _booking$service4 !== void 0 && _booking$service4.eta) {
       const s = booking.service.eta.toLowerCase();
       const hr = s.match(/(\d+)\s*hour/);
       const min = s.match(/(\d+)\s*minutes/);
       if (hr) etaMinutes += parseInt(hr[1]) * 60;
       if (min) etaMinutes += parseInt(min[1]);
+    } else if (booking.booking_time_end) {
+      // Bundles don't carry a single service.eta, so fall back to the
+      // actual stored end time to compute the event's duration.
+      const end = parseBookingDate(booking.booking_date, booking.booking_time_end);
+      etaMinutes = Math.max(0, (end - start) / 60000);
     }
     return {
       id: booking.id,
-      title: ((_booking$service2 = booking.service) === null || _booking$service2 === void 0 ? void 0 : _booking$service2.title) || "Booking",
+      title: getBookingTitle(booking),
       start,
       end: new Date(start.getTime() + etaMinutes * 60000),
       allDay: false,
@@ -333,30 +331,6 @@ function AdminBookingsPage() {
       setEvents(mapBookingsToEvents(filtered));
     }
   };
-
-  // useEffect(() => {
-  //   if (!calendarRef.current) return;
-  //   const today = new Date(); today.setHours(0,0,0,0);
-  //   const pendingPast = bookings.filter(b => new Date(b.booking_date) < today && b.status === "pending").length;
-  //   const pendingFuture = bookings.filter(b => new Date(b.booking_date) >= today && b.status === "pending").length;
-  //   document.querySelectorAll(".booking-badge").forEach(el => el.remove());
-  //   const prevBtn = document.querySelector(".fc-prev-button");
-  //   const nextBtn = document.querySelector(".fc-next-button");
-  //   if (prevBtn && pendingPast > 0) {
-  //     const badge = document.createElement("span");
-  //     badge.className = "booking-badge past-badge";
-  //     badge.innerText = pendingPast;
-  //     prevBtn.style.position = "relative";
-  //     prevBtn.appendChild(badge);
-  //   }
-  //   if (nextBtn && pendingFuture > 0) {
-  //     const badge = document.createElement("span");
-  //     badge.className = "booking-badge future-badge";
-  //     badge.innerText = pendingFuture;
-  //     nextBtn.style.position = "relative";
-  //     nextBtn.appendChild(badge);
-  //   }
-  // }, [bookings]);
   (0, _react.useEffect)(() => {
     if (!calendarRef.current) return;
     const today = new Date();
@@ -625,7 +599,7 @@ function AdminBookingsPage() {
   }, "Price"), /*#__PURE__*/_react.default.createElement("th", {
     style: S.th
   }, "Status"))), /*#__PURE__*/_react.default.createElement("tbody", null, filteredBookings.length > 0 ? filteredBookings.map((b, i) => {
-    var _b$user, _b$user2, _b$user3, _b$service, _b$worker, _b$service2, _b$service3, _b$status;
+    var _b$user, _b$user2, _b$user3, _b$worker, _b$status;
     return /*#__PURE__*/_react.default.createElement("tr", {
       key: b.id,
       style: {
@@ -654,7 +628,19 @@ function AdminBookingsPage() {
       style: _objectSpread(_objectSpread({}, S.td), {}, {
         fontWeight: 500
       })
-    }, (_b$service = b.service) === null || _b$service === void 0 ? void 0 : _b$service.title), /*#__PURE__*/_react.default.createElement("td", {
+    }, getBookingTitle(b), b.bundle && /*#__PURE__*/_react.default.createElement("span", {
+      style: {
+        marginLeft: "6px",
+        fontSize: "10px",
+        fontWeight: 600,
+        color: "#0C447C",
+        background: "#E6F1FB",
+        padding: "2px 6px",
+        borderRadius: "999px",
+        textTransform: "uppercase",
+        letterSpacing: "0.03em"
+      }
+    }, "Bundle")), /*#__PURE__*/_react.default.createElement("td", {
       style: S.td
     }, ((_b$worker = b.worker) === null || _b$worker === void 0 ? void 0 : _b$worker.username) || "Any"), /*#__PURE__*/_react.default.createElement("td", {
       style: S.td
@@ -668,7 +654,7 @@ function AdminBookingsPage() {
       minute: "2-digit"
     })), /*#__PURE__*/_react.default.createElement("td", {
       style: S.td
-    }, (_b$service2 = b.service) === null || _b$service2 === void 0 ? void 0 : _b$service2.currency, " ", (_b$service3 = b.service) === null || _b$service3 === void 0 ? void 0 : _b$service3.price), /*#__PURE__*/_react.default.createElement("td", {
+    }, getBookingCurrency(b), " ", getBookingPrice(b)), /*#__PURE__*/_react.default.createElement("td", {
       style: S.td
     }, /*#__PURE__*/_react.default.createElement("span", {
       style: _objectSpread(_objectSpread({}, getStatusStyle(b.status)), {}, {

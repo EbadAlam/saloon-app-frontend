@@ -1,44 +1,45 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  Button,
-  Box,
-  TextField,
-  Stack,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  Alert,
-  Pagination,
-} from "@mui/material";
+import { Pagination } from "@mui/material";
+import { Link } from "react-router-dom";
 import axiosClient from "../../../../axios-client";
 import AdminLayout from "../../Layout/Layout";
 import Loader from "../../../Loader/Loader";
 import BackButton from "../../../BackButton/BackButton";
-import ActiveDeactiveSwitch from "../../../ActiveDeactiveSwitch/ActiveDeactiveSwitch";
-import DeleteButton from "../../../DeleteButton/DeleteButton";
-import { Link } from "react-router-dom";
 import { ROUTES } from "../../../../routes";
 import { useSnackbar } from "../../../../contexts/SnackBarContext";
+
+const S = {
+  page: { padding: '24px', background: '#f5f4f0', minHeight: '100vh' },
+  header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' },
+  title: { fontSize: '20px', fontWeight: 600, color: '#1a1a2e', margin: 0 },
+  headerActions: { display: 'flex', alignItems: 'center', gap: '10px' },
+  card: { background: '#fff', borderRadius: '12px', border: '0.5px solid #e0dfd8', overflow: 'hidden', overflowX: 'auto' },
+  table: { width: '100%', borderCollapse: 'collapse', fontSize: '13px', minWidth: '700px' },
+  th: {
+    padding: '12px 14px', textAlign: 'left', color: '#888', fontWeight: 500, fontSize: '12px',
+    textTransform: 'uppercase', letterSpacing: '0.04em', borderBottom: '1px solid #f0efe8', whiteSpace: 'nowrap',
+  },
+  td: {
+    padding: '12px 14px', color: '#1a1a2e', fontSize: '13px', borderBottom: '0.5px solid #f5f4f0', verticalAlign: 'middle',
+  },
+  tdNum: { padding: '12px 14px', color: '#aaa', fontSize: '12px', borderBottom: '0.5px solid #f5f4f0' },
+  linkText: { color: '#1a1a2e', fontSize: '13px', fontWeight: 500, textDecoration: 'underline' },
+};
 
 function MasterInqueriesPage() {
   const [loading, setLoading] = useState(true);
   const [inqueries, setInqueries] = useState([]);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertMessageType, setAlertMessageType] = useState("");
   const { showSnackbar } = useSnackbar();
   const [pagination, setPagination] = useState({
     current_page: 1,
     last_page: 1,
     total: 0,
   });
+
   useEffect(() => {
     fetchInqueries();
   }, []);
+
   const fetchInqueries = async (page = 1) => {
     setLoading(true);
     try {
@@ -55,122 +56,65 @@ function MasterInqueriesPage() {
       setLoading(false);
     }
   };
+
   const handlePageChange = (e, page) => {
     fetchInqueries(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  const handleStatusChange = (newStatus, fetch = true) => {
-    setAlertMessage(newStatus.message);
-    if (newStatus.success) {
-      setAlertMessageType("success");
-    } else {
-      setAlertMessageType("error");
-    }
-    if (fetch) {
-      fetchInqueries();
-    }
-    const timer = setTimeout(() => {
-      setAlertMessage("");
-      setAlertMessageType("");
-    }, 3000);
 
-    return () => clearTimeout(timer);
-  };
-  useEffect(() => {
-    if (alertMessage) {
-      showSnackbar(alertMessage, alertMessageType);
-    }
-  }, [alertMessage]);
   return (
     <AdminLayout>
       {loading && <Loader />}
-      <div className="container-fluid dashboard-content">
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-        >
-          <Typography variant="h4">Inqueries</Typography>
-          <Stack direction="row" gap={2}>
+      <div style={S.page}>
+        <div style={S.header}>
+          <h5 style={S.title}>Inqueries</h5>
+          <div style={S.headerActions}>
             <BackButton />
-          </Stack>
-        </Stack>
-        <TableContainer component={Paper}>
-          <Table aria-label="Reviews Table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">#</TableCell>
-                <TableCell>Username</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Topic</TableCell>
-                <TableCell>Files Attach</TableCell>
-              </TableRow>
-            </TableHead>
-            {inqueries && inqueries.length > 0 ? (
-              inqueries.map((singleInquery, index) => (
-                <>
-                  <TableBody key={index + 1}>
-                    <TableCell align="left">{index + 1}</TableCell>
-                    <TableCell component="th" scope="row">
+          </div>
+        </div>
+
+        <div style={S.card}>
+          <table style={S.table}>
+            <thead>
+              <tr>
+                <th style={S.th}>#</th>
+                <th style={S.th}>Username</th>
+                <th style={S.th}>Email</th>
+                <th style={S.th}>Topic</th>
+                <th style={S.th}>Files Attach</th>
+              </tr>
+            </thead>
+            <tbody>
+              {inqueries && inqueries.length > 0 ? (
+                inqueries.map((singleInquery, index) => (
+                  <tr key={index + 1} style={{ background: index % 2 === 0 ? '#fff' : '#fafaf8' }}>
+                    <td style={S.tdNum}>{index + 1}</td>
+                    <td style={S.td}>
                       <Link
                         to={ROUTES.masterAdminUsers}
                         state={{ highlightId: singleInquery.user?.id }}
+                        style={S.linkText}
                       >
                         {singleInquery.user?.username}
                       </Link>
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {singleInquery.user?.email}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {singleInquery.topic}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {JSON.parse(singleInquery?.files).length ?? 0}
-                    </TableCell>
-                    {/*<TableCell component="th" scope="row">
-                      {singleReview.review}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {singleReview.rating}
-                    </TableCell>
-                     <TableCell component="th" scope="row">
-                      {singleReview.reviewee?.username ?
-                        <Link
-                          to={ROUTES.masterAdminUsers}
-                          state={{ highlightId: singleReview.reviewee?.id }}
-                        >
-                          {singleReview.reviewee?.username}
-                        </Link>
-                      : '-'}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        color: singleReview.status === 'active' ? 'green' : 'red',
-                        fontWeight: 'bold',
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {singleReview.status}
-                    </TableCell>
-                    <TableCell>
-                     <ActiveDeactiveSwitch id={singleReview.id} apiUrl='/updateReviewStatus' status={singleReview.status} onStatusChange={handleStatusChange} />
-                    </TableCell>
-                    <TableCell>
-                     <DeleteButton id={singleReview.id} url='/deleteReview' onStatusChange={handleStatusChange} />
-                    </TableCell> */}
-                  </TableBody>
-                </>
-              ))
-            ) : (
-              <TableBody>
-                <TableCell align="center">No Inqueries</TableCell>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
-        <Box sx={{ marginTop: "10px" }}>
+                    </td>
+                    <td style={S.td}>{singleInquery.user?.email}</td>
+                    <td style={S.td}>{singleInquery.topic}</td>
+                    <td style={S.td}>{JSON.parse(singleInquery?.files).length ?? 0}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} style={{ ...S.td, textAlign: 'center', color: '#aaa', padding: '32px' }}>
+                    No Inqueries
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div style={{ marginTop: '16px' }}>
           <Pagination
             count={pagination.last_page}
             page={pagination.current_page}
@@ -178,7 +122,7 @@ function MasterInqueriesPage() {
             color="primary"
             shape="rounded"
           />
-        </Box>
+        </div>
       </div>
     </AdminLayout>
   );

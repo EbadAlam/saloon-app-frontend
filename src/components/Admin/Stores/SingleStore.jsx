@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import AdminLayout from '../Layout/Layout';
 import axiosClient from '../../../axios-client';
 import { ROUTES } from '../../../routes';
+import { Helmet } from 'react-helmet-async';
 
 const statusConfig = (storeData) => {
   if (storeData.is_active_by_admin != 1)
@@ -47,7 +48,10 @@ export default function SingleStore() {
 
   useEffect(() => {
     axiosClient.get(`/getStoreDetails/${storeId}`)
-      .then(({ data }) => { setStoreData(data.storeDetails);console.log('Store details:', data.storeDetails); setLoading(false); })
+      .then(({ data }) => { 
+        setStoreData(data.storeDetails); 
+        setLoading(false); 
+      })
       .catch((err) => console.error('Error fetching store details:', err));
   }, [storeId]);
 
@@ -59,6 +63,15 @@ export default function SingleStore() {
 
   return (
     <AdminLayout>
+      <Helmet>
+        <title>
+          Vendor Stores Page - Beauty Traffic
+        </title>
+        <meta
+          name="description"
+          content="Vendor stores page for managing and viewing store details"
+        />
+      </Helmet>
       <div className="container-fluid dashboard-content">
 
         <Box display="flex" alignItems="center" gap={1.5} mb={3.5}>
@@ -208,7 +221,11 @@ export default function SingleStore() {
                       </Button>
                     </Link>
                   )}
-
+                  <Link to={ROUTES.getAdminBundles(storeData.id)} state={{ servicesCategories: storeData.bundles ?? [] }}>
+                      <Button sx={actionBtn}>
+                        Bundles ({storeData.bundles?.length ?? 0})
+                      </Button>
+                    </Link>
                   <Link to={ROUTES.getAdminAddWorkingHours(storeData.id)}>
                     <Button sx={actionBtn}>
                       Working hours ({storeData.working_hours?.length ?? 0})

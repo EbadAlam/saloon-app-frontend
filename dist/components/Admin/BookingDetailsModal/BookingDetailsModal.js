@@ -44,7 +44,7 @@ const InfoBox = _ref => {
   }, value !== null && value !== void 0 ? value : "-"));
 };
 function BookingDetailsModal(_ref2) {
-  var _booking$worker, _booking$worker2, _booking$service, _booking$service2, _booking$service3, _booking$service4, _booking$service$gend, _booking$service5, _booking$user, _booking$worker3, _booking$worker4, _booking$worker5;
+  var _booking$worker, _booking$worker2, _booking$bundle, _booking$bundle$curre, _booking$bundle2, _booking$bundle$price, _booking$bundle3, _booking$bundle4, _booking$bundle5, _booking$bundle$curre2, _booking$bundle6, _booking$bundle7, _booking$bundle8, _booking$service, _booking$service2, _booking$service3, _booking$service4, _booking$service$gend, _booking$service5, _booking$user, _booking$worker3, _booking$worker4, _booking$worker5;
   let {
     open,
     onClose,
@@ -52,6 +52,7 @@ function BookingDetailsModal(_ref2) {
     handleStatusChangeStatus
   } = _ref2;
   if (!booking) return null;
+  const isBundleBooking = !!booking.bundle;
   return /*#__PURE__*/_react.default.createElement(_material.Modal, {
     open: open,
     onClose: onClose
@@ -72,11 +73,88 @@ function BookingDetailsModal(_ref2) {
     sx: {
       mb: 3
     }
-  }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    display: "flex",
+    alignItems: "center",
+    gap: 1,
+    mb: 1
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "subtitle2",
-    fontWeight: "600",
-    gutterBottom: true
-  }, "Service Information"), /*#__PURE__*/_react.default.createElement(_material.Grid, {
+    fontWeight: "600"
+  }, isBundleBooking ? "Bundle Information" : "Service Information"), isBundleBooking && /*#__PURE__*/_react.default.createElement(_material.Chip, {
+    label: "Bundle",
+    size: "small",
+    sx: {
+      height: "20px",
+      fontSize: "10px",
+      fontWeight: 600,
+      textTransform: "uppercase",
+      letterSpacing: "0.03em",
+      bgcolor: "#E6F1FB",
+      color: "#0C447C"
+    }
+  })), isBundleBooking ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Grid, {
+    container: true,
+    spacing: 2,
+    className: "details_box"
+  }, /*#__PURE__*/_react.default.createElement(_material.Grid, {
+    item: true,
+    xs: 12,
+    md: 6
+  }, /*#__PURE__*/_react.default.createElement(InfoBox, {
+    label: "Bundle Name",
+    value: (_booking$bundle = booking.bundle) === null || _booking$bundle === void 0 ? void 0 : _booking$bundle.title
+  })), /*#__PURE__*/_react.default.createElement(_material.Grid, {
+    item: true,
+    xs: 12,
+    md: 6
+  }, /*#__PURE__*/_react.default.createElement(InfoBox, {
+    label: "Bundle Price",
+    value: "".concat((_booking$bundle$curre = (_booking$bundle2 = booking.bundle) === null || _booking$bundle2 === void 0 ? void 0 : _booking$bundle2.currency) !== null && _booking$bundle$curre !== void 0 ? _booking$bundle$curre : "", " ").concat((_booking$bundle$price = (_booking$bundle3 = booking.bundle) === null || _booking$bundle3 === void 0 ? void 0 : _booking$bundle3.price) !== null && _booking$bundle$price !== void 0 ? _booking$bundle$price : "-")
+  })), ((_booking$bundle4 = booking.bundle) === null || _booking$bundle4 === void 0 ? void 0 : _booking$bundle4.original_price) > ((_booking$bundle5 = booking.bundle) === null || _booking$bundle5 === void 0 ? void 0 : _booking$bundle5.price) && /*#__PURE__*/_react.default.createElement(_material.Grid, {
+    item: true,
+    xs: 12,
+    md: 6
+  }, /*#__PURE__*/_react.default.createElement(InfoBox, {
+    label: "Original Price (before bundle discount)",
+    value: "".concat((_booking$bundle$curre2 = (_booking$bundle6 = booking.bundle) === null || _booking$bundle6 === void 0 ? void 0 : _booking$bundle6.currency) !== null && _booking$bundle$curre2 !== void 0 ? _booking$bundle$curre2 : "", " ").concat((_booking$bundle7 = booking.bundle) === null || _booking$bundle7 === void 0 ? void 0 : _booking$bundle7.original_price)
+  }))), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body2",
+    color: "text.secondary",
+    sx: {
+      mt: 2,
+      mb: 1
+    }
+  }, "Services included in this bundle"), /*#__PURE__*/_react.default.createElement(_material.Box, {
+    sx: {
+      bgcolor: "#f9f9f9",
+      borderRadius: "6px",
+      p: 1.5
+    }
+  }, ((_booking$bundle8 = booking.bundle) === null || _booking$bundle8 === void 0 || (_booking$bundle8 = _booking$bundle8.services) === null || _booking$bundle8 === void 0 ? void 0 : _booking$bundle8.length) > 0 ? booking.bundle.services.map(s => /*#__PURE__*/_react.default.createElement(_material.Box, {
+    key: s.id,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    sx: {
+      py: 1,
+      borderBottom: "0.5px solid #e5e5e5",
+      "&:last-of-type": {
+        borderBottom: "none"
+      }
+    }
+  }, /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body2",
+    sx: {
+      fontWeight: 500
+    }
+  }, s.title), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body2",
+    color: "text.secondary"
+  }, s.eta ? "".concat(s.eta, " \u2022 ") : "", s.currency, " ", s.price))) : /*#__PURE__*/_react.default.createElement(_material.Typography, {
+    variant: "body2",
+    color: "text.secondary"
+  }, "No services found for this bundle."))) : /*#__PURE__*/_react.default.createElement(_material.Grid, {
     container: true,
     spacing: 2,
     className: "details_box"
@@ -138,7 +216,7 @@ function BookingDetailsModal(_ref2) {
     sx: {
       my: 3
     }
-  }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  }), !isBundleBooking && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "subtitle2",
     fontWeight: "600",
     gutterBottom: true
@@ -171,7 +249,7 @@ function BookingDetailsModal(_ref2) {
     sx: {
       my: 3
     }
-  }), /*#__PURE__*/_react.default.createElement(_material.Typography, {
+  })), /*#__PURE__*/_react.default.createElement(_material.Typography, {
     variant: "subtitle2",
     fontWeight: "600",
     gutterBottom: true

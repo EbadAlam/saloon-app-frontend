@@ -1,12 +1,4 @@
 @media (max-width:786px) {
-    $primaryColor : #D4A373; // rose gold
-    $secondaryColor : #B8845A; // Deep rose gold
-    $softPink : #F7CAD0; // Soft pink
-    $luxuryGold : #E9C46A; // rose gold
-    $darkText : #2B2D42; // rose gold
-    $mutedText : #aea6af; // warm mauve-grey
-    $backgroundColor : #FFF8F5; // warm ivory
-
     .main_banner .heading h1,
     .download_heading h1,
     .for_business h1 {
@@ -790,7 +782,7 @@
                     }
 
                     span {
-                        color: $primaryColor;
+                        color: var(--primary-color);
                     }
                 }
             }
@@ -802,7 +794,7 @@
                     position: relative;
 
                     p {
-                        color: $darkText;
+                        color: var(--dark-text);
                         font-family: 'fredoka';
                         max-height: 120px;
                         overflow: hidden;
@@ -834,7 +826,7 @@
                         margin-top: 8px;
                         cursor: pointer;
                         font-weight: 600;
-                        color: $primaryColor;
+                        color: var(--primary-color);
                     }
                 }
 
@@ -846,14 +838,14 @@
 
             .address {
                 background: #b8845a1a;
-                border: 1px solid $secondaryColor;
+                border: 1px solid var(--secondary-color);
                 padding: 5px 10px;
                 border-radius: 10px;
                 margin-top: 10px;
 
                 p {
                     font-size: 16px;
-                    color: $darkText;
+                    color: var(--dark-text);
                 }
             }
         }

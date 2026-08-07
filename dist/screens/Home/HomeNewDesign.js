@@ -13,12 +13,12 @@ var _SkeletonHome = _interopRequireDefault(require("../../components/Loader/Skel
 var _reactSlick = _interopRequireDefault(require("react-slick"));
 var _ArrowForwardIos = _interopRequireDefault(require("@mui/icons-material/ArrowForwardIos"));
 var _StarRating = _interopRequireDefault(require("../../components/StarRating/StarRating"));
-var _DoneOutlined = _interopRequireDefault(require("@mui/icons-material/DoneOutlined"));
 var _ArrowForward = _interopRequireDefault(require("@mui/icons-material/ArrowForward"));
 var _DummyImage = _interopRequireDefault(require("../../components/DummyImage/DummyImage"));
 var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
+var _PricingSection = _interopRequireDefault(require("../../components/PricingSection/PricingSection"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
@@ -60,7 +60,7 @@ function Home() {
         });
         setStores(data.stores);
         setCategories(data.categories);
-        console.log("categories: ", data.categories);
+        // console.log("categories: ", data.categories);
         setReviews(data.reviews);
       } catch (err) {
         console.error("error fetching stores ", err);
@@ -732,158 +732,7 @@ function Home() {
     className: "card-title"
   }, /*#__PURE__*/_react.default.createElement("h5", null, "Reach More Clients")), /*#__PURE__*/_react.default.createElement("div", {
     className: "card-text"
-  }, /*#__PURE__*/_react.default.createElement("p", null, "Connect with thousands of potential customers actively searching for beauty services")))))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "pricing-section"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "container"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "headings"
-  }, /*#__PURE__*/_react.default.createElement("h4", {
-    className: "sub_heading"
-  }, "Plans"), /*#__PURE__*/_react.default.createElement("h2", {
-    className: "heading"
-  }, "Simple, Transparent Pricing"), /*#__PURE__*/_react.default.createElement("p", {
-    className: "desc"
-  }, "Choose the perfect plan to grow your beauty business")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "pricing-plans"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-header"
-  }, /*#__PURE__*/_react.default.createElement("h4", {
-    className: "plan-title"
-  }, "Starter"), /*#__PURE__*/_react.default.createElement("p", {
-    className: "plan-desc"
-  }, "Perfect for individual professionals starting out")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-body"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-price"
-  }, /*#__PURE__*/_react.default.createElement("h3", {
-    className: "price"
-  }, "Free"), /*#__PURE__*/_react.default.createElement("p", {
-    className: "billing-cycle"
-  }, "forever")), /*#__PURE__*/_react.default.createElement("hr", {
-    className: "divider"
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-features"
-  }, /*#__PURE__*/_react.default.createElement("ul", {
-    className: "features-list"
-  }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Basic profile listing")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Up to 5 portfolio images")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Receive bookings")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Basic analytics")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Email support")))), /*#__PURE__*/_react.default.createElement("button", {
-    className: "get-started"
-  }, "Get started"))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan popular"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "badge"
-  }, /*#__PURE__*/_react.default.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    "stroke-width": "2",
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    class: "lucide lucide-sparkles w-3.5 h-3.5"
-  }, /*#__PURE__*/_react.default.createElement("path", {
-    d: "M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"
-  }), /*#__PURE__*/_react.default.createElement("path", {
-    d: "M20 3v4"
-  }), /*#__PURE__*/_react.default.createElement("path", {
-    d: "M22 5h-4"
-  }), /*#__PURE__*/_react.default.createElement("path", {
-    d: "M4 17v2"
-  }), /*#__PURE__*/_react.default.createElement("path", {
-    d: "M5 18H3"
-  })), /*#__PURE__*/_react.default.createElement("p", null, "most popular")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-header"
-  }, /*#__PURE__*/_react.default.createElement("h4", {
-    className: "plan-title"
-  }, "Professional"), /*#__PURE__*/_react.default.createElement("p", {
-    className: "plan-desc"
-  }, "Most popular choice for growing businesses")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-body"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-price"
-  }, /*#__PURE__*/_react.default.createElement("h3", {
-    className: "price"
-  }, "PKR 2,999"), /*#__PURE__*/_react.default.createElement("p", {
-    className: "billing-cycle"
-  }, "per month")), /*#__PURE__*/_react.default.createElement("hr", {
-    className: "divider"
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-features"
-  }, /*#__PURE__*/_react.default.createElement("ul", {
-    className: "features-list"
-  }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Premium profile placement")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Unlimited portfolio images")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Priority bookings")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Advanced analytics & insights")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Priority support")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Featured in search results")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Custom booking page")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Promotional tools")))), /*#__PURE__*/_react.default.createElement("button", {
-    className: "get-started"
-  }, "Get started"))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-header"
-  }, /*#__PURE__*/_react.default.createElement("h4", {
-    className: "plan-title"
-  }, "Premium"), /*#__PURE__*/_react.default.createElement("p", {
-    className: "plan-desc"
-  }, "For established businesses that want it all")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-body"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-price"
-  }, /*#__PURE__*/_react.default.createElement("h3", {
-    className: "price"
-  }, "PKR 4,999"), /*#__PURE__*/_react.default.createElement("p", {
-    className: "billing-cycle"
-  }, "per month")), /*#__PURE__*/_react.default.createElement("hr", {
-    className: "divider"
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "plan-features"
-  }, /*#__PURE__*/_react.default.createElement("ul", {
-    className: "features-list"
-  }, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Everything in Professional")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Top placement guarantee")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Verified badge")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Social media integration")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Dedicated account manager")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "Marketing campaigns")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "API access")), /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "icon"
-  }, /*#__PURE__*/_react.default.createElement(_DoneOutlined.default, null)), /*#__PURE__*/_react.default.createElement("p", null, "White-label options")))), /*#__PURE__*/_react.default.createElement("button", {
-    className: "get-started"
-  }, "Get started")))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Connect with thousands of potential customers actively searching for beauty services")))))), /*#__PURE__*/_react.default.createElement(_PricingSection.default, null), /*#__PURE__*/_react.default.createElement("div", {
     className: "cta-section new"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "container"

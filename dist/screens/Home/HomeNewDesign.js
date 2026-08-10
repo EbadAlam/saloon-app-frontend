@@ -19,6 +19,7 @@ var _reactHelmetAsync = require("react-helmet-async");
 var _SnackBarContext = require("../../contexts/SnackBarContext");
 var _storeRecentlyViewed = require("../../Utils/storeRecentlyViewed");
 var _PricingSection = _interopRequireDefault(require("../../components/PricingSection/PricingSection"));
+var _routes = require("../../routes");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function (e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != typeof e && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (const t in e) "default" !== t && {}.hasOwnProperty.call(e, t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, t)) && (i.get || i.set) ? o(f, t, i) : f[t] = e[t]); return f; })(e, t); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
@@ -161,7 +162,9 @@ function Home() {
     className: "banner_btns"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, null, /*#__PURE__*/_react.default.createElement("button", {
     className: "find_service"
-  }, "Find service")), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, null, /*#__PURE__*/_react.default.createElement("button", {
+  }, "Find service")), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: _routes.ROUTES.ownerLogin
+  }, /*#__PURE__*/_react.default.createElement("button", {
     className: "join_prof"
   }, "Join as professional"))), /*#__PURE__*/_react.default.createElement("hr", {
     className: "divider"
@@ -210,14 +213,17 @@ function Home() {
     className: "categories_cards"
   }, categories && categories.length > 0 && categories.sort((a, b) => a.order - b.order).slice(0, 5).map(singleCat => {
     var _singleCat$services_c;
-    return /*#__PURE__*/_react.default.createElement("div", {
+    return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+      to: _routes.ROUTES.getCategoryPage(singleCat.slug),
+      key: singleCat.id
+    }, /*#__PURE__*/_react.default.createElement("div", {
       className: "category_card"
     }, /*#__PURE__*/_react.default.createElement("img", {
       src: "".concat(process.env.REACT_APP_IMG_URL, "/").concat(singleCat.thumbnail),
       alt: singleCat.title
     }), /*#__PURE__*/_react.default.createElement("div", {
       className: "category_info"
-    }, /*#__PURE__*/_react.default.createElement("h6", null, singleCat.title), /*#__PURE__*/_react.default.createElement("p", null, (_singleCat$services_c = singleCat.services_count) !== null && _singleCat$services_c !== void 0 ? _singleCat$services_c : 0, " ", singleCat.services_count <= 1 ? "service" : "services")));
+    }, /*#__PURE__*/_react.default.createElement("h6", null, singleCat.title), /*#__PURE__*/_react.default.createElement("p", null, (_singleCat$services_c = singleCat.services_count) !== null && _singleCat$services_c !== void 0 ? _singleCat$services_c : 0, " ", singleCat.services_count <= 1 ? "service" : "services"))));
   })))), /*#__PURE__*/_react.default.createElement(_material.Box, {
     className: "sliders"
   }, /*#__PURE__*/_react.default.createElement(_material.Box, {
@@ -610,9 +616,11 @@ function Home() {
     className: "text"
   }, "Monthly Bookings"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "grow_btns"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: _routes.ROUTES.ownerLogin
   }, /*#__PURE__*/_react.default.createElement("button", {
     className: "register"
-  }, "Register your business"), /*#__PURE__*/_react.default.createElement("button", {
+  }, "Register your business")), /*#__PURE__*/_react.default.createElement("button", {
     className: "learn-more"
   }, "Learn more"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "grow-cards"

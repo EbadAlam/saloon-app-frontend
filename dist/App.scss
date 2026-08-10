@@ -4639,7 +4639,7 @@ h4.heading {
             font-weight: 400 !important;
             text-transform: capitalize;
             transition: all .3s ease;
-
+            cursor:pointer;
             &.find_service {
               background-color: var(--primary-color);
               color: white;
@@ -5154,6 +5154,8 @@ h4.heading {
       align-items: center;
       gap: 20px;
       flex-wrap: wrap;
+      position:relative;
+      z-index:1;
 
       .grow-content {
         width: 46%;
@@ -5224,7 +5226,7 @@ h4.heading {
             border-radius: 15px;
             font-size: 20px;
             font-family: 'fredoka' !important;
-
+            cursor:pointer;
             &.register {
               background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
               color: white;
@@ -5380,6 +5382,7 @@ h4.heading {
           border-radius: 10px;
           font-size: 22px;
           border: 2px solid;
+          cursor:pointer;
 
           &.book-now {
             background-color: var(--dark-text);
@@ -5393,7 +5396,6 @@ h4.heading {
               transition: all .3s ease;
             }
           }
-
           &.become-prof {
             background: transparent;
             border-color: white;

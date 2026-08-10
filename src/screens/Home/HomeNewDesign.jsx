@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet-async";
 import { useSnackbar } from "../../contexts/SnackBarContext";
 import { getRecentlyViewedStoreIds } from "../../Utils/storeRecentlyViewed";
 import PricingSection from "../../components/PricingSection/PricingSection";
+import { ROUTES } from "../../routes";
 
 const isBrowser = typeof window !== "undefined";
 function Home() {
@@ -165,7 +166,7 @@ function Home() {
                   <Link>
                     <button className="find_service">Find service</button>
                   </Link>
-                  <Link>
+                  <Link to={ROUTES.ownerLogin}>
                     <button className="join_prof">Join as professional</button>
                   </Link>
                 </div>
@@ -213,21 +214,23 @@ function Home() {
                     .sort((a, b) => a.order - b.order)
                     .slice(0, 5)
                     .map((singleCat) => (
-                      <div className="category_card">
-                        <img
-                          src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`}
-                          alt={singleCat.title}
-                        />
-                        <div className="category_info">
-                          <h6>{singleCat.title}</h6>
-                          <p>
-                            {singleCat.services_count ?? 0}{" "}
-                            {singleCat.services_count <= 1
-                              ? "service"
-                              : "services"}
-                          </p>
+                      <Link to={ROUTES.getCategoryPage(singleCat.slug)} key={singleCat.id}>
+                        <div className="category_card">
+                          <img
+                            src={`${process.env.REACT_APP_IMG_URL}/${singleCat.thumbnail}`}
+                            alt={singleCat.title}
+                          />
+                          <div className="category_info">
+                            <h6>{singleCat.title}</h6>
+                            <p>
+                              {singleCat.services_count ?? 0}{" "}
+                              {singleCat.services_count <= 1
+                                ? "service"
+                                : "services"}
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     ))}
               </div>
             </div>
@@ -783,7 +786,9 @@ function Home() {
                   </div>
                 </div>
                 <div className="grow_btns">
-                  <button className="register">Register your business</button>
+                  <Link to={ROUTES.ownerLogin}>
+                    <button className="register">Register your business</button>
+                  </Link>
                   <button className="learn-more">Learn more</button>
                 </div>
               </div>
